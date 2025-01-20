@@ -133,13 +133,12 @@ const page = () => {
           />
           {/* Password Field */}
 
-          <p>Project Name start date end date</p>
           <FormField
             control={form.control}
             name="startDate"
             render={({ field }) => (
               <FormItem className="flex flex-col">
-                <FormLabel>Starting Date</FormLabel>
+                <FormLabel>Start Date</FormLabel>
                 <Popover>
                   <PopoverTrigger asChild>
                     <FormControl>
@@ -181,7 +180,7 @@ const page = () => {
             name="endDate"
             render={({ field }) => (
               <FormItem className="flex flex-col">
-                <FormLabel>Ending Date</FormLabel>
+                <FormLabel>End Date</FormLabel>
                 <Popover>
                   <PopoverTrigger asChild>
                     <FormControl>
@@ -246,7 +245,7 @@ const page = () => {
               </FormItem>
             )}
           />
-          <Button type="submit">Register</Button>
+          <Button type="submit">Save</Button>
         </form>
       </Form>
     </div>

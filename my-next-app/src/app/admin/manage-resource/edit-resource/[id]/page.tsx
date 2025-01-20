@@ -119,7 +119,7 @@ const AddResource = () => {
  
   return (
     <div className="m-16 p-4 bg-white dark:bg-[#17171A]">
-      <h1 className="text-2xl mb-6">Register Resource</h1>
+      <h1 className="text-2xl mb-6">Edit Resource</h1>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 w-3/5">
           {/* First Name Field */}
@@ -250,7 +250,6 @@ const AddResource = () => {
                   <SelectContent>
                     <SelectItem value="Active">Active</SelectItem>
                     <SelectItem value="Inactive">Inactive</SelectItem>
-                    <SelectItem value="Not Started">Not Started</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -288,7 +287,7 @@ const AddResource = () => {
             name="departmentID"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Select CLient</FormLabel>
+                <FormLabel>Client</FormLabel>
                 <Select onValueChange={(value) => field.onChange(Number(value))} defaultValue={field.value?.toString()} >
                   <FormControl>
                     <SelectTrigger>
@@ -305,7 +304,7 @@ const AddResource = () => {
               </FormItem>
             )}
           />
-          <Button type="submit">Register</Button>
+          <Button type="submit">Save</Button>
         </form>
       </Form>
     </div>

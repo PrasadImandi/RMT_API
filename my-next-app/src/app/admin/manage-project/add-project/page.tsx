@@ -140,13 +140,13 @@ const AddProject = () => {
                   if (name) createClient(name, description);
                 }}
               >
-                  Submit
+                  Save
                   </Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
       </div>
-      <h1 className="text-2xl mb-6">Register User</h1>
+      <h1 className="text-2xl mb-6">Add Project</h1>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -167,14 +167,12 @@ const AddProject = () => {
             )}
           />
           {/* Password Field */}
-
-          <p>Project Name start date end date</p>
           <FormField
             control={form.control}
             name="startDate"
             render={({ field }) => (
               <FormItem className="flex flex-col">
-                <FormLabel>Starting Date</FormLabel>
+                <FormLabel>Start Date</FormLabel>
                 <Popover>
                   <PopoverTrigger asChild>
                     <FormControl>
@@ -216,7 +214,7 @@ const AddProject = () => {
             name="endDate"
             render={({ field }) => (
               <FormItem className="flex flex-col">
-                <FormLabel>Ending Date</FormLabel>
+                <FormLabel>End Date</FormLabel>
                 <Popover>
                   <PopoverTrigger asChild>
                     <FormControl>
@@ -270,8 +268,7 @@ const AddProject = () => {
                   </FormControl>
                   <SelectContent>
                     <SelectItem value="Active">Active</SelectItem>
-                    <SelectItem value="Completed">Completed</SelectItem>
-                    <SelectItem value="Not Started">Not Started</SelectItem>
+                    <SelectItem value="Inactive">Inactive</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormDescription>
@@ -287,7 +284,7 @@ const AddProject = () => {
             name="clientID"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>CLient</FormLabel>
+                <FormLabel>Client</FormLabel>
                 <Select
                   onValueChange={(value) => field.onChange(Number(value))}
                   defaultValue={field.value?.toString()}
@@ -312,7 +309,7 @@ const AddProject = () => {
               </FormItem>
             )}
           />
-          <Button type="submit">Register</Button>
+          <Button type="submit">Save</Button>
         </form>
       </Form>
     </div>

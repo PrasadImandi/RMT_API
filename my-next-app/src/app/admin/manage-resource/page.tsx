@@ -7,7 +7,7 @@ const ManageResource = () => {
   return (
     <div className='p-16'>
       <div className='flex justify-between items-center pb-6'>
-         <h1 className='text-2xl font-medium text-primary-one'>Manage Resource</h1>
+         <h1 className='text-2xl font-medium text-primary-one'>Manage Resources</h1>
          <Button className='px-4 dark:bg-blue-400' asChild>
           <Link href='/admin/manage-resource/add-resource'>Add Resource</Link>
          </Button>

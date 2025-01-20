@@ -16,6 +16,7 @@ import api from "@/lib/axiosInstance";
 import DeleteProject from "./delete-project";
 import { CloudCog } from "lucide-react";
 import { Console } from "console";
+import { format } from "date-fns";
 
 interface RowType {
   resourceID: string;
@@ -102,7 +103,7 @@ const AdminTableResource = () => {
               <TableCell>{row.email}</TableCell>
               <TableCell>{row.phone}</TableCell>
               <TableCell>{row.jobTitle}</TableCell>
-              <TableCell>{row.hireDate}</TableCell>
+              <TableCell>{format(new Date(row.hireDate), "dd/MM/yyyy")}</TableCell>
               <TableCell>{row.status}</TableCell>
               <TableCell className="text-right flex gap-x-2 justify-end">
                 <DeleteProject id={row.resourceID} onDelete={handleDeleteUser} type="resource"  disabled={row.status === "Inactive"}/>
