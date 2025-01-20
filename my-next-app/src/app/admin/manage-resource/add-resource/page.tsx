@@ -258,7 +258,7 @@ const AddResource = () => {
               </FormItem>
             )}
           />
-          <Button type="submit">Register</Button>
+          <Button type="submit">Save</Button>
         </form>
       </Form>
     </div>

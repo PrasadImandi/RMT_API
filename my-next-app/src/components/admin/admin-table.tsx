@@ -11,8 +11,7 @@ import {
 import { Button } from "../ui/button";
 import AdminSearchUserInput from "./admin-search-user-input";
 import { useEffect, useState } from "react";
-// import api from "@/lib/axiosInstance";
-// import DeleteUser from "./delete-user";
+import { format } from "date-fns";
 import { useRouter } from "next/navigation";
 import api from "@/lib/axiosInstance";
 import DeleteProject from "./delete-project";
@@ -91,8 +90,8 @@ const AdminTable = () => {
             <TableRow key={row.projectID}>
               <TableCell className="font-medium ">{index + 1}</TableCell>
               <TableCell className="">{row.projectName}</TableCell>
-              <TableCell>{row.startDate}</TableCell>
-              <TableCell>{row.endDate}</TableCell>
+              <TableCell>{format(new Date(row.startDate), "dd/MM/yyyy")}</TableCell>
+              <TableCell>{format(new Date(row.endDate), "dd/MM/yyyy")}</TableCell>
               <TableCell>{row.status}</TableCell>
               <TableCell className="text-right flex gap-x-2 justify-end">
                 <DeleteProject id={row.projectID}  onDelete={handleDeleteUser} type='project'  disabled={row.status === "Inactive"}/>
