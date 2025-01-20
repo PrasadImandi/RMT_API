@@ -79,7 +79,7 @@ export default function ResourceAllocation() {
       </CardHeader>
       <CardContent className="space-y-6">
         <div className="space-y-2">
-          <label className="text-sm font-medium">Select Resource</label>
+          <label className="text-sm font-medium">Resource</label>
           <Select value={selectedResource} onValueChange={setSelectedResource}>
             <SelectTrigger>
               <SelectValue placeholder="Select a resource" />
@@ -119,7 +119,7 @@ export default function ResourceAllocation() {
         )}
 
         <div className="space-y-2">
-          <label className="text-sm font-medium">Select Project</label>
+          <label className="text-sm font-medium">Project</label>
           <Select value={selectedProject} onValueChange={setSelectedProject}>
             <SelectTrigger>
               <SelectValue placeholder="Select a project" />

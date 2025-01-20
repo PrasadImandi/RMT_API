@@ -205,7 +205,7 @@ const EditSupplier = () => {
             )}
           />
 
-          <Button type="submit">Save Changes</Button>
+          <Button type="submit">Save</Button>
         </form>
       </Form>
     </div>

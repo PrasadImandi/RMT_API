@@ -46,9 +46,9 @@ export function AdminSidebar() {
 
   const sidebarItems = [
     { href: '/admin', icon: LayoutDashboard, label: 'Dashboard' },
-    { href: '/admin/manage-project', icon: FolderOpenDot, label: 'Manage Project' },
-    { href: '/admin/manage-resource', icon: User, label: 'Manage Resource' },
-    { href: '/admin/manage-supplier', icon: Container, label: 'Manage Supplier' },
+    { href: '/admin/manage-project', icon: FolderOpenDot, label: 'Manage Projects' },
+    { href: '/admin/manage-resource', icon: User, label: 'Manage Resources' },
+    { href: '/admin/manage-supplier', icon: Container, label: 'Manage Suppliers' },
     { href: '/admin/timesheet', icon: Clock5, label: 'TImesheets' },
     { href: '/admin/resource-deployment', icon: GlobeLock, label: 'Resource Deployment' },
     { href: '/admin/roster-management', icon: CalendarFold, label: 'Roster Management' },
