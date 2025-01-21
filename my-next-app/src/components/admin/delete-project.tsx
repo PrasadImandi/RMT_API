@@ -20,20 +20,34 @@ import {
   
 const DeleteProject = ({ id, onDelete, type, disabled }: DeleteProjectProps) => {
     const [isDialogOpen, setIsDialogOpen] = useState(false)
-    const handleDelete = async() => {
+    const handleDelete = async () => {
       console.log(id);
       try {
-          const endpoint = type === "resource" ? "/Resource" :
-              type === "supplier" ? "/Supplier" : "/Project";
-        const res = await api.patch(endpoint,{
-          resourceID:id,
-          status:'Inactive'
+        const endpoint =
+          type === "resource"
+            ? "/Resource"
+            : type === "supplier"
+            ? "/Supplier"
+            : "/Project";
+    
+        // Set the key dynamically based on the type
+        const payloadKey =
+          type === "resource"
+            ? "resourceID"
+            : type === "supplier"
+            ? "supplierID"
+            : "projectID";
+    
+        const res = await api.patch(endpoint, {
+          [payloadKey]: id, // Use computed property name
+          status: "Inactive",
         });
-          console.log("User deleted successfully", res);
-          onDelete(id);
-          setIsDialogOpen(false)
+    
+        console.log("User deleted successfully", res);
+        onDelete(id);
+        setIsDialogOpen(false);
       } catch (error) {
-          console.log("Error deleting user", error)
+        console.log("Error deleting user", error);
       }
     };
     return (

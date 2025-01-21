@@ -21,7 +21,7 @@ interface SupplierRow {
   contactInfo: string;
   pan: string;
   gst: string;
-  paymentTerm: string;
+  paymentTerms: string;
   status: string;
 }
 
@@ -96,7 +96,7 @@ const AdminTableSupplier = () => {
               <TableCell>{row.contactInfo}</TableCell>
               <TableCell>{row.pan}</TableCell>
               <TableCell>{row.gst}</TableCell>
-              <TableCell>{row.paymentTerm}</TableCell>
+              <TableCell>{row.paymentTerms}</TableCell>
               <TableCell>{row.status}</TableCell>
               <TableCell className="text-right flex gap-x-2 justify-end">
                 <DeleteProject

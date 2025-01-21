@@ -26,6 +26,7 @@ import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import api from "@/lib/axiosInstance";
+import { useRouter } from "next/navigation";
  
 const formSchema = z.object({
   firstName: z.string().min(1, "First name is required."),
@@ -44,6 +45,7 @@ const formSchema = z.object({
 });
  
 const AddResource = () => {
+  const router = useRouter()
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -65,6 +67,7 @@ const AddResource = () => {
       const res = await api.post('/resource',values) 
       console.log(res.data)
       form.reset();
+      router.push('/admin/manage-resource')
     } catch (error) {
       console.error("Error submitting form", error);
     }

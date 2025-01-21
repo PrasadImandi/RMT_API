@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import api from "@/lib/axiosInstance";
+import { useRouter } from "next/navigation";
 
 // Schema validation
 const formSchema = z.object({
@@ -45,6 +46,7 @@ status: z
 });
 
 const AddSupplier = () => {
+  const router = useRouter()
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -60,9 +62,10 @@ const AddSupplier = () => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     console.log("Form Submitted", values);
     try {
-      const res = await api.post("/supplier", values);
+      const res = await api.post("/Supplier", values);
       console.log(res.data);
       form.reset();
+      router.push('/admin/manage-supplier')
     } catch (error) {
       console.error("Error submitting form", error);
     }
