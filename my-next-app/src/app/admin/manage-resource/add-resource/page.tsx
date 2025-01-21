@@ -27,7 +27,8 @@ import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import api from "@/lib/axiosInstance";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react"; 
+import { useEffect, useState } from "react";
+
 const formSchema = z.object({
   firstName: z.string().min(1, "First name is required."),
   lastName: z.string().min(1, "Last name is required."),
@@ -43,11 +44,11 @@ const formSchema = z.object({
   departmentID: z.number(),
   managerID: z.number()
 });
- 
+
 const AddResource = () => {
 
-const [clients, setClients] = useState([ { clientID: 0, clientName: "" }]);
-const [managers, setManagers] = useState([ { userID: 0, fullName: "" }]);
+  const [departments, setDepartments] = useState([{ departmentID: 0, departmentName: "" }]);
+  const [managers, setManagers] = useState([{ userID: 0, fullName: "" }]);
 
   const router = useRouter();
   const form = useForm({
@@ -64,12 +65,12 @@ const [managers, setManagers] = useState([ { userID: 0, fullName: "" }]);
       managerID: 1
     },
   });
- 
-  const fetchClients = async () => {
+
+  const fetchDepartments = async () => {
     try {
-      const response = await api.get("/Client");
+      const response = await api.get("/Department");
       console.log(response.data);
-      setClients(response.data);
+      setDepartments(response.data);
     } catch (error) {
       console.error("Error fetching current user:", error);
     }
@@ -85,16 +86,16 @@ const [managers, setManagers] = useState([ { userID: 0, fullName: "" }]);
     }
   };
 
-   useEffect(() => {
-      fetchClients();
-      fetchManagers();
-    },[])
-  
+  useEffect(() => {
+    fetchDepartments();
+    fetchManagers();
+  }, [])
+
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     console.log("Form Submitted", values);
     try {
-      const res = await api.post('/resource',values) 
+      const res = await api.post('/resource', values)
       console.log(res.data)
       form.reset();
       router.push('/admin/manage-resource')
@@ -102,7 +103,7 @@ const [managers, setManagers] = useState([ { userID: 0, fullName: "" }]);
       console.error("Error submitting form", error);
     }
   };
- 
+
   return (
     <div className="m-16 p-4 bg-white dark:bg-[#17171A]">
       <h1 className="text-2xl mb-6">Register Resource</h1>
@@ -122,7 +123,7 @@ const [managers, setManagers] = useState([ { userID: 0, fullName: "" }]);
               </FormItem>
             )}
           />
- 
+
           {/* Last Name Field */}
           <FormField
             control={form.control}
@@ -137,7 +138,7 @@ const [managers, setManagers] = useState([ { userID: 0, fullName: "" }]);
               </FormItem>
             )}
           />
- 
+
           {/* Email Field */}
           <FormField
             control={form.control}
@@ -152,7 +153,7 @@ const [managers, setManagers] = useState([ { userID: 0, fullName: "" }]);
               </FormItem>
             )}
           />
- 
+
           {/* Phone Field */}
           <FormField
             control={form.control}
@@ -167,7 +168,7 @@ const [managers, setManagers] = useState([ { userID: 0, fullName: "" }]);
               </FormItem>
             )}
           />
- 
+
           {/* Job Title Field */}
           <FormField
             control={form.control}
@@ -182,7 +183,7 @@ const [managers, setManagers] = useState([ { userID: 0, fullName: "" }]);
               </FormItem>
             )}
           />
- 
+
           {/* Hire Date Field */}
           <FormField
             control={form.control}
@@ -219,7 +220,7 @@ const [managers, setManagers] = useState([ { userID: 0, fullName: "" }]);
               </FormItem>
             )}
           />
- 
+
           {/* Status Field */}
           <FormField
             control={form.control}
@@ -243,7 +244,7 @@ const [managers, setManagers] = useState([ { userID: 0, fullName: "" }]);
               </FormItem>
             )}
           />
- 
+
           {/* managerID */}
           <FormField
             control={form.control}
@@ -258,7 +259,7 @@ const [managers, setManagers] = useState([ { userID: 0, fullName: "" }]);
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                  {managers.map((user) => (
+                    {managers.map((user) => (
                       <SelectItem key={user.userID} value={user.userID.toString()}>
                         {user.fullName}
                       </SelectItem>
@@ -269,14 +270,14 @@ const [managers, setManagers] = useState([ { userID: 0, fullName: "" }]);
               </FormItem>
             )}
           />
- 
+
           {/*CLientID*/}
           <FormField
             control={form.control}
             name="departmentID"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Client</FormLabel>
+                <FormLabel>Department</FormLabel>
                 <Select onValueChange={(value) => field.onChange(Number(value))} defaultValue={field.value?.toString()} >
                   <FormControl>
                     <SelectTrigger>
@@ -284,9 +285,9 @@ const [managers, setManagers] = useState([ { userID: 0, fullName: "" }]);
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {clients.map((client) => (
-                      <SelectItem key={client.clientID} value={client.clientID.toString()}>
-                        {client.clientName}
+                  {departments.map((department) => (
+                      <SelectItem key={department.departmentID} value={department.departmentID.toString()}>
+                        {department.departmentName}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -301,5 +302,5 @@ const [managers, setManagers] = useState([ { userID: 0, fullName: "" }]);
     </div>
   );
 };
- 
+
 export default AddResource;

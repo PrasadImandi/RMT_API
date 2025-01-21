@@ -47,7 +47,7 @@ export default function ResourceDeallocation() {
       return;
     }
     console.log(selectedProject, selectedResource)
-    const res = await api.patch('Resource',{
+    const res = await api.patch('ResourceDeployment',{
       resourceID: selectedResource,
       status: "inactive",
     })

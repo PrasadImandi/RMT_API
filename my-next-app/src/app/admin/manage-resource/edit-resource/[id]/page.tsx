@@ -49,8 +49,8 @@ const formSchema = z.object({
 
 const AddResource = () => {
   const params = useParams<{ id: string }>();
-  const [user, setUser] = useState<any>();
-  const router = useRouter();
+  const [user, setUser] = useState();
+  const router = useRouter()
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -66,7 +66,7 @@ const AddResource = () => {
       managerID: 1,
     },
   });
-
+  
   const { reset } = form;
 
   useEffect(() => {
@@ -289,9 +289,11 @@ const AddResource = () => {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="1">Manish</SelectItem>
-                    <SelectItem value="2">RK</SelectItem>
-                    <SelectItem value="3">Poorna</SelectItem>
+                  {managers.map((user:any) => (
+                      <SelectItem key={user.userID} value={user.userID.toString()}>
+                        {user.fullName}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -306,19 +308,18 @@ const AddResource = () => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Client</FormLabel>
-                <Select
-                  onValueChange={(value) => field.onChange(Number(value))}
-                  defaultValue={field.value?.toString()}
-                >
+                <Select onValueChange={(value) => field.onChange(Number(value))} defaultValue={field.value?.toString()} >
                   <FormControl>
                     <SelectTrigger>
                       <SelectValue placeholder="Select status" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="1">CBRE</SelectItem>
-                    <SelectItem value="2">HP</SelectItem>
-                    <SelectItem value="3">VIalto</SelectItem>
+                  {departments.map((department) => (
+                      <SelectItem key={department.departmentID} value={department.departmentID.toString()}>
+                        {department.departmentName}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
                 <FormMessage />

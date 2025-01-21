@@ -24,10 +24,10 @@ namespace RMT_API.Repositories
 			var resources = from resource in _context.Resources
 							join deployemnt in _context.ResourceDeployments
 							on resource.ResourceID equals deployemnt.ResourceID
-							where deployemnt.ProjectID == projectId
+							where deployemnt.ProjectID == projectId && deployemnt.Status == "Active"
 							select new Resource()
 							{
-								ResourceID = resource.ResourceID,
+								ResourceID = deployemnt.DeploymentID,
 								FirstName = resource.FirstName,
 								LastName = resource.LastName,
 								Email = resource.Email,

@@ -5,6 +5,9 @@ INSERT [dbo].[Clients] ([ClientID], [ClientName], [ContactInfo], [Status], [Crea
 INSERT [dbo].[Clients] ([ClientID], [ClientName], [ContactInfo], [Status], [Created_Date], [Created_By], [Updated_Date], [Updated_By]) VALUES (103, N'Global Enterprises', N'globalenterprises@example.com', NULL, CAST(N'2024-02-15' AS Date), 3, NULL, NULL)
 INSERT [dbo].[Clients] ([ClientID], [ClientName], [ContactInfo], [Status], [Created_Date], [Created_By], [Updated_Date], [Updated_By]) VALUES (104, N'DataCorp Ltd.', N'datacorp@example.com', NULL, CAST(N'2024-03-01' AS Date), 1, NULL, NULL)
 INSERT [dbo].[Clients] ([ClientID], [ClientName], [ContactInfo], [Status], [Created_Date], [Created_By], [Updated_Date], [Updated_By]) VALUES (105, N'CloudWorks LLC', N'cloudworks@example.com', NULL, CAST(N'2024-04-20' AS Date), 4, NULL, NULL)
+INSERT [dbo].[Clients] ([ClientID], [ClientName], [ContactInfo], [Status], [Created_Date], [Created_By], [Updated_Date], [Updated_By]) VALUES (1101, N'dsadsadsad', NULL, NULL, CAST(N'0001-01-01' AS Date), 0, NULL, NULL)
+INSERT [dbo].[Clients] ([ClientID], [ClientName], [ContactInfo], [Status], [Created_Date], [Created_By], [Updated_Date], [Updated_By]) VALUES (1102, N'sadsdadgggff12132323e412', NULL, NULL, CAST(N'0001-01-01' AS Date), 0, NULL, NULL)
+INSERT [dbo].[Clients] ([ClientID], [ClientName], [ContactInfo], [Status], [Created_Date], [Created_By], [Updated_Date], [Updated_By]) VALUES (1103, N'testclienbt', NULL, NULL, CAST(N'0001-01-01' AS Date), 0, NULL, NULL)
 SET IDENTITY_INSERT [dbo].[Clients] OFF
 GO
 SET IDENTITY_INSERT [dbo].[Departments] ON 
@@ -27,15 +30,19 @@ SET IDENTITY_INSERT [dbo].[Leaves] OFF
 GO
 SET IDENTITY_INSERT [dbo].[Projects] ON 
 
-INSERT [dbo].[Projects] ([ProjectID], [ProjectName], [ClientID], [StartDate], [EndDate], [Status], [Created_Date], [Created_By], [Updated_Date], [Updated_By]) VALUES (1, N'Website Updated third', 101, CAST(N'2024-12-29' AS Date), CAST(N'2025-01-01' AS Date), N'Inactive', CAST(N'2024-01-10' AS Date), 1, NULL, NULL)
-INSERT [dbo].[Projects] ([ProjectID], [ProjectName], [ClientID], [StartDate], [EndDate], [Status], [Created_Date], [Created_By], [Updated_Date], [Updated_By]) VALUES (2, N'Mobile App Development', 102, CAST(N'2024-02-01' AS Date), CAST(N'2024-08-01' AS Date), N'Inactive', CAST(N'2024-01-25' AS Date), 2, NULL, NULL)
-INSERT [dbo].[Projects] ([ProjectID], [ProjectName], [ClientID], [StartDate], [EndDate], [Status], [Created_Date], [Created_By], [Updated_Date], [Updated_By]) VALUES (3, N'ERP System Implementation', 103, CAST(N'2024-03-20' AS Date), CAST(N'2025-03-20' AS Date), N'Active', CAST(N'2024-03-01' AS Date), 3, NULL, NULL)
-INSERT [dbo].[Projects] ([ProjectID], [ProjectName], [ClientID], [StartDate], [EndDate], [Status], [Created_Date], [Created_By], [Updated_Date], [Updated_By]) VALUES (4, N'Data Migration Project', 104, CAST(N'2024-05-10' AS Date), CAST(N'2024-07-10' AS Date), N'Completed', CAST(N'2024-04-05' AS Date), 1, NULL, NULL)
+INSERT [dbo].[Projects] ([ProjectID], [ProjectName], [ClientID], [StartDate], [EndDate], [Status], [Created_Date], [Created_By], [Updated_Date], [Updated_By]) VALUES (1, N'Website Updated third', 101, CAST(N'2024-12-20' AS Date), CAST(N'2024-12-23' AS Date), N'Inactive', CAST(N'2024-01-10' AS Date), 1, NULL, NULL)
+INSERT [dbo].[Projects] ([ProjectID], [ProjectName], [ClientID], [StartDate], [EndDate], [Status], [Created_Date], [Created_By], [Updated_Date], [Updated_By]) VALUES (2, N'Mobile App Development', 102, CAST(N'2024-01-31' AS Date), CAST(N'2024-07-31' AS Date), N'Inactive', CAST(N'2024-01-25' AS Date), 2, NULL, NULL)
+INSERT [dbo].[Projects] ([ProjectID], [ProjectName], [ClientID], [StartDate], [EndDate], [Status], [Created_Date], [Created_By], [Updated_Date], [Updated_By]) VALUES (3, N'ERP System Implementation', 103, CAST(N'2024-03-15' AS Date), CAST(N'2025-03-15' AS Date), N'Inactive', CAST(N'2024-03-01' AS Date), 3, NULL, NULL)
+INSERT [dbo].[Projects] ([ProjectID], [ProjectName], [ClientID], [StartDate], [EndDate], [Status], [Created_Date], [Created_By], [Updated_Date], [Updated_By]) VALUES (4, N'Data Migration Projectd', 104, CAST(N'2024-05-07' AS Date), CAST(N'2024-07-07' AS Date), N'Inactive', CAST(N'2024-04-05' AS Date), 1, NULL, NULL)
 INSERT [dbo].[Projects] ([ProjectID], [ProjectName], [ClientID], [StartDate], [EndDate], [Status], [Created_Date], [Created_By], [Updated_Date], [Updated_By]) VALUES (5, N'Cloud Infrastructure Setup', 105, CAST(N'2024-06-01' AS Date), CAST(N'2024-12-01' AS Date), N'Active', CAST(N'2024-05-15' AS Date), 4, NULL, NULL)
 INSERT [dbo].[Projects] ([ProjectID], [ProjectName], [ClientID], [StartDate], [EndDate], [Status], [Created_Date], [Created_By], [Updated_Date], [Updated_By]) VALUES (10, N'asdasdasd', 102, CAST(N'2025-01-07' AS Date), CAST(N'2025-01-07' AS Date), N'Not Started', CAST(N'0001-01-01' AS Date), 0, NULL, NULL)
 INSERT [dbo].[Projects] ([ProjectID], [ProjectName], [ClientID], [StartDate], [EndDate], [Status], [Created_Date], [Created_By], [Updated_Date], [Updated_By]) VALUES (11, N'asdsad', 102, CAST(N'2025-01-07' AS Date), CAST(N'2025-01-07' AS Date), N'Not Started', CAST(N'0001-01-01' AS Date), 0, NULL, NULL)
-INSERT [dbo].[Projects] ([ProjectID], [ProjectName], [ClientID], [StartDate], [EndDate], [Status], [Created_Date], [Created_By], [Updated_Date], [Updated_By]) VALUES (12, N'testuser', 104, CAST(N'2025-01-07' AS Date), CAST(N'2025-01-07' AS Date), N'Not Started', CAST(N'0001-01-01' AS Date), 0, NULL, NULL)
+INSERT [dbo].[Projects] ([ProjectID], [ProjectName], [ClientID], [StartDate], [EndDate], [Status], [Created_Date], [Created_By], [Updated_Date], [Updated_By]) VALUES (12, N'testuser', 104, CAST(N'2025-01-07' AS Date), CAST(N'2025-01-07' AS Date), N'Inactive', CAST(N'0001-01-01' AS Date), 0, NULL, NULL)
 INSERT [dbo].[Projects] ([ProjectID], [ProjectName], [ClientID], [StartDate], [EndDate], [Status], [Created_Date], [Created_By], [Updated_Date], [Updated_By]) VALUES (16, N'hrml portal', 102, CAST(N'2025-01-08' AS Date), CAST(N'2025-01-08' AS Date), N'Active', CAST(N'0001-01-01' AS Date), 0, NULL, NULL)
+INSERT [dbo].[Projects] ([ProjectID], [ProjectName], [ClientID], [StartDate], [EndDate], [Status], [Created_Date], [Created_By], [Updated_Date], [Updated_By]) VALUES (1001, N'New test project', 101, CAST(N'2025-01-20' AS Date), CAST(N'2025-05-30' AS Date), N'Inactive', CAST(N'0001-01-01' AS Date), 0, NULL, NULL)
+INSERT [dbo].[Projects] ([ProjectID], [ProjectName], [ClientID], [StartDate], [EndDate], [Status], [Created_Date], [Created_By], [Updated_Date], [Updated_By]) VALUES (1002, N'American Medicine 1236677', 101, CAST(N'2025-01-13' AS Date), CAST(N'2025-05-23' AS Date), N'Active', CAST(N'0001-01-01' AS Date), 0, NULL, NULL)
+INSERT [dbo].[Projects] ([ProjectID], [ProjectName], [ClientID], [StartDate], [EndDate], [Status], [Created_Date], [Created_By], [Updated_Date], [Updated_By]) VALUES (1003, N'sdsaddsdsa', 102, CAST(N'2025-01-20' AS Date), CAST(N'2025-05-29' AS Date), N'Active', CAST(N'0001-01-01' AS Date), 0, NULL, NULL)
+INSERT [dbo].[Projects] ([ProjectID], [ProjectName], [ClientID], [StartDate], [EndDate], [Status], [Created_Date], [Created_By], [Updated_Date], [Updated_By]) VALUES (1004, N'Test Prasad', 1103, CAST(N'2025-01-21' AS Date), CAST(N'2025-04-24' AS Date), N'Active', CAST(N'0001-01-01' AS Date), 0, NULL, NULL)
 SET IDENTITY_INSERT [dbo].[Projects] OFF
 GO
 SET IDENTITY_INSERT [dbo].[PublicHolidays] ON 
@@ -54,6 +61,7 @@ INSERT [dbo].[ResourceDeployments] ([DeploymentID], [ResourceID], [ProjectID], [
 INSERT [dbo].[ResourceDeployments] ([DeploymentID], [ResourceID], [ProjectID], [Role], [StartDate], [EndDate], [AllocationPercent], [Status], [Created_Date], [Created_By], [Updated_Date], [Updated_By]) VALUES (3, 3, 3, N'Accountant', CAST(N'2025-02-01' AS Date), CAST(N'2025-11-30' AS Date), CAST(50.00 AS Decimal(5, 2)), NULL, CAST(N'2025-01-06' AS Date), 1003, CAST(N'2025-01-06' AS Date), 1003)
 INSERT [dbo].[ResourceDeployments] ([DeploymentID], [ResourceID], [ProjectID], [Role], [StartDate], [EndDate], [AllocationPercent], [Status], [Created_Date], [Created_By], [Updated_Date], [Updated_By]) VALUES (4, 4, 4, N'Marketing Specialist', CAST(N'2025-03-01' AS Date), CAST(N'2025-10-31' AS Date), CAST(60.00 AS Decimal(5, 2)), NULL, CAST(N'2025-01-06' AS Date), 1004, CAST(N'2025-01-06' AS Date), 1004)
 INSERT [dbo].[ResourceDeployments] ([DeploymentID], [ResourceID], [ProjectID], [Role], [StartDate], [EndDate], [AllocationPercent], [Status], [Created_Date], [Created_By], [Updated_Date], [Updated_By]) VALUES (5, 5, 5, N'Sales Rep', CAST(N'2025-04-01' AS Date), CAST(N'2025-09-30' AS Date), CAST(40.00 AS Decimal(5, 2)), NULL, CAST(N'2025-01-06' AS Date), 1005, CAST(N'2025-01-06' AS Date), 1005)
+INSERT [dbo].[ResourceDeployments] ([DeploymentID], [ResourceID], [ProjectID], [Role], [StartDate], [EndDate], [AllocationPercent], [Status], [Created_Date], [Created_By], [Updated_Date], [Updated_By]) VALUES (1001, 1, 1, N'Software Engineer', CAST(N'2025-01-10' AS Date), CAST(N'2025-01-30' AS Date), CAST(0.00 AS Decimal(5, 2)), N'inactive', CAST(N'0001-01-01' AS Date), 0, NULL, NULL)
 SET IDENTITY_INSERT [dbo].[ResourceDeployments] OFF
 GO
 SET IDENTITY_INSERT [dbo].[ResourceLifecycle] ON 
@@ -85,13 +93,18 @@ SET IDENTITY_INSERT [dbo].[ResourceOnboardings] OFF
 GO
 SET IDENTITY_INSERT [dbo].[Resources] ON 
 
-INSERT [dbo].[Resources] ([ResourceID], [FirstName], [LastName], [Email], [Phone], [JobTitle], [HireDate], [Status], [DepartmentID], [ManagerID], [Created_Date], [Created_By], [Updated_Date], [Updated_By]) VALUES (1, N'John', N'Doe', N'john.doe@example.com', N'123-456-7890', N'Software Engineer', CAST(N'2021-06-15' AS Date), N'Inactive', 1, NULL, CAST(N'2025-01-06' AS Date), 1001, CAST(N'2025-01-06' AS Date), 1001)
-INSERT [dbo].[Resources] ([ResourceID], [FirstName], [LastName], [Email], [Phone], [JobTitle], [HireDate], [Status], [DepartmentID], [ManagerID], [Created_Date], [Created_By], [Updated_Date], [Updated_By]) VALUES (2, N'Jane doe', N'Smith', N'jane.smith@example.com', N'1234567891', N'Project Manager', CAST(N'2019-02-25' AS Date), N'Active', 2, 1, CAST(N'2025-01-06' AS Date), 1002, CAST(N'2025-01-06' AS Date), 1002)
-INSERT [dbo].[Resources] ([ResourceID], [FirstName], [LastName], [Email], [Phone], [JobTitle], [HireDate], [Status], [DepartmentID], [ManagerID], [Created_Date], [Created_By], [Updated_Date], [Updated_By]) VALUES (3, N'Alice', N'Johnson', N'alice.johnson@example.com', N'123-456-7892', N'Accountant', CAST(N'2020-07-22' AS Date), N'Active', 3, 2, CAST(N'2025-01-06' AS Date), 1003, CAST(N'2025-01-06' AS Date), 1003)
+INSERT [dbo].[Resources] ([ResourceID], [FirstName], [LastName], [Email], [Phone], [JobTitle], [HireDate], [Status], [DepartmentID], [ManagerID], [Created_Date], [Created_By], [Updated_Date], [Updated_By]) VALUES (1, N'John', N'Doe', N'john.doe@example.com', N'1234567890', N'Software Engineer', CAST(N'2021-06-14' AS Date), N'inactive', 1, 2, CAST(N'2025-01-06' AS Date), 1001, CAST(N'2025-01-06' AS Date), 1001)
+INSERT [dbo].[Resources] ([ResourceID], [FirstName], [LastName], [Email], [Phone], [JobTitle], [HireDate], [Status], [DepartmentID], [ManagerID], [Created_Date], [Created_By], [Updated_Date], [Updated_By]) VALUES (2, N'Jane doe', N'Smith', N'jane.smith@example.com', N'1234567891', N'Project Manager', CAST(N'2019-02-25' AS Date), N'Inactive', 2, 1, CAST(N'2025-01-06' AS Date), 1002, CAST(N'2025-01-06' AS Date), 1002)
+INSERT [dbo].[Resources] ([ResourceID], [FirstName], [LastName], [Email], [Phone], [JobTitle], [HireDate], [Status], [DepartmentID], [ManagerID], [Created_Date], [Created_By], [Updated_Date], [Updated_By]) VALUES (3, N'Alice', N'Johnson', N'alice.johnson@example.com', N'123-456-7892', N'Accountant', CAST(N'2020-07-22' AS Date), N'Inactive', 3, 2, CAST(N'2025-01-06' AS Date), 1003, CAST(N'2025-01-06' AS Date), 1003)
 INSERT [dbo].[Resources] ([ResourceID], [FirstName], [LastName], [Email], [Phone], [JobTitle], [HireDate], [Status], [DepartmentID], [ManagerID], [Created_Date], [Created_By], [Updated_Date], [Updated_By]) VALUES (4, N'Bob', N'Brown', N'bob.brown@example.com', N'123-456-7893', N'Marketing Specialist', CAST(N'2022-01-10' AS Date), N'Inactive', 4, 2, CAST(N'2025-01-06' AS Date), 1004, CAST(N'2025-01-06' AS Date), 1004)
 INSERT [dbo].[Resources] ([ResourceID], [FirstName], [LastName], [Email], [Phone], [JobTitle], [HireDate], [Status], [DepartmentID], [ManagerID], [Created_Date], [Created_By], [Updated_Date], [Updated_By]) VALUES (5, N'Charlie', N'Davis', N'charlie.davis@example.com', N'123-456-7894', N'Sales Representative', CAST(N'2023-04-05' AS Date), N'Active', 5, 1, CAST(N'2025-01-06' AS Date), 1005, CAST(N'2025-01-06' AS Date), 1005)
 INSERT [dbo].[Resources] ([ResourceID], [FirstName], [LastName], [Email], [Phone], [JobTitle], [HireDate], [Status], [DepartmentID], [ManagerID], [Created_Date], [Created_By], [Updated_Date], [Updated_By]) VALUES (7, N'dhsadh', N'asdhgasjd', N'dad@gmail.com', N'1234567890', N'readas', CAST(N'2025-01-07' AS Date), N'Active', 1, 1, CAST(N'0001-01-01' AS Date), 0, NULL, NULL)
 INSERT [dbo].[Resources] ([ResourceID], [FirstName], [LastName], [Email], [Phone], [JobTitle], [HireDate], [Status], [DepartmentID], [ManagerID], [Created_Date], [Created_By], [Updated_Date], [Updated_By]) VALUES (11, N'John', N'Doe', N'john.doe@example.com', N'123-456-7890', N'Software Engineer', CAST(N'2021-06-15' AS Date), N'Active', 3, NULL, CAST(N'2025-01-06' AS Date), 1001, CAST(N'2025-01-06' AS Date), 1001)
+INSERT [dbo].[Resources] ([ResourceID], [FirstName], [LastName], [Email], [Phone], [JobTitle], [HireDate], [Status], [DepartmentID], [ManagerID], [Created_Date], [Created_By], [Updated_Date], [Updated_By]) VALUES (1001, N'test', N'twststs', N'adhajsdhsj@gmail.com', N'1234567890', N'sdsdsadd', CAST(N'2025-01-21' AS Date), N'Active', 1, 1, CAST(N'0001-01-01' AS Date), 0, NULL, NULL)
+INSERT [dbo].[Resources] ([ResourceID], [FirstName], [LastName], [Email], [Phone], [JobTitle], [HireDate], [Status], [DepartmentID], [ManagerID], [Created_Date], [Created_By], [Updated_Date], [Updated_By]) VALUES (1002, N'prasada', N'sdasdj', N'skjbsajkdbk@fdsfkbhdskjf.com', N'2323263321', N'asdasdsds', CAST(N'2025-01-21' AS Date), N'Active', 1, 2, CAST(N'0001-01-01' AS Date), 0, NULL, NULL)
+INSERT [dbo].[Resources] ([ResourceID], [FirstName], [LastName], [Email], [Phone], [JobTitle], [HireDate], [Status], [DepartmentID], [ManagerID], [Created_Date], [Created_By], [Updated_Date], [Updated_By]) VALUES (1007, N'adsadasd', N'dfcdsfsdf', N'cssdsad@gmail.com', N'1234567890', N'sadasdasdsad', CAST(N'2025-01-21' AS Date), N'Active', 2, 1, CAST(N'0001-01-01' AS Date), 0, NULL, NULL)
+INSERT [dbo].[Resources] ([ResourceID], [FirstName], [LastName], [Email], [Phone], [JobTitle], [HireDate], [Status], [DepartmentID], [ManagerID], [Created_Date], [Created_By], [Updated_Date], [Updated_By]) VALUES (1008, N'sdsadasdd', N'dasdsadasd', N'dsadasdasd@gmail.com', N'1234567890', N'sasdasdsd', CAST(N'2025-01-21' AS Date), N'Active', 2, 1, CAST(N'0001-01-01' AS Date), 0, NULL, NULL)
+INSERT [dbo].[Resources] ([ResourceID], [FirstName], [LastName], [Email], [Phone], [JobTitle], [HireDate], [Status], [DepartmentID], [ManagerID], [Created_Date], [Created_By], [Updated_Date], [Updated_By]) VALUES (1009, N'pepweiwewe', N'pdsadsadasd', N'pdasdasdasd@dadasd.com', N'1234567890', N'dasdasdsd', CAST(N'2025-01-21' AS Date), N'Active', 4, 1, CAST(N'0001-01-01' AS Date), 0, NULL, NULL)
 SET IDENTITY_INSERT [dbo].[Resources] OFF
 GO
 SET IDENTITY_INSERT [dbo].[Roles] ON 
@@ -105,11 +118,11 @@ SET IDENTITY_INSERT [dbo].[Roles] OFF
 GO
 SET IDENTITY_INSERT [dbo].[Supplier] ON 
 
-INSERT [dbo].[Supplier] ([SupplierID], [SupplierName], [ContactInfo], [PAN], [GST], [PaymentTerms], [Status], [Created_Date], [Created_By], [Updated_Date], [Updated_By]) VALUES (1, N'ABC Corporatio', N'123-456-7890', N'ABCDE1234F', N'27ABCDE1234F1Z5', N'Monthly', N'Inactive', CAST(N'2025-01-09' AS Date), 1, NULL, NULL)
-INSERT [dbo].[Supplier] ([SupplierID], [SupplierName], [ContactInfo], [PAN], [GST], [PaymentTerms], [Status], [Created_Date], [Created_By], [Updated_Date], [Updated_By]) VALUES (2, N'XYZ Pvt Ltd', N'987-654-3210', N'FGHIJ5678K', N'27FGHIJ5678K1Z8', N'Quarterly', N'Inactive', CAST(N'2025-01-09' AS Date), 1, NULL, NULL)
-INSERT [dbo].[Supplier] ([SupplierID], [SupplierName], [ContactInfo], [PAN], [GST], [PaymentTerms], [Status], [Created_Date], [Created_By], [Updated_Date], [Updated_By]) VALUES (3, N'Global Traders', N'555-444-3333', N'KLMNO9876P', N'27KLMNO9876P1Z2', N'Yearly', N'Active', CAST(N'2025-01-09' AS Date), 1, NULL, NULL)
-INSERT [dbo].[Supplier] ([SupplierID], [SupplierName], [ContactInfo], [PAN], [GST], [PaymentTerms], [Status], [Created_Date], [Created_By], [Updated_Date], [Updated_By]) VALUES (4, N'Tech Solutions', N'111-222-3333', N'PQRST2345X', N'27PQRST2345X1Z7', N'Halfyearly', N'Inactive', CAST(N'2025-01-09' AS Date), 1, NULL, NULL)
-INSERT [dbo].[Supplier] ([SupplierID], [SupplierName], [ContactInfo], [PAN], [GST], [PaymentTerms], [Status], [Created_Date], [Created_By], [Updated_Date], [Updated_By]) VALUES (5, N'Bright Supplies', N'999-888-7777', N'UVWXY1234A', N'27UVWXY1234A1Z3', N'Monthly', N'Active', CAST(N'2025-01-09' AS Date), 1, NULL, NULL)
+INSERT [dbo].[Supplier] ([SupplierID], [SupplierName], [ContactInfo], [PAN], [GST], [PaymentTerms], [Status], [Created_Date], [Created_By], [Updated_Date], [Updated_By], [ClientID]) VALUES (1, N'ABC Corporatio', N'123-456-7890', N'ABCDE1234F', N'27ABCDE1234F1Z5', N'Monthly', N'Active', CAST(N'2025-01-09' AS Date), 1, NULL, NULL, NULL)
+INSERT [dbo].[Supplier] ([SupplierID], [SupplierName], [ContactInfo], [PAN], [GST], [PaymentTerms], [Status], [Created_Date], [Created_By], [Updated_Date], [Updated_By], [ClientID]) VALUES (2, N'XYZ Pvt Ltd', N'987-654-3210', N'FGHIJ5678K', N'27FGHIJ5678K1Z8', N'Quarterly', N'Inactive', CAST(N'2025-01-09' AS Date), 1, NULL, NULL, NULL)
+INSERT [dbo].[Supplier] ([SupplierID], [SupplierName], [ContactInfo], [PAN], [GST], [PaymentTerms], [Status], [Created_Date], [Created_By], [Updated_Date], [Updated_By], [ClientID]) VALUES (3, N'Global Traders', N'555-444-3333', N'KLMNO9876P', N'27KLMNO9876P1Z2', N'Yearly', N'Active', CAST(N'2025-01-09' AS Date), 1, NULL, NULL, NULL)
+INSERT [dbo].[Supplier] ([SupplierID], [SupplierName], [ContactInfo], [PAN], [GST], [PaymentTerms], [Status], [Created_Date], [Created_By], [Updated_Date], [Updated_By], [ClientID]) VALUES (4, N'Tech Solutions', N'111-222-3333', N'PQRST2345X', N'27PQRST2345X1Z7', N'Halfyearly', N'Inactive', CAST(N'2025-01-09' AS Date), 1, NULL, NULL, NULL)
+INSERT [dbo].[Supplier] ([SupplierID], [SupplierName], [ContactInfo], [PAN], [GST], [PaymentTerms], [Status], [Created_Date], [Created_By], [Updated_Date], [Updated_By], [ClientID]) VALUES (5, N'Bright Supplies', N'999-888-7777', N'UVWXY1234A', N'27UVWXY1234A1Z3', N'Monthly', N'Active', CAST(N'2025-01-09' AS Date), 1, NULL, NULL, NULL)
 SET IDENTITY_INSERT [dbo].[Supplier] OFF
 GO
 SET IDENTITY_INSERT [dbo].[Timesheets] ON 
@@ -123,55 +136,13 @@ SET IDENTITY_INSERT [dbo].[Timesheets] OFF
 GO
 SET IDENTITY_INSERT [dbo].[Users] ON 
 
-INSERT [dbo].[Users] ([UserID], [FullName], [Email], [Role], [IsActive], [CreatedDate], [Created_Date], [Created_By], [Updated_Date], [Updated_By]) VALUES (1, N'John Doe', N'johndoe@example.com', N'Manager', 1, CAST(N'2025-01-06' AS Date), CAST(N'2025-01-06' AS Date), 1001, CAST(N'2025-01-06' AS Date), 1001)
-INSERT [dbo].[Users] ([UserID], [FullName], [Email], [Role], [IsActive], [CreatedDate], [Created_Date], [Created_By], [Updated_Date], [Updated_By]) VALUES (2, N'Jane Smith', N'janesmith@example.com', N'Admin', 1, CAST(N'2025-01-06' AS Date), CAST(N'2025-01-06' AS Date), 1002, CAST(N'2025-01-06' AS Date), 1002)
-INSERT [dbo].[Users] ([UserID], [FullName], [Email], [Role], [IsActive], [CreatedDate], [Created_Date], [Created_By], [Updated_Date], [Updated_By]) VALUES (3, N'Alice Johnson', N'alicejohnson@example.com', N'HR', 1, CAST(N'2025-01-06' AS Date), CAST(N'2025-01-06' AS Date), 1003, CAST(N'2025-01-06' AS Date), 1003)
-INSERT [dbo].[Users] ([UserID], [FullName], [Email], [Role], [IsActive], [CreatedDate], [Created_Date], [Created_By], [Updated_Date], [Updated_By]) VALUES (4, N'Bob Brown', N'bobbrown@example.com', N'Sales', 1, CAST(N'2025-01-06' AS Date), CAST(N'2025-01-06' AS Date), 1004, CAST(N'2025-01-06' AS Date), 1004)
-INSERT [dbo].[Users] ([UserID], [FullName], [Email], [Role], [IsActive], [CreatedDate], [Created_Date], [Created_By], [Updated_Date], [Updated_By]) VALUES (5, N'Charlie Davis', N'charliedavis@example.com', N'Recruiter', 1, CAST(N'2025-01-06' AS Date), CAST(N'2025-01-06' AS Date), 1005, CAST(N'2025-01-06' AS Date), 1005)
+INSERT [dbo].[Users] ([UserID], [FullName], [Email], [Role], [IsActive], [CreatedDate], [Created_Date], [Created_By], [Updated_Date], [Updated_By], [RoleID]) VALUES (1, N'John Doe', N'johndoe@example.com', N'Manager', 1, CAST(N'2025-01-06' AS Date), CAST(N'2025-01-06' AS Date), 1001, CAST(N'2025-01-06' AS Date), 1001, 2)
+INSERT [dbo].[Users] ([UserID], [FullName], [Email], [Role], [IsActive], [CreatedDate], [Created_Date], [Created_By], [Updated_Date], [Updated_By], [RoleID]) VALUES (2, N'Jane Smith', N'janesmith@example.com', N'Admin', 1, CAST(N'2025-01-06' AS Date), CAST(N'2025-01-06' AS Date), 1002, CAST(N'2025-01-06' AS Date), 1002, 1)
+INSERT [dbo].[Users] ([UserID], [FullName], [Email], [Role], [IsActive], [CreatedDate], [Created_Date], [Created_By], [Updated_Date], [Updated_By], [RoleID]) VALUES (3, N'Alice Johnson', N'alicejohnson@example.com', N'HR', 1, CAST(N'2025-01-06' AS Date), CAST(N'2025-01-06' AS Date), 1003, CAST(N'2025-01-06' AS Date), 1003, 4)
+INSERT [dbo].[Users] ([UserID], [FullName], [Email], [Role], [IsActive], [CreatedDate], [Created_Date], [Created_By], [Updated_Date], [Updated_By], [RoleID]) VALUES (4, N'Bob Brown', N'bobbrown@example.com', N'Sales', 1, CAST(N'2025-01-06' AS Date), CAST(N'2025-01-06' AS Date), 1004, CAST(N'2025-01-06' AS Date), 1004, NULL)
+INSERT [dbo].[Users] ([UserID], [FullName], [Email], [Role], [IsActive], [CreatedDate], [Created_Date], [Created_By], [Updated_Date], [Updated_By], [RoleID]) VALUES (5, N'Charlie Davis', N'charliedavis@example.com', N'Recruiter', 1, CAST(N'2025-01-06' AS Date), CAST(N'2025-01-06' AS Date), 1005, CAST(N'2025-01-06' AS Date), 1005, NULL)
+INSERT [dbo].[Users] ([UserID], [FullName], [Email], [Role], [IsActive], [CreatedDate], [Created_Date], [Created_By], [Updated_Date], [Updated_By], [RoleID]) VALUES (1001, N'devanjan nanda', N'dev@gmail.com', N'user', 0, CAST(N'0001-01-01' AS Date), CAST(N'0001-01-01' AS Date), 0, NULL, NULL, 3)
+INSERT [dbo].[Users] ([UserID], [FullName], [Email], [Role], [IsActive], [CreatedDate], [Created_Date], [Created_By], [Updated_Date], [Updated_By], [RoleID]) VALUES (1002, N'devanjan nanda', N'dev@gmail.com', N'user', 0, CAST(N'0001-01-01' AS Date), CAST(N'0001-01-01' AS Date), 0, NULL, NULL, 3)
+INSERT [dbo].[Users] ([UserID], [FullName], [Email], [Role], [IsActive], [CreatedDate], [Created_Date], [Created_By], [Updated_Date], [Updated_By], [RoleID]) VALUES (1003, N'devanjan nanda', N'dev@gmail.com', N'user', 0, CAST(N'0001-01-01' AS Date), CAST(N'0001-01-01' AS Date), 0, NULL, NULL, 3)
 SET IDENTITY_INSERT [dbo].[Users] OFF
-GO
-ALTER TABLE [dbo].[Leaves]  WITH CHECK ADD FOREIGN KEY([ApproverID])
-REFERENCES [dbo].[Resources] ([ResourceID])
-GO
-ALTER TABLE [dbo].[Leaves]  WITH CHECK ADD FOREIGN KEY([ResourceID])
-REFERENCES [dbo].[Resources] ([ResourceID])
-GO
-ALTER TABLE [dbo].[Projects]  WITH CHECK ADD FOREIGN KEY([ClientID])
-REFERENCES [dbo].[Clients] ([ClientID])
-GO
-ALTER TABLE [dbo].[ResourceDeployments]  WITH CHECK ADD FOREIGN KEY([ProjectID])
-REFERENCES [dbo].[Projects] ([ProjectID])
-GO
-ALTER TABLE [dbo].[ResourceDeployments]  WITH CHECK ADD FOREIGN KEY([ResourceID])
-REFERENCES [dbo].[Resources] ([ResourceID])
-GO
-ALTER TABLE [dbo].[ResourceLifecycle]  WITH CHECK ADD FOREIGN KEY([HandledByID])
-REFERENCES [dbo].[Users] ([UserID])
-GO
-ALTER TABLE [dbo].[ResourceLifecycle]  WITH CHECK ADD FOREIGN KEY([ResourceID])
-REFERENCES [dbo].[Resources] ([ResourceID])
-GO
-ALTER TABLE [dbo].[ResourceOffboardings]  WITH CHECK ADD FOREIGN KEY([HandledByID])
-REFERENCES [dbo].[Resources] ([ResourceID])
-GO
-ALTER TABLE [dbo].[ResourceOffboardings]  WITH CHECK ADD FOREIGN KEY([ResourceID])
-REFERENCES [dbo].[Resources] ([ResourceID])
-GO
-ALTER TABLE [dbo].[ResourceOnboardings]  WITH CHECK ADD FOREIGN KEY([HandledByID])
-REFERENCES [dbo].[Resources] ([ResourceID])
-GO
-ALTER TABLE [dbo].[ResourceOnboardings]  WITH CHECK ADD FOREIGN KEY([ResourceID])
-REFERENCES [dbo].[Resources] ([ResourceID])
-GO
-ALTER TABLE [dbo].[Resources]  WITH CHECK ADD FOREIGN KEY([DepartmentID])
-REFERENCES [dbo].[Departments] ([DepartmentID])
-GO
-ALTER TABLE [dbo].[Resources]  WITH CHECK ADD FOREIGN KEY([ManagerID])
-REFERENCES [dbo].[Resources] ([ResourceID])
-GO
-ALTER TABLE [dbo].[Timesheets]  WITH CHECK ADD FOREIGN KEY([ProjectID])
-REFERENCES [dbo].[Projects] ([ProjectID])
-GO
-ALTER TABLE [dbo].[Timesheets]  WITH CHECK ADD FOREIGN KEY([ResourceID])
-REFERENCES [dbo].[Resources] ([ResourceID])
 GO

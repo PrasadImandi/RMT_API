@@ -21,7 +21,9 @@ namespace RMT_API.Services
 		{
 			var response = await _repository.GetAllAsync();
 
-			return _mapper.Map<IEnumerable<ProjectDto>>(response);
+			var activeProjects = _mapper.Map<IEnumerable<ProjectDto>>(response.Where(p=>p.Status=="Active"));
+
+			return activeProjects;
 		}
 
 		public async Task<ProjectDto> GetProjectByIdAsync(int id)

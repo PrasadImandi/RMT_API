@@ -14,6 +14,7 @@ import { toast } from "sonner";
 import { DateRange } from "react-day-picker";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import api from "@/lib/axiosInstance";
 
 export default function LeavesPage() {
   const [dateRange, setDateRange] = useState<DateRange | undefined>({
@@ -23,13 +24,30 @@ export default function LeavesPage() {
   const [selectedLeaveType, setSelectedLeaveType] = useState<string>("");
   const [reason, setReason] = useState("");
 
-  const handleApplyLeave = () => {
+  const handleApplyLeave =async () => {
     if (!dateRange?.from || !dateRange?.to || !selectedLeaveType || !reason) {
       toast.error("Please fill in all required fields");
       return;
     }
 
-    // In a real app, this would be an API call
+    const applyNewLeave = {
+      resourceID : 1, // resourceid needs to change with logged in user id
+      leaveType : selectedLeaveType,
+      startDate : dateRange.from,
+      endDate : dateRange.to,
+      status : 'pending',
+      approverID : 2,
+      created_Date : new Date()
+    };
+
+    try {
+      const res = await api.post("/Leave", applyNewLeave);
+      console.log(res);
+    } catch (error) {
+      console.log("error registering client", error);
+    }
+
+
     toast.success("Leave application submitted successfully");
     setDateRange({ from: undefined, to: undefined });
     setSelectedLeaveType("");
