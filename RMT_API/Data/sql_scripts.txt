@@ -1,253 +1,471 @@
-﻿create database peoplepulse_dev
-go
-
-use database peoplepulse_dev
-go
-
-CREATE TABLE Roles (
-    RoleID INT PRIMARY KEY,                      -- Unique identifier for each role
-    RoleName VARCHAR(50) NOT NULL,                -- Name of the role (e.g., Admin, Manager)
-	Status VARCHAR(20),                           -- Employment status (e.g., Active, Inactive, Informal)
-	Created_Date DATE NOT NULL,                   -- The date the client record was created
-    Created_By INT NOT NULL,                      -- User ID of the person who created the record
-    Updated_Date DATE,                            -- The date the client record was last updated
-    Updated_By INT,                               -- User ID of the person who last updated the record
-)
+﻿USE [master]
+GO
+/****** Object:  Database [PeoplePulse_Dev]    Script Date: 21-01-2025 14:36:22 ******/
+CREATE DATABASE [PeoplePulse_Dev]
+ CONTAINMENT = NONE
+ ON  PRIMARY 
+( NAME = N'PeoplePulse_Dev', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER\MSSQL\DATA\PeoplePulse_Dev.mdf' , SIZE = 8192KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
+ LOG ON 
+( NAME = N'PeoplePulse_Dev_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER\MSSQL\DATA\PeoplePulse_Dev_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
+ WITH CATALOG_COLLATION = DATABASE_DEFAULT, LEDGER = OFF
+GO
+ALTER DATABASE [PeoplePulse_Dev] SET COMPATIBILITY_LEVEL = 160
+GO
+IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+begin
+EXEC [PeoplePulse_Dev].[dbo].[sp_fulltext_database] @action = 'enable'
+end
+GO
+ALTER DATABASE [PeoplePulse_Dev] SET ANSI_NULL_DEFAULT OFF 
+GO
+ALTER DATABASE [PeoplePulse_Dev] SET ANSI_NULLS OFF 
+GO
+ALTER DATABASE [PeoplePulse_Dev] SET ANSI_PADDING OFF 
+GO
+ALTER DATABASE [PeoplePulse_Dev] SET ANSI_WARNINGS OFF 
+GO
+ALTER DATABASE [PeoplePulse_Dev] SET ARITHABORT OFF 
+GO
+ALTER DATABASE [PeoplePulse_Dev] SET AUTO_CLOSE OFF 
+GO
+ALTER DATABASE [PeoplePulse_Dev] SET AUTO_SHRINK OFF 
+GO
+ALTER DATABASE [PeoplePulse_Dev] SET AUTO_UPDATE_STATISTICS ON 
+GO
+ALTER DATABASE [PeoplePulse_Dev] SET CURSOR_CLOSE_ON_COMMIT OFF 
+GO
+ALTER DATABASE [PeoplePulse_Dev] SET CURSOR_DEFAULT  GLOBAL 
+GO
+ALTER DATABASE [PeoplePulse_Dev] SET CONCAT_NULL_YIELDS_NULL OFF 
+GO
+ALTER DATABASE [PeoplePulse_Dev] SET NUMERIC_ROUNDABORT OFF 
+GO
+ALTER DATABASE [PeoplePulse_Dev] SET QUOTED_IDENTIFIER OFF 
+GO
+ALTER DATABASE [PeoplePulse_Dev] SET RECURSIVE_TRIGGERS OFF 
+GO
+ALTER DATABASE [PeoplePulse_Dev] SET  ENABLE_BROKER 
+GO
+ALTER DATABASE [PeoplePulse_Dev] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+GO
+ALTER DATABASE [PeoplePulse_Dev] SET DATE_CORRELATION_OPTIMIZATION OFF 
+GO
+ALTER DATABASE [PeoplePulse_Dev] SET TRUSTWORTHY OFF 
+GO
+ALTER DATABASE [PeoplePulse_Dev] SET ALLOW_SNAPSHOT_ISOLATION OFF 
+GO
+ALTER DATABASE [PeoplePulse_Dev] SET PARAMETERIZATION SIMPLE 
+GO
+ALTER DATABASE [PeoplePulse_Dev] SET READ_COMMITTED_SNAPSHOT OFF 
+GO
+ALTER DATABASE [PeoplePulse_Dev] SET HONOR_BROKER_PRIORITY OFF 
+GO
+ALTER DATABASE [PeoplePulse_Dev] SET RECOVERY FULL 
+GO
+ALTER DATABASE [PeoplePulse_Dev] SET  MULTI_USER 
+GO
+ALTER DATABASE [PeoplePulse_Dev] SET PAGE_VERIFY CHECKSUM  
+GO
+ALTER DATABASE [PeoplePulse_Dev] SET DB_CHAINING OFF 
+GO
+ALTER DATABASE [PeoplePulse_Dev] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
+GO
+ALTER DATABASE [PeoplePulse_Dev] SET TARGET_RECOVERY_TIME = 60 SECONDS 
+GO
+ALTER DATABASE [PeoplePulse_Dev] SET DELAYED_DURABILITY = DISABLED 
+GO
+ALTER DATABASE [PeoplePulse_Dev] SET ACCELERATED_DATABASE_RECOVERY = OFF  
+GO
+EXEC sys.sp_db_vardecimal_storage_format N'PeoplePulse_Dev', N'ON'
+GO
+ALTER DATABASE [PeoplePulse_Dev] SET QUERY_STORE = ON
+GO
+ALTER DATABASE [PeoplePulse_Dev] SET QUERY_STORE (OPERATION_MODE = READ_WRITE, CLEANUP_POLICY = (STALE_QUERY_THRESHOLD_DAYS = 30), DATA_FLUSH_INTERVAL_SECONDS = 900, INTERVAL_LENGTH_MINUTES = 60, MAX_STORAGE_SIZE_MB = 1000, QUERY_CAPTURE_MODE = AUTO, SIZE_BASED_CLEANUP_MODE = AUTO, MAX_PLANS_PER_QUERY = 200, WAIT_STATS_CAPTURE_MODE = ON)
+GO
+USE [PeoplePulse_Dev]
+GO
+/****** Object:  Table [dbo].[Clients]    Script Date: 21-01-2025 14:36:22 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Clients](
+	[ClientID] [int] IDENTITY(1,1) NOT NULL,
+	[ClientName] [varchar](100) NOT NULL,
+	[ContactInfo] [varchar](100) NULL,
+	[Status] [varchar](20) NULL,
+	[Created_Date] [date] NOT NULL,
+	[Created_By] [int] NOT NULL,
+	[Updated_Date] [date] NULL,
+	[Updated_By] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[ClientID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Departments]    Script Date: 21-01-2025 14:36:22 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Departments](
+	[DepartmentID] [int] IDENTITY(1,1) NOT NULL,
+	[DepartmentName] [varchar](50) NOT NULL,
+	[Status] [varchar](20) NULL,
+	[Created_Date] [date] NOT NULL,
+	[Created_By] [int] NOT NULL,
+	[Updated_Date] [date] NULL,
+	[Updated_By] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[DepartmentID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Leaves]    Script Date: 21-01-2025 14:36:22 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Leaves](
+	[LeaveID] [int] IDENTITY(1,1) NOT NULL,
+	[ResourceID] [int] NULL,
+	[LeaveType] [varchar](50) NULL,
+	[StartDate] [date] NULL,
+	[EndDate] [date] NULL,
+	[Status] [varchar](20) NULL,
+	[ApproverID] [int] NULL,
+	[Created_Date] [date] NOT NULL,
+	[Created_By] [int] NOT NULL,
+	[Updated_Date] [date] NULL,
+	[Updated_By] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[LeaveID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Projects]    Script Date: 21-01-2025 14:36:22 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Projects](
+	[ProjectID] [int] IDENTITY(1,1) NOT NULL,
+	[ProjectName] [varchar](100) NOT NULL,
+	[ClientID] [int] NULL,
+	[StartDate] [date] NULL,
+	[EndDate] [date] NULL,
+	[Status] [varchar](20) NULL,
+	[Created_Date] [date] NOT NULL,
+	[Created_By] [int] NOT NULL,
+	[Updated_Date] [date] NULL,
+	[Updated_By] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[ProjectID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[PublicHolidays]    Script Date: 21-01-2025 14:36:22 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[PublicHolidays](
+	[PHID] [int] IDENTITY(1,1) NOT NULL,
+	[PHName] [varchar](100) NOT NULL,
+	[PHDate] [date] NOT NULL,
+	[PHYear] [date] NOT NULL,
+	[Created_Date] [date] NOT NULL,
+	[Created_By] [int] NOT NULL,
+	[Updated_Date] [date] NULL,
+	[Updated_By] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[PHID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[ResourceDeployments]    Script Date: 21-01-2025 14:36:22 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[ResourceDeployments](
+	[DeploymentID] [int] IDENTITY(1,1) NOT NULL,
+	[ResourceID] [int] NULL,
+	[ProjectID] [int] NULL,
+	[Role] [varchar](50) NULL,
+	[StartDate] [date] NULL,
+	[EndDate] [date] NULL,
+	[AllocationPercent] [decimal](5, 2) NULL,
+	[Status] [varchar](20) NULL,
+	[Created_Date] [date] NOT NULL,
+	[Created_By] [int] NOT NULL,
+	[Updated_Date] [date] NULL,
+	[Updated_By] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[DeploymentID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[ResourceLifecycle]    Script Date: 21-01-2025 14:36:22 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[ResourceLifecycle](
+	[LifecycleID] [int] IDENTITY(1,1) NOT NULL,
+	[ResourceID] [int] NULL,
+	[LifecycleType] [varchar](20) NOT NULL,
+	[StartDate] [date] NOT NULL,
+	[EndDate] [date] NULL,
+	[Status] [varchar](20) NULL,
+	[Notes] [text] NULL,
+	[HandledByID] [int] NULL,
+	[Created_Date] [date] NOT NULL,
+	[Created_By] [int] NOT NULL,
+	[Updated_Date] [date] NULL,
+	[Updated_By] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[LifecycleID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[ResourceOffboardings]    Script Date: 21-01-2025 14:36:22 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[ResourceOffboardings](
+	[OffboardingID] [int] IDENTITY(1,1) NOT NULL,
+	[ResourceID] [int] NOT NULL,
+	[OffboardingDate] [date] NOT NULL,
+	[HandledByID] [int] NOT NULL,
+	[ExitDocumentName] [varchar](255) NULL,
+	[DocumentPath] [varchar](500) NULL,
+	[FileType] [varchar](50) NULL,
+	[FileSize] [int] NULL,
+	[ExitReason] [varchar](255) NULL,
+	[Notes] [text] NULL,
+	[Status] [varchar](20) NULL,
+	[Created_Date] [date] NOT NULL,
+	[Created_By] [int] NOT NULL,
+	[Updated_Date] [date] NULL,
+	[Updated_By] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[OffboardingID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[ResourceOnboardings]    Script Date: 21-01-2025 14:36:22 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[ResourceOnboardings](
+	[OnboardingID] [int] IDENTITY(1,1) NOT NULL,
+	[ResourceID] [int] NOT NULL,
+	[OnboardingDate] [date] NOT NULL,
+	[HandledByID] [int] NOT NULL,
+	[DocumentName] [varchar](255) NULL,
+	[DocumentPath] [varchar](500) NULL,
+	[FileType] [varchar](50) NULL,
+	[FileSize] [int] NULL,
+	[Notes] [text] NULL,
+	[Status] [varchar](20) NULL,
+	[Created_Date] [date] NOT NULL,
+	[Created_By] [int] NOT NULL,
+	[Updated_Date] [date] NULL,
+	[Updated_By] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[OnboardingID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Resources]    Script Date: 21-01-2025 14:36:22 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Resources](
+	[ResourceID] [int] IDENTITY(1,1) NOT NULL,
+	[FirstName] [varchar](50) NOT NULL,
+	[LastName] [varchar](50) NOT NULL,
+	[Email] [varchar](100) NOT NULL,
+	[Phone] [varchar](20) NULL,
+	[JobTitle] [varchar](50) NULL,
+	[HireDate] [date] NULL,
+	[Status] [varchar](20) NULL,
+	[DepartmentID] [int] NULL,
+	[ManagerID] [int] NULL,
+	[Created_Date] [date] NOT NULL,
+	[Created_By] [int] NOT NULL,
+	[Updated_Date] [date] NULL,
+	[Updated_By] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[ResourceID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Roles]    Script Date: 21-01-2025 14:36:22 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Roles](
+	[RoleID] [int] IDENTITY(1,1) NOT NULL,
+	[RoleName] [varchar](50) NOT NULL,
+	[Status] [varchar](20) NULL,
+	[Created_Date] [date] NOT NULL,
+	[Created_By] [int] NOT NULL,
+	[Updated_Date] [date] NULL,
+	[Updated_By] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[RoleID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Supplier]    Script Date: 21-01-2025 14:36:22 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Supplier](
+	[SupplierID] [int] IDENTITY(1,1) NOT NULL,
+	[SupplierName] [varchar](100) NOT NULL,
+	[ContactInfo] [varchar](100) NOT NULL,
+	[PAN] [varchar](20) NOT NULL,
+	[GST] [varchar](100) NOT NULL,
+	[PaymentTerms] [varchar](20) NOT NULL,
+	[Status] [varchar](20) NOT NULL,
+	[Created_Date] [date] NOT NULL,
+	[Created_By] [int] NOT NULL,
+	[Updated_Date] [date] NULL,
+	[Updated_By] [int] NULL,
+	[ClientID] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[SupplierID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Timesheets]    Script Date: 21-01-2025 14:36:22 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Timesheets](
+	[TimesheetID] [int] IDENTITY(1,1) NOT NULL,
+	[ResourceID] [int] NULL,
+	[ProjectID] [int] NULL,
+	[Date] [date] NULL,
+	[HoursWorked] [decimal](4, 2) NULL,
+	[Notes] [text] NULL,
+	[Status] [varchar](20) NULL,
+	[Created_Date] [date] NOT NULL,
+	[Created_By] [int] NOT NULL,
+	[Updated_Date] [date] NULL,
+	[Updated_By] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[TimesheetID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Users]    Script Date: 21-01-2025 14:36:22 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Users](
+	[UserID] [int] IDENTITY(1,1) NOT NULL,
+	[FullName] [varchar](100) NOT NULL,
+	[Email] [varchar](100) NOT NULL,
+	[Role] [varchar](50) NOT NULL,
+	[IsActive] [bit] NOT NULL,
+	[CreatedDate] [date] NOT NULL,
+	[Created_Date] [date] NOT NULL,
+	[Created_By] [int] NOT NULL,
+	[Updated_Date] [date] NULL,
+	[Updated_By] [int] NULL,
+	[RoleID] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[UserID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
 GO
 
-CREATE TABLE Departments (
-    DepartmentID INT PRIMARY KEY,               -- Unique identifier for each department
-    DepartmentName VARCHAR(50) NOT NULL,         -- Name of the department
-	Status VARCHAR(20),                           -- Employment status (e.g., Active, Inactive, Informal)
-	Created_Date DATE NOT NULL,                   -- The date the client record was created
-    Created_By INT NOT NULL,                      -- User ID of the person who created the record
-    Updated_Date DATE,                            -- The date the client record was last updated
-    Updated_By INT,                               -- User ID of the person who last updated the record
-)
+
+ALTER TABLE [dbo].[Leaves]  WITH CHECK ADD FOREIGN KEY([ApproverID])
+REFERENCES [dbo].[Resources] ([ResourceID])
 GO
-
-CREATE TABLE Client(
-    ClientID INT PRIMARY KEY,                    -- Unique identifier for each client
-    ClientName VARCHAR(100) NOT NULL,             -- Name of the client
-    ContactInfo VARCHAR(100),                     -- Contact information for the client
-	Status VARCHAR(20),                           -- Employment status (e.g., Active, Inactive, Informal)
-	Created_Date DATE NOT NULL,                   -- The date the client record was created
-    Created_By INT NOT NULL,                      -- User ID of the person who created the record
-    Updated_Date DATE,                            -- The date the client record was last updated
-    Updated_By INT,                               -- User ID of the person who last updated the record
-)
+ALTER TABLE [dbo].[Leaves]  WITH CHECK ADD FOREIGN KEY([ResourceID])
+REFERENCES [dbo].[Resources] ([ResourceID])
 GO
-
-
-
-CREATE TABLE Resources (
-    ResourceID INT PRIMARY KEY,                  -- Unique identifier for the resource
-    FirstName VARCHAR(50) NOT NULL,               -- First name of the resource
-    LastName VARCHAR(50) NOT NULL,                -- Last name of the resource
-    Email VARCHAR(100) NOT NULL,                  -- Email address
-    Phone VARCHAR(20),                            -- Contact number
-    JobTitle VARCHAR(50),                         -- Role or designation of the resource
-    HireDate DATE,                                -- Date of joining
-    Status VARCHAR(20),                           -- Employment status (e.g., Active, Inactive, Informal)
-    DepartmentID INT,                             -- Foreign Key to the Department table
-    ManagerID INT,                                -- Self-referencing Foreign Key for reporting manager
-	Created_Date DATE NOT NULL,                   -- The date the client record was created
-    Created_By INT NOT NULL,                      -- User ID of the person who created the record
-    Updated_Date DATE,                            -- The date the client record was last updated
-    Updated_By INT,                               -- User ID of the person who last updated the record
-
-    FOREIGN KEY (DepartmentID) REFERENCES Departments(DepartmentID),  -- Foreign key to Department table
-    FOREIGN KEY (ManagerID) REFERENCES Resources(ResourceID)         -- Self-referencing foreign key
-);
-
-Go
-
-CREATE TABLE Projects(
-    ProjectID INT PRIMARY KEY,                    -- Unique identifier for the project
-    ProjectName VARCHAR(100) NOT NULL,             -- Name of the project
-    ClientID INT,                                  -- Foreign Key to the Client table
-    StartDate DATE,                                -- Project start date
-    EndDate DATE,                                  -- Project end date
-    Status VARCHAR(20),                            -- Project status (e.g., Active, Completed)
-	Created_Date DATE NOT NULL,                   -- The date the client record was created
-    Created_By INT NOT NULL,                      -- User ID of the person who created the record
-    Updated_Date DATE,                            -- The date the client record was last updated
-    Updated_By INT,                               -- User ID of the person who last updated the record
-
-    FOREIGN KEY (ClientID) REFERENCES Client(ClientID)  -- Foreign key to Client table
-);
-
-
+ALTER TABLE [dbo].[Projects]  WITH CHECK ADD FOREIGN KEY([ClientID])
+REFERENCES [dbo].[Clients] ([ClientID])
 GO
-
-CREATE TABLE ResourceDeployments (
-    DeploymentID INT PRIMARY KEY,                -- Unique identifier for the resource deployment
-    ResourceID INT,                              -- Foreign Key to the Resource table
-    ProjectID INT,                               -- Foreign Key to the Project table
-    Role VARCHAR(50),                            -- Role of the resource in the project
-    StartDate DATE,                              -- Start date of deployment
-    EndDate DATE,                                -- End date of deployment
-    AllocationPercent DECIMAL(5, 2),             -- Percentage of time allocated (e.g., 100% for full-time)
-	Status VARCHAR(20),                           -- Employment status (e.g., Active, Inactive, Informal)
-	Created_Date DATE NOT NULL,                   -- The date the client record was created
-    Created_By INT NOT NULL,                      -- User ID of the person who created the record
-    Updated_Date DATE,                            -- The date the client record was last updated
-    Updated_By INT,                               -- User ID of the person who last updated the record
-
-    FOREIGN KEY (ResourceID) REFERENCES Resources(ResourceID),    -- Foreign key to Resource table
-    FOREIGN KEY (ProjectID) REFERENCES Projects(ProjectID)       -- Foreign key to Project table
-);
-
-
+ALTER TABLE [dbo].[ResourceDeployments]  WITH CHECK ADD FOREIGN KEY([ProjectID])
+REFERENCES [dbo].[Projects] ([ProjectID])
 GO
-
-CREATE TABLE Timesheets (
-    TimesheetID INT PRIMARY KEY,                  -- Unique identifier for the timesheet entry
-    ResourceID INT,                               -- Foreign Key to the Resource table
-    ProjectID INT,                                -- Foreign Key to the Project table
-    Date DATE,                                    -- Date of the timesheet entry
-    HoursWorked DECIMAL(4, 2),                     -- Number of hours worked (up to 9999.99 hours)
-    Notes TEXT,                                   -- Additional notes for the timesheet entry
-	Status VARCHAR(20),                           -- Employment status (e.g., Active, Inactive, Informal)
-	Created_Date DATE NOT NULL,                   -- The date the client record was created
-    Created_By INT NOT NULL,                      -- User ID of the person who created the record
-    Updated_Date DATE,                            -- The date the client record was last updated
-    Updated_By INT,                               -- User ID of the person who last updated the record
-
-    FOREIGN KEY (ResourceID) REFERENCES Resources(ResourceID),    -- Foreign key to Resource table
-    FOREIGN KEY (ProjectID) REFERENCES Projects(ProjectID)       -- Foreign key to Project table
-);
-
+ALTER TABLE [dbo].[ResourceDeployments]  WITH CHECK ADD FOREIGN KEY([ResourceID])
+REFERENCES [dbo].[Resources] ([ResourceID])
 GO
-
-CREATE TABLE Leaves (
-    LeaveID INT PRIMARY KEY,                      -- Unique identifier for the leave request
-    ResourceID INT,                               -- Foreign Key to the Resource table
-    LeaveType VARCHAR(50),                         -- Type of leave (e.g., Annual, Sick)
-    StartDate DATE,                                -- Start date of leave
-    EndDate DATE,                                  -- End date of leave
-    Status VARCHAR(20),                            -- Status of the leave (e.g., Pending, Approved, Denied)
-    ApproverID INT,                                -- Foreign Key to Resource table (for manager approval)
-	Created_Date DATE NOT NULL,                   -- The date the client record was created
-    Created_By INT NOT NULL,                      -- User ID of the person who created the record
-    Updated_Date DATE,                            -- The date the client record was last updated
-    Updated_By INT,                               -- User ID of the person who last updated the record
-
-    FOREIGN KEY (ResourceID) REFERENCES Resources(ResourceID),    -- Foreign key to Resource table
-    FOREIGN KEY (ApproverID) REFERENCES Resources(ResourceID)     -- Foreign key to Resource table (manager approval)
-);
-
-
+ALTER TABLE [dbo].[ResourceLifecycle]  WITH CHECK ADD FOREIGN KEY([HandledByID])
+REFERENCES [dbo].[Users] ([UserID])
 GO
-
-CREATE TABLE ResourceOnboardings (
-    OnboardingID INT PRIMARY KEY NOT NULL,          -- Unique ID for each onboarding record
-    ResourceID INT NOT NULL,                        -- Foreign Key referencing Resource table
-    OnboardingDate DATE NOT NULL,                   -- Date of onboarding
-    HandledByID INT NOT NULL,                       -- User ID of the person handling the event
-    DocumentName VARCHAR(255),                       -- Name of the attached document
-    DocumentPath VARCHAR(500),                       -- Path or URL of the document in storage
-    FileType VARCHAR(50),                           -- Type of file (e.g., PDF, DOCX)
-    FileSize INT,                                   -- Size of the file in bytes
-    Notes TEXT,                                     -- Additional notes related to onboarding
-	Status VARCHAR(20),                           -- Employment status (e.g., Active, Inactive, Informal)
-	Created_Date DATE NOT NULL,                   -- The date the client record was created
-    Created_By INT NOT NULL,                      -- User ID of the person who created the record
-    Updated_Date DATE,                            -- The date the client record was last updated
-    Updated_By INT,                               -- User ID of the person who last updated the record
-
-    FOREIGN KEY (ResourceID) REFERENCES Resources(ResourceID),  -- Foreign key to Resource table
-    FOREIGN KEY (HandledByID) REFERENCES Resources(ResourceID)  -- Foreign key to Resource table (Handled by)
-);
-
+ALTER TABLE [dbo].[ResourceLifecycle]  WITH CHECK ADD FOREIGN KEY([ResourceID])
+REFERENCES [dbo].[Resources] ([ResourceID])
 GO
-
-CREATE TABLE ResourceOffboardings (
-    OffboardingID INT PRIMARY KEY NOT NULL,          -- Unique ID for each offboarding record
-    ResourceID INT NOT NULL,                         -- Foreign Key referencing Resource table
-    OffboardingDate DATE NOT NULL,                   -- Date of offboarding
-    HandledByID INT NOT NULL,                        -- User ID of the person handling the offboarding
-    ExitDocumentName VARCHAR(255),                    -- Name of the attached exit document
-    DocumentPath VARCHAR(500),                        -- Path or URL of the document in storage
-    FileType VARCHAR(50),                            -- Type of file (e.g., PDF, DOCX)
-    FileSize INT,                                    -- Size of the file in bytes
-    ExitReason VARCHAR(255),                         -- Reason for offboarding
-    Notes TEXT,                                      -- Additional notes related to offboarding
-	Status VARCHAR(20),                           -- Employment status (e.g., Active, Inactive, Informal)
-	Created_Date DATE NOT NULL,                   -- The date the client record was created
-    Created_By INT NOT NULL,                      -- User ID of the person who created the record
-    Updated_Date DATE,                            -- The date the client record was last updated
-    Updated_By INT,                               -- User ID of the person who last updated the record
-
-    FOREIGN KEY (ResourceID) REFERENCES Resources(ResourceID),   -- Foreign key to Resource table
-    FOREIGN KEY (HandledByID) REFERENCES Resources(ResourceID)   -- Foreign key to Resource table (Handled by)
-);
-
+ALTER TABLE [dbo].[ResourceOffboardings]  WITH CHECK ADD FOREIGN KEY([HandledByID])
+REFERENCES [dbo].[Resources] ([ResourceID])
 GO
-
-CREATE TABLE Users (
-    UserID INT PRIMARY KEY,                         -- Unique identifier for each user
-    FullName VARCHAR(100) NOT NULL,                 -- User’s full name
-    Email VARCHAR(100) NOT NULL,                    -- User’s email address
-    RoleID int,                                     
-    Role VARCHAR(50) NOT NULL,                      -- Role of the user (e.g., "Manager", "Admin")
-    IsActive Bit NOT NULL,                       -- Indicates if the user is active (TRUE or FALSE)
-    CreatedDate DATE NOT NULL,                        -- Date the user was added to the system
-	Created_Date DATE NOT NULL,                   -- The date the client record was created
-    Created_By INT NOT NULL,                      -- User ID of the person who created the record
-    Updated_Date DATE,                            -- The date the client record was last updated
-    Updated_By INT,                               -- User ID of the person who last updated the record
-    FOREIGN KEY (RoleID) REFERENCES Roles(RoleID),   -- Foreign key to Roles table
-);
-
+ALTER TABLE [dbo].[ResourceOffboardings]  WITH CHECK ADD FOREIGN KEY([ResourceID])
+REFERENCES [dbo].[Resources] ([ResourceID])
 GO
-
-CREATE TABLE ResourceLifecycle (
-    LifecycleID INT PRIMARY KEY,                   -- Unique identifier for each lifecycle event
-    ResourceID INT,                                -- Foreign Key to the Resource table
-    LifecycleType VARCHAR(20) NOT NULL,             -- Type of lifecycle event (e.g., "Onboarding", "Offboarding")
-    StartDate DATE NOT NULL,                        -- Start date for the lifecycle event
-    EndDate DATE,                                  -- End date for the lifecycle event (optional)
-    Status VARCHAR(20),                            -- Status of the process (e.g., "In Progress," "Completed")
-    Notes TEXT,                                    -- Additional details related to the lifecycle event
-    HandledByID INT,                               -- Foreign Key to Users table to identify the manager or admin overseeing the event
-	Created_Date DATE NOT NULL,                   -- The date the client record was created
-    Created_By INT NOT NULL,                      -- User ID of the person who created the record
-    Updated_Date DATE,                            -- The date the client record was last updated
-    Updated_By INT,                               -- User ID of the person who last updated the record
-
-    FOREIGN KEY (ResourceID) REFERENCES Resources(ResourceID),   -- Foreign key to Resource table
-    FOREIGN KEY (HandledByID) REFERENCES Users(UserID)           -- Foreign key to Users table
-);
-
+ALTER TABLE [dbo].[ResourceOnboardings]  WITH CHECK ADD FOREIGN KEY([HandledByID])
+REFERENCES [dbo].[Resources] ([ResourceID])
 GO
-
-
-CREATE TABLE Supplier (
-    SupplierID INT IDENTITY(1,1) PRIMARY KEY, -- Auto-incrementing primary key
-    SupplierName VARCHAR(100) NOT NULL,      -- Supplier's name
-    ContactInfo VARCHAR(100) NOT NULL,       -- Contact information
-    PAN VARCHAR(20) NOT NULL,                -- PAN Details
-    GST VARCHAR(100) NOT NULL,               -- GST ID Details
-    PaymentTerms VARCHAR(20) NOT NULL,       -- Payment terms (e.g., Monthly, Quarterly, etc.)
-    Status VARCHAR(20) NOT NULL,             -- Status (e.g., Active, Inactive)
-    ClientID INT,
-	Created_Date DATE NOT NULL,				 -- The date the client record was created
-    Created_By INT NOT NULL,				 -- User ID of the person who created the record
-    Updated_Date DATE,						 -- The date the client record was last updated
-    Updated_By INT,							 -- User ID of the person who last updated the record
-    FOREIGN KEY (ClientID) REFERENCES Clients(ClientID)
-)
+ALTER TABLE [dbo].[ResourceOnboardings]  WITH CHECK ADD FOREIGN KEY([ResourceID])
+REFERENCES [dbo].[Resources] ([ResourceID])
 GO
-
-CREATE TABLE PublicHolidays (
-    PHID INT IDENTITY(1,1) PRIMARY KEY, -- Auto-incrementing primary key
-    PHName VARCHAR(100) NOT NULL,       -- Public Holiday Name
-    PHDate DATE NOT NULL,               -- Public Holiday Date
-    PHYear DATE NOT NULL,               -- Public Holiday Year
-	Created_Date DATE NOT NULL,			-- The date the client record was created
-    Created_By INT NOT NULL,			-- User ID of the person who created the record
-    Updated_Date DATE,					-- The date the client record was last updated
-    Updated_By INT						-- User ID of the person who last updated the record
-)
+ALTER TABLE [dbo].[Resources]  WITH CHECK ADD FOREIGN KEY([DepartmentID])
+REFERENCES [dbo].[Departments] ([DepartmentID])
+GO
+ALTER TABLE [dbo].[Resources]  WITH CHECK ADD FOREIGN KEY([ManagerID])
+REFERENCES [dbo].[Resources] ([ResourceID])
+GO
+ALTER TABLE [dbo].[Supplier]  WITH CHECK ADD  CONSTRAINT [fk_client] FOREIGN KEY([ClientID])
+REFERENCES [dbo].[Clients] ([ClientID])
+ON UPDATE CASCADE
+ON DELETE SET NULL
+GO
+ALTER TABLE [dbo].[Supplier] CHECK CONSTRAINT [fk_client]
+GO
+ALTER TABLE [dbo].[Timesheets]  WITH CHECK ADD FOREIGN KEY([ProjectID])
+REFERENCES [dbo].[Projects] ([ProjectID])
+GO
+ALTER TABLE [dbo].[Timesheets]  WITH CHECK ADD FOREIGN KEY([ResourceID])
+REFERENCES [dbo].[Resources] ([ResourceID])
+GO
+ALTER TABLE [dbo].[Users]  WITH CHECK ADD  CONSTRAINT [fk_role] FOREIGN KEY([RoleID])
+REFERENCES [dbo].[Roles] ([RoleID])
+ON UPDATE CASCADE
+ON DELETE SET NULL
+GO
+ALTER TABLE [dbo].[Users] CHECK CONSTRAINT [fk_role]
+GO
+USE [master]
+GO
+ALTER DATABASE [PeoplePulse_Dev] SET  READ_WRITE 
 GO
