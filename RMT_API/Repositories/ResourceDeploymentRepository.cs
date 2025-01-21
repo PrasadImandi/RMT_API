@@ -8,7 +8,7 @@ namespace RMT_API.Repositories
 
 		public async Task ChangeStatusDeployment(ResourceDeployment deployment)
 		{
-			var existingDeployment = await _repository.GetByIdAsync(deployment.DeploymentID, "DeploymentID");
+			var existingDeployment = await _repository.GetByIdAsync(deployment.ResourceID, "DeploymentID");
 
 			if (existingDeployment != null)
 			{

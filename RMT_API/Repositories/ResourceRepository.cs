@@ -24,10 +24,10 @@ namespace RMT_API.Repositories
 			var resources = from resource in _context.Resources
 							join deployemnt in _context.ResourceDeployments
 							on resource.ResourceID equals deployemnt.ResourceID
-							where deployemnt.ProjectID == projectId
+							where deployemnt.ProjectID == projectId && deployemnt.Status == "Active"
 							select new Resource()
 							{
-								ResourceID = resource.ResourceID,
+								ResourceID = deployemnt.DeploymentID,
 								FirstName = resource.FirstName,
 								LastName = resource.LastName,
 								Email = resource.Email,
@@ -36,7 +36,8 @@ namespace RMT_API.Repositories
 								HireDate = resource.HireDate,
 								Status = resource.Status,
 								DepartmentID = resource.DepartmentID,
-								ManagerID = resource.ManagerID
+								ManagerID = resource.ManagerID,
+								DeployementID = deployemnt.DeploymentID
 							};
 
 			return await resources.ToListAsync();
