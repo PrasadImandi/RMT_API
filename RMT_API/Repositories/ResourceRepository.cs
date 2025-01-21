@@ -36,8 +36,7 @@ namespace RMT_API.Repositories
 								HireDate = resource.HireDate,
 								Status = resource.Status,
 								DepartmentID = resource.DepartmentID,
-								ManagerID = resource.ManagerID,
-								DeployementID = deployemnt.DeploymentID
+								ManagerID = resource.ManagerID
 							};
 
 			return await resources.ToListAsync();
