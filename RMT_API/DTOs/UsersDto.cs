@@ -6,6 +6,7 @@
 		public string? FullName { get; set; }
 		public string? Email { get; set; }
 		public string? Role { get; set; }
+		public int? RoleID { get; set; }
 		public bool IsActive { get; set; }
 		public DateTime CreatedDate { get; set; }
 		public DateTime Created_Date { get; set; }

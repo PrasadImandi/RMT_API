@@ -3,6 +3,7 @@ import {
   User,
   LayoutDashboard,
   Settings,
+  User2,
   LogOut,
   Clock5,
   FolderOpenDot,
@@ -11,6 +12,7 @@ import {
   GlobeLock,
   CalendarFold,
   CalendarDays,
+  CalendarDaysIcon,
 } from "lucide-react";
 import {
   Tooltip,
@@ -46,6 +48,7 @@ export function AdminSidebar() {
 
   const sidebarItems = [
     { href: '/admin', icon: LayoutDashboard, label: 'Dashboard' },
+    { href: '/admin/manage-user', icon: User2, label: 'Manage Users' },
     { href: '/admin/manage-project', icon: FolderOpenDot, label: 'Manage Projects' },
     { href: '/admin/manage-resource', icon: User, label: 'Manage Resources' },
     { href: '/admin/manage-supplier', icon: Container, label: 'Manage Suppliers' },
@@ -53,6 +56,7 @@ export function AdminSidebar() {
     { href: '/admin/resource-deployment', icon: GlobeLock, label: 'Resource Deployment' },
     { href: '/admin/roster-management', icon: CalendarFold, label: 'Roster Management' },
     { href: '/admin/apply-leaves', icon: CalendarDays, label: 'Apply Leaves' },
+    { href: '/admin/publicholidays', icon: CalendarDaysIcon, label: 'Public Holidays' },
     { href: '/admin/report', icon: Notebook, label: 'Reports' },
   ];
 

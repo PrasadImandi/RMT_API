@@ -230,7 +230,7 @@ const page = () => {
                                 >
                                     <FormControl>
                                         <SelectTrigger>
-                                            <SelectValue placeholder="Select a verified email to display" />
+                                            <SelectValue placeholder="Select status" />
                                         </SelectTrigger>
                                     </FormControl>
                                     <SelectContent>

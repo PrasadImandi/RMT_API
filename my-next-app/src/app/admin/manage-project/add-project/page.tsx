@@ -29,7 +29,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import {
   Popover,
@@ -65,10 +65,7 @@ const AddProject = () => {
   const router = useRouter();
   const [clientId, setClientId] = useState<Number>();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [clients, setClients] = useState([
-    { id: 101, name: "HP" },
-    { id: 102, name: "CBRE" },
-    { id: 103, name: "Vialto" },
+  const [clients, setClients] = useState([ { clientID: 0, clientName: "" }
   ]);
 
   const form = useForm({
@@ -81,6 +78,20 @@ const AddProject = () => {
       clientID: 1,
     },
   });
+
+  const fetchClients = async () => {
+    try {
+      const response = await api.get("/Client");
+      console.log(response.data);
+      setClients(response.data);
+    } catch (error) {
+      console.error("Error fetching current user:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchClients();
+  },[])
 
   // Handle form submission
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
@@ -96,12 +107,19 @@ const AddProject = () => {
   };
  
 
-  const createClient = (name: string, description: string) => {
+  const createClient =async (clientName: string, description: string) => {
+
     const newClient = {
-      id: 104,
-      name,
+      clientName : clientName,
     };
-    setClients([...clients, newClient]);
+
+    try {
+      const res = await api.post("/Client", newClient);
+      console.log(res);
+    } catch (error) {
+      console.log("error registering client", error);
+    }
+    fetchClients();
     console.log("New client created:", newClient);
     setIsDialogOpen(false); // Close dialog when client is created
   };
@@ -296,8 +314,8 @@ const AddProject = () => {
                   </FormControl>
                   <SelectContent>
                   {clients.map((client) => (
-                      <SelectItem key={client.id} value={client.id.toString()}>
-                        {client.name}
+                      <SelectItem key={client.clientID} value={client.clientID.toString()}>
+                        {client.clientName}
                       </SelectItem>
                     ))}
                   </SelectContent>

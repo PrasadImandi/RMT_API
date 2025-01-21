@@ -27,7 +27,7 @@ import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import api from "@/lib/axiosInstance";
 import { useRouter } from "next/navigation";
- 
+import { useEffect, useState } from "react"; 
 const formSchema = z.object({
   firstName: z.string().min(1, "First name is required."),
   lastName: z.string().min(1, "Last name is required."),
@@ -45,7 +45,11 @@ const formSchema = z.object({
 });
  
 const AddResource = () => {
-  const router = useRouter()
+
+const [clients, setClients] = useState([ { clientID: 0, clientName: "" }]);
+const [managers, setManagers] = useState([ { userID: 0, fullName: "" }]);
+
+  const router = useRouter();
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -61,6 +65,32 @@ const AddResource = () => {
     },
   });
  
+  const fetchClients = async () => {
+    try {
+      const response = await api.get("/Client");
+      console.log(response.data);
+      setClients(response.data);
+    } catch (error) {
+      console.error("Error fetching current user:", error);
+    }
+  };
+
+  const fetchManagers = async () => {
+    try {
+      const response = await api.get("/User/manager");
+      console.log(response.data);
+      setManagers(response.data);
+    } catch (error) {
+      console.error("Error fetching current user:", error);
+    }
+  };
+
+   useEffect(() => {
+      fetchClients();
+      fetchManagers();
+    },[])
+  
+
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     console.log("Form Submitted", values);
     try {
@@ -220,7 +250,7 @@ const AddResource = () => {
             name="managerID"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Select Manager</FormLabel>
+                <FormLabel>Manager</FormLabel>
                 <Select onValueChange={(value) => field.onChange(Number(value))} defaultValue={field.value?.toString()} >
                   <FormControl>
                     <SelectTrigger>
@@ -228,9 +258,11 @@ const AddResource = () => {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="1">Manish</SelectItem>
-                    <SelectItem value="2">RK</SelectItem>
-                    <SelectItem value="3">Poorna</SelectItem>
+                  {managers.map((user) => (
+                      <SelectItem key={user.userID} value={user.userID.toString()}>
+                        {user.fullName}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -244,7 +276,7 @@ const AddResource = () => {
             name="departmentID"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Select CLient</FormLabel>
+                <FormLabel>Client</FormLabel>
                 <Select onValueChange={(value) => field.onChange(Number(value))} defaultValue={field.value?.toString()} >
                   <FormControl>
                     <SelectTrigger>
@@ -252,9 +284,11 @@ const AddResource = () => {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="1">CBRE</SelectItem>
-                    <SelectItem value="2">HP</SelectItem>
-                    <SelectItem value="3">VIalto</SelectItem>
+                    {clients.map((client) => (
+                      <SelectItem key={client.clientID} value={client.clientID.toString()}>
+                        {client.clientName}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
                 <FormMessage />
