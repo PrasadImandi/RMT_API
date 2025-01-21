@@ -27,6 +27,12 @@ namespace RMT_API.Services
 			return _mapper.Map<IEnumerable<UsersDto>>(response);
 		}
 
+		public async Task<IEnumerable<UsersDto>> GetMangersAsync()
+		{
+			var response = await userRepository.GetMangersAsync();
+			return _mapper.Map<IEnumerable<UsersDto>>(response);
+		}
+
 		public async Task<UsersDto> GetUserByIdAsync(int id)
 		{
 			var response = await _repository.GetByIdAsync(id);

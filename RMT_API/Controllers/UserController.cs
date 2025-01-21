@@ -17,6 +17,13 @@ namespace RMT_API.Controllers
 			return Ok(users);
 		}
 
+		[HttpGet("manager")]
+		public async Task<IActionResult> GetManagers()
+		{
+			var users = await _service.GetMangersAsync();
+			return Ok(users);
+		}
+
 		[HttpGet("{id}")]
 		public async Task<IActionResult> GetUser(int id)
 		{
