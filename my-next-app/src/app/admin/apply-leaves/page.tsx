@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -23,6 +23,8 @@ export default function LeavesPage() {
   });
   const [selectedLeaveType, setSelectedLeaveType] = useState<string>("");
   const [reason, setReason] = useState("");
+  const [leaveRequests, setLeaveRequests] = useState<any[]>([]);
+
 
   const handleApplyLeave =async () => {
     if (!dateRange?.from || !dateRange?.to || !selectedLeaveType || !reason) {
@@ -53,6 +55,20 @@ export default function LeavesPage() {
     setSelectedLeaveType("");
     setReason("");
   };
+
+  const fetchLeaveRequests = async () => {
+    try {
+      const response = await api.get("/Leave");
+      console.log(response.data);
+      setLeaveRequests(response.data);
+    } catch (error) {
+      console.error("Error fetching leave requests:", error);
+    }
+  };
+
+    useEffect(() => {
+      fetchLeaveRequests();
+    },[])
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -181,7 +197,7 @@ export default function LeavesPage() {
                   </TabsList>
                   <TabsContent value="pending">
                     <div className="space-y-4">
-                      {mockLeaveRequests
+                      {leaveRequests
                         .filter(request => request.status === 'pending')
                         .map((request) => {
                           const leaveType = mockLeaveTypes.find(t => t.id === request.leaveTypeId);

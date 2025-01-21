@@ -65,8 +65,7 @@ const AddProject = () => {
   const router = useRouter();
   const [clientId, setClientId] = useState<Number>();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [clients, setClients] = useState([ { clientID: 0, clientName: "" }
-  ]);
+  const [clients, setClients] = useState<any[]>([]);
 
   const form = useForm({
     resolver: zodResolver(formSchema),
