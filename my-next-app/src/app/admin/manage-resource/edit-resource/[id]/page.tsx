@@ -50,6 +50,9 @@ const AddResource = () => {
   const [user, setUser] = useState();
   const router = useRouter()
 
+  const [departments, setDepartments] = useState([{ departmentID: 0, departmentName: "" }]);
+  const [managers, setManagers] = useState([{ userID: 0, fullName: "" }]);
+
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -65,6 +68,31 @@ const AddResource = () => {
     },
   });
   
+  const fetchDepartments = async () => {
+    try {
+      const response = await api.get("/Department");
+      console.log(response.data);
+      setDepartments(response.data);
+    } catch (error) {
+      console.error("Error fetching current user:", error);
+    }
+  };
+
+  const fetchManagers = async () => {
+    try {
+      const response = await api.get("/User/manager");
+      console.log(response.data);
+      setManagers(response.data);
+    } catch (error) {
+      console.error("Error fetching current user:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchDepartments();
+    fetchManagers();
+  }, [])
+
   const { reset } = form;
 
   useEffect(() => {
@@ -271,9 +299,11 @@ const AddResource = () => {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="1">Manish</SelectItem>
-                    <SelectItem value="2">RK</SelectItem>
-                    <SelectItem value="3">Poorna</SelectItem>
+                  {managers.map((user) => (
+                      <SelectItem key={user.userID} value={user.userID.toString()}>
+                        {user.fullName}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -287,7 +317,7 @@ const AddResource = () => {
             name="departmentID"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Client</FormLabel>
+                <FormLabel>Department</FormLabel>
                 <Select onValueChange={(value) => field.onChange(Number(value))} defaultValue={field.value?.toString()} >
                   <FormControl>
                     <SelectTrigger>
@@ -295,9 +325,11 @@ const AddResource = () => {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="1">CBRE</SelectItem>
-                    <SelectItem value="2">HP</SelectItem>
-                    <SelectItem value="3">VIalto</SelectItem>
+                  {departments.map((department) => (
+                      <SelectItem key={department.departmentID} value={department.departmentID.toString()}>
+                        {department.departmentName}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
                 <FormMessage />
