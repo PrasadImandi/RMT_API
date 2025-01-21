@@ -35,7 +35,7 @@ const formSchema = z.object({
 
 const EditSupplier = () => {
   const params = useParams<{ id: string }>();
-  const [supplier, setSupplier] = useState();
+  const [supplier, setSupplier] = useState<any>();
   const router = useRouter();
 
   const form = useForm({
@@ -59,14 +59,14 @@ const EditSupplier = () => {
         const response = await api.get(`/Supplier/${params.id}`);
         const supplierData = response.data;
         setSupplier(supplierData);
-
+        console.log(supplierData)
         // Reset form values
         reset({
           supplierName: supplierData.supplierName,
           contactInfo: supplierData.contactInfo,
           pan: supplierData.pan,
           gst: supplierData.gst,
-          paymentTerm: supplierData.paymentTerm,
+          paymentTerm: supplierData.paymentTerms,
           status: supplierData.status,
         });
       } catch (error) {
@@ -96,7 +96,10 @@ const EditSupplier = () => {
     <div className="m-16 p-4 bg-white dark:bg-[#17171A]">
       <h1 className="text-2xl mb-6">Edit Supplier</h1>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 w-3/5">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="space-y-6 w-3/5"
+        >
           {/* Supplier Name */}
           <FormField
             control={form.control}
@@ -164,7 +167,11 @@ const EditSupplier = () => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Payment Term</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <Select
+                   onValueChange={field.onChange}
+                   value={field.value} // Use the field value dynamically updated by `reset`
+                   defaultValue={supplier?.paymentTerms || ""}
+                >
                   <FormControl>
                     <SelectTrigger>
                       <SelectValue placeholder="Select payment term" />
@@ -189,7 +196,11 @@ const EditSupplier = () => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Status</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <Select
+                  onValueChange={field.onChange}
+                  value={field.value} // Use the field value dynamically updated by `reset`
+                  defaultValue={supplier?.status || ""}
+                >
                   <FormControl>
                     <SelectTrigger>
                       <SelectValue placeholder="Select status" />

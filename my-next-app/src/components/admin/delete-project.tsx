@@ -19,37 +19,37 @@ interface DeleteProjectProps {
 }
 
 const DeleteProject = ({ id, onDelete, type, disabled }: DeleteProjectProps) => {
-  const [isDialogOpen, setIsDialogOpen] = useState(false)
-  const handleDelete = async () => {
-    console.log(id);
-    try {
-      const endpoint = type === "resource" ? "/Resource" :
-        type === "supplier" ? "/Supplier" : "/Project";
-
-      if (type === "project") {
+    const [isDialogOpen, setIsDialogOpen] = useState(false)
+    const handleDelete = async () => {
+      console.log(id);
+      try {
+        const endpoint =
+          type === "resource"
+            ? "/Resource"
+            : type === "supplier"
+            ? "/Supplier"
+            : "/Project";
+    
+        // Set the key dynamically based on the type
+        const payloadKey =
+          type === "resource"
+            ? "resourceID"
+            : type === "supplier"
+            ? "supplierID"
+            : "projectID";
+    
         const res = await api.patch(endpoint, {
-          projectID: id,
-          status: 'Inactive'
+          [payloadKey]: id, // Use computed property name
+          status: "Inactive",
         });
+    
+        console.log("User deleted successfully", res);
+        onDelete(id);
+        setIsDialogOpen(false);
+      } catch (error) {
+        console.log("Error deleting user", error);
       }
-      else if (type === "resource") {
-        const res = await api.patch(endpoint, {
-          resourceID: id,
-          status: 'Inactive'
-        });
       }
-      else if (type === "supplier") {
-        const res = await api.patch(endpoint, {
-          supplierID: id,
-          status: 'Inactive'
-        });
-      }
-      onDelete(id);
-      setIsDialogOpen(false)
-    } catch (error) {
-      console.log("Error deleting user", error)
-    }
-  };
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>

@@ -50,7 +50,7 @@ const formSchema = z.object({
 });
 const page = () => {
     const params = useParams<{ id: string }>();
-    const [user, setUser] = useState();
+    const [user, setUser] = useState<any>();
     const router = useRouter()
     console.log(params.id);
 
@@ -224,8 +224,9 @@ const page = () => {
                             <FormItem>
                                 <FormLabel>Status</FormLabel>
                                 <Select
-                                    onValueChange={field.onChange}
-                                    defaultValue={field.value}
+                                     onValueChange={field.onChange}
+                                     value={field.value} // Use the field value dynamically updated by `reset`
+                                     defaultValue={user?.status || ""}
                                 >
                                     <FormControl>
                                         <SelectTrigger>
