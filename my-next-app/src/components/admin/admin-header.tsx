@@ -23,9 +23,11 @@ const AdminPageHeader: React.FC<HeaderProps> = ({ userName, userProfileUrl }) =>
     <header className="flex items-center justify-between px-6 py-4 bg-white dark:bg-[#17171A] border-b w-full shadow-bottom">
       <div className="flex items-center space-x-3">
         <img src='/PeoplePulseFinal1.png' height={50} width={50}/>
-        <h1 className="text-xl font-bold text-gray-800 dark:text-white">People Pulse</h1>
+        <h1 className="text-xl font-bold text-gray-800 dark:text-white">PEOPLE PULSE</h1>
       </div>
-
+<div>
+  <h1  className="text-xl font-bold text-gray-800 dark:text-white">WORKFORCE MANAGEMENT</h1>
+</div>
       {/* User Greeting & Profile Image */}
       <div className="flex items-center space-x-3">
       <ThemeToggler />

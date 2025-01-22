@@ -56,8 +56,7 @@ const AdminTableUser = () => {
     (row) =>
       row.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
       row.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      row.role.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      row.status.toLowerCase().includes(searchTerm.toLowerCase())
+      row.role.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   if (data.length === 0) {
@@ -78,7 +77,6 @@ const AdminTableUser = () => {
             <TableHead>Full Name</TableHead>
             <TableHead>Email</TableHead>
             <TableHead>Role</TableHead>
-            <TableHead>Status</TableHead>
             <TableHead className="text-right">Action</TableHead>
           </TableRow>
         </TableHeader>
@@ -89,7 +87,6 @@ const AdminTableUser = () => {
               <TableCell>{row.fullName}</TableCell>
               <TableCell>{row.email}</TableCell>
               <TableCell>{row.role}</TableCell>
-              <TableCell>{row.status}</TableCell>
               <TableCell className="text-right flex gap-x-2 justify-end">
                 <Button
                   className="bg-red-500"
