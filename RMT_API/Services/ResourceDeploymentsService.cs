@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Azure;
 using RMT_API.DTOs;
 using RMT_API.Models;
 using RMT_API.Repositories;
@@ -9,6 +10,13 @@ namespace RMT_API.Services
 	{
 		public async Task AddResourceDeploymentAsync(ResourceDeploymentDto resourceDeployment)
 		{
+			var checkresourcedeployed = await resourceDeploymentRepository.CheckIfResourceAlreadyDeployed(_mapper.Map<ResourceDeployment>(resourceDeployment));
+
+			if (checkresourcedeployed != null)
+			{
+				return;
+			}
+
 			await _repository.AddAsync(_mapper.Map<ResourceDeployment>(resourceDeployment));
 		}
 

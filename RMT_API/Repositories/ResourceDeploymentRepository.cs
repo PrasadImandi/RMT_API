@@ -1,8 +1,10 @@
-﻿using RMT_API.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using RMT_API.Data;
+using RMT_API.Models;
 
 namespace RMT_API.Repositories
 {
-	public class ResourceDeploymentRepository(IGenericRepository<ResourceDeployment> repository) : IResourceDeploymentRepository
+	public class ResourceDeploymentRepository(IGenericRepository<ResourceDeployment> repository, ApplicationDBContext _context) : IResourceDeploymentRepository
 	{
 		private readonly IGenericRepository<ResourceDeployment> _repository = repository;
 
@@ -17,6 +19,9 @@ namespace RMT_API.Repositories
 				await _repository.UpdateAsync(existingDeployment);
 			}
 		}
+
+		public async Task<ResourceDeployment> CheckIfResourceAlreadyDeployed(ResourceDeployment deployment)
+			=> await _context!.ResourceDeployments!.FirstOrDefaultAsync(x => x.ResourceID == deployment.ResourceID && x.ProjectID == deployment.ProjectID &&x.Status == "Active");
 	}
 
 }
