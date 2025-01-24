@@ -369,7 +369,7 @@ export default function RosterManagement() {
                     <Calendar
                       mode={selectionMode === "range" ? "range" : "single"}
                       selected={dateRange}
-                      numberOfMonths={3}
+                      numberOfMonths={2}
                       onSelect={handleDateSelect}
                       className="rounded-md border"
                       modifiers={{

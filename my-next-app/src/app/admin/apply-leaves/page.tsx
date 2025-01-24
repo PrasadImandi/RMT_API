@@ -104,7 +104,7 @@ export default function LeavesPage() {
                     </SelectTrigger>
                     <SelectContent>
                       {mockLeaveTypes.map((type) => (
-                        <SelectItem key={type.id} value={type.id}>
+                        <SelectItem key={type.id} value={type.id.toString()}>
                           {type.name} ({type.code})
                         </SelectItem>
                       ))}
@@ -200,7 +200,7 @@ export default function LeavesPage() {
                       {leaveRequests
                         .filter(request => request.status === 'pending')
                         .map((request) => {
-                          const leaveType = mockLeaveTypes.find(t => t.id === request.leaveTypeId);
+                          const leaveType = mockLeaveTypes.find(t => t.id === request.leaveType);
                           return (
                             <div
                               key={request.id}
@@ -220,7 +220,7 @@ export default function LeavesPage() {
                               </p>
                               <div className="flex items-center text-xs text-muted-foreground mt-2">
                                 <Clock className="w-3 h-3 mr-1" />
-                                Applied on {format(parseISO(request.appliedOn), 'PPP')}
+                                Applied on {format(parseISO(request.created_Date), 'PPP')}
                               </div>
                             </div>
                           );

@@ -86,21 +86,21 @@ export const mockHolidays = [
 
 export const mockLeaveTypes = [
   {
-    id: "1",
+    id: 1,
     name: "Earned Leave",
     code: "EL",
     description: "Annual earned leave",
     defaultDays: 15
   },
   {
-    id: "2",
+    id: 2,
     name: "Personal Leave",
     code: "PL",
     description: "Personal time off",
     defaultDays: 12
   },
   {
-    id: "3",
+    id: 3,
     name: "Sick Leave",
     code: "SL",
     description: "Medical leave",
@@ -112,7 +112,7 @@ export const mockLeaveBalance = [
   {
     id: "1",
     userId: "1",
-    leaveTypeId: "1",
+    leaveTypeId: 1,
     total: 15,
     used: 5,
     pending: 2,
@@ -121,7 +121,7 @@ export const mockLeaveBalance = [
   {
     id: "2",
     userId: "1",
-    leaveTypeId: "2",
+    leaveTypeId:2,
     total: 12,
     used: 3,
     pending: 0,
@@ -130,7 +130,7 @@ export const mockLeaveBalance = [
   {
     id: "3",
     userId: "1",
-    leaveTypeId: "3",
+    leaveTypeId: 3,
     total: 10,
     used: 1,
     pending: 1,
@@ -142,7 +142,7 @@ export const mockLeaveRequests = [
   {
     id: "1",
     userId: "1",
-    leaveTypeId: "1",
+    leaveTypeId: 1,
     startDate: "2024-04-01",
     endDate: "2024-04-03",
     reason: "Family vacation",
@@ -152,7 +152,7 @@ export const mockLeaveRequests = [
   {
     id: "2",
     userId: "1",
-    leaveTypeId: "3",
+    leaveTypeId: 3,
     startDate: "2024-03-25",
     endDate: "2024-03-25",
     reason: "Doctor's appointment",

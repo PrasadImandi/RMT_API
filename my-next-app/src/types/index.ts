@@ -28,8 +28,9 @@ export interface Shift {
 }
 
 export interface Holiday {
-  id: string;
-  name: string;
-  date: string;
+  phid: string;
+  phName: string;
+  phDate: string;
+  phDescription: string;
   isPublic: boolean;
 }

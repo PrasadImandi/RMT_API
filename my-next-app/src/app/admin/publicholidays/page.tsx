@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -17,6 +17,28 @@ import { format, parseISO } from "date-fns";
 import { CalendarDays, Pencil, Plus, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { Holiday } from "@/types";
+import api from "@/lib/axiosInstance";
+import { Form, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+
+
+// Define the form schema
+const formSchema = z.object({
+  PHName: z.string().min(6, {
+    message: "Username must be at least 6 characters.",
+  }),
+  PHDescription: z.string().min(6, {
+    message: "Username must be at least 6 characters.",
+  }),
+  PHDate: z.date({
+    required_error: "A date of birth is required.",
+  }),
+  isPublic: z.boolean({
+    required_error: "Please select an email to display.",
+  })
+});
 
 export default function HolidaysPage() {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
@@ -27,7 +49,19 @@ export default function HolidaysPage() {
     description: "",
   });
 
-  const handleAddHoliday = () => {
+  const [holidays, setHolidays] = useState<Holiday[]>([]);
+
+  const form = useForm({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      PHName: "",
+      PHDescription: "",
+      PHDate: new Date(),
+      isPublic: true
+    },
+  });
+
+  const handleAddHoliday = async (values: z.infer<typeof formSchema>) => {
     if (!selectedDate || !newHoliday.name) {
       toast.error("Please fill in all required fields");
       return;
@@ -40,10 +74,32 @@ export default function HolidaysPage() {
       console.log(`Holiday applies to project ID: ${selectedProject}`);
     }
 
+    try {
+      const res = await api.post("/PublicHolidays", values);
+      console.log(res);
+      form.reset();
+    } catch (error) {
+      console.log("error creating public holiday", error);
+    }
+
     toast.success("Holiday added successfully");
     setNewHoliday({ name: "", description: "" });
     setSelectedDate(null);
   };
+
+  const fetchHolidays = async () => {
+    try {
+      const response = await api.get("/PublicHolidays");
+      console.log(response.data);
+      setHolidays(response.data);
+    } catch (error) {
+      console.error("Error fetching current user:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchHolidays();
+  }, [])
 
   const handleUpdateHoliday = (holiday: Holiday) => {
     // In a real app, this would be an API call
@@ -57,9 +113,9 @@ export default function HolidaysPage() {
   };
 
   const isHoliday = (date: Date) => {
-    return mockHolidays.some(
+    return holidays.some(
       (holiday) =>
-        format(parseISO(holiday.date), "yyyy-MM-dd") ===
+        format(parseISO(holiday.phDate), "yyyy-MM-dd") ===
         format(date, "yyyy-MM-dd")
     );
   };
@@ -79,80 +135,80 @@ export default function HolidaysPage() {
                 <CardTitle>Add Holiday</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="space-y-4">
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">Holiday Name</label>
-                    <Input
-                      placeholder="Enter holiday name"
-                      value={newHoliday.name}
-                      onChange={(e) =>
-                        setNewHoliday({ ...newHoliday, name: e.target.value })
-                      }
-                    />
-                  </div>
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium">Holiday Name</label>
+                      <Input
+                        placeholder="Enter holiday name"
+                        value={newHoliday.name}
+                        onChange={(e) =>
+                          setNewHoliday({ ...newHoliday, name: e.target.value })
+                        }
+                      />
+                    </div>
 
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">Description</label>
-                    <Input
-                      placeholder="Enter holiday description"
-                      value={newHoliday.description}
-                      onChange={(e) =>
-                        setNewHoliday({
-                          ...newHoliday,
-                          description: e.target.value,
-                        })
-                      }
-                    />
-                  </div>
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium">Description</label>
+                      <Input
+                        placeholder="Enter holiday description"
+                        value={newHoliday.description}
+                        onChange={(e) =>
+                          setNewHoliday({
+                            ...newHoliday,
+                            description: e.target.value,
+                          })
+                        }
+                      />
+                    </div>
 
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">
-                      Project (Optional)
-                    </label>
-                    <Select
-                      value={selectedProject}
-                      onValueChange={setSelectedProject}
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium">
+                        Project (Optional)
+                      </label>
+                      <Select
+                        value={selectedProject}
+                        onValueChange={setSelectedProject}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a project" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="all">All Projects</SelectItem>{" "}
+                          {/* Changed value from "" to "all" */}
+                          {mockProjects?.map((project) => (
+                            <SelectItem key={project.id} value={project.id}>
+                              {project.name}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium">Select Date</label>
+                      <Calendar
+                        mode="single"
+                        selected={selectedDate}
+                        onSelect={setSelectedDate}
+                        className="rounded-md border"
+                        modifiers={{
+                          holiday: (date) => isHoliday(date),
+                        }}
+                        modifiersStyles={{
+                          holiday: { color: "red" },
+                        }}
+                      />
+                    </div>
+
+                    <Button
+                      className="w-full"
+                      onClick={handleAddHoliday}
+                      disabled={!selectedDate || !newHoliday.name}
                     >
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select a project" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="all">All Projects</SelectItem>{" "}
-                        {/* Changed value from "" to "all" */}
-                        {mockProjects?.map((project) => (
-                          <SelectItem key={project.id} value={project.id}>
-                            {project.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                      <Plus className="w-4 h-4 mr-2" />
+                      Add Holiday
+                    </Button>
                   </div>
-
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">Select Date</label>
-                    <Calendar
-                      mode="single"
-                      selected={selectedDate}
-                      onSelect={setSelectedDate}
-                      className="rounded-md border"
-                      modifiers={{
-                        holiday: (date) => isHoliday(date),
-                      }}
-                      modifiersStyles={{
-                        holiday: { color: "red" },
-                      }}
-                    />
-                  </div>
-
-                  <Button
-                    className="w-full"
-                    onClick={handleAddHoliday}
-                    disabled={!selectedDate || !newHoliday.name}
-                  >
-                    <Plus className="w-4 h-4 mr-2" />
-                    Add Holiday
-                  </Button>
-                </div>
               </CardContent>
             </Card>
 
@@ -162,19 +218,19 @@ export default function HolidaysPage() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {mockHolidays.map((holiday) => (
+                  {holidays!.map((holiday) => (
                     <div
-                      key={holiday.id}
+                      key={holiday.phid}
                       className="flex items-center justify-between p-4 rounded-lg bg-muted/50"
                     >
                       <div>
-                        <h3 className="font-medium">{holiday.name}</h3>
+                        <h3 className="font-medium">{holiday.phName}</h3>
                         <p className="text-sm text-muted-foreground">
-                          {format(parseISO(holiday.date), "PPP")}
+                          {format(parseISO(holiday.phDate), "PPP")}
                         </p>
-                        {holiday.description && (
+                        {holiday.phDescription && (
                           <p className="text-sm text-muted-foreground mt-1">
-                            {holiday.description}
+                            {holiday.phDescription}
                           </p>
                         )}
                       </div>
