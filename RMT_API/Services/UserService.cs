@@ -27,9 +27,9 @@ namespace RMT_API.Services
 			return _mapper.Map<IEnumerable<UsersDto>>(response);
 		}
 
-		public async Task<IEnumerable<UsersDto>> GetMangersAsync()
+		public async Task<IEnumerable<UsersDto>> GetUsersByRoleIdAsync(int roleId)
 		{
-			var response = await userRepository.GetMangersAsync();
+			var response = await userRepository.GetUsersByRoleIdAsync(roleId);
 			return _mapper.Map<IEnumerable<UsersDto>>(response);
 		}
 
@@ -47,6 +47,12 @@ namespace RMT_API.Services
 		public async Task ChangeStatusUserAsync(UsersDto user)
 		{
 			await userRepository.ChangeStatusUser(_mapper.Map<Users>(user));
+		}
+
+		public async Task<UsersDto> GetUserByNameAsync(string name)
+		{
+			var response = await userRepository.GetUserByNameAsync(name);
+			return _mapper.Map<UsersDto>(response);
 		}
 	}
 

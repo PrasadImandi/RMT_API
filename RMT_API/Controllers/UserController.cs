@@ -17,10 +17,10 @@ namespace RMT_API.Controllers
 			return Ok(users);
 		}
 
-		[HttpGet("manager")]
-		public async Task<IActionResult> GetManagers()
+		[HttpGet("usersByRoleID/{id}")]
+		public async Task<IActionResult> GetUsersByRoleID(int roleId)
 		{
-			var users = await _service.GetMangersAsync();
+			var users = await _service.GetUsersByRoleIdAsync(roleId);
 			return Ok(users);
 		}
 
