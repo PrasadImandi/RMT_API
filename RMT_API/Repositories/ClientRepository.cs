@@ -12,7 +12,7 @@ namespace RMT_API.Repositories
 
 			if (existingClient != null)
 			{
-				existingClient.Status = client.Status;
+				existingClient.IsActive = client.IsActive;
 
 				await _repository.UpdateAsync(existingClient);
 			}

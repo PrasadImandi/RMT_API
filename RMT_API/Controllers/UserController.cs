@@ -17,7 +17,7 @@ namespace RMT_API.Controllers
 			return Ok(users);
 		}
 
-		[HttpGet("usersByRoleID/{id}")]
+		[HttpGet("usersByRoleID/{roleId}")]
 		public async Task<IActionResult> GetUsersByRoleID(int roleId)
 		{
 			var users = await _service.GetUsersByRoleIdAsync(roleId);

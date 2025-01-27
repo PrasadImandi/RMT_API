@@ -13,7 +13,7 @@ namespace RMT_API.Repositories
 
 			if (existingResource != null)
 			{
-				existingResource.Status = resource.Status;
+				existingResource.IsActive = resource.IsActive;
 
 				await _repository.UpdateAsync(existingResource);
 			}
@@ -30,13 +30,13 @@ namespace RMT_API.Repositories
 								ResourceID = deployemnt.DeploymentID,
 								FirstName = resource.FirstName,
 								LastName = resource.LastName,
-								Email = resource.Email,
-								Phone = resource.Phone,
-								JobTitle = resource.JobTitle,
-								HireDate = resource.HireDate,
-								Status = resource.Status,
-								DepartmentID = resource.DepartmentID,
-								ManagerID = resource.ManagerID
+								//Email = resource.Email,
+								//Phone = resource.Phone,
+								//JobTitle = resource.JobTitle,
+								//HireDate = resource.HireDate,
+								//Status = resource.Status,
+								//DepartmentID = resource.DepartmentID,
+								//ManagerID = resource.ManagerID
 							};
 
 			return await resources.ToListAsync();

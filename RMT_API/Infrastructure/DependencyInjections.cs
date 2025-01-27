@@ -9,6 +9,7 @@ namespace RMT_API.Infrastructure
 		public static void AddServices(this IServiceCollection services)
 		{
 			// Register Repositories
+			services.AddScoped<IGenericRepository<AccessTypeMaster>, GenericRepository<AccessTypeMaster>>();
 			services.AddScoped<IGenericRepository<Project>, GenericRepository<Project>>();
 			services.AddScoped<IGenericRepository<Client>, GenericRepository<Client>>();
 			services.AddScoped<IGenericRepository<Department>, GenericRepository<Department>>();
@@ -41,6 +42,7 @@ namespace RMT_API.Infrastructure
 
 
 			// Register Services
+			services.AddScoped<IAccessTypeService, AccessTypeService>();
 			services.AddScoped<IProjectsService, ProjectsService>();
 			services.AddScoped<IClientService, ClientService>();
 			services.AddScoped<IDepartmentsService, DepartmentsService>();

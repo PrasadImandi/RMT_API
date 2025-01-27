@@ -20,14 +20,15 @@ namespace RMT_API.Repositories
 			}
 		}
 
-		public async Task<IEnumerable<Users>> GetUsersByRoleIdAsync( int roleId)
+		public async Task<IEnumerable<Users>> GetUsersByRoleIdAsync(int id)
 		{
-			return await _context.Users.Where(x => x.RoleID == roleId).ToListAsync();
+			return await _context.Users.Where(x => x.AccessTypeID == id).ToListAsync();
 		}
 
 		public async Task<Users> GetUserByNameAsync(string name)
 		{
-			return await _context.Users.FirstOrDefaultAsync(x => x.FullName == name);
+			var response = await _context.Users!.FirstOrDefaultAsync(x => x.FullName == name);
+			return response!;
 		}
 	}
 

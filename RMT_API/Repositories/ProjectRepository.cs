@@ -12,7 +12,7 @@ namespace RMT_API.Repositories
 
 			if (existingProject != null)
 			{
-				existingProject.Status = project.Status;
+				existingProject.IsActive = project.IsActive;
 
 				await _repository.UpdateAsync(existingProject);
 			}

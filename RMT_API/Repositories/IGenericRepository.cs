@@ -11,5 +11,6 @@ namespace RMT_API.Repositories
 		Task UpdateAsync(T entity);
 		Task DeleteAsync(int id);
 		Task<T> GetByIdAsync(int id, string idColumnName);
+		Task ChangeStatusAsync(int id, string idColumnName,bool status);
 	}
 }

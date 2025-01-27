@@ -12,7 +12,7 @@ namespace RMT_API.Repositories
 			if (existingSupplier != null)
 			{
 				// Update the status
-				existingSupplier.Status = supplier.Status;
+				existingSupplier.IsActive = supplier.IsActive;
 
 				// Save the changes
 				await _repository.UpdateAsync(existingSupplier);

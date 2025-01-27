@@ -8,6 +8,7 @@ namespace RMT_API.Infrastructure
 	{
 		public Automapper()
 		{
+			CreateMap<AccessTypeMasterDto, AccessTypeMaster>().ReverseMap();
 			CreateMap<ClientDto, Client>().ReverseMap();
 			CreateMap<DepartmentDto, Department>().ReverseMap();
 			CreateMap<LeaveDto, Leave>().ReverseMap();

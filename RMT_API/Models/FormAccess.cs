@@ -1,21 +1,22 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Runtime.Serialization;
 
 namespace RMT_API.Models
 {
-	public class Users
+	public class FormAccess
 	{
 		[Key]
-		public int UserID { get; set; }
-		public string? FullName { get; set; }
-		public string? Email { get; set; }
-		public int? AccessTypeID { get; set; }
+		public int AccessID { get; set; }
+		public int AccessTypeID { get; set; }
+		public int FormID { get; set; }
 		public bool IsActive { get; set; }
 		public DateTime Created_Date { get; set; }
 		public int? Created_By { get; set; }
 		public DateTime? Updated_Date { get; set; }
 		public int? Updated_By { get; set; }
 
-		// Navigation property for the foreign key reference
+		// Navigation properties for foreign key references
 		public AccessTypeMaster? AccessTypeMaster { get; set; }
+		public Form? FormMaster { get; set; }
 	}
 }

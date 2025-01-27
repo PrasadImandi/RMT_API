@@ -20,7 +20,7 @@ namespace RMT_API.Services
 		public async Task<IEnumerable<ResourceDto>> GetAllResourcesAsync()
 		{
 			var response = await _repository.GetAllAsync();
-			var activeresources = _mapper.Map<IEnumerable<ResourceDto>>(response.Where(x=>x.Status=="Active").ToList());
+			var activeresources = _mapper.Map<IEnumerable<ResourceDto>>(response.Where(x=> (bool)x.IsActive!).ToList());
 			return activeresources;
 		}
 

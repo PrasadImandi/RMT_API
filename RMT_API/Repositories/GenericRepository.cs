@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using RMT_API.Data;
 using System.Linq.Expressions;
+using System.Reflection;
 
 namespace RMT_API.Repositories
 {
@@ -53,6 +55,29 @@ namespace RMT_API.Repositories
 			var entity = await _dbSet.AsNoTracking()
 									  .FirstOrDefaultAsync(e => EF.Property<int>(e, idColumnName) == id);
 			return entity!;
+		}
+
+		public async Task ChangeStatusAsync(int id, string idColumnName, bool status)
+		{
+			var entity = await _dbSet.AsNoTracking()
+									  .FirstOrDefaultAsync(e => EF.Property<int>(e, idColumnName) == id);
+			if (entity == null)
+			{
+				throw new Exception("Entity not found");
+			}
+
+			var property = typeof(T).GetProperty(idColumnName, BindingFlags.Public | BindingFlags.Instance);
+			if (property != null && property.CanWrite)
+			{
+				property.SetValue(entity, status);
+			}
+			else
+			{
+				throw new Exception($"Property '{idColumnName}' not found or not writable");
+			}
+
+			_context.Entry(entity).State = EntityState.Modified;
+			await _context.SaveChangesAsync();
 		}
 	}
 }
