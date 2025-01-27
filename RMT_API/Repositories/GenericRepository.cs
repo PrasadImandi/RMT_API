@@ -66,14 +66,14 @@ namespace RMT_API.Repositories
 				throw new Exception("Entity not found");
 			}
 
-			var property = typeof(T).GetProperty(idColumnName, BindingFlags.Public | BindingFlags.Instance);
+			var property = typeof(T).GetProperty("IsActive", BindingFlags.Public | BindingFlags.Instance);
 			if (property != null && property.CanWrite)
 			{
 				property.SetValue(entity, status);
 			}
 			else
 			{
-				throw new Exception($"Property '{idColumnName}' not found or not writable");
+				throw new Exception($"Column 'IsActive' not found or not writable");
 			}
 
 			_context.Entry(entity).State = EntityState.Modified;
