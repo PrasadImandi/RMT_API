@@ -23,6 +23,7 @@ namespace RMT_API.Infrastructure
 			CreateMap<UsersDto, Users>().ReverseMap();
 			CreateMap<PublicHolidayDto, PublicHoliday>().ReverseMap();
 			CreateMap<SupplierDto, Supplier>().ReverseMap();
+			CreateMap<ResourceInformation, ResourceInformationDto>().ReverseMap();
 		}
 	}
 }

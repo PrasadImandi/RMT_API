@@ -5,13 +5,14 @@
 		public int ResourceID { get; set; }
 		public string? FirstName { get; set; }
 		public string? LastName { get; set; }
-		public string? Email { get; set; }
-		public string? Phone { get; set; }
-		public string? JobTitle { get; set; }
-		public DateTime? HireDate { get; set; }
-		public string? Status { get; set; }
-		public int DepartmentID { get; set; }
-		public int? ManagerID { get; set; }
-	    public bool? IsActive { get; set; }
+		public string? MobileNumber { get; set; }
+		public string? EmailID { get; set; }
+		public int ClientID { get; set; }
+		public int ProjectID { get; set; }
+		public int? PMID { get; set; }
+		public int? RMID { get; set; }
+		public bool? IsActive { get; set; }
+		public int? SupplierID { get; set; }
+		public int? ResourceInformationID { get; set; }
 	}
 }

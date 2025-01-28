@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using AutoMapper.Configuration.Annotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace RMT_API.Models
 {
@@ -15,7 +16,8 @@ namespace RMT_API.Models
 		public DateTime? Updated_Date { get; set; }
 		public int? Updated_By { get; set; }
 
-		// Navigation property for the foreign key reference
-		public AccessTypeMaster? AccessTypeMaster { get; set; }
+		//[Ignore]
+		//// Navigation property for the foreign key reference
+		//public AccessTypeMaster? AccessTypeMaster { get; set; }
 	}
 }

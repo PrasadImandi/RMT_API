@@ -10,13 +10,10 @@ namespace RMT_API.Models
 		public int AccessTypeID { get; set; }
 		public int FormID { get; set; }
 		public bool IsActive { get; set; }
-		public DateTime Created_Date { get; set; }
+		public DateTime? Created_Date { get; set; }
 		public int? Created_By { get; set; }
 		public DateTime? Updated_Date { get; set; }
 		public int? Updated_By { get; set; }
 
-		// Navigation properties for foreign key references
-		public AccessTypeMaster? AccessTypeMaster { get; set; }
-		public Form? FormMaster { get; set; }
 	}
 }

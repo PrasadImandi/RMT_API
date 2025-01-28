@@ -20,17 +20,10 @@ namespace RMT_API.Models
 		public int? SPOCID { get; set; }
 		public string Notes { get; set; }
 		public bool? IsActive { get; set; }
-		public DateTime Created_Date { get; set; }
+		public DateTime? Created_Date { get; set; }
 		public int? Created_By { get; set; }
 		public DateTime? Updated_Date { get; set; }
 		public int? Updated_By { get; set; }
-
-		// Navigation properties
-		public Region? Region { get; set; }
-		public State? State { get; set; }
-		public Location? Location { get; set; }
-		public Pincode? Pincode { get; set; }
-		public SPOC? SPOC { get; set; }  // Assuming SPOC is another entity that represents SPOC information
 
 	}
 }

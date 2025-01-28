@@ -12,7 +12,7 @@ namespace RMT_API.Models
 		public string? RMName { get; set; }
 		public string? RMContactNumber { get; set; }
 		public string? RMEmailID { get; set; }
-		public DateTime Created_Date { get; set; }
+		public DateTime? Created_Date { get; set; }
 		public int? Created_By { get; set; }
 		public DateTime? Updated_Date { get; set; }
 		public int? Updated_By { get; set; }
