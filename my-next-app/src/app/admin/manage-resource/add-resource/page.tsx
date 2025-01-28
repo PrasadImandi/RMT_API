@@ -33,20 +33,20 @@ const formSchema = z.object({
   firstName: z.string().min(1, "First name is required."),
   lastName: z.string().min(1, "Last name is required."),
   email: z.string().email("Invalid email address."),
-  phone: z
-    .string()
-    .regex(/^\d{10}$/, "Phone number must be 10 digits."),
+  phone: z.string().regex(/^\d{10}$/, "Phone number must be 10 digits."),
   jobTitle: z.string().min(1, "Job title is required."),
   hireDate: z.date({ required_error: "Hire date is required." }),
-  status: z.string({
-    required_error: "Please select a status to display.",
-  }),
+  status: z.string({ required_error: "Please select a status to display." }),
   departmentID: z.number(),
-  managerID: z.number()
+  managerID: z.number(),
+  accountName: z.string().min(1, "Account Name is required."),
+  project: z.string().min(1, "Project is required."),
+  projectManager: z.string().min(1, "Project Manager is required."),
+  relationshipManager: z.string().min(1, "Relationship Manager is required."),
+  supplier: z.string().min(1, "Supplier is required."),
 });
 
 const AddResource = () => {
-
   const [departments, setDepartments] = useState([{ departmentID: 0, departmentName: "" }]);
   const [managers, setManagers] = useState([{ userID: 0, fullName: "" }]);
 
@@ -62,43 +62,45 @@ const AddResource = () => {
       hireDate: new Date(),
       status: "Active",
       departmentID: 1,
-      managerID: 1
+      managerID: 1,
+      accountName: "",
+      project: "",
+      projectManager: "",
+      relationshipManager: "",
+      supplier: "",
     },
   });
 
   const fetchDepartments = async () => {
     try {
       const response = await api.get("/Department");
-      console.log(response.data);
       setDepartments(response.data);
     } catch (error) {
-      console.error("Error fetching current user:", error);
+      console.error("Error fetching departments:", error);
     }
   };
 
   const fetchManagers = async () => {
     try {
       const response = await api.get("/User/manager");
-      console.log(response.data);
       setManagers(response.data);
     } catch (error) {
-      console.error("Error fetching current user:", error);
+      console.error("Error fetching managers:", error);
     }
   };
 
   useEffect(() => {
     fetchDepartments();
     fetchManagers();
-  }, [])
-
+  }, []);
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     console.log("Form Submitted", values);
     try {
-      const res = await api.post('/resource', values)
-      console.log(res.data)
+      const res = await api.post("/resource", values);
+      console.log(res.data);
       form.reset();
-      router.push('/admin/manage-resource')
+      router.push("/admin/manage-resource");
     } catch (error) {
       console.error("Error submitting form", error);
     }
@@ -106,7 +108,7 @@ const AddResource = () => {
 
   return (
     <div className="m-16 p-4 bg-white dark:bg-[#17171A]">
-      <h1 className="text-2xl mb-6">Register Resource</h1>
+      <h1 className="text-2xl mb-6">Add Resource</h1>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 w-3/5">
           {/* First Name Field */}
@@ -296,6 +298,125 @@ const AddResource = () => {
               </FormItem>
             )}
           />
+           {/* Account Name */}
+           <FormField
+  control={form.control}
+  name="accountName"
+  render={({ field }) => (
+    <FormItem>
+      <FormLabel>Account Name (Client)</FormLabel>
+      <Select onValueChange={field.onChange} defaultValue={field.value}>
+        <FormControl>
+          <SelectTrigger>
+            <SelectValue placeholder="Select an account name" />
+          </SelectTrigger>
+        </FormControl>
+        <SelectContent>
+          <SelectItem value="Client A">Client A</SelectItem>
+          <SelectItem value="Client B">Client B</SelectItem>
+          <SelectItem value="Client C">Client C</SelectItem>
+        </SelectContent>
+      </Select>
+      <FormMessage />
+    </FormItem>
+  )}
+/>
+
+{/* Project */}
+<FormField
+  control={form.control}
+  name="project"
+  render={({ field }) => (
+    <FormItem>
+      <FormLabel>Project</FormLabel>
+      <Select onValueChange={field.onChange} defaultValue={field.value}>
+        <FormControl>
+          <SelectTrigger>
+            <SelectValue placeholder="Select a project" />
+          </SelectTrigger>
+        </FormControl>
+        <SelectContent>
+          <SelectItem value="Project X">Project X</SelectItem>
+          <SelectItem value="Project Y">Project Y</SelectItem>
+          <SelectItem value="Project Z">Project Z</SelectItem>
+        </SelectContent>
+      </Select>
+      <FormMessage />
+    </FormItem>
+  )}
+/>
+
+{/* Project Manager */}
+<FormField
+  control={form.control}
+  name="projectManager"
+  render={({ field }) => (
+    <FormItem>
+      <FormLabel>Project Manager</FormLabel>
+      <Select onValueChange={field.onChange} defaultValue={field.value}>
+        <FormControl>
+          <SelectTrigger>
+            <SelectValue placeholder="Select a project manager" />
+          </SelectTrigger>
+        </FormControl>
+        <SelectContent>
+          <SelectItem value="Manager A">Manager A</SelectItem>
+          <SelectItem value="Manager B">Manager B</SelectItem>
+          <SelectItem value="Manager C">Manager C</SelectItem>
+        </SelectContent>
+      </Select>
+      <FormMessage />
+    </FormItem>
+  )}
+/>
+
+{/* Relationship Manager */}
+<FormField
+  control={form.control}
+  name="relationshipManager"
+  render={({ field }) => (
+    <FormItem>
+      <FormLabel>Relationship Manager</FormLabel>
+      <Select onValueChange={field.onChange} defaultValue={field.value}>
+        <FormControl>
+          <SelectTrigger>
+            <SelectValue placeholder="Select a relationship manager" />
+          </SelectTrigger>
+        </FormControl>
+        <SelectContent>
+          <SelectItem value="RM A">RM A</SelectItem>
+          <SelectItem value="RM B">RM B</SelectItem>
+          <SelectItem value="RM C">RM C</SelectItem>
+        </SelectContent>
+      </Select>
+      <FormMessage />
+    </FormItem>
+  )}
+/>
+
+{/* Supplier */}
+<FormField
+  control={form.control}
+  name="supplier"
+  render={({ field }) => (
+    <FormItem>
+      <FormLabel>Supplier</FormLabel>
+      <Select onValueChange={field.onChange} defaultValue={field.value}>
+        <FormControl>
+          <SelectTrigger>
+            <SelectValue placeholder="Select a supplier" />
+          </SelectTrigger>
+        </FormControl>
+        <SelectContent>
+          <SelectItem value="Supplier A">Supplier A</SelectItem>
+          <SelectItem value="Supplier B">Supplier B</SelectItem>
+          <SelectItem value="Supplier C">Supplier C</SelectItem>
+        </SelectContent>
+      </Select>
+      <FormMessage />
+    </FormItem>
+  )}
+/>
           <Button type="submit">Save</Button>
         </form>
       </Form>

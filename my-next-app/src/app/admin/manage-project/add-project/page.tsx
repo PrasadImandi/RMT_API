@@ -125,44 +125,6 @@ const AddProject = () => {
 
   return (
     <div className="m-16 p-4 bg-white dark:bg-[#17171A]">
-      <div className="flex flex-row-reverse">
-        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <DialogTrigger asChild>
-            <Button variant="default">Create Client</Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Create a New Client</DialogTitle>
-            </DialogHeader>
-            <div className="flex flex-col gap-y-4">
-            <Input
-                placeholder="Enter client name"
-                id="clientName"
-                className="mb-2"
-              />
-              <Textarea
-                placeholder="Enter client description"
-                id="clientDescription"
-                className="h-28"
-              />
-            </div>
-            <DialogFooter>
-            <Button
-                type="submit"
-                onClick={() => {
-                  const name = (document.getElementById("clientName") as HTMLInputElement)?.value;
-                  const description = (
-                    document.getElementById("clientDescription") as HTMLTextAreaElement
-                  )?.value;
-                  if (name) createClient(name, description);
-                }}
-              >
-                  Save
-                  </Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
-      </div>
       <h1 className="text-2xl mb-6">Add Project</h1>
       <Form {...form}>
         <form
@@ -296,36 +258,82 @@ const AddProject = () => {
             )}
           />
 
-          <FormField
-            control={form.control}
-            name="clientID"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Client</FormLabel>
-                <Select
-                  onValueChange={(value) => field.onChange(Number(value))}
-                  defaultValue={field.value?.toString()}
-                >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select a CLient" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                  {clients.map((client) => (
-                      <SelectItem key={client.clientID} value={client.clientID.toString()}>
-                        {client.clientName}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <FormDescription>
-                  Select the status of the project{" "}
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+<FormField
+  control={form.control}
+  name="clientID"
+  render={({ field }) => (
+    <FormItem>
+      <FormLabel>Client</FormLabel>
+      <div className="flex items-center space-x-2">
+        <Select
+          onValueChange={(value) => field.onChange(Number(value))}
+          defaultValue={field.value?.toString()}
+        >
+          <FormControl>
+            <SelectTrigger>
+              <SelectValue placeholder="Select a Client" />
+            </SelectTrigger>
+          </FormControl>
+          <SelectContent>
+            {clients.map((client) => (
+              <SelectItem
+                key={client.clientID}
+                value={client.clientID.toString()}
+              >
+                {client.clientName}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+          <DialogTrigger asChild>
+            <Button variant="default">Create Client</Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Create a New Client</DialogTitle>
+            </DialogHeader>
+            <div className="flex flex-col gap-y-4">
+              <Input
+                placeholder="Enter client name"
+                id="clientName"
+                className="mb-2"
+              />
+              <Textarea
+                placeholder="Enter client description"
+                id="clientDescription"
+                className="h-28"
+              />
+            </div>
+            <DialogFooter>
+              <Button
+                type="submit"
+                onClick={() => {
+                  const name = (
+                    document.getElementById("clientName") as HTMLInputElement
+                  )?.value;
+                  const description = (
+                    document.getElementById(
+                      "clientDescription"
+                    ) as HTMLTextAreaElement
+                  )?.value;
+                  if (name) createClient(name, description);
+                }}
+              >
+                Save
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      </div>
+      <FormDescription>
+        Select the client for the project or create a new one if necessary.
+      </FormDescription>
+      <FormMessage />
+    </FormItem>
+  )}
+/>
+
           <Button type="submit">Save</Button>
         </form>
       </Form>
