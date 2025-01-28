@@ -74,7 +74,7 @@ const AdminTable = () => {
         <AdminSearchUserInput onSearch={setSearchTerm} />
       </div>
       <Table className="px-16">
-        <TableCaption>A list of Users</TableCaption>
+        <TableCaption>A list of Project</TableCaption>
         <TableHeader className="text-gray-600 bg-gray-300 dark:bg-gray-700">
           <TableRow className="hover:bg-transparent">
             <TableHead className="w-10">No</TableHead>

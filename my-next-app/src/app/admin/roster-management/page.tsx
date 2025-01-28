@@ -60,6 +60,16 @@ export default function RosterManagement() {
       return;
     }
 
+    const allocatedShift = {
+      project: selectedProject,
+      resource: selectedResource,
+      shift: selectedShift,
+      fromDate: dateRange.from,
+      toDate: dateRange.to
+    };
+  
+    console.log("Allocated Shift:", allocatedShift);
+
     // In a real app, this would be an API call
     toast.success("Shift allocated successfully");
   };

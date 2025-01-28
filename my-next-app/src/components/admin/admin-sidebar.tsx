@@ -53,6 +53,7 @@ export function AdminSidebar() {
     { href: '/admin/manage-resource', icon: User, label: 'Manage Resources' },
     { href: '/admin/manage-supplier', icon: Container, label: 'Manage Suppliers' },
     { href: '/admin/timesheet', icon: Clock5, label: 'TImesheets' },
+    { href: '/admin/resource-information', icon: User, label: 'Resource Information' },
     { href: '/admin/resource-deployment', icon: GlobeLock, label: 'Resource Deployment' },
     { href: '/admin/roster-management', icon: CalendarFold, label: 'Roster Management' },
     { href: '/admin/apply-leaves', icon: CalendarDays, label: 'Apply Leaves' },
