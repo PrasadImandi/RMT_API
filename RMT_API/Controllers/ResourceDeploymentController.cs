@@ -39,13 +39,13 @@ namespace RMT_API.Controllers
 
 			await _service.AddResourceDeploymentAsync(resourceDeployment);
 
-			return CreatedAtAction(nameof(GetResourceDeployment), new { id = resourceDeployment.DeploymentID }, resourceDeployment);
+			return CreatedAtAction(nameof(GetResourceDeployment), new { id = resourceDeployment.ID }, resourceDeployment);
 		}
 
 		[HttpPut("{id}")]
 		public async Task<IActionResult> UpdateResourceDeployment(int id, [FromBody] ResourceDeploymentDto resourceDeployment)
 		{
-			if (id != resourceDeployment.DeploymentID)
+			if (id != resourceDeployment.ID)
 			{
 				return BadRequest("ResourceDeployment ID mismatch.");
 			}

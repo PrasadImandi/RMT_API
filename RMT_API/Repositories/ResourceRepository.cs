@@ -5,29 +5,17 @@ using RMT_API.Models;
 
 namespace RMT_API.Repositories
 {
-	public class ResourceRepository(IGenericRepository<Resource> _repository, ApplicationDBContext _context) : IResourceRepository
+	public class ResourceRepository(ApplicationDBContext _context) : IResourceRepository
 	{
-		public async Task ChangeStatusResource(Resource resource)
-		{
-			var existingResource = _repository.GetByIdAsync(resource.ResourceID, "ResourceID").Result;
-
-			if (existingResource != null)
-			{
-				existingResource.IsActive = resource.IsActive;
-
-				await _repository.UpdateAsync(existingResource);
-			}
-		}
-
 		public async Task<IEnumerable<Resource>> GetResourcesByProjectId(int projectId)
 		{
 			var resources = from resource in _context.Resources
 							join deployemnt in _context.ResourceDeployments
-							on resource.ResourceID equals deployemnt.ResourceID
-							where deployemnt.ProjectID == projectId && deployemnt.Status == "Active"
+							on resource.ID equals deployemnt.ID
+							where deployemnt.ID == projectId && deployemnt.IsActive == true
 							select new Resource()
 							{
-								ResourceID = deployemnt.DeploymentID,
+								ID = deployemnt.ID,
 								FirstName = resource.FirstName,
 								LastName = resource.LastName,
 								//Email = resource.Email,

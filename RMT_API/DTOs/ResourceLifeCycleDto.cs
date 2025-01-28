@@ -1,8 +1,7 @@
 ﻿namespace RMT_API.DTOs
 {
-	public class ResourceLifeCycleDto
+	public class ResourceLifeCycleDto :BaseDto
 	{
-		public int LifecycleID { get; set; }
 		public int ResourceID { get; set; }
 		public string? LifecycleType { get; set; }
 		public DateTime StartDate { get; set; }

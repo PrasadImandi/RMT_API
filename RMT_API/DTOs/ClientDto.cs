@@ -1,9 +1,7 @@
 ﻿namespace RMT_API.DTOs
 {
-	public class ClientDto
+	public class ClientDto :BaseDto
 	{
-		public int ClientID { get; set; }
-		public string? LogoName { get; set; }
 		public string? ShortName { get; set; }
 		public DateTime StartDate { get; set; }
 		public DateTime EndDate { get; set; }
@@ -13,7 +11,6 @@
 		public int LocationID { get; set; }
 		public int PincodeID { get; set; }
 		public int? SPOCID { get; set; }
-		public string Notes { get; set; }
-		public bool? IsActive { get; set; }
+		public string? Notes { get; set; }
 	}
 }

@@ -15,7 +15,7 @@ namespace RMT_API.Controllers
 		[HttpPost("login")]
 		public async Task<IActionResult> Login([FromBody] UsersDto model)
 		{
-			var user = await _userService.GetUserByNameAsync(model.FullName);
+			var user = await _userService.GetUserByNameAsync(model.Name!);
 
 			if (user == null)
 			{
@@ -23,7 +23,7 @@ namespace RMT_API.Controllers
 			}
 
 			var claims = new[]{
-			new Claim(ClaimTypes.Name, user.FullName!),
+			new Claim(ClaimTypes.Name, user.Name!),
 			new Claim(ClaimTypes.Role, user.AccessTypeID.ToString()!)
 				};
 			var keybytes = Encoding.UTF8.GetBytes(_configuration["Jwt:SecretKey"]);

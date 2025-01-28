@@ -6,7 +6,7 @@ using RMT_API.Repositories;
 namespace RMT_API.Services
 {
 	public class ResourceLifecyclesService(IGenericRepository<ResourceLifecycle> _repository,
-		IResourceLifeCycleRepository resourceLifeCycleRepository, IMapper _mapper) : IResourceLifecyclesService
+		 IMapper _mapper) : IResourceLifecyclesService
 	{
 		public async Task AddResourceLifecycleAsync(ResourceLifeCycleDto resourceLifecycle)
 		{
@@ -37,7 +37,7 @@ namespace RMT_API.Services
 
 		public async Task ChangeStatusResourceLifecycleAsync(ResourceLifeCycleDto resourceLifecycle)
 		{
-			await resourceLifeCycleRepository.ChangeStatusResourceLifeCycle(_mapper.Map<ResourceLifecycle>(resourceLifecycle));
+			await _repository.ChangeStatusAsync(resourceLifecycle.ID, resourceLifecycle.IsActive);
 		}
 	}
 }

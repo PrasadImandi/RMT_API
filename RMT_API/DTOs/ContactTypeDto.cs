@@ -1,9 +1,6 @@
 ﻿namespace RMT_API.DTOs
 {
-	public class ContactTypeDto
+	public class ContactTypeDto :BaseDto
 	{
-		public int ContactTypeID { get; set; }
-		public string? ContactTypeName { get; set; }
-		public bool? IsActive { get; set; }
 	}
 }

@@ -26,20 +26,9 @@ namespace RMT_API.Infrastructure
 			services.AddScoped<IGenericRepository<PublicHoliday>, GenericRepository<PublicHoliday>>();
 			services.AddScoped<IGenericRepository<ResourceInformation>, GenericRepository<ResourceInformation>>();
 
-			services.AddScoped<IProjectRepository, ProjectRepository>();
-			services.AddScoped<IClientRepository, ClientRepository>();
-			services.AddScoped<IDepartmentRepository, DepartmentRepository>();
-			services.AddScoped<ILeaveRepository, LeaveRepository>();
 			services.AddScoped<IResourceRepository, ResourceRepository>();
 			services.AddScoped<IResourceDeploymentRepository, ResourceDeploymentRepository>();
-			services.AddScoped<IResourceLifeCycleRepository, ResourceLifeCycleRepository>();
-			services.AddScoped<IResourceOffboardingRepository, ResourceOffboardingRepository>();
-			services.AddScoped<IResourceOnboardingRepository, ResourceOnboardingRepository>();
-			services.AddScoped<IRoleRepository, RoleRepository>();
-			services.AddScoped<ITimesheetRepository, TimesheetRepository>();
 			services.AddScoped<IUserRepository, UserRepository>();
-			services.AddScoped<ISupplierRepository, SupplierRepository>();
-
 
 			// Register Services
 			services.AddScoped<IAccessTypeService, AccessTypeService>();
@@ -58,7 +47,6 @@ namespace RMT_API.Infrastructure
 			services.AddScoped<ISupplierService, SupplierService>();
 			services.AddScoped<IPublicHolidaysService, PublicHolidaysService>();
 			services.AddScoped<IResourceInformationService, ResourceInformationService>();
-
 
 			// Add more repositories and services as needed...
 		}

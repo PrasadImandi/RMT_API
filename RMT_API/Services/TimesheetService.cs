@@ -6,7 +6,7 @@ using RMT_API.Repositories;
 namespace RMT_API.Services
 {
 	public class TimesheetsService(IGenericRepository<Timesheet> _repository,
-		ITimesheetRepository timesheetRepository, IMapper _mapper) : ITimesheetsService
+		IMapper _mapper) : ITimesheetsService
 	{
 		public async Task AddTimesheetAsync(TimesheetDto timesheet)
 		{
@@ -37,7 +37,7 @@ namespace RMT_API.Services
 
 		public async Task ChangeStatusTimesheetAsync(TimesheetDto timesheet)
 		{
-			await timesheetRepository.ChangeStatusTimesheet(_mapper.Map<Timesheet>(timesheet));
+			await _repository.ChangeStatusAsync(timesheet.ID, timesheet.IsActive);
 		}
 	}
 }

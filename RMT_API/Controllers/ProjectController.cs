@@ -39,14 +39,14 @@ namespace RMT_API.Controllers
 
 			await _service.AddProjectAsync(project);
 
-			return CreatedAtAction(nameof(GetProject), new { id = project.ProjectID }, project);
+			return CreatedAtAction(nameof(GetProject), new { id = project.ID }, project);
 
 		}
 
 		[HttpPut("{id}")]
 		public async Task<IActionResult> UpdateProject(int id, [FromBody] ProjectDto project)
 		{
-			if (id != project.ProjectID)
+			if (id != project.ID)
 			{
 				return BadRequest("Project ID mismatch.");
 			}

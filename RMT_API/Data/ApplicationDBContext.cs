@@ -49,7 +49,7 @@ namespace RMT_API.Data
 			modelBuilder.Entity<Resource>()
 				.HasOne(r => r.ResourceInformation)
 				.WithOne()
-				.HasForeignKey<ResourceInformation>(p => p.ResourceInformationID)
+				.HasForeignKey<ResourceInformation>(p => p.ID)
 				.OnDelete(DeleteBehavior.Restrict); // Prevent cascading deletes
 
 			// Configure one-to-one relationship with PersonalDetails

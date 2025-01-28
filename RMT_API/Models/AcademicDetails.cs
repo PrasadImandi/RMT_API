@@ -1,16 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using RMT_API.Models.BaseModels;
 
 namespace RMT_API.Models
 {
-	public class AcademicDetails
+	public class AcademicDetails :  BaseModel
 	{
-		[Key]
-		public int AcademicID { get; set; }
-		public string? AcademicName { get; set; }
 		public int YearOfCompleted { get; set; }
 		public decimal ResultPercentage { get; set; }
-		public string Attachment { get; set; }
-
+		public string? Attachment { get; set; }
 		public int ResourceInformationId { get; set; }
 	}
 }

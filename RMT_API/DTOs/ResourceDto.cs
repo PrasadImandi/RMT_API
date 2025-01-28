@@ -1,8 +1,7 @@
 ﻿namespace RMT_API.DTOs
 {
-	public class ResourceDto
+	public class ResourceDto :BaseDto
 	{
-		public int ResourceID { get; set; }
 		public string? FirstName { get; set; }
 		public string? LastName { get; set; }
 		public string? MobileNumber { get; set; }
@@ -11,7 +10,6 @@
 		public int ProjectID { get; set; }
 		public int? PMID { get; set; }
 		public int? RMID { get; set; }
-		public bool? IsActive { get; set; }
 		public int? SupplierID { get; set; }
 		public int? ResourceInformationID { get; set; }
 	}

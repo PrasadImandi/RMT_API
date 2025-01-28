@@ -6,7 +6,7 @@ using RMT_API.Repositories;
 namespace RMT_API.Services
 {
 	public class RolesService(IGenericRepository<Role> _repository,
-		IRoleRepository roleRepository, IMapper _mapper) : IRolesService
+		 IMapper _mapper) : IRolesService
 	{
 		public async Task AddRoleAsync(RoleDto role)
 		{
@@ -37,7 +37,7 @@ namespace RMT_API.Services
 
 		public async Task ChangeStatusRoleAsync(RoleDto role)
 		{
-			await roleRepository.ChangeStatusRole(_mapper.Map<Role>(role));
+			await _repository.ChangeStatusAsync(role.ID, role.IsActive);
 		}
 	}
 }

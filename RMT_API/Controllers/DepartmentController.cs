@@ -39,13 +39,13 @@ namespace RMT_API.Controllers
 
 			await _service.AddDepartmentAsync(department);
 
-			return CreatedAtAction(nameof(GetDepartment), new { id = department.DepartmentID }, department);
+			return CreatedAtAction(nameof(GetDepartment), new { id = department.ID }, department);
 		}
 
 		[HttpPut("{id}")]
 		public async Task<IActionResult> UpdateDepartment(int id, [FromBody] DepartmentDto department)
 		{
-			if (id != department.DepartmentID)
+			if (id != department.ID)
 			{
 				return BadRequest("Department ID mismatch.");
 			}

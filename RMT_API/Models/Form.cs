@@ -1,17 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using RMT_API.Models.BaseModels;
 
 namespace RMT_API.Models
 {
-	public class Form
+	public class Form : BaseModel
 	{
-		[Key]
-		public int FormID { get; set; }
-		public string? FormName { get; set; }
-		public string? FormDescription { get; set; }
-		public bool IsActive { get; set; }
-		public DateTime? Created_Date { get; set; }
-		public int? Created_By { get; set; }
-		public DateTime? Updated_Date { get; set; }
-		public int? Updated_By { get; set; }
 	}
 }

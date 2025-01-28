@@ -6,7 +6,7 @@ using RMT_API.Repositories;
 namespace RMT_API.Services
 {
 	public class ResourceOnboardingsService(IGenericRepository<ResourceOnboarding> _repository,
-		IResourceOnboardingRepository resourceOnboardingRepository, IMapper _mapper) : IResourceOnboardingsService
+		IMapper _mapper) : IResourceOnboardingsService
 	{
 		public async Task AddResourceOnboardingAsync(ResourceOnboardingDto resourceOnboarding)
 		{
@@ -37,7 +37,7 @@ namespace RMT_API.Services
 
 		public async Task ChangeStatusResourceOnboardingAsync(ResourceOnboardingDto resourceOnboarding)
 		{
-			await resourceOnboardingRepository.ChangeStatusOnboarding(_mapper.Map<ResourceOnboarding>(resourceOnboarding));
+			await _repository.ChangeStatusAsync(resourceOnboarding.ID, resourceOnboarding.IsActive);
 		}
 	}
 }

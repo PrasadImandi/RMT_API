@@ -39,13 +39,13 @@ namespace RMT_API.Controllers
 
 			await _service.AddPublicHolidayAsync(publicHoliday);
 
-			return CreatedAtAction(nameof(GetPublicHoliday), new { id = publicHoliday.PHID }, publicHoliday);
+			return CreatedAtAction(nameof(GetPublicHoliday), new { id = publicHoliday.ID }, publicHoliday);
 		}
 
 		[HttpPut("{id}")]
 		public async Task<IActionResult> UpdatePublicHoliday(int id, [FromBody] PublicHolidayDto publicHoliday)
 		{
-			if (id != publicHoliday.PHID)
+			if (id != publicHoliday.ID)
 			{
 				return BadRequest("Public Holiday ID mismatch.");
 			}

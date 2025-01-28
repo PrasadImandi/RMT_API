@@ -39,13 +39,13 @@ namespace RMT_API.Controllers
 
 			await _service.AddResourceLifecycleAsync(resourceLifecycle);
 
-			return CreatedAtAction(nameof(GetResourceLifecycle), new { id = resourceLifecycle.LifecycleID }, resourceLifecycle);
+			return CreatedAtAction(nameof(GetResourceLifecycle), new { id = resourceLifecycle.ID }, resourceLifecycle);
 		}
 
 		[HttpPut("{id}")]
 		public async Task<IActionResult> UpdateResourceLifecycle(int id, [FromBody] ResourceLifeCycleDto resourceLifecycle)
 		{
-			if (id != resourceLifecycle.LifecycleID)
+			if (id != resourceLifecycle.ID)
 			{
 				return BadRequest("ResourceLifecycle ID mismatch.");
 			}

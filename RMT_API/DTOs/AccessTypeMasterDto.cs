@@ -1,9 +1,6 @@
 ﻿namespace RMT_API.DTOs
 {
-	public class AccessTypeMasterDto
+	public class AccessTypeMasterDto :BaseDto
 	{
-		public int AccessTypeID { get; set; }
-		public string? AccessTypeName { get; set; }
-		public bool? IsActive { get; set; }
 	}
 }

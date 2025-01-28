@@ -1,12 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using RMT_API.Models.BaseModels;
 
 namespace RMT_API.Models
 {
-	public class CertificationDetails
+	public class CertificationDetails : BaseModel
 	{
-		[Key]
-		public int CertificationID { get; set; }
-		public string? CertificationName { get; set; }
 		public string? CertificationNumber { get; set; }
 		public int YearOfCompleted { get; set; }
 		public DateTime ExpiryDate { get; set; }

@@ -51,13 +51,13 @@ namespace RMT_API.Controllers
 
 			await _service.AddResourceAsync(resource);
 
-			return CreatedAtAction(nameof(GetResource), new { id = resource.ResourceID }, resource);
+			return CreatedAtAction(nameof(GetResource), new { id = resource.ID }, resource);
 		}
 
 		[HttpPut("{id}")]
 		public async Task<IActionResult> UpdateResource(int id, [FromBody] ResourceDto resource)
 		{
-			if (id != resource.ResourceID)
+			if (id != resource.ID)
 			{
 				return BadRequest("Resource ID mismatch.");
 			}

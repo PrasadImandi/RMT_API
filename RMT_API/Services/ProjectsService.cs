@@ -5,7 +5,7 @@ using RMT_API.Repositories;
 
 namespace RMT_API.Services
 {
-	public class ProjectsService(IGenericRepository<Project> _repository, IProjectRepository projectRepository, IMapper _mapper) : IProjectsService
+	public class ProjectsService(IGenericRepository<Project> _repository, IMapper _mapper) : IProjectsService
 	{
 		public async Task AddProjectAsync(ProjectDto project)
 		{
@@ -21,7 +21,7 @@ namespace RMT_API.Services
 		{
 			var response = await _repository.GetAllAsync();
 
-			var activeProjects = _mapper.Map<IEnumerable<ProjectDto>>(response.Where(p=>p.IsActive));
+			var activeProjects = _mapper.Map<IEnumerable<ProjectDto>>(response.Where(p => p.IsActive == true));
 
 			return activeProjects;
 		}
@@ -40,7 +40,7 @@ namespace RMT_API.Services
 
 		public async Task ChangeStatusProjectAsync(ProjectDto project)
 		{
-			await projectRepository.ChangeStatusProject(_mapper.Map<Project>(project));
+			await _repository.ChangeStatusAsync(project.ID, project.IsActive);
 		}
 	}
 }

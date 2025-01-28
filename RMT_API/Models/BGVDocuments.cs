@@ -1,13 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using RMT_API.Models.BaseModels;
 
 namespace RMT_API.Models
 {
-	public class BGVDocuments
+	public class BGVDocuments :BaseModel
 	{
-		[Key]
-		public int BGVDocumentID { get; set; }
-		public string? BGVDocumentName { get; set; }
-		public string? BGVDocumentDescription { get; set; }
 		public string[]? Attachments{ get; set; }
 	}
 }

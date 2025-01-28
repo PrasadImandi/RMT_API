@@ -5,7 +5,7 @@ using RMT_API.Repositories;
 
 namespace RMT_API.Services
 {
-	public class ClientService(IGenericRepository<Client> repository,IClientRepository clientRepository, IMapper mapper) : IClientService
+	public class ClientService(IGenericRepository<Client> repository, IMapper mapper) : IClientService
 	{
 		public async Task AddClientAsync(ClientDto client)
 		{
@@ -36,7 +36,7 @@ namespace RMT_API.Services
 
 		public async Task ChangeStatusClientAsync(ClientDto client)
 		{
-			await clientRepository.ChangeStatusClient(mapper.Map<Client>(client));
+			await repository.ChangeStatusAsync(client.ID, client.IsActive);
 		}
 	}
 }

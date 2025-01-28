@@ -39,13 +39,13 @@ namespace RMT_API.Controllers
 
 			await _service.AddResourceOnboardingAsync(resourceOnboarding);
 
-			return CreatedAtAction(nameof(GetResourceOnboarding), new { id = resourceOnboarding.OnboardingID }, resourceOnboarding);
+			return CreatedAtAction(nameof(GetResourceOnboarding), new { id = resourceOnboarding.ID }, resourceOnboarding);
 		}
 
 		[HttpPut("{id}")]
 		public async Task<IActionResult> UpdateResourceOnboarding(int id, [FromBody] ResourceOnboardingDto resourceOnboarding)
 		{
-			if (id != resourceOnboarding.OnboardingID)
+			if (id != resourceOnboarding.ID)
 			{
 				return BadRequest("ResourceOnboarding ID mismatch.");
 			}

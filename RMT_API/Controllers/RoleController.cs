@@ -39,13 +39,13 @@ namespace RMT_API.Controllers
 
 			await _service.AddRoleAsync(role);
 
-			return CreatedAtAction(nameof(GetRole), new { id = role.RoleID }, role);
+			return CreatedAtAction(nameof(GetRole), new { id = role.ID }, role);
 		}
 
 		[HttpPut("{id}")]
 		public async Task<IActionResult> UpdateRole(int id, [FromBody] RoleDto role)
 		{
-			if (id != role.RoleID)
+			if (id != role.ID)
 			{
 				return BadRequest("Role ID mismatch.");
 			}

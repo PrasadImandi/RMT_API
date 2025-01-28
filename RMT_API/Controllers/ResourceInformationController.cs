@@ -31,13 +31,13 @@ namespace RMT_API.Controllers
 
 			await _service.AddResourceInformationAsync(resouceInfo);
 
-			return CreatedAtAction(nameof(GetRsourceInformatonById), new { id = resouceInfo.ResourceInformationID }, resouceInfo);
+			return CreatedAtAction(nameof(GetRsourceInformatonById), new { id = resouceInfo.ID }, resouceInfo);
 		}
 
 		[HttpPut("{id}")]
 		public async Task<IActionResult> UpdateResourceInformation(int id, [FromBody] ResourceInformationDto resourceInfo)
 		{
-			if (id != resourceInfo.ResourceInformationID)
+			if (id != resourceInfo.ID)
 			{
 				return BadRequest("Client ID mismatch.");
 			}

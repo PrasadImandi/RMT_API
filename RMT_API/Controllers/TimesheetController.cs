@@ -39,13 +39,13 @@ namespace RMT_API.Controllers
 
 			await _service.AddTimesheetAsync(timesheet);
 
-			return CreatedAtAction(nameof(GetTimesheet), new { id = timesheet.TimesheetID }, timesheet);
+			return CreatedAtAction(nameof(GetTimesheet), new { id = timesheet.ID }, timesheet);
 		}
 
 		[HttpPut("{id}")]
 		public async Task<IActionResult> UpdateTimesheet(int id, [FromBody] TimesheetDto timesheet)
 		{
-			if (id != timesheet.TimesheetID)
+			if (id != timesheet.ID)
 			{
 				return BadRequest("Timesheet ID mismatch.");
 			}

@@ -39,13 +39,13 @@ namespace RMT_API.Controllers
 
 			await _service.AddSupplierAsync(supplier);
 
-			return CreatedAtAction(nameof(GetSupplier), new { id = supplier.SupplierID }, supplier);
+			return CreatedAtAction(nameof(GetSupplier), new { id = supplier.ID }, supplier);
 		}
 
 		[HttpPut("{id}")]
 		public async Task<IActionResult> UpdateSupplier(int id, [FromBody] SupplierDto supplier)
 		{
-			if (id != supplier.SupplierID)
+			if (id != supplier.ID)
 			{
 				return BadRequest("Supplier ID mismatch.");
 			}

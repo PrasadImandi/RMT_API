@@ -37,7 +37,7 @@ namespace RMT_API.Services
 
 		public async Task ChangeStatusResourceAsync(ResourceDto resource)
 		{
-			await resourceRepository.ChangeStatusResource(_mapper.Map<Resource>(resource));
+			await _repository.ChangeStatusAsync(resource.ID, resource.IsActive);
 		}
 
 		public async Task<IEnumerable<ResourceDto>> GetResourcesByProjectId(int projectId)

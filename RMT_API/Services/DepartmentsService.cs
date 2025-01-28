@@ -5,7 +5,7 @@ using RMT_API.Repositories;
 
 namespace RMT_API.Services
 {
-	public class DepartmentsService(IGenericRepository<Department> _repository, IDepartmentRepository departmentRepository, IMapper _mapper) : IDepartmentsService
+	public class DepartmentsService(IGenericRepository<Department> _repository, IMapper _mapper) : IDepartmentsService
 	{
 		public async Task AddDepartmentAsync(DepartmentDto department)
 		{
@@ -36,7 +36,7 @@ namespace RMT_API.Services
 
 		public async Task ChangeStatusDepartmentAsync(DepartmentDto department)
 		{
-			await departmentRepository.ChangeStatusDepartment(_mapper.Map<Department>(department));
+			await _repository.ChangeStatusAsync(department.ID, department.IsActive);
 		}
 	}
 

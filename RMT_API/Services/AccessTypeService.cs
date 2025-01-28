@@ -14,7 +14,7 @@ namespace RMT_API.Services
 
 		public async Task ChangeStatusAccessTypeAsync(AccessTypeMasterDto accessType)
 		{
-			await repository.ChangeStatusAsync(accessType.AccessTypeID, "IsActive", accessType.IsActive ?? false);
+			await repository.ChangeStatusAsync(accessType.ID, accessType.IsActive);
 		}
 
 		public async Task DeleteAccessTypeAsync(int id)

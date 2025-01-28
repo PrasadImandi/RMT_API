@@ -6,7 +6,7 @@ using RMT_API.Repositories;
 namespace RMT_API.Services
 {
 	public class ResourceOffboardingsService(IGenericRepository<ResourceOffboarding> _repository,
-		IResourceOffboardingRepository resourceOffboardingRepository, IMapper _mapper) : IResourceOffboardingsService
+		IMapper _mapper) : IResourceOffboardingsService
 	{
 		public async Task AddResourceOffboardingAsync(ResourceOffboardingDto resourceOffboarding)
 		{
@@ -37,7 +37,7 @@ namespace RMT_API.Services
 
 		public async Task ChangeStatusResourceOffboardingAsync(ResourceOffboardingDto resourceOffboarding)
 		{
-			await resourceOffboardingRepository.ChangeStatusOffboarding(_mapper.Map<ResourceOffboarding>(resourceOffboarding));
+			await _repository.ChangeStatusAsync(resourceOffboarding.OffboardingID, resourceOffboarding.IsActive);
 		}
 	}
 }

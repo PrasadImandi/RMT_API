@@ -1,8 +1,7 @@
 ﻿namespace RMT_API.DTOs
 {
-	public class ResourceOnboardingDto
+	public class ResourceOnboardingDto : BaseDto
 	{
-		public int OnboardingID { get; set; }
 		public int ResourceID { get; set; }
 		public DateTime OnboardingDate { get; set; }
 		public int HandledByID { get; set; }

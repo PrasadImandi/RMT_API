@@ -46,7 +46,7 @@ namespace RMT_API.Services
 
 		public async Task ChangeStatusUserAsync(UsersDto user)
 		{
-			await userRepository.ChangeStatusUser(_mapper.Map<Users>(user));
+			await _repository.ChangeStatusAsync(user.ID, user.IsActive);
 		}
 
 		public async Task<UsersDto> GetUserByNameAsync(string name)

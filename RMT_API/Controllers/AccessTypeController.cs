@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using RMT_API.DTOs;
 using RMT_API.Services;
 
@@ -40,13 +39,13 @@ namespace RMT_API.Controllers
 
 			await _service.AddAccessTypeAsync(AccessType);
 
-			return CreatedAtAction(nameof(GetAccessType), new { id = AccessType.AccessTypeID }, AccessType);
+			return CreatedAtAction(nameof(GetAccessType), new { id = AccessType.ID }, AccessType);
 		}
 
 		[HttpPut("{id}")]
 		public async Task<IActionResult> UpdateAccessType(int id, [FromBody] AccessTypeMasterDto AccessType)
 		{
-			if (id != AccessType.AccessTypeID)
+			if (id != AccessType.ID)
 			{
 				return BadRequest("AccessType ID mismatch.");
 			}

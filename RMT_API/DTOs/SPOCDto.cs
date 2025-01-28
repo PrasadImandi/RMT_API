@@ -1,9 +1,7 @@
 ﻿namespace RMT_API.DTOs
 {
-	public class SPOCDto
+	public class SPOCDto : BaseDto
 	{
-		public int SPOCID { get; set; }
-		public string? SPOCName { get; set; }
 		public string? SPOCContactNumber { get; set; }
 		public string? SPOCEmailID { get; set; }
 	}

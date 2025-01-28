@@ -44,7 +44,7 @@ namespace RMT_API.Services
 
 		public async Task ChangeStatusResourceDeploymentAsync(ResourceDeploymentDto deployment)
 		{
-			await resourceDeploymentRepository.ChangeStatusDeployment(_mapper.Map<ResourceDeployment>(deployment));
+			await _repository.ChangeStatusAsync(deployment.ID, deployment.IsActive);
 		}
 	}
 }

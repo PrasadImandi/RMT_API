@@ -50,17 +50,17 @@ namespace RMT_API.Repositories
 			}
 		}
 
-		public async Task<T> GetByIdAsync(int id, string idColumnName)
+		public async Task<T> GetByIdAsNoTrackingAsync(int id)
 		{
 			var entity = await _dbSet.AsNoTracking()
-									  .FirstOrDefaultAsync(e => EF.Property<int>(e, idColumnName) == id);
+									  .FirstOrDefaultAsync(e => EF.Property<int>(e, "ID") == id);
 			return entity!;
 		}
 
-		public async Task ChangeStatusAsync(int id, string idColumnName, bool status)
+		public async Task ChangeStatusAsync(int id, bool? status)
 		{
-			var entity = await _dbSet.AsNoTracking()
-									  .FirstOrDefaultAsync(e => EF.Property<int>(e, idColumnName) == id);
+			var entity = GetByIdAsNoTrackingAsync(id);
+
 			if (entity == null)
 			{
 				throw new Exception("Entity not found");

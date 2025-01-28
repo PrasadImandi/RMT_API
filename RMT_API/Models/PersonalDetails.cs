@@ -1,13 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using RMT_API.Models.BaseModels;
 
 namespace RMT_API.Models
 {
-	public class PersonalDetails
+	public class PersonalDetails : BaseModel
 	{
-		[Key]
-		public int Id { get; set; }
 		public int Gender { get; set; }
-
 		public string? FathersName { get; set; }
 		public string? MothersName { get; set; }
 		public DateTime DateOfBirth { get; set; }
@@ -18,9 +15,6 @@ namespace RMT_API.Models
 		public string? OfficialMailingAddress { get; set; }
 		public string? PinCode { get; set; }
 		public int? StateID { get; set; }
-
 		public int ResourceInformationId { get; set; }
-
-
 	}
 }

@@ -1,11 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using RMT_API.Models.BaseModels;
 
 namespace RMT_API.Models
 {
-	public class ProfessionalDetails
+	public class ProfessionalDetails : BaseModel
 	{
-		[Key]
-		public int Id { get; set; }
 		public DateTime? AssetAssignedDate { get; set; }
 		public string? AssetModelNo { get; set; }
 		public string? AssetSerialNo { get; set; }

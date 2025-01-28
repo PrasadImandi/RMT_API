@@ -5,7 +5,7 @@ using RMT_API.Repositories;
 
 namespace RMT_API.Services
 {
-	public class SupplierService(IGenericRepository<Supplier> _repository, ISupplierRepository supplierRepository, IMapper _mapper) : ISupplierService
+	public class SupplierService(IGenericRepository<Supplier> _repository, IMapper _mapper) : ISupplierService
 	{
 		public async Task AddSupplierAsync(SupplierDto supplier)
 		{
@@ -36,7 +36,7 @@ namespace RMT_API.Services
 
 		public async Task ChangeStatusSupplierAsync(SupplierDto supplier)
 		{
-			await supplierRepository.ChangeStatusSupplier(_mapper.Map<Supplier>(supplier));
+			await _repository.ChangeStatusAsync(supplier.ID, supplier.IsActive);
 		}
 	}
 }

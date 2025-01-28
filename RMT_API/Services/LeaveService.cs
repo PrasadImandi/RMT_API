@@ -5,7 +5,7 @@ using RMT_API.Repositories;
 
 namespace RMT_API.Services
 {
-	public class LeaveService(IGenericRepository<Leave> _repository,ILeaveRepository leaveRepository, IMapper _mapper) : ILeaveService
+	public class LeaveService(IGenericRepository<Leave> _repository, IMapper _mapper) : ILeaveService
 	{
 		public async Task AddLeaveAsync(LeaveDto leave)
 		{
@@ -36,7 +36,7 @@ namespace RMT_API.Services
 
 		public async Task ChangeStatusLeaveAsync(LeaveDto leave)
 		{
-			await leaveRepository.ChangeStatusLeave(_mapper.Map<Leave>(leave));
+			await _repository.ChangeStatusAsync(leave.ID, leave.IsActive);
 		}
 	}
 }

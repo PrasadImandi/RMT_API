@@ -10,7 +10,7 @@ namespace RMT_API.Repositories
 		Task AddAsync(T entity);
 		Task UpdateAsync(T entity);
 		Task DeleteAsync(int id);
-		Task<T> GetByIdAsync(int id, string idColumnName);
-		Task ChangeStatusAsync(int id, string idColumnName,bool status);
+		Task<T> GetByIdAsNoTrackingAsync(int id);
+		Task ChangeStatusAsync(int id,bool? status);
 	}
 }

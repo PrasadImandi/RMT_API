@@ -12,5 +12,6 @@
 		public int FileSize { get; set; }
 		public string? ExitReason { get; set; }
 		public string? Notes { get; set; }
+		public bool? IsActive { get; set; }
 	}
 }

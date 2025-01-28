@@ -15,7 +15,7 @@ builder.Services.AddServices();
 builder.Services.AddCors(options =>
 {
 	options.AddPolicy("AllowAll",
-		builder => builder.WithOrigins("http://localhost:3000")
+		builder => builder.WithOrigins("http://localhost:3000", "http://localhost:3001")
 						  .AllowAnyMethod()   // Allow any HTTP method (GET, POST, etc.)
 						  .AllowAnyHeader() // Allow any header
 						  .AllowCredentials()); 
@@ -50,7 +50,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddCors();
 
 var app = builder.Build();
-
+app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -58,12 +58,10 @@ if (app.Environment.IsDevelopment())
 	app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 app.UseCors("AllowAll");
 // Add authentication middleware
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
 app.MapControllers();
-
 app.Run();

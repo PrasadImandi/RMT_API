@@ -39,13 +39,13 @@ namespace RMT_API.Controllers
 
 			await _service.AddLeaveAsync(leave);
 
-			return CreatedAtAction(nameof(GetLeave), new { id = leave.LeaveID }, leave);
+			return CreatedAtAction(nameof(GetLeave), new { id = leave.ID }, leave);
 		}
 
 		[HttpPut("{id}")]
 		public async Task<IActionResult> UpdateLeave(int id, [FromBody] LeaveDto leave)
 		{
-			if (id != leave.LeaveID)
+			if (id != leave.ID)
 			{
 				return BadRequest("Leave ID mismatch.");
 			}

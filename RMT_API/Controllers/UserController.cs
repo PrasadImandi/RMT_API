@@ -46,13 +46,13 @@ namespace RMT_API.Controllers
 
 			await _service.AddUserAsync(user);
 
-			return CreatedAtAction(nameof(GetUser), new { id = user.UserID }, user);
+			return CreatedAtAction(nameof(GetUser), new { id = user.ID }, user);
 		}
 
 		[HttpPut("{id}")]
 		public async Task<IActionResult> UpdateUser(int id, [FromBody] UsersDto user)
 		{
-			if (id != user.UserID)
+			if (id != user.ID)
 			{
 				return BadRequest("User ID mismatch.");
 			}

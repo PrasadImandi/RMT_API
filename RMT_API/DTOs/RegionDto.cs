@@ -1,9 +1,7 @@
 ﻿namespace RMT_API.DTOs
 {
-	public class RegionDto
+	public class RegionDto :BaseDto
 	{
-		public int RegionID { get; set; }
-		public string? Name { get; set; }
 		public string? Code { get; set; }
 	}
 }
