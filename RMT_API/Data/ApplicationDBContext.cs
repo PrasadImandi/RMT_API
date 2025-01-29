@@ -29,6 +29,7 @@ namespace RMT_API.Data
 		public DbSet<ResourceInformation> ResourceInformation { get; set; }
 		public DbSet<ResourceOnboarding> ResourceOnboardings { get; set; }
 		public DbSet<ResourceOffboarding> ResourceOffboardings { get; set; }
+		public DbSet<ResourceLifecycle> ResourceLifecycles { get; set; }
 		public DbSet<Role> Roles { get; set; }
 		public DbSet<SPOC> SPOC { get; set; }
 		public DbSet<State> State { get; set; }
