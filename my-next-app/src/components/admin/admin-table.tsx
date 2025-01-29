@@ -17,9 +17,9 @@ import api from "@/lib/axiosInstance";
 import DeleteProject from "./delete-project";
 
 interface RowType {
-  projectID: string;
-  projectName: string;
-  status: string;
+  iD: string;
+  name: string;
+  isActive: boolean;
   startDate: string;
   endDate: string;
 }
@@ -51,15 +51,15 @@ const AdminTable = () => {
       // Update the local state to reflect the change
       setData((prevData) =>
         prevData.map((user) =>
-          user.projectID === id ? { ...user, status: "Inactive" } : user
+          user.iD === id ? { ...user, status: "Inactive" } : user
         )
       );
       console.log(`User with ID ${id} has been set to not active.`);
   
   };
 
-  const filteredData = data.filter((row) =>
-    row.projectName.toLowerCase().includes(searchTerm.toLowerCase())
+    const filteredData = data.filter((row) =>
+        row.name?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
 
@@ -86,19 +86,19 @@ const AdminTable = () => {
           </TableRow>
         </TableHeader>
         <TableBody className="dark:bg-inherit">
-          {filteredData.map((row: RowType, index) => (
-            <TableRow key={row.projectID}>
-              <TableCell className="font-medium ">{index + 1}</TableCell>
-              <TableCell className="">{row.projectName}</TableCell>
+                  {filteredData.map((row: RowType, index) => (
+                      <TableRow key={row.iD}>
+                  <TableCell className="font-medium ">{index + 1}</TableCell>
+                  <TableCell className="">{row.name}</TableCell>
               <TableCell>{format(new Date(row.startDate), "dd/MM/yyyy")}</TableCell>
-              <TableCell>{format(new Date(row.endDate), "dd/MM/yyyy")}</TableCell>
-              <TableCell>{row.status}</TableCell>
-              <TableCell className="text-right flex gap-x-2 justify-end">
-                <DeleteProject id={row.projectID}  onDelete={handleDeleteUser} type='project'  disabled={row.status === "Inactive"}/>
+                  <TableCell>{format(new Date(row.endDate), "dd/MM/yyyy")}</TableCell>
+                  <TableCell>{row.isActive === true ? "Active" :"Inactive"}</TableCell>
+                  <TableCell className="text-right flex gap-x-2 justify-end">
+                      <DeleteProject id={row.iD} onDelete={handleDeleteUser} type='project' disabled={row.isActive === false} />
                 <Button
                   className=" bg-blue-500"
-                  variant="default"
-                  onClick={() => handleEdit(row.projectID)}
+                          variant="default"
+                          onClick={() => handleEdit(row.iD)}
                 >
                   Edit
                 </Button>
