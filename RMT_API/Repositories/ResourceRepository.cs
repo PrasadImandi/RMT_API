@@ -11,18 +11,18 @@ namespace RMT_API.Repositories
 		{
 			var resources = from resource in _context.Resources
 							join deployemnt in _context.ResourceDeployments
-							on resource.ID equals deployemnt.ID
-							where deployemnt.ID == projectId && deployemnt.IsActive == true
+							on resource.ID equals deployemnt.ResourceID
+							where deployemnt.ProjectID == projectId && deployemnt.IsActive == true
 							select new Resource()
 							{
 								ID = deployemnt.ID,
 								FirstName = resource.FirstName,
 								LastName = resource.LastName,
-								//Email = resource.Email,
-								//Phone = resource.Phone,
+								EmailID = resource.EmailID,
+								MobileNumber = resource.MobileNumber,
 								//JobTitle = resource.JobTitle,
 								//HireDate = resource.HireDate,
-								//Status = resource.Status,
+								IsActive = resource.IsActive,
 								//DepartmentID = resource.DepartmentID,
 								//ManagerID = resource.ManagerID
 							};

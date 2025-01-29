@@ -57,7 +57,7 @@ export default function ResourceAllocation() {
       role: role, // Add job title dynamically
       startDate: startDate,
       endDate: endDate,
-      status: "Active",
+      isActive: true,
       allocationPercent: 0,
     };
 
@@ -86,8 +86,8 @@ export default function ResourceAllocation() {
             </SelectTrigger>
             <SelectContent>
               {resources?.map((resource: any) => (
-                <SelectItem key={resource.resourceID} value={resource.resourceID}>
-                  {resource.firstName} - {resource.jobTitle}
+                  <SelectItem key={resource.id} value={resource.id}>
+                      {resource.firstName + " " + resource.lastName} {resource.jobTitle ? " - " + resource.jobTitle : ""}
                 </SelectItem>
               ))}
             </SelectContent>
@@ -126,8 +126,8 @@ export default function ResourceAllocation() {
             </SelectTrigger>
             <SelectContent>
               {projects.map((project: any) => (
-                <SelectItem key={project.projectID} value={project.projectID}>
-                  {project.projectName}
+                <SelectItem key={project.id} value={project.id}>
+                  {project.name}
                 </SelectItem>
               ))}
             </SelectContent>

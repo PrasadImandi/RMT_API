@@ -48,8 +48,8 @@ export default function ResourceDeallocation() {
     }
     console.log(selectedProject, selectedResource)
     const res = await api.patch('ResourceDeployment',{
-      resourceID: selectedResource,
-      status: "inactive",
+      id: selectedResource,
+      isActive: false,
     })
     console.log(res.data)
     // In a real app, this would be an API call
@@ -70,8 +70,8 @@ export default function ResourceDeallocation() {
             </SelectTrigger>
             <SelectContent>
               {projects.map((project: any) => (
-                <SelectItem key={project.projectID} value={project.projectID}>
-                  {project.projectName}
+                <SelectItem key={project.id} value={project.id}>
+                  {project.name}
                 </SelectItem>
               ))}
             </SelectContent>
@@ -87,7 +87,7 @@ export default function ResourceDeallocation() {
               </SelectTrigger>
               <SelectContent>
                 {resources.map((resource: any) => (
-                  <SelectItem key={resource.resourceID} value={resource.resourceID}>
+                  <SelectItem key={resource.id} value={resource.id}>
                     {resource.firstName} {resource.lastName} - {resource.jobTitle}
                   </SelectItem>
                 ))}
