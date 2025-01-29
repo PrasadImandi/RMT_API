@@ -4,5 +4,6 @@
 	{
 		public string? Email { get; set; }
 		public int? AccessTypeID { get; set; }
+		public string? AccessTypeName { get; set; }
 	}
 }

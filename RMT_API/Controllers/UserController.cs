@@ -13,7 +13,7 @@ namespace RMT_API.Controllers
 		[HttpGet]
 		public async Task<IActionResult> GetAllUsers()
 		{
-			var users = await _service.GetAllUsersAsync();
+			var users = await _service.GetAllUsersWithChildAsync();
 			return Ok(users);
 		}
 

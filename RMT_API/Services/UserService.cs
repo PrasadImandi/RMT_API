@@ -54,6 +54,13 @@ namespace RMT_API.Services
 			var response = await userRepository.GetUserByNameAsync(name);
 			return _mapper.Map<UsersDto>(response);
 		}
+
+		public async Task<IEnumerable<UsersDto>> GetAllUsersWithChildAsync()
+		{
+			var response = await _repository.GetAllWithChildrenAsync(p => p.AccessType);
+
+			return _mapper.Map<IEnumerable<UsersDto>>(response);
+		}
 	}
 
 }

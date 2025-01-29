@@ -6,5 +6,7 @@ namespace RMT_API.Models
 	{
 		public string? Email { get; set; }
 		public int? AccessTypeID { get; set; }
+
+		public virtual AccessTypeMaster? AccessType { get; set; }
 	}
 }

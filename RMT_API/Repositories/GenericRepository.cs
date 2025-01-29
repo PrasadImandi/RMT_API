@@ -6,14 +6,25 @@ using System.Reflection;
 
 namespace RMT_API.Repositories
 {
-	public class GenericRepository<T>(ApplicationDBContext context) : IGenericRepository<T> where T : class
+	public class GenericRepository<T>(ApplicationDBContext _context) : IGenericRepository<T> where T : class
 	{
-		private readonly ApplicationDBContext _context = context;
-		private readonly DbSet<T> _dbSet = context.Set<T>();
+		private readonly DbSet<T> _dbSet = _context.Set<T>();
 
 		public async Task<IEnumerable<T>> GetAllAsync()
 		{
 			return await _dbSet.ToListAsync();
+		}
+
+		public async Task<List<T>> GetAllWithChildrenAsync(params Expression<Func<T, object>>[] includes)
+		{
+			IQueryable<T> query = (IQueryable<T>)_dbSet;
+
+			foreach (var include in includes)
+			{
+				query = query.Include(include);
+			}
+
+			return await query.ToListAsync();
 		}
 
 		public async Task<T> GetByIdAsync(int id)

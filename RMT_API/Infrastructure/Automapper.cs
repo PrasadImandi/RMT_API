@@ -20,7 +20,8 @@ namespace RMT_API.Infrastructure
 			CreateMap<ResourceOnboardingDto, ResourceOnboarding>().ReverseMap();
 			CreateMap<RoleDto, Role>().ReverseMap();
 			CreateMap<TimesheetDto, Timesheet>().ReverseMap();
-			CreateMap<UsersDto, Users>().ReverseMap();
+			CreateMap<UsersDto, Users>().ReverseMap()
+				 .ForMember(dest => dest.AccessTypeName, opt => opt.MapFrom(src => src.AccessType!.Name)); 
 			CreateMap<PublicHolidayDto, PublicHoliday>().ReverseMap();
 			CreateMap<SupplierDto, Supplier>().ReverseMap();
 			CreateMap<ResourceInformation, ResourceInformationDto>().ReverseMap();
