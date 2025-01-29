@@ -20,7 +20,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
-import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+} from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
@@ -47,7 +51,9 @@ const formSchema = z.object({
 });
 
 const AddResource = () => {
-  const [departments, setDepartments] = useState([{ departmentID: 0, departmentName: "" }]);
+  const [departments, setDepartments] = useState([
+    { departmentID: 0, departmentName: "" },
+  ]);
   const [managers, setManagers] = useState([{ userID: 0, fullName: "" }]);
 
   const router = useRouter();
@@ -110,7 +116,10 @@ const AddResource = () => {
     <div className="m-16 p-4 bg-white dark:bg-[#17171A]">
       <h1 className="text-2xl mb-6">Add Resource</h1>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 w-3/5">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="space-y-6 w-3/5"
+        >
           {/* First Name Field */}
           <FormField
             control={form.control}
@@ -203,7 +212,11 @@ const AddResource = () => {
                           !field.value && "text-muted-foreground"
                         )}
                       >
-                        {field.value ? format(field.value, "PPP") : <span>Pick a date</span>}
+                        {field.value ? (
+                          format(field.value, "PPP")
+                        ) : (
+                          <span>Pick a date</span>
+                        )}
                         <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                       </Button>
                     </FormControl>
@@ -230,7 +243,10 @@ const AddResource = () => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Status</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
                   <FormControl>
                     <SelectTrigger>
                       <SelectValue placeholder="Select status" />
@@ -254,7 +270,10 @@ const AddResource = () => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Manager</FormLabel>
-                <Select onValueChange={(value) => field.onChange(Number(value))} defaultValue={field.value?.toString()} >
+                <Select
+                  onValueChange={(value) => field.onChange(Number(value))}
+                  defaultValue={field.value?.toString()}
+                >
                   <FormControl>
                     <SelectTrigger>
                       <SelectValue placeholder="Select status" />
@@ -262,7 +281,10 @@ const AddResource = () => {
                   </FormControl>
                   <SelectContent>
                     {managers.map((user) => (
-                      <SelectItem key={user.userID} value={user.userID.toString()}>
+                      <SelectItem
+                        key={user.userID}
+                        value={user.userID.toString()}
+                      >
                         {user.fullName}
                       </SelectItem>
                     ))}
@@ -280,15 +302,21 @@ const AddResource = () => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Department</FormLabel>
-                <Select onValueChange={(value) => field.onChange(Number(value))} defaultValue={field.value?.toString()} >
+                <Select
+                  onValueChange={(value) => field.onChange(Number(value))}
+                  defaultValue={field.value?.toString()}
+                >
                   <FormControl>
                     <SelectTrigger>
                       <SelectValue placeholder="Select status" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                  {departments.map((department) => (
-                      <SelectItem key={department.departmentID} value={department.departmentID.toString()}>
+                    {departments.map((department) => (
+                      <SelectItem
+                        key={department.departmentID}
+                        value={department.departmentID.toString()}
+                      >
                         {department.departmentName}
                       </SelectItem>
                     ))}
@@ -298,125 +326,140 @@ const AddResource = () => {
               </FormItem>
             )}
           />
-           {/* Account Name */}
-           <FormField
-  control={form.control}
-  name="accountName"
-  render={({ field }) => (
-    <FormItem>
-      <FormLabel>Account Name (Client)</FormLabel>
-      <Select onValueChange={field.onChange} defaultValue={field.value}>
-        <FormControl>
-          <SelectTrigger>
-            <SelectValue placeholder="Select an account name" />
-          </SelectTrigger>
-        </FormControl>
-        <SelectContent>
-          <SelectItem value="Client A">Client A</SelectItem>
-          <SelectItem value="Client B">Client B</SelectItem>
-          <SelectItem value="Client C">Client C</SelectItem>
-        </SelectContent>
-      </Select>
-      <FormMessage />
-    </FormItem>
-  )}
-/>
+          {/* Account Name */}
+          <FormField
+            control={form.control}
+            name="accountName"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Account Name (Client)</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select an account name" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="Client A">Client A</SelectItem>
+                    <SelectItem value="Client B">Client B</SelectItem>
+                    <SelectItem value="Client C">Client C</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-{/* Project */}
-<FormField
-  control={form.control}
-  name="project"
-  render={({ field }) => (
-    <FormItem>
-      <FormLabel>Project</FormLabel>
-      <Select onValueChange={field.onChange} defaultValue={field.value}>
-        <FormControl>
-          <SelectTrigger>
-            <SelectValue placeholder="Select a project" />
-          </SelectTrigger>
-        </FormControl>
-        <SelectContent>
-          <SelectItem value="Project X">Project X</SelectItem>
-          <SelectItem value="Project Y">Project Y</SelectItem>
-          <SelectItem value="Project Z">Project Z</SelectItem>
-        </SelectContent>
-      </Select>
-      <FormMessage />
-    </FormItem>
-  )}
-/>
+          {/* Project */}
+          <FormField
+            control={form.control}
+            name="project"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Project</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a project" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="Project X">Project X</SelectItem>
+                    <SelectItem value="Project Y">Project Y</SelectItem>
+                    <SelectItem value="Project Z">Project Z</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-{/* Project Manager */}
-<FormField
-  control={form.control}
-  name="projectManager"
-  render={({ field }) => (
-    <FormItem>
-      <FormLabel>Project Manager</FormLabel>
-      <Select onValueChange={field.onChange} defaultValue={field.value}>
-        <FormControl>
-          <SelectTrigger>
-            <SelectValue placeholder="Select a project manager" />
-          </SelectTrigger>
-        </FormControl>
-        <SelectContent>
-          <SelectItem value="Manager A">Manager A</SelectItem>
-          <SelectItem value="Manager B">Manager B</SelectItem>
-          <SelectItem value="Manager C">Manager C</SelectItem>
-        </SelectContent>
-      </Select>
-      <FormMessage />
-    </FormItem>
-  )}
-/>
+          {/* Project Manager */}
+          <FormField
+            control={form.control}
+            name="projectManager"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Project Manager</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a project manager" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="Manager A">Manager A</SelectItem>
+                    <SelectItem value="Manager B">Manager B</SelectItem>
+                    <SelectItem value="Manager C">Manager C</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-{/* Relationship Manager */}
-<FormField
-  control={form.control}
-  name="relationshipManager"
-  render={({ field }) => (
-    <FormItem>
-      <FormLabel>Relationship Manager</FormLabel>
-      <Select onValueChange={field.onChange} defaultValue={field.value}>
-        <FormControl>
-          <SelectTrigger>
-            <SelectValue placeholder="Select a relationship manager" />
-          </SelectTrigger>
-        </FormControl>
-        <SelectContent>
-          <SelectItem value="RM A">RM A</SelectItem>
-          <SelectItem value="RM B">RM B</SelectItem>
-          <SelectItem value="RM C">RM C</SelectItem>
-        </SelectContent>
-      </Select>
-      <FormMessage />
-    </FormItem>
-  )}
-/>
+          {/* Relationship Manager */}
+          <FormField
+            control={form.control}
+            name="relationshipManager"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Relationship Manager</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a relationship manager" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="RM A">RM A</SelectItem>
+                    <SelectItem value="RM B">RM B</SelectItem>
+                    <SelectItem value="RM C">RM C</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-{/* Supplier */}
-<FormField
-  control={form.control}
-  name="supplier"
-  render={({ field }) => (
-    <FormItem>
-      <FormLabel>Supplier</FormLabel>
-      <Select onValueChange={field.onChange} defaultValue={field.value}>
-        <FormControl>
-          <SelectTrigger>
-            <SelectValue placeholder="Select a supplier" />
-          </SelectTrigger>
-        </FormControl>
-        <SelectContent>
-          <SelectItem value="Supplier A">Supplier A</SelectItem>
-          <SelectItem value="Supplier B">Supplier B</SelectItem>
-          <SelectItem value="Supplier C">Supplier C</SelectItem>
-        </SelectContent>
-      </Select>
-      <FormMessage />
-    </FormItem>
-  )}
-/>
+          {/* Supplier */}
+          <FormField
+            control={form.control}
+            name="supplier"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Supplier</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a supplier" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="Supplier A">Supplier A</SelectItem>
+                    <SelectItem value="Supplier B">Supplier B</SelectItem>
+                    <SelectItem value="Supplier C">Supplier C</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <Button type="submit">Save</Button>
         </form>
       </Form>
