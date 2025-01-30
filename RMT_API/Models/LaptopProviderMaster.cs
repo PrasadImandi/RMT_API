@@ -2,7 +2,7 @@
 
 namespace RMT_API.Models
 {
-	public class Form : BaseModel
+	public class LaptopProviderMaster : BaseModel
 	{
 	}
 }

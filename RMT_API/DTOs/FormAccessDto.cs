@@ -1,10 +1,10 @@
-﻿namespace RMT_API.DTOs
+﻿using RMT_API.DTOs.BaseDtos;
+
+namespace RMT_API.DTOs
 {
-	public class FormAccessDto
+	public class FormAccessDto :ResourceIdentifierDto
 	{
-		public int ID { get; set; }
 		public int AccessTypeID { get; set; }
 		public int FormID { get; set; }
-		public bool IsActive { get; set; }
 	}
 }

@@ -2,7 +2,7 @@
 
 namespace RMT_API.Models
 {
-	public class Domain : BaseModel
+	public class LeaveTypeMaster : BaseModel
 	{
 	}
 }

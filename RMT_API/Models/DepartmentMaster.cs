@@ -2,8 +2,7 @@
 
 namespace RMT_API.Models
 {
-	public class Region : BaseModel
+	public class DepartmentMaster : BaseModel
 	{
-		public string? Code { get; set; }
 	}
 }

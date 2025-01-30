@@ -2,7 +2,7 @@
 
 namespace RMT_API.Models
 {
-	public class Location : BaseModel
+	public class StateMaster : BaseModel
 	{
 		public string? Code { get; set; }
 	}

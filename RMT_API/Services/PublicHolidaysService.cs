@@ -5,11 +5,11 @@ using RMT_API.Repositories;
 
 namespace RMT_API.Services
 {
-	public class PublicHolidaysService(IGenericRepository<PublicHoliday> _repository, IMapper _mapper) : IPublicHolidaysService
+	public class PublicHolidaysService(IGenericRepository<PublicHolidayMaster> _repository, IMapper _mapper) : IPublicHolidaysService
 	{
 		public async Task AddPublicHolidayAsync(PublicHolidayDto publicHoliday)
 		{
-			await _repository.AddAsync(_mapper.Map<PublicHoliday>(publicHoliday));
+			await _repository.AddAsync(_mapper.Map<PublicHolidayMaster>(publicHoliday));
 		}
 
 		public async Task DeletePublicHolidayAsync(int id)
@@ -31,7 +31,7 @@ namespace RMT_API.Services
 
 		public async Task UpdatePublicHolidayAsync(PublicHolidayDto publicHoliday)
 		{
-			await _repository.UpdateAsync(_mapper.Map<PublicHoliday>(publicHoliday));
+			await _repository.UpdateAsync(_mapper.Map<PublicHolidayMaster>(publicHoliday));
 		}
 	}
 }

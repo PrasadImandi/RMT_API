@@ -4,7 +4,7 @@ namespace RMT_API.Models
 {
 	public class Supplier : BaseModel
 	{
-		public string? Supplier_ID { get; set; }
+		public string? Supplier_Code { get; set; }
 		public DateTime? SIDDate { get; set; }
 		public string? Address { get; set; }
 		public int? StateID { get; set; }

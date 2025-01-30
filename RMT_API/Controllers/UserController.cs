@@ -78,9 +78,22 @@ namespace RMT_API.Controllers
 		}
 
 		[HttpPatch("changepassword")]
-		public async Task<IActionResult> ChangePassword([FromBody] string password, string username)
+		public async Task<IActionResult> ChangePassword([FromBody] ResetPasswordDto resetPassword)
 		{
-			await _service.ChangePasswordAsync(password, username);
+
+			var user = await _service.GetUserByNameAsync(resetPassword.UserName!);
+
+			if (user == null || string.IsNullOrEmpty(user.Password))
+			{
+				return Unauthorized("Invalid Username & Password");
+			}
+
+			if (!BCrypt.Net.BCrypt.Verify(resetPassword.OldPassword, user.Password))
+			{
+				return Unauthorized("Invalid Password");
+			}
+
+			await _service.ChangePasswordAsync(resetPassword.NewPassword!, resetPassword.UserName!);
 			return NoContent();
 		}
 	}

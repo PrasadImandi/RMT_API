@@ -2,7 +2,7 @@
 
 namespace RMT_API.Models
 {
-	public class ContactTypeMaster : BaseModel
+	public class DeliveryMotionMaster : BaseModel
 	{
 	}
 }

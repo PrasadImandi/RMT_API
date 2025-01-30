@@ -2,7 +2,7 @@
 
 namespace RMT_API.Models
 {
-	public class DomainRole : BaseModel
+	public class SupportTypeMaster : BaseModel
 	{
 	}
 }

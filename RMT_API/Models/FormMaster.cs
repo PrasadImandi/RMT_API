@@ -2,7 +2,7 @@
 
 namespace RMT_API.Models
 {
-	public class DomainLevel : BaseModel
+	public class FormMaster : BaseModel
 	{
 	}
 }

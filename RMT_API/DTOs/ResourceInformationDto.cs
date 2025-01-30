@@ -10,7 +10,7 @@ namespace RMT_API.DTOs
 		public ProfessionalDetails? Professional { get; set; }
 		public Documents? Documents { get; set; }
 		public List<AcademicDetails>? Academic { get; set; } = [];
-		public List<CertificationDetails>? Certification { get; set; } = [];
+		public List<CertificationDetailsDto>? Certification { get; set; } = [];
 
 	}
 }

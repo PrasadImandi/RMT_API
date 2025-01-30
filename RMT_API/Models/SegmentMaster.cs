@@ -2,7 +2,7 @@
 
 namespace RMT_API.Models
 {
-	public class Department : BaseModel
+	public class SegmentMaster : BaseModel
 	{
 	}
 }

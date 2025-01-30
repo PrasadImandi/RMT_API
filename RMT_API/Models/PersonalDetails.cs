@@ -12,7 +12,8 @@ namespace RMT_API.Models
 		public string? EmergencyContactNumber { get; set; }
 		public string? HometownAddress { get; set; }
 		public string? OfficialMailingAddress { get; set; }
-		public string? PinCode { get; set; }
+
+		public int? PinCodeID { get; set; }
 		public int? StateID { get; set; }
 		public int ResourceInformationId { get; set; }
 	}

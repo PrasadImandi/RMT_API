@@ -2,7 +2,7 @@
 
 namespace RMT_API.Models
 {
-	public class ResourceOffboarding :BaseModel
+	public class ResourceOffboarding :ResourceIdentifier
 	{
 		public int ResourceID { get; set; }
 		public DateTime OffboardingDate { get; set; }

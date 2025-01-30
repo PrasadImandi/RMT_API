@@ -12,18 +12,17 @@ namespace RMT_API.Infrastructure
 			services.AddScoped<IGenericRepository<AccessTypeMaster>, GenericRepository<AccessTypeMaster>>();
 			services.AddScoped<IGenericRepository<Project>, GenericRepository<Project>>();
 			services.AddScoped<IGenericRepository<Client>, GenericRepository<Client>>();
-			services.AddScoped<IGenericRepository<Department>, GenericRepository<Department>>();
+			services.AddScoped<IGenericRepository<DepartmentMaster>, GenericRepository<DepartmentMaster>>();
 			services.AddScoped<IGenericRepository<Leave>, GenericRepository<Leave>>();
 			services.AddScoped<IGenericRepository<Resource>, GenericRepository<Resource>>();
 			services.AddScoped<IGenericRepository<ResourceDeployment>, GenericRepository<ResourceDeployment>>();
 			services.AddScoped<IGenericRepository<ResourceLifecycle>, GenericRepository<ResourceLifecycle>>();
 			services.AddScoped<IGenericRepository<ResourceOffboarding>, GenericRepository<ResourceOffboarding>>();
 			services.AddScoped<IGenericRepository<ResourceOnboarding>, GenericRepository<ResourceOnboarding>>();
-			services.AddScoped<IGenericRepository<Role>, GenericRepository<Role>>();
 			services.AddScoped<IGenericRepository<Timesheet>, GenericRepository<Timesheet>>();
 			services.AddScoped<IGenericRepository<Users>, GenericRepository<Users>>();
 			services.AddScoped<IGenericRepository<Supplier>, GenericRepository<Supplier>>();
-			services.AddScoped<IGenericRepository<PublicHoliday>, GenericRepository<PublicHoliday>>();
+			services.AddScoped<IGenericRepository<PublicHolidayMaster>, GenericRepository<PublicHolidayMaster>>();
 			services.AddScoped<IGenericRepository<ResourceInformation>, GenericRepository<ResourceInformation>>();
 
 			services.AddScoped<IResourceRepository, ResourceRepository>();
@@ -41,7 +40,6 @@ namespace RMT_API.Infrastructure
 			services.AddScoped<IResourceLifecyclesService, ResourceLifecyclesService>();
 			services.AddScoped<IResourceOffboardingsService, ResourceOffboardingsService>();
 			services.AddScoped<IResourceOnboardingsService, ResourceOnboardingsService>();
-			services.AddScoped<IRolesService, RolesService>();
 			services.AddScoped<ITimesheetsService, TimesheetsService>();
 			services.AddScoped<IUsersService, UsersService>();
 			services.AddScoped<ISupplierService, SupplierService>();

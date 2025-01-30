@@ -2,7 +2,7 @@
 
 namespace RMT_API.Models
 {
-	public class LaptopProvider : BaseModel
+	public class DomainMaster : BaseModel
 	{
 	}
 }

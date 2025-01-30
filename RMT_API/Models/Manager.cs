@@ -8,7 +8,7 @@ namespace RMT_API.Models
 		public string? LastName { get; set; }
 		public string? ContactNumber { get; set; }
 		public string? EmailID { get; set; }
-		public int? ManagerType { get; set; }
+		public int? ManagerTypeID { get; set; }
 
 		public int? ParentManagerId { get; set; }
 		public Manager? ParentManager { get; set; }

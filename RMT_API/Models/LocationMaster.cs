@@ -2,7 +2,7 @@
 
 namespace RMT_API.Models
 {
-	public class Pincode :BaseModel
+	public class LocationMaster : BaseModel
 	{
 		public string? Code { get; set; }
 	}

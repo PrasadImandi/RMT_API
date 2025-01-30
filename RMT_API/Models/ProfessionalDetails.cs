@@ -2,7 +2,7 @@
 
 namespace RMT_API.Models
 {
-	public class ProfessionalDetails : BaseModel
+	public class ProfessionalDetails : ResourceIdentifier
 	{
 		public DateTime? AssetAssignedDate { get; set; }
 		public string? AssetModelNo { get; set; }

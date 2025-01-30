@@ -5,11 +5,11 @@ using RMT_API.Repositories;
 
 namespace RMT_API.Services
 {
-	public class DepartmentsService(IGenericRepository<Department> _repository, IMapper _mapper) : IDepartmentsService
+	public class DepartmentsService(IGenericRepository<DepartmentMaster> _repository, IMapper _mapper) : IDepartmentsService
 	{
 		public async Task AddDepartmentAsync(DepartmentDto department)
 		{
-			await _repository.AddAsync(_mapper.Map<Department>(department));
+			await _repository.AddAsync(_mapper.Map<DepartmentMaster>(department));
 		}
 
 		public async Task DeleteDepartmentAsync(int id)
@@ -31,7 +31,7 @@ namespace RMT_API.Services
 
 		public async Task UpdateDepartmentAsync(DepartmentDto department)
 		{
-			await _repository.UpdateAsync(_mapper.Map<Department>(department));
+			await _repository.UpdateAsync(_mapper.Map<DepartmentMaster>(department));
 		}
 
 		public async Task ChangeStatusDepartmentAsync(DepartmentDto department)

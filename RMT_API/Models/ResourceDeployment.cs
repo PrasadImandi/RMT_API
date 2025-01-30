@@ -2,11 +2,11 @@
 
 namespace RMT_API.Models
 {
-	public class ResourceDeployment :BaseModel
+	public class ResourceDeployment :ResourceIdentifier
 	{
 		public int ResourceID { get; set; }
 		public int ProjectID { get; set; }
-		public string? Role { get; set; }
+		public int? RoleID { get; set; }
 		public DateTime StartDate { get; set; }
 		public DateTime EndDate { get; set; }
 		public decimal AllocationPercent { get; set; }

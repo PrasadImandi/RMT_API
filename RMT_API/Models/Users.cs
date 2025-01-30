@@ -2,7 +2,7 @@
 
 namespace RMT_API.Models
 {
-	public class Users : BaseModel
+	public class Users : ResourceIdentifier
 	{
 		public string? FirstName { get; set; }
 		public string? LastName { get; set; }

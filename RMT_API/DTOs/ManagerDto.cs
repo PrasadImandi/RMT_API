@@ -1,6 +1,8 @@
-﻿namespace RMT_API.DTOs
+﻿using RMT_API.DTOs.BaseDtos;
+
+namespace RMT_API.DTOs
 {
-	public class ManagerDto :BaseDto
+	public class ManagerDto :ResourceIdentifierDto
 	{
 		public string? FirstName { get; set; }
 		public string? LastName { get; set; }

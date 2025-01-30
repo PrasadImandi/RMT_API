@@ -5,11 +5,13 @@ namespace RMT_API.Models
 	public class JoiningDocuments :ResourceIdentifier
 	{
 		public string? AadharCard { get; set; }
-		public string? appraisalLetter { get; set; }
-		public string? drivingLicense { get; set; }
-		public string? joiningLetter { get; set; }
-		public string? offerLetter { get; set; }
-		public string? panCard { get; set; }
-		public string? passport { get; set; }
+		public string? AppraisalLetter { get; set; }
+		public string? DrivingLicense { get; set; }
+		public string? JoiningLetter { get; set; }
+		public string? OfferLetter { get; set; }
+		public string? PanCard { get; set; }
+		public string? Passport { get; set; }
+
+		public int? DocumentID { get; set; }
 	}
 }

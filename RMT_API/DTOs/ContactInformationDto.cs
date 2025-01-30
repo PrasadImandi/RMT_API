@@ -1,4 +1,6 @@
-﻿namespace RMT_API.DTOs
+﻿using RMT_API.DTOs.BaseDtos;
+
+namespace RMT_API.DTOs
 {
 	public class ContactInformationDto :BaseDto
 	{

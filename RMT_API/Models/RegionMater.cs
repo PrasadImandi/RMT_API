@@ -2,7 +2,7 @@
 
 namespace RMT_API.Models
 {
-	public class State : BaseModel
+	public class RegionMater : BaseModel
 	{
 		public string? Code { get; set; }
 	}

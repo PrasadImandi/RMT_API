@@ -1,4 +1,4 @@
-﻿namespace RMT_API.DTOs
+﻿namespace RMT_API.DTOs.BaseDtos
 {
 	public class ResourceIdentifierDto
 	{
