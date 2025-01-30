@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using RMT_API.DTOs;
+using RMT_API.DTOs.BaseDtos;
 using RMT_API.Models;
 
 namespace RMT_API.Infrastructure
@@ -10,7 +11,7 @@ namespace RMT_API.Infrastructure
 		{
 			CreateMap<AccessTypeMasterDto, AccessTypeMaster>().ReverseMap();
 			CreateMap<ClientDto, Client>().ReverseMap();
-			CreateMap<DepartmentDto, DepartmentMaster>().ReverseMap();
+			CreateMap<BaseDto, DepartmentMaster>().ReverseMap();
 			CreateMap<LeaveDto, Leave>().ReverseMap();
 			CreateMap<ProjectDto, Project>().ReverseMap();
 			CreateMap<ResourceDeploymentDto, ResourceDeployment>().ReverseMap();

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RMT_API.DTOs;
+using RMT_API.DTOs.BaseDtos;
 using RMT_API.Services;
 
 namespace RMT_API.Controllers
@@ -30,7 +31,7 @@ namespace RMT_API.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> CreateDepartment([FromBody] DepartmentDto department)
+		public async Task<IActionResult> CreateDepartment([FromBody] BaseDto department)
 		{
 			if (department == null)
 			{
@@ -43,7 +44,7 @@ namespace RMT_API.Controllers
 		}
 
 		[HttpPut("{id}")]
-		public async Task<IActionResult> UpdateDepartment(int id, [FromBody] DepartmentDto department)
+		public async Task<IActionResult> UpdateDepartment(int id, [FromBody] BaseDto department)
 		{
 			if (id != department.ID)
 			{
@@ -64,7 +65,7 @@ namespace RMT_API.Controllers
 		}
 
 		[HttpPatch]
-		public async Task<IActionResult> ChangeStatusDepartment([FromBody] DepartmentDto department)
+		public async Task<IActionResult> ChangeStatusDepartment([FromBody] BaseDto department)
 		{
 			await _service.ChangeStatusDepartmentAsync(department);
 
