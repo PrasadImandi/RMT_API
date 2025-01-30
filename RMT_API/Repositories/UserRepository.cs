@@ -13,9 +13,20 @@ namespace RMT_API.Repositories
 
 		public async Task<Users> GetUserByNameAsync(string name)
 		{
-			var response = await _context.Users!.FirstOrDefaultAsync(x => x.Name == name);
+			var response = await _context.Users!.FirstOrDefaultAsync(x => x.UserName == name);
 			return response!;
 		}
-	}
 
+		public async Task ChangePasswordAsync(string password, string username)
+		{
+			var user = await _context.Users!.AsNoTracking().FirstOrDefaultAsync(x => x.UserName == username);
+
+			if(user != null)
+			{
+				user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
+				_context.Users.Update(user);
+				await _context.SaveChangesAsync();
+			}
+		}
+	}
 }

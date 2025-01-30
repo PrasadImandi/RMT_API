@@ -6,9 +6,8 @@ namespace RMT_API.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-	public class UserController(IUsersService service) : ControllerBase
+	public class UserController(IUsersService _service) : ControllerBase
 	{
-		private readonly IUsersService _service = service;
 
 		[HttpGet]
 		public async Task<IActionResult> GetAllUsers()
@@ -43,7 +42,8 @@ namespace RMT_API.Controllers
 			{
 				return BadRequest("User data is null.");
 			}
-
+			// Hasing password with BCrypt
+			user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
 			await _service.AddUserAsync(user);
 
 			return CreatedAtAction(nameof(GetUser), new { id = user.ID }, user);
@@ -56,7 +56,7 @@ namespace RMT_API.Controllers
 			{
 				return BadRequest("User ID mismatch.");
 			}
-
+			user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
 			await _service.UpdateUserAsync(user);
 
 			return NoContent();
@@ -74,7 +74,13 @@ namespace RMT_API.Controllers
 		public async Task<IActionResult> ChangeStatusUser([FromBody] UsersDto user)
 		{
 			await _service.ChangeStatusUserAsync(user);
+			return NoContent();
+		}
 
+		[HttpPatch("changepassword")]
+		public async Task<IActionResult> ChangePassword([FromBody] string password, string username)
+		{
+			await _service.ChangePasswordAsync(password, username);
 			return NoContent();
 		}
 	}

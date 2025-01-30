@@ -15,11 +15,16 @@ namespace RMT_API.Controllers
 		[HttpPost("login")]
 		public async Task<IActionResult> Login([FromBody] UsersDto model)
 		{
-			var user = await _userService.GetUserByNameAsync(model.Name!);
+			var user = await _userService.GetUserByNameAsync(model.UserName!);
 
-			if (user == null)
+			if (user == null || string.IsNullOrEmpty(user.Password))
 			{
 				return Unauthorized("Invalid username");
+			}
+
+			if(!BCrypt.Net.BCrypt.Verify(model.Password, user.Password))
+			{
+				return Unauthorized("Invalid Password");
 			}
 
 			var claims = new[]{

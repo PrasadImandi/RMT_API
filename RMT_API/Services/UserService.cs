@@ -21,22 +21,22 @@ namespace RMT_API.Services
 			await _repository.DeleteAsync(id);
 		}
 
-		public async Task<IEnumerable<UsersDto>> GetAllUsersAsync()
+		public async Task<IEnumerable<UserDto>> GetAllUsersAsync()
 		{
 			var response = await _repository.GetAllAsync();
-			return _mapper.Map<IEnumerable<UsersDto>>(response);
+			return _mapper.Map<IEnumerable<UserDto>>(response);
 		}
 
-		public async Task<IEnumerable<UsersDto>> GetUsersByRoleIdAsync(int roleId)
+		public async Task<IEnumerable<UserDto>> GetUsersByRoleIdAsync(int roleId)
 		{
 			var response = await userRepository.GetUsersByRoleIdAsync(roleId);
-			return _mapper.Map<IEnumerable<UsersDto>>(response);
+			return _mapper.Map<IEnumerable<UserDto>>(response);
 		}
 
-		public async Task<UsersDto> GetUserByIdAsync(int id)
+		public async Task<UserDto> GetUserByIdAsync(int id)
 		{
 			var response = await _repository.GetByIdAsync(id);
-			return _mapper.Map<UsersDto>(response);
+			return _mapper.Map<UserDto>(response);
 		}
 
 		public async Task UpdateUserAsync(UsersDto user)
@@ -55,12 +55,18 @@ namespace RMT_API.Services
 			return _mapper.Map<UsersDto>(response);
 		}
 
-		public async Task<IEnumerable<UsersDto>> GetAllUsersWithChildAsync()
+		public async Task<IEnumerable<UserDto>> GetAllUsersWithChildAsync()
 		{
 			var response = await _repository.GetAllWithChildrenAsync(p => p.AccessType);
 
-			return _mapper.Map<IEnumerable<UsersDto>>(response);
+			return _mapper.Map<IEnumerable<UserDto>>(response);
 		}
+
+		public async Task ChangePasswordAsync(string password, string username)
+		{
+			await userRepository.ChangePasswordAsync(password, username);
+		}
+
 	}
 
 }

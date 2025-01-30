@@ -22,14 +22,13 @@ namespace RMT_API.Infrastructure
 			CreateMap<RoleDto, Role>().ReverseMap();
 			CreateMap<TimesheetDto, Timesheet>().ReverseMap();
 
-			CreateMap<Users, UsersDto>();
-			CreateMap<AccessTypeMaster,UsersDto>();
-
-
-
 			CreateMap<UsersDto, Users>().ReverseMap()
 				 .ForMember(dest => dest.RoleID, opt => opt.MapFrom(src => src.AccessTypeID))
-				 .ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.AccessType!.Name));
+				 .ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.AccessType!.Name)).ReverseMap() ;
+
+			CreateMap<UserDto, Users>().ReverseMap()
+				 .ForMember(dest => dest.RoleID, opt => opt.MapFrom(src => src.AccessTypeID))
+				 .ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.AccessType!.Name)).ReverseMap();
 
 
 			CreateMap<PublicHolidayDto, PublicHoliday>().ReverseMap();

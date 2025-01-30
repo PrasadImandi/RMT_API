@@ -6,5 +6,6 @@ namespace RMT_API.Repositories
 	{
 		Task<IEnumerable<Users>> GetUsersByRoleIdAsync(int roleId);
 		Task<Users> GetUserByNameAsync(string name);
+		Task ChangePasswordAsync(string password, string username);
 	}
 }
