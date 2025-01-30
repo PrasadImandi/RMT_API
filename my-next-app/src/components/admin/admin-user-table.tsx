@@ -15,7 +15,7 @@ import { useRouter } from "next/navigation";
 import api from "@/lib/axiosInstance";
 
 interface UserRow {
-    iD: string;
+    id: string;
     firstName: string;
     lastName: string;
     description: string;
@@ -50,9 +50,10 @@ const AdminTableUser = () => {
     const handleDeactivateUser = (id: string) => {
         setData((prevData) =>
             prevData.map((user) =>
-                user.iD === id ? { ...user, status: "Inactive" } : user
+                user.id === id ? { ...user, status: "Inactive" } : user
             )
         );
+
         console.log(`User with ID ${id} has been set to inactive.`);
     };
 
@@ -87,7 +88,7 @@ const AdminTableUser = () => {
                 </TableHeader>
                 <TableBody className="dark:bg-inherit dark:text-white">
                     {filteredData.map((row: UserRow, index) => (
-                        <TableRow key={row.iD}>
+                        <TableRow key={row.id}>
                             <TableCell className="font-medium">{index + 1}</TableCell>
                             <TableCell>{row.firstName + " "+ row.lastName}</TableCell>
                             <TableCell>{row.email}</TableCell>
@@ -96,7 +97,7 @@ const AdminTableUser = () => {
                                 <Button
                                     className="bg-red-500"
                                     variant="default"
-                                    onClick={() => handleDeactivateUser(row.iD)}
+                                    onClick={() => handleDeactivateUser(row.id)}
                                     disabled={row.isActive === false}
                                 >
                                     Deactivate
@@ -104,7 +105,7 @@ const AdminTableUser = () => {
                                 <Button
                                     className="bg-blue-500"
                                     variant="default"
-                                    onClick={() => handleEdit(row.iD)}
+                                    onClick={() => handleEdit(row.id)}
                                 >
                                     Edit
                                 </Button>
