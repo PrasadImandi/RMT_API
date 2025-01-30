@@ -8,7 +8,7 @@ namespace RMT_API.Models
 		public string? RMEmailID { get; set; }
 		public int ClientID { get; set; }
 		public int ProjectID { get; set; }
-		public int? ProjectManagerID { get; set; }
+		public int? PMID { get; set; }
 
 		public virtual Client? ClientMaster { get; set; } = new();
 		public virtual Project? ProjectMaster { get; set; } = new();

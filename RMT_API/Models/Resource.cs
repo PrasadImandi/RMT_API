@@ -2,7 +2,7 @@
 
 namespace RMT_API.Models
 {
-	public class Resource :BaseModel
+	public class Resource : ResourceIdentifier
 	{
 		public string? FirstName { get; set; }
 		public string? LastName { get; set; }
@@ -14,7 +14,7 @@ namespace RMT_API.Models
 		public int? RMID { get; set; }
 		public int? SupplierID { get; set; }
 		public int? ResourceInformationID { get; set; }
-		public virtual ResourceInformation? ResourceInformation { get; set; } = new();
 
+		public virtual ResourceInformation? ResourceInformation { get; set; } = new();
 	}
 }

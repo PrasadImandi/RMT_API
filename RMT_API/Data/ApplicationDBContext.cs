@@ -51,37 +51,31 @@ namespace RMT_API.Data
 				.HasOne(r => r.ResourceInformation)
 				.WithOne()
 				.HasForeignKey<ResourceInformation>(p => p.ID)
-				.OnDelete(DeleteBehavior.Restrict); // Prevent cascading deletes
+				.OnDelete(DeleteBehavior.Restrict);
 
-			// Configure one-to-one relationship with PersonalDetails
 			modelBuilder.Entity<ResourceInformation>()
 				.HasOne(r => r.Personal)
 				.WithOne()
 				.HasForeignKey<PersonalDetails>(p => p.ResourceInformationId)
-				.OnDelete(DeleteBehavior.Restrict); // Prevent cascading deletes
+				.OnDelete(DeleteBehavior.Restrict);
 
-			// Configure one-to-one relationship with ProfessionalDetails
 			modelBuilder.Entity<ResourceInformation>()
 				.HasOne(r => r.Professional)
 				.WithOne()
 				.HasForeignKey<ProfessionalDetails>(p => p.ResourceInformationId)
-				.OnDelete(DeleteBehavior.Restrict); // Prevent cascading deletes
+				.OnDelete(DeleteBehavior.Restrict);
 
-
-			// Configure one-to-one relationship with Documents
 			modelBuilder.Entity<ResourceInformation>()
 				.HasOne(r => r.Documents)
 				.WithOne()
 				.HasForeignKey<Documents>(d => d.ResourceInformationId)
-				.OnDelete(DeleteBehavior.Restrict); // Prevent cascading deletes
-
-			// Configure one-to-many relationship with AcademicDetails
+				.OnDelete(DeleteBehavior.Restrict);
+			
 			modelBuilder.Entity<ResourceInformation>()
 				.HasMany(r => r.Academic)
 				.WithOne()
 				.HasForeignKey(a => a.ResourceInformationId);
 
-			// Configure one-to-many relationship with CertificationDetails
 			modelBuilder.Entity<ResourceInformation>()
 				.HasMany(r => r.Certification)
 				.WithOne()

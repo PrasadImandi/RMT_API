@@ -5,7 +5,7 @@ using System.Net;
 
 namespace RMT_API.Infrastructure
 {
-	public class Automapper :Profile
+	public class Automapper : Profile
 	{
 		public Automapper()
 		{
@@ -22,14 +22,25 @@ namespace RMT_API.Infrastructure
 			CreateMap<RoleDto, Role>().ReverseMap();
 			CreateMap<TimesheetDto, Timesheet>().ReverseMap();
 
-			CreateMap<UsersDto, Users>().ReverseMap()
-				 .ForMember(dest => dest.RoleID, opt => opt.MapFrom(src => src.AccessTypeID))
-				 .ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.AccessType!.Name)).ReverseMap() ;
 
-			CreateMap<UserDto, Users>().ReverseMap()
-				 .ForMember(dest => dest.RoleID, opt => opt.MapFrom(src => src.AccessTypeID))
-				 .ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.AccessType!.Name)).ReverseMap();
+			CreateMap<UsersDto, Users>().ReverseMap();
+			CreateMap<UserDto, Users>().ReverseMap();
+			CreateMap<AccessTypeMaster, UsersDto>().ReverseMap();
+			CreateMap<AccessTypeMaster, UserDto>().ReverseMap();
 
+			CreateMap<UsersDto, Users>()
+				.ForMember(dest => dest.AccessTypeID, opt => opt.MapFrom(src => src.RoleID));
+
+			CreateMap<Users, UsersDto>()
+				.ForMember(dest => dest.RoleID, opt => opt.MapFrom(src => src.AccessTypeID))
+				.ForPath(dest => dest.Role, opt => opt.MapFrom(src => src.AccessType!.Name));
+
+			CreateMap<UserDto, Users>()
+				 .ForMember(dest => dest.AccessTypeID, opt => opt.MapFrom(src => src.RoleID));
+
+			CreateMap<Users, UserDto>()
+				 .ForMember(dest => dest.RoleID, opt => opt.MapFrom(src => src.AccessTypeID))
+				.ForPath(dest => dest.Role, opt => opt.MapFrom(src => src.AccessType!.Name));
 
 			CreateMap<PublicHolidayDto, PublicHoliday>().ReverseMap();
 			CreateMap<SupplierDto, Supplier>().ReverseMap();

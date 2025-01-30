@@ -4,7 +4,7 @@ namespace RMT_API.Models
 {
 	public class AcademicDetails :  BaseModel
 	{
-		public int YearOfCompleted { get; set; }
+		public DateTime CompletionDate { get; set; }
 		public decimal ResultPercentage { get; set; }
 		public string? Attachment { get; set; }
 		public int ResourceInformationId { get; set; }

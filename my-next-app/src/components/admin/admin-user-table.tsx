@@ -16,11 +16,12 @@ import api from "@/lib/axiosInstance";
 
 interface UserRow {
     iD: string;
-    name: string;
+    firstName: string;
+    lastName: string;
     description: string;
     email: string;
-    accessTypeID: number;
-    accessTypeName: string;
+    roleId: number;
+    role: string;
     isActive: boolean;
 }
 
@@ -57,9 +58,10 @@ const AdminTableUser = () => {
 
     const filteredData = data.filter(
         (row) =>
-            row.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            row.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            row.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
             row.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            row.accessTypeName.toLowerCase().includes(searchTerm.toLowerCase())
+            row.role.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     if (data.length === 0) {
@@ -87,9 +89,9 @@ const AdminTableUser = () => {
                     {filteredData.map((row: UserRow, index) => (
                         <TableRow key={row.iD}>
                             <TableCell className="font-medium">{index + 1}</TableCell>
-                            <TableCell>{row.name}</TableCell>
+                            <TableCell>{row.firstName + " "+ row.lastName}</TableCell>
                             <TableCell>{row.email}</TableCell>
-                            <TableCell>{row.accessTypeName}</TableCell>
+                            <TableCell>{row.role}</TableCell>
                             <TableCell className="text-right flex gap-x-2 justify-end">
                                 <Button
                                     className="bg-red-500"

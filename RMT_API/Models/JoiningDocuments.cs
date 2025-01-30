@@ -1,11 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using RMT_API.Models.BaseModels;
 
 namespace RMT_API.Models
 {
-	public class JoiningDocuments
+	public class JoiningDocuments :ResourceIdentifier
 	{
-		[Key]
-		public int Id { get; set; }
 		public string? AadharCard { get; set; }
 		public string? appraisalLetter { get; set; }
 		public string? drivingLicense { get; set; }

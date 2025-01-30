@@ -11,6 +11,6 @@ namespace RMT_API.Models
 		public string? Password { get; set; }
 		public int? AccessTypeID { get; set; }
 
-		public virtual AccessTypeMaster? AccessType { get; set; }
+		public virtual AccessTypeMaster? AccessType { get; set; } = null;
 	}
 }

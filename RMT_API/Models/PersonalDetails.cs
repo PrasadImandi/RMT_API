@@ -11,7 +11,6 @@ namespace RMT_API.Models
 		public string? AlternateContactNumber { get; set; }
 		public string? EmergencyContactNumber { get; set; }
 		public string? HometownAddress { get; set; }
-		public DateTime JoiningDate { get; set; }
 		public string? OfficialMailingAddress { get; set; }
 		public string? PinCode { get; set; }
 		public int? StateID { get; set; }
