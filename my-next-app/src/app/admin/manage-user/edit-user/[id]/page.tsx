@@ -24,9 +24,8 @@ import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const formSchema = z.object({
-  fullName: z
-    .string()
-    .min(2, { message: "Full Name must be at least 2 characters." }),
+  firstName: z.string().min(2, { message: "First Name must be at least 2 characters." }),
+  lastName: z.string().min(2, { message: "Last Name must be at least 2 characters." }),
   email: z.string().email({ message: "Please enter a valid email address." }),
   role: z.enum(["admin", "pm", "user", "supplier"], {
     required_error: "Please select a role.",
@@ -51,7 +50,8 @@ const EditUser = () => {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      fullName: "",
+      firstName: "",
+      lastName: "",
       email: "",
       role: "user",
       status: "active",
@@ -65,16 +65,15 @@ const EditUser = () => {
         const response = await api.get(`/User/${params.id}`);
         const userData = response.data;
         setUser(userData);
-        console.log(userData.status);
-        // Update the form values once the user data is fetched
         reset({
-          fullName: userData?.fullName || "",
+          firstName: userData?.firstName || "",
+          lastName: userData?.lastName || "",
           email: userData?.email || "",
-          role: userData?.roleID || "",
-          status: userData?.isActive ? "Active" : "Inactive", // Dynamically set status
+          role: userData?.role || "",
+          status: userData?.isActive ? "active" : "inactive",
         });
       } catch (error) {
-        console.error("Error fetching current user:", error);
+        console.error("Error fetching user details:", error);
       }
     };
 
@@ -82,118 +81,100 @@ const EditUser = () => {
   }, [params?.id, reset]);
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log("Form Submitted", values);
     const updatedUser = {
-      ...(user || {}), // Fallback to an empty object if user is undefined
-      fullName: values.fullName,
+      ...(user || {}),
+      firstName: values.firstName,
+      lastName: values.lastName,
       email: values.email,
       role: values.role,
-      roleID: roleMap[values.role], // Map role to roleID
-      isActive: values.status === "active", // Map status to isActive
+      roleID: roleMap[values.role],
+      isActive: values.status === "active",
     };
 
+    console.log(updatedUser)
+
     try {
-      const res = await api.put(`/User/${params.id}`, updatedUser);
-      console.log(res.data);
-      form.reset();
+      await api.put(`/User/${params.id}`, updatedUser);
       router.push("/admin/manage-user");
     } catch (error) {
-      console.error("Error submitting form", error);
+      console.error("Error updating user:", error);
     }
   };
 
   return (
     <div className="m-16 p-4 bg-white dark:bg-[#17171A]">
-      <h1 className="text-2xl mb-6">Create User</h1>
+      <h1 className="text-2xl mb-6">Edit User</h1>
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-6 w-3/5"
-        >
-          {/* Full Name Field */}
-          <FormField
-            control={form.control}
-            name="fullName"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Full Name</FormLabel>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 w-3/5">
+          <FormField control={form.control} name="firstName" render={({ field }) => (
+            <FormItem>
+              <FormLabel>First Name</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter first name" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )} />
+
+          <FormField control={form.control} name="lastName" render={({ field }) => (
+            <FormItem>
+              <FormLabel>Last Name</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter last name" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )} />
+
+          <FormField control={form.control} name="email" render={({ field }) => (
+            <FormItem>
+              <FormLabel>Email</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter email" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )} />
+
+          <FormField control={form.control} name="role" render={({ field }) => (
+            <FormItem>
+              <FormLabel>Role</FormLabel>
+              <Select onValueChange={field.onChange} value={field.value}>
                 <FormControl>
-                  <Input placeholder="Enter full name" {...field} />
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a role" />
+                  </SelectTrigger>
                 </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          {/* Email Field */}
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
+                <SelectContent>
+                  <SelectItem value="admin">Admin</SelectItem>
+                  <SelectItem value="pm">Project Manager</SelectItem>
+                  <SelectItem value="user">User</SelectItem>
+                  <SelectItem value="supplier">Supplier</SelectItem>
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )} />
+
+          <FormField control={form.control} name="status" render={({ field }) => (
+            <FormItem>
+              <FormLabel>Status</FormLabel>
+              <Select onValueChange={field.onChange} value={field.value}>
                 <FormControl>
-                  <Input placeholder="Enter email" {...field} />
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a status" />
+                  </SelectTrigger>
                 </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          {/* Role Field */}
-          <FormField
-            control={form.control}
-            name="role"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Role</FormLabel>
-                <Select
-                  onValueChange={field.onChange}
-                  value={field.value} // Use the field value dynamically updated by `reset`
-                  defaultValue={user?.status || ""}
-                >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select a role" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    <SelectItem value="admin">Admin</SelectItem>
-                    <SelectItem value="pm">Project Manager</SelectItem>
-                    <SelectItem value="user">User</SelectItem>
-                    <SelectItem value="supplier">Supplier</SelectItem>
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          {/* Status Field */}
-          <FormField
-            control={form.control}
-            name="status"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Status</FormLabel>
-                <Select
-                  onValueChange={field.onChange}
-                  value={field.value} // Use the field value dynamically updated by `reset`
-                  defaultValue={user?.status || ""}
-                >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select a status" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    <SelectItem value="active">Active</SelectItem>
-                    <SelectItem value="inactive">Inactive</SelectItem>
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          {/* Submit Button */}
-          <Button type="submit">Create User</Button>
+                <SelectContent>
+                  <SelectItem value="active">Active</SelectItem>
+                  <SelectItem value="inactive">Inactive</SelectItem>
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )} />
+
+          <Button type="submit">Update User</Button>
         </form>
       </Form>
     </div>

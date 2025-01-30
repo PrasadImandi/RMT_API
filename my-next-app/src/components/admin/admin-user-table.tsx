@@ -15,12 +15,13 @@ import { useRouter } from "next/navigation";
 import api from "@/lib/axiosInstance";
 
 interface UserRow {
-    iD: string;
-    name: string;
-    description: string;
+    id: number;
+    firstName: string | null;
+    lastName: string | null;
+    userName: string | null;
     email: string;
-    accessTypeID: number;
-    accessTypeName: string;
+    roleID: number | null;
+    role: string | null;
     isActive: boolean;
 }
 
@@ -34,7 +35,7 @@ const AdminTableUser = () => {
             try {
                 const response = await api.get("/User"); // Replace with your API endpoint
                 setData(response.data);
-                console.log(response.data)
+                console.log(response.data);
             } catch (error) {
                 console.error("Error fetching users:", error);
             }
@@ -42,24 +43,30 @@ const AdminTableUser = () => {
         fetchUsers();
     }, []);
 
-    const handleEdit = (id: string) => {
+    const handleEdit = (id: number) => {
         router.push(`/admin/manage-user/edit-user/${id}`);
     };
 
-    const handleDeactivateUser = (id: string) => {
+    const handleDeactivateUser = async(id: number) => {
         setData((prevData) =>
             prevData.map((user) =>
-                user.iD === id ? { ...user, status: "Inactive" } : user
+                user.id === id ? { ...user, isActive: false } : user
             )
         );
-        console.log(`User with ID ${id} has been set to inactive.`);
+        await api.patch('/User', {
+            id,
+            isActive:false,
+          });
+        console.log(`User with ID ${id} has been deactivated.`);
     };
 
     const filteredData = data.filter(
         (row) =>
-            row.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            (`${row.firstName ?? ""} ${row.lastName ?? ""}`
+                .toLowerCase()
+                .includes(searchTerm.toLowerCase())) ||
             row.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            row.accessTypeName.toLowerCase().includes(searchTerm.toLowerCase())
+            (row.role && row.role.toLowerCase().includes(searchTerm.toLowerCase()))
     );
 
     if (data.length === 0) {
@@ -78,6 +85,7 @@ const AdminTableUser = () => {
                     <TableRow className="hover:bg-transparent">
                         <TableHead className="w-10">No</TableHead>
                         <TableHead>Full Name</TableHead>
+                        <TableHead>Username</TableHead>
                         <TableHead>Email</TableHead>
                         <TableHead>Role</TableHead>
                         <TableHead className="text-right">Action</TableHead>
@@ -85,24 +93,29 @@ const AdminTableUser = () => {
                 </TableHeader>
                 <TableBody className="dark:bg-inherit dark:text-white">
                     {filteredData.map((row: UserRow, index) => (
-                        <TableRow key={row.iD}>
+                        <TableRow key={row.id}>
                             <TableCell className="font-medium">{index + 1}</TableCell>
-                            <TableCell>{row.name}</TableCell>
+                            <TableCell>
+                                {row.firstName || row.lastName
+                                    ? `${row.firstName ?? ""} ${row.lastName ?? ""}`.trim()
+                                    : "N/A"}
+                            </TableCell>
+                            <TableCell>{row.userName}</TableCell>
                             <TableCell>{row.email}</TableCell>
-                            <TableCell>{row.accessTypeName}</TableCell>
+                            <TableCell>{row.role ?? "N/A"}</TableCell>
                             <TableCell className="text-right flex gap-x-2 justify-end">
                                 <Button
                                     className="bg-red-500"
                                     variant="default"
-                                    onClick={() => handleDeactivateUser(row.iD)}
-                                    disabled={row.isActive === false}
+                                    onClick={() => handleDeactivateUser(row.id)}
+                                    disabled={!row.isActive}
                                 >
                                     Deactivate
                                 </Button>
                                 <Button
                                     className="bg-blue-500"
                                     variant="default"
-                                    onClick={() => handleEdit(row.iD)}
+                                    onClick={() => handleEdit(row.id)}
                                 >
                                     Edit
                                 </Button>

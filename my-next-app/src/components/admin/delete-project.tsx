@@ -15,45 +15,50 @@ interface DeleteProjectProps {
   id: string;
   type: string;
   onDelete: (id: string) => void;
-  disabled: boolean // Function to handle delete in AdminTable
+  disabled: boolean; // Function to handle delete in AdminTable
 }
 
-const DeleteProject = ({ id, onDelete, type, disabled }: DeleteProjectProps) => {
-    const [isDialogOpen, setIsDialogOpen] = useState(false)
-    const handleDelete = async () => {
-      console.log(id);
-      try {
-        const endpoint =
-          type === "resource"
-            ? "/Resource"
-            : type === "supplier"
-            ? "/Supplier"
-            : "/Project";
-    
-        // Set the key dynamically based on the type
-        const payloadKey =
-          type === "resource"
-            ? "resourceID"
-            : type === "supplier"
-            ? "supplierID"
-            : "projectID";
-    
-        const res = await api.patch(endpoint, {
-          [payloadKey]: id, // Use computed property name
-          status: "Inactive",
-        });
-    
-        console.log("User deleted successfully", res);
-        onDelete(id);
-        setIsDialogOpen(false);
-      } catch (error) {
-        console.log("Error deleting user", error);
-      }
-      }
+const DeleteProject = ({
+  id,
+  onDelete,
+  type,
+  disabled,
+}: DeleteProjectProps) => {
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const handleDelete = async () => {
+    console.log(id);
+    try {
+      const endpoint =
+        type === "resource"
+          ? "/Resource"
+          : type === "supplier"
+          ? "/Supplier"
+          : "/Project";
+
+      // Set the key dynamically based on the type
+      const payloadKey =
+        type === "resource"
+          ? "resourceID"
+          : type === "supplier"
+          ? "supplierID"
+          : "projectID";
+
+      const res = await api.patch(endpoint, {
+        [payloadKey]: id, // Use computed property name
+        status: "Inactive",
+      });
+
+      console.log("User deleted successfully", res);
+      onDelete(id);
+      setIsDialogOpen(false);
+    } catch (error) {
+      console.log("Error deleting user", error);
+    }
+  };
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
-        <Button className=" bg-blue-500" variant="default" disabled={disabled}>
+        <Button className="bg-red-500" variant="default" disabled={disabled}>
           Inactive
         </Button>
       </DialogTrigger>
