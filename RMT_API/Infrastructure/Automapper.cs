@@ -21,6 +21,8 @@ namespace RMT_API.Infrastructure
 			CreateMap<ResourceOnboardingDto, ResourceOnboarding>().ReverseMap();
 			CreateMap<TimesheetDto, Timesheet>().ReverseMap();
 
+			CreateMap<ResourceIdentifierDto, UsersDto>().ReverseMap();
+			CreateMap<ResourceIdentifierDto, UserDto>().ReverseMap();
 			CreateMap<UsersDto, Users>().ReverseMap();
 			CreateMap<UserDto, Users>().ReverseMap();
 			CreateMap<AccessTypeMaster, UsersDto>().ReverseMap();

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using RMT_API.DTOs;
+using RMT_API.DTOs.BaseDtos;
 using RMT_API.Models;
 using RMT_API.Repositories;
 
@@ -44,7 +45,7 @@ namespace RMT_API.Services
 			await _repository.UpdateAsync(_mapper.Map<Users>(user));
 		}
 
-		public async Task ChangeStatusUserAsync(UsersDto user)
+		public async Task ChangeStatusUserAsync(ResourceIdentifierDto user)
 		{
 			await _repository.ChangeStatusAsync(user.ID, user.IsActive);
 		}

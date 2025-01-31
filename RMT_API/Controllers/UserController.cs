@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RMT_API.DTOs;
+using RMT_API.DTOs.BaseDtos;
 using RMT_API.Services;
 
 namespace RMT_API.Controllers
@@ -71,7 +72,7 @@ namespace RMT_API.Controllers
 		}
 
 		[HttpPatch]
-		public async Task<IActionResult> ChangeStatusUser([FromBody] UsersDto user)
+		public async Task<IActionResult> ChangeStatusUser([FromBody] ResourceIdentifierDto user)
 		{
 			await _service.ChangeStatusUserAsync(user);
 			return NoContent();

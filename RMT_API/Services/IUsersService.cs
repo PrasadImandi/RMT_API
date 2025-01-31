@@ -1,4 +1,5 @@
 ﻿using RMT_API.DTOs;
+using RMT_API.DTOs.BaseDtos;
 
 namespace RMT_API.Services
 {
@@ -12,7 +13,7 @@ namespace RMT_API.Services
 		Task AddUserAsync(UsersDto user);
 		Task UpdateUserAsync(UsersDto user);
 		Task DeleteUserAsync(int id);
-		Task ChangeStatusUserAsync(UsersDto user);
+		Task ChangeStatusUserAsync(ResourceIdentifierDto user);
 		Task ChangePasswordAsync(string password, string username);
 	}
 }

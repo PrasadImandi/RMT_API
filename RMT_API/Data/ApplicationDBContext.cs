@@ -737,12 +737,10 @@ namespace RMT_API.Data
 			.HasKey(a => a.ID);
 
 			modelBuilder.Entity<ResourceOffboarding>()
-			.Property(a => a.OffboardingDate)
-			.IsRequired(false);
+			.Property(a => a.OffboardingDate);
 
 			modelBuilder.Entity<ResourceOffboarding>()
-			.Property(a => a.HandledByID)
-			.IsRequired(false);
+			.Property(a => a.HandledByID);
 
 			modelBuilder.Entity<ResourceOffboarding>()
 			.Property(a => a.ExitDocumentName)
@@ -781,12 +779,10 @@ namespace RMT_API.Data
 			.IsRequired();
 
 			modelBuilder.Entity<ResourceOnboarding>()
-			.Property(a => a.HandledByID)
-			.IsRequired(false);
+			.Property(a => a.HandledByID);
 
 			modelBuilder.Entity<ResourceOnboarding>()
-			.Property(a => a.OnboardingDate)
-			.IsRequired(false);
+			.Property(a => a.OnboardingDate);
 
 			modelBuilder.Entity<ResourceOnboarding>()
 			.Property(a => a.DocumentName)
@@ -870,7 +866,7 @@ namespace RMT_API.Data
 
 			modelBuilder.Entity<Supplier>()
 			.Property(a => a.Supplier_Code)
-			.HasComputedColumnSql("CONCAT('S', RIGHT('10000' + CAST(EmployeeID AS VARCHAR), 5))", stored: true)
+			.HasComputedColumnSql("CONCAT('S', RIGHT('10000' + CAST(ID AS VARCHAR), 5))", stored: true)
 			.IsRequired();
 
 			modelBuilder.Entity<Supplier>()
