@@ -955,7 +955,7 @@ namespace RMT_API.Data
 
 			modelBuilder.Entity<Users>()
 			.Property(a => a.Password)
-			.HasColumnType("varchar(20)")
+			.HasColumnType("varchar(max)")
 			.IsRequired();
 
 			#endregion Users

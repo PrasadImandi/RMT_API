@@ -11,7 +11,7 @@ namespace RMT_API.Services
 		Task<UserDto> GetUserByIdAsync(int id);
 		Task<UsersDto> GetUserByNameAsync(string name);
 		Task AddUserAsync(UsersDto user);
-		Task UpdateUserAsync(UsersDto user);
+		Task UpdateUserAsync(UserDto user);
 		Task DeleteUserAsync(int id);
 		Task ChangeStatusUserAsync(ResourceIdentifierDto user);
 		Task ChangePasswordAsync(string password, string username);

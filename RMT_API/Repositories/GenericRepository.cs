@@ -70,7 +70,7 @@ namespace RMT_API.Repositories
 
 		public async Task ChangeStatusAsync(int id, bool? status)
 		{
-			var entity = GetByIdAsNoTrackingAsync(id);
+			var entity =await GetByIdAsNoTrackingAsync(id);
 
 			if (entity == null)
 			{
@@ -80,7 +80,15 @@ namespace RMT_API.Repositories
 			var property = typeof(T).GetProperty("IsActive", BindingFlags.Public | BindingFlags.Instance);
 			if (property != null && property.CanWrite)
 			{
-				property.SetValue(entity, status);
+				try
+				{
+					property.SetValue(entity, status);
+
+				}
+				catch(Exception ex)
+				{
+
+				}
 			}
 			else
 			{

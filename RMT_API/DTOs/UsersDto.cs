@@ -2,7 +2,7 @@
 
 namespace RMT_API.DTOs
 {
-	public class UsersDto :BaseDto
+	public class UsersDto :ResourceIdentifierDto
 	{
 		public string? FirstName { get; set; }
 		public string? LastName { get; set; }
@@ -13,7 +13,7 @@ namespace RMT_API.DTOs
 		public string? Role { get; set; }
 	}
 
-	public class UserDto : BaseDto
+	public class UserDto : ResourceIdentifierDto
 	{
 		public string? FirstName { get; set; }
 		public string? LastName { get; set; }

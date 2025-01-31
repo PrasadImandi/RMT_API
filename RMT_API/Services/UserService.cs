@@ -40,9 +40,26 @@ namespace RMT_API.Services
 			return _mapper.Map<UserDto>(response);
 		}
 
-		public async Task UpdateUserAsync(UsersDto user)
+		public async Task<UsersDto> GetUserWithPasswordByIdAsync(int id)
 		{
-			await _repository.UpdateAsync(_mapper.Map<Users>(user));
+			var response = await _repository.GetByIdAsNoTrackingAsync(id);
+			return _mapper.Map<UsersDto>(response);
+		}
+
+		public async Task UpdateUserAsync(UserDto user)
+		{
+			var updateuser = await GetUserWithPasswordByIdAsync(user.ID);
+
+			if(updateuser != null)
+			{
+				updateuser.FirstName = user.FirstName;
+				updateuser.LastName = user.LastName;
+				updateuser.Email = user.Email;
+				updateuser.UserName = user.UserName;
+				updateuser.RoleID = user.RoleID;
+
+				await _repository.UpdateAsync(_mapper.Map<Users>(updateuser));
+			}
 		}
 
 		public async Task ChangeStatusUserAsync(ResourceIdentifierDto user)

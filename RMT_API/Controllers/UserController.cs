@@ -47,19 +47,13 @@ namespace RMT_API.Controllers
 			user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
 			await _service.AddUserAsync(user);
 
-			return CreatedAtAction(nameof(GetUser), new { id = user.ID }, user);
+			return Created(nameof(GetUser), new { id = user.ID });
 		}
 
-		[HttpPut("{id}")]
-		public async Task<IActionResult> UpdateUser(int id, [FromBody] UsersDto user)
+		[HttpPut()]
+		public async Task<IActionResult> UpdateUser([FromBody] UserDto user)
 		{
-			if (id != user.ID)
-			{
-				return BadRequest("User ID mismatch.");
-			}
-			user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
 			await _service.UpdateUserAsync(user);
-
 			return NoContent();
 		}
 

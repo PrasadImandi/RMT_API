@@ -28,7 +28,7 @@ namespace RMT_API.Controllers
 			}
 
 			var claims = new[]{
-			new Claim(ClaimTypes.Name, user.Name!),
+			new Claim(ClaimTypes.Name, user.UserName!),
 			new Claim(ClaimTypes.Role, user.RoleID.ToString()!)
 				};
 			var keybytes = Encoding.UTF8.GetBytes(_configuration["Jwt:SecretKey"]);
