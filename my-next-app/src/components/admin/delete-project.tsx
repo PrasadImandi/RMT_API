@@ -35,17 +35,9 @@ const DeleteProject = ({
           ? "/Supplier"
           : "/Project";
 
-      // Set the key dynamically based on the type
-      const payloadKey =
-        type === "resource"
-          ? "resourceID"
-          : type === "supplier"
-          ? "supplierID"
-          : "projectID";
-
       const res = await api.patch(endpoint, {
-        [payloadKey]: id, // Use computed property name
-        status: "Inactive",
+        id: id, // Use computed property name
+        isActive: false,
       });
 
       console.log("User deleted successfully", res);
