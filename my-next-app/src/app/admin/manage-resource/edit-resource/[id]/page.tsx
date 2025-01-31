@@ -20,15 +20,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
-import {
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-} from "@/components/ui/popover";
-import { Calendar } from "@/components/ui/calendar";
-import { CalendarIcon } from "lucide-react";
-import { format } from "date-fns";
-import { cn } from "@/lib/utils";
 import api from "@/lib/axiosInstance";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -38,19 +29,17 @@ const formSchema = z.object({
   lastName: z.string().min(1, "Last name is required."),
   email: z.string().email("Invalid email address."),
   phone: z.string().regex(/^\d{10}$/, "Phone number must be 10 digits."),
-  jobTitle: z.string().min(1, "Job title is required."),
-  hireDate: z.date({ required_error: "Hire date is required." }),
-  status: z.string({
-    required_error: "Please select a status to display.",
-  }),
-  departmentID: z.number(),
-  managerID: z.number(),
+  accountName: z.string().min(1, "Account Name is required."),
+  project: z.string().min(1, "Project is required."),
+  projectManager: z.string().min(1, "Project Manager is required."),
+  relationshipManager: z.string().min(1, "Relationship Manager is required."),
+  supplier: z.string().min(1, "Supplier is required."),
 });
 
-const AddResource = () => {
+const EditResource = () => {
   const params = useParams<{ id: string }>();
   const [user, setUser] = useState();
-  const router = useRouter()
+  const router = useRouter();
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -59,36 +48,32 @@ const AddResource = () => {
       lastName: "",
       email: "",
       phone: "",
-      jobTitle: "",
-      hireDate: new Date(),
-      status: "",
-      departmentID: 1,
-      managerID: 1,
+      accountName: "",
+      project: "",
+      projectManager: "",
+      relationshipManager: "",
+      supplier: "",
     },
   });
-  
+
   const { reset } = form;
 
   useEffect(() => {
     const fetchCurrentUser = async () => {
       try {
-        const response = await api.get(`/Resource/${params.id}`);
+        const response = await api.get(`/resource/${params.id}`);
         const userData = response.data;
         setUser(userData);
-        console.log(userData);
-        // Update the form values once the user data is fetched
         reset({
           firstName: userData.firstName,
           lastName: userData.lastName,
           email: userData.email,
           phone: userData.phone,
-          jobTitle: userData.jobTitle,
-          hireDate: userData?.hireDate
-            ? new Date(userData.hireDate)
-            : new Date(),
-          status: userData?.status,
-          departmentID: userData.departmentID,
-          managerID: userData.managerID,
+          accountName: userData.accountName,
+          project: userData.project,
+          projectManager: userData.projectManager,
+          relationshipManager: userData.relationshipManager,
+          supplier: userData.supplier,
         });
       } catch (error) {
         console.error("Error fetching current user:", error);
@@ -98,23 +83,13 @@ const AddResource = () => {
   }, [params?.id, reset]);
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log("Form Submitted", values);
     const updatedUser = {
-      ...(user || {}), // Use existing user data or fallback to an empty object
-      firstName: values.firstName,
-      lastName: values.lastName,
-      email: values.email,
-      phone: values.phone,
-      jobTitle: values.jobTitle,
-      hireDate: values.hireDate,
-      status: values.status,
-      departmentID: values.departmentID,
-      managerID: values.managerID,
+      ...(user || {}),
+      ...values,
     };
     try {
-      const res = await api.put(`/Resource/${params.id}`, updatedUser);
+      const res = await api.put(`/resource/${params.id}`, updatedUser);
       console.log(res.data);
-      form.reset();
       router.push("/admin/manage-resource");
     } catch (error) {
       console.error("Error submitting form", error);
@@ -187,84 +162,28 @@ const AddResource = () => {
                 <FormMessage />
               </FormItem>
             )}
-          />
+          />        
 
-          {/* Job Title Field */}
+          {/* Account Name */}
           <FormField
             control={form.control}
-            name="jobTitle"
+            name="accountName"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Job Title</FormLabel>
-                <FormControl>
-                  <Input placeholder="Enter job title" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          {/* Hire Date Field */}
-          <FormField
-            control={form.control}
-            name="hireDate"
-            render={({ field }) => (
-              <FormItem className="flex flex-col">
-                <FormLabel>Hire Date</FormLabel>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <FormControl>
-                      <Button
-                        variant="outline"
-                        className={cn(
-                          "w-[240px] pl-3 text-left font-normal",
-                          !field.value && "text-muted-foreground"
-                        )}
-                      >
-                        {field.value ? (
-                          format(field.value, "PPP")
-                        ) : (
-                          <span>Pick a date</span>
-                        )}
-                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                      </Button>
-                    </FormControl>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
-                    <Calendar
-                      mode="single"
-                      selected={field.value}
-                      onSelect={field.onChange}
-                      initialFocus
-                    />
-                  </PopoverContent>
-                </Popover>
-                <FormDescription>Select the hire date.</FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          {/* Status Field */}
-          <FormField
-            control={form.control}
-            name="status"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Status</FormLabel>
+                <FormLabel>Account Name (Client)</FormLabel>
                 <Select
                   onValueChange={field.onChange}
-                  value={field.value} // Use the field value dynamically updated by `reset`
-                  defaultValue={user?.status || ""}
+                  defaultValue={field.value}
                 >
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select status" />
+                      <SelectValue placeholder="Select an account name" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="Active">Active</SelectItem>
-                    <SelectItem value="Inactive">Inactive</SelectItem>
+                    <SelectItem value="Client A">Client A</SelectItem>
+                    <SelectItem value="Client B">Client B</SelectItem>
+                    <SelectItem value="Client C">Client C</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -272,28 +191,26 @@ const AddResource = () => {
             )}
           />
 
-          {/* managerID */}
+          {/* Project */}
           <FormField
             control={form.control}
-            name="managerID"
+            name="project"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Select Manager</FormLabel>
+                <FormLabel>Project</FormLabel>
                 <Select
-                  onValueChange={(value) => field.onChange(Number(value))}
-                  defaultValue={field.value?.toString()}
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
                 >
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select status" />
+                      <SelectValue placeholder="Select a project" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                  {managers.map((user:any) => (
-                      <SelectItem key={user.userID} value={user.userID.toString()}>
-                        {user.fullName}
-                      </SelectItem>
-                    ))}
+                    <SelectItem value="Project X">Project X</SelectItem>
+                    <SelectItem value="Project Y">Project Y</SelectItem>
+                    <SelectItem value="Project Z">Project Z</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -301,25 +218,80 @@ const AddResource = () => {
             )}
           />
 
-          {/*CLientID*/}
+          {/* Project Manager */}
           <FormField
             control={form.control}
-            name="departmentID"
+            name="projectManager"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Client</FormLabel>
-                <Select onValueChange={(value) => field.onChange(Number(value))} defaultValue={field.value?.toString()} >
+                <FormLabel>Project Manager</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select status" />
+                      <SelectValue placeholder="Select a project manager" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                  {departments.map((department) => (
-                      <SelectItem key={department.departmentID} value={department.departmentID.toString()}>
-                        {department.departmentName}
-                      </SelectItem>
-                    ))}
+                    <SelectItem value="Manager A">Manager A</SelectItem>
+                    <SelectItem value="Manager B">Manager B</SelectItem>
+                    <SelectItem value="Manager C">Manager C</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* Relationship Manager */}
+          <FormField
+            control={form.control}
+            name="relationshipManager"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Relationship Manager</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a relationship manager" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="RM A">RM A</SelectItem>
+                    <SelectItem value="RM B">RM B</SelectItem>
+                    <SelectItem value="RM C">RM C</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* Supplier */}
+          <FormField
+            control={form.control}
+            name="supplier"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Supplier</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a supplier" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="Supplier A">Supplier A</SelectItem>
+                    <SelectItem value="Supplier B">Supplier B</SelectItem>
+                    <SelectItem value="Supplier C">Supplier C</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -333,4 +305,4 @@ const AddResource = () => {
   );
 };
 
-export default AddResource;
+export default EditResource;
