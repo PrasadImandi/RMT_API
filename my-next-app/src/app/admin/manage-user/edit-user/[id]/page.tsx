@@ -94,7 +94,7 @@ const EditUser = () => {
     console.log(updatedUser)
 
     try {
-      await api.put(`/User/${params.id}`, updatedUser);
+      await api.put(`/User`, updatedUser);
       router.push("/admin/manage-user");
     } catch (error) {
       console.error("Error updating user:", error);

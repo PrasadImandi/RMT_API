@@ -57,6 +57,7 @@ namespace RMT_API.Services
 				updateuser.Email = user.Email;
 				updateuser.UserName = user.UserName;
 				updateuser.RoleID = user.RoleID;
+				updateuser.IsActive = user.IsActive;
 
 				await _repository.UpdateAsync(_mapper.Map<Users>(updateuser));
 			}
