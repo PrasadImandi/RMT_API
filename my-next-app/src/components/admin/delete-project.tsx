@@ -12,9 +12,9 @@ import api from "@/lib/axiosInstance";
 import { useState } from "react";
 
 interface DeleteProjectProps {
-  id: string;
+  id: number;
   type: string;
-  onDelete: (id: string) => void;
+  onDelete: (id: number) => void;
   disabled: boolean; // Function to handle delete in AdminTable
 }
 

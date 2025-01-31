@@ -17,7 +17,7 @@ import api from "@/lib/axiosInstance";
 import DeleteProject from "./delete-project";
 
 interface RowType {
-  iD: string;
+  id: number;
   name: string;
   isActive: boolean;
   startDate: string;
@@ -46,12 +46,12 @@ const AdminTable = () => {
     router.push(`/admin/manage-project/edit-project/${id}`);
   };
 
-  const handleDeleteUser = async (id: string) => {
+  const handleDeleteUser = async (id: number) => {
   
       // Update the local state to reflect the change
       setData((prevData) =>
         prevData.map((user) =>
-          user.iD === id ? { ...user, status: "Inactive" } : user
+          user.id === id ? { ...user, status: "Inactive" } : user
         )
       );
       console.log(`User with ID ${id} has been set to not active.`);
@@ -87,18 +87,18 @@ const AdminTable = () => {
         </TableHeader>
         <TableBody className="dark:bg-inherit">
                   {filteredData.map((row: RowType, index) => (
-                      <TableRow key={row.iD}>
+                      <TableRow key={row.id}>
                   <TableCell className="font-medium ">{index + 1}</TableCell>
                   <TableCell className="">{row.name}</TableCell>
               <TableCell>{format(new Date(row.startDate), "dd/MM/yyyy")}</TableCell>
                   <TableCell>{format(new Date(row.endDate), "dd/MM/yyyy")}</TableCell>
                   <TableCell>{row.isActive === true ? "Active" :"Inactive"}</TableCell>
                   <TableCell className="text-right flex gap-x-2 justify-end">
-                      <DeleteProject id={row.iD} onDelete={handleDeleteUser} type='project' disabled={row.isActive === false} />
+                      <DeleteProject id={row.id} onDelete={handleDeleteUser} type='project' disabled={row.isActive === false} />
                 <Button
                   className=" bg-blue-500"
                           variant="default"
-                          onClick={() => handleEdit(row.iD)}
+                          onClick={() => handleEdit(row.id)}
                 >
                   Edit
                 </Button>
