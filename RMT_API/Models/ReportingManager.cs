@@ -10,8 +10,8 @@ namespace RMT_API.Models
 		public int ProjectID { get; set; }
 		public int? PMID { get; set; }
 
-		public virtual Client? ClientMaster { get; set; } = new();
-		public virtual Project? ProjectMaster { get; set; } = new();
+		public virtual List<Client>? Client { get; set; } = [];
+		public virtual List<Project>? Projects { get; set; } = [];
 		public virtual Manager? ProjectManager { get; set; } = new();
 	}
 }

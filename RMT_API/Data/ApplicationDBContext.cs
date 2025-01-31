@@ -21,6 +21,7 @@ namespace RMT_API.Data
 		public DbSet<FormMaster> FormMaster { get; set; }
 		public DbSet<ContactTypeMaster> ContactTypeMaster { get; set; }
 		public DbSet<PublicHolidayMaster> PublicHolidaysMaster { get; set; }
+		public DbSet<ManagerTypeMaster> ManagerTypeMaster { get; set; }
 
 		#endregion Master Tables
 
@@ -573,6 +574,11 @@ namespace RMT_API.Data
 			.HasKey(a => a.ID);
 
 			modelBuilder.Entity<Project>()
+			.Property(a => a.Name)
+			.HasColumnType("varchar(100)")
+			.IsRequired();
+
+			modelBuilder.Entity<Project>()
 			.Property(a => a.ProjectCode)
 			.HasColumnType("varchar(20)")
 			.IsRequired();
@@ -965,6 +971,11 @@ namespace RMT_API.Data
 
 			#region Relationships
 
+			modelBuilder.Entity<Project>()
+				.HasOne(p => p.RM) // A Project has one RM
+				.WithMany(rm => rm.Projects) // An RM can have many Projects
+				.HasForeignKey(p => p.RMID) // Define the foreign key
+				.OnDelete(DeleteBehavior.Restrict); // Optional: Prevent cascading delete
 
 			modelBuilder.Entity<Resource>()
 				.HasOne(r => r.ResourceInformation)

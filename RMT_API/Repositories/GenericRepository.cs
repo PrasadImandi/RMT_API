@@ -36,7 +36,8 @@ namespace RMT_API.Repositories
 
 		public async Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate)
 		{
-			return await _dbSet.Where(predicate).ToListAsync();
+			var response = await _dbSet.Where(predicate).ToListAsync();
+			return response;
 		}
 
 		public async Task AddAsync(T entity)

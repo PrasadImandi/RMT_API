@@ -15,6 +15,7 @@ namespace RMT_API.DTOs
 		public int? SegmentID { get; set; }
 		public int? SupportTypeID { get; set; }
 
+		public string? ClientName { get; set; }
 		public string? PMName { get; set; }
 		public string? RMName { get; set; }
 		public string? DeleiveryMotion { get; set; }

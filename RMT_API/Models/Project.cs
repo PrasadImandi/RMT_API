@@ -2,7 +2,7 @@
 
 namespace RMT_API.Models
 {
-	public class Project : ResourceIdentifier
+	public class Project : BaseModel
 	{
 		public string? ProjectCode { get; set; }
 		public DateTime? StartDate { get; set; }
@@ -15,10 +15,11 @@ namespace RMT_API.Models
 		public int? SegmentID { get; set; }
 		public int? SupportTypeID { get; set; }
 
-		//public string? PMName { get; set; }
-		//public string? RMName { get; set; }
-		//public string? DeleiveryMotion { get; set; }
-		//public string? Segment { get; set; }
-		//public string? SupportType { get; set; }
+		public virtual Client? Client { get; set; } = new();
+		public virtual Manager? PM { get; set; } = null;
+		public virtual ReportingManager? RM { get; set; }
+		public virtual DeliveryMotionMaster? DeleiveryMotion { get; set; }
+		public virtual SegmentMaster? Segment { get; set; }
+		public virtual SupportTypeMaster? SupportType { get; set; }
 	}
 }
