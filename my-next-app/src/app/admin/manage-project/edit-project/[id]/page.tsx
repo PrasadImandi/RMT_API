@@ -35,7 +35,7 @@ import api from "@/lib/axiosInstance";
 import { useEffect, useState } from "react";
 
 const formSchema = z.object({
-    projectName: z.string().min(6, {
+    name: z.string().min(6, {
         message: "Username must be at least 6 characters.",
     }),
     startDate: z.date({
@@ -57,7 +57,7 @@ const page = () => {
     const form = useForm({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            projectName: "",
+            name: "",
             startDate: new Date(),
             endDate: new Date(),
             status: "",
@@ -75,7 +75,7 @@ const page = () => {
                 console.log(userData.status)
                 // Update the form values once the user data is fetched
                 reset({
-                    projectName: userData?.projectName || "",
+                    name: userData?.tName || "",
                     startDate: userData?.startDate ? new Date(userData.startDate) : new Date(),
                     endDate: userData?.endDate ? new Date(userData.endDate) : new Date(),
                     status: userData?.status,
@@ -93,7 +93,7 @@ const page = () => {
         console.log("Form Submitted", values);
         const updatedUser = {
             ...(user || {}), // Fallback to an empty object if user is undefined
-            projectName: values.projectName,
+            name: values.name,
             startDate: values.startDate,
             endDate: values.endDate,
             status: values.status,
@@ -120,7 +120,7 @@ const page = () => {
                     {/* Username Field */}
                     <FormField
                         control={form.control}
-                        name="projectName"
+                        name="name"
                         render={({ field }) => (
                             <FormItem>
                                 <FormLabel>Project Name</FormLabel>
