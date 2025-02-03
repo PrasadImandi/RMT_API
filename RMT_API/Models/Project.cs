@@ -15,10 +15,10 @@ namespace RMT_API.Models
 		public int? SegmentID { get; set; }
 		public int? SupportTypeID { get; set; }
 
-		public virtual Client? Client { get; set; } = new();
-		public virtual Manager? PM { get; set; } = null;
+		public virtual Client? Client { get; set; }
+		public virtual Manager? PM { get; set; }
 		public virtual ReportingManager? RM { get; set; }
-		public virtual DeliveryMotionMaster? DeleiveryMotion { get; set; }
+		public virtual DeliveryMotionMaster? DeleiveryMotion { get; set; } = null;
 		public virtual SegmentMaster? Segment { get; set; }
 		public virtual SupportTypeMaster? SupportType { get; set; }
 	}

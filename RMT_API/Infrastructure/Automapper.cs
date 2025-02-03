@@ -28,14 +28,6 @@ namespace RMT_API.Infrastructure
 			//CreateMap<SegmentMaster, ProjectDto>().ReverseMap();
 			//CreateMap<SupportTypeMaster, ProjectDto>().ReverseMap();
 
-			//CreateMap<Project, ProjectDto>()
-			//		.ForPath(dest => dest.ClientName, opt => opt.MapFrom(src => src.Client!.Name))
-			//		.ForPath(dest => dest.PMName, opt => opt.MapFrom(src => src.PM!.FirstName+" "+src.PM!.LastName))
-			//		.ForPath(dest => dest.RMName, opt => opt.MapFrom(src => src.RM!.Name))
-			//		.ForPath(dest => dest.DeleiveryMotion, opt => opt.MapFrom(src => src.DeleiveryMotion!.Name))
-			//		.ForPath(dest => dest.SupportType, opt => opt.MapFrom(src => src.SupportType!.Name))
-			//		.ForPath(dest => dest.Segment, opt => opt.MapFrom(src => src.Segment!.Name));
-
 			// Project to ProjectDto Mapping
 			CreateMap<Project, ProjectDto>()
 				.ForMember(dest => dest.ClientName, opt => opt.MapFrom(src => src.Client != null ? src.Client.Name : string.Empty))
@@ -43,8 +35,10 @@ namespace RMT_API.Infrastructure
 				.ForMember(dest => dest.RMName, opt => opt.MapFrom(src => src.RM != null ? src.RM.Name : string.Empty))
 				.ForMember(dest => dest.DeleiveryMotion, opt => opt.MapFrom(src => src.DeleiveryMotion != null ? src.DeleiveryMotion.Name : string.Empty))
 				.ForMember(dest => dest.SupportType, opt => opt.MapFrom(src => src.SupportType != null ? src.SupportType.Name : string.Empty))
-				.ForMember(dest => dest.Segment, opt => opt.MapFrom(src => src.Segment != null ? src.Segment.Name : string.Empty))
-				.ReverseMap();
+				.ForMember(dest => dest.Segment, opt => opt.MapFrom(src => src.Segment != null ? src.Segment.Name : string.Empty));
+
+			CreateMap<ProjectDto, Project>();
+
 
 
 			CreateMap<ResourceDeploymentDto, ResourceDeployment>().ReverseMap();

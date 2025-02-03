@@ -99,5 +99,13 @@ namespace RMT_API.Repositories
 			_context.Entry(entity).State = EntityState.Modified;
 			await _context.SaveChangesAsync();
 		}
+
+		public async Task<IEnumerable<T>> GetAllActiveAsync()
+		{
+			var entities = await _dbSet.AsNoTracking()
+									  .Where(e => EF.Property<bool>(e, "IsActive") == true).ToListAsync();
+
+			return entities;
+		}
 	}
 }
