@@ -2,7 +2,7 @@
 
 namespace RMT_API.DTOs
 {
-	public class ResourceDto :BaseDto
+	public class ResourceDto :ResourceIdentifierDto
 	{
 		public string? FirstName { get; set; }
 		public string? LastName { get; set; }

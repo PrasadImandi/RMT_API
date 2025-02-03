@@ -15,6 +15,6 @@ namespace RMT_API.Models
 		public int? SupplierID { get; set; }
 		public int? ResourceInformationID { get; set; }
 
-		public virtual ResourceInformation? ResourceInformation { get; set; } = new();
+		public virtual ResourceInformation? ResourceInformation { get; set; } = null;
 	}
 }
