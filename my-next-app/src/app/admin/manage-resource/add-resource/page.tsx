@@ -29,11 +29,11 @@ const formSchema = z.object({
   lastName: z.string().min(1, "Last name is required."),
   email: z.string().email("Invalid email address."),
   phone: z.string().regex(/^\d{10}$/, "Phone number must be 10 digits."),
-  accountName: z.string().min(1, "Account Name is required."),
-  project: z.string().min(1, "Project is required."),
-  projectManager: z.string().min(1, "Project Manager is required."),
-  relationshipManager: z.string().min(1, "Relationship Manager is required."),
-  supplier: z.string().min(1, "Supplier is required."),
+  clientID: z.string(),
+  projectID: z.string(),
+  pmid: z.string(),
+  rmid: z.string(),
+  supplierID: z.string(),
 });
 
 const AddResource = () => {
@@ -45,19 +45,21 @@ const AddResource = () => {
       lastName: "",
       email: "",
       phone: "",
-      accountName: "",
-      project: "",
-      projectManager: "",
-      relationshipManager: "",
-      supplier: "",
+      clientID: "0",
+      projectID: "0",
+      pmid: "0",
+      rmid: "0",
+      supplierID: "0",
     },
   });
 
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     console.log("Form Submitted", values);
+    const payload = { ...values, isActive: true };
+
     try {
-      const res = await api.post("/resource", values);
+      const res = await api.post("/Resource", payload);
       console.log(res.data);
       form.reset();
       router.push("/admin/manage-resource");
@@ -137,7 +139,7 @@ const AddResource = () => {
           {/* Account Name */}
           <FormField
             control={form.control}
-            name="accountName"
+            name="clientID"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Account Name (Client)</FormLabel>
@@ -151,9 +153,9 @@ const AddResource = () => {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="Client A">Client A</SelectItem>
-                    <SelectItem value="Client B">Client B</SelectItem>
-                    <SelectItem value="Client C">Client C</SelectItem>
+                    <SelectItem value="1">Client A</SelectItem>
+                    <SelectItem value="2">Client B</SelectItem>
+                    <SelectItem value="3">Client C</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -164,7 +166,7 @@ const AddResource = () => {
           {/* Project */}
           <FormField
             control={form.control}
-            name="project"
+            name="projectID"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Project</FormLabel>
@@ -178,9 +180,9 @@ const AddResource = () => {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="Project X">Project X</SelectItem>
-                    <SelectItem value="Project Y">Project Y</SelectItem>
-                    <SelectItem value="Project Z">Project Z</SelectItem>
+                    <SelectItem value="1">Project X</SelectItem>
+                    <SelectItem value="2">Project Y</SelectItem>
+                    <SelectItem value="3">Project Z</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -191,7 +193,7 @@ const AddResource = () => {
           {/* Project Manager */}
           <FormField
             control={form.control}
-            name="projectManager"
+            name="pmid"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Project Manager</FormLabel>
@@ -205,9 +207,9 @@ const AddResource = () => {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="Manager A">Manager A</SelectItem>
-                    <SelectItem value="Manager B">Manager B</SelectItem>
-                    <SelectItem value="Manager C">Manager C</SelectItem>
+                    <SelectItem value="1">Manager A</SelectItem>
+                    <SelectItem value="2">Manager B</SelectItem>
+                    <SelectItem value="3">Manager C</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -218,7 +220,7 @@ const AddResource = () => {
           {/* Relationship Manager */}
           <FormField
             control={form.control}
-            name="relationshipManager"
+            name="rmid"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Relationship Manager</FormLabel>
@@ -232,9 +234,9 @@ const AddResource = () => {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="RM A">RM A</SelectItem>
-                    <SelectItem value="RM B">RM B</SelectItem>
-                    <SelectItem value="RM C">RM C</SelectItem>
+                    <SelectItem value="1">RM A</SelectItem>
+                    <SelectItem value="2">RM B</SelectItem>
+                    <SelectItem value="3">RM C</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -245,7 +247,7 @@ const AddResource = () => {
           {/* Supplier */}
           <FormField
             control={form.control}
-            name="supplier"
+            name="supplierID"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Supplier</FormLabel>
@@ -259,9 +261,9 @@ const AddResource = () => {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="Supplier A">Supplier A</SelectItem>
-                    <SelectItem value="Supplier B">Supplier B</SelectItem>
-                    <SelectItem value="Supplier C">Supplier C</SelectItem>
+                    <SelectItem value="1">Supplier A</SelectItem>
+                    <SelectItem value="2">Supplier B</SelectItem>
+                    <SelectItem value="3">Supplier C</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />
