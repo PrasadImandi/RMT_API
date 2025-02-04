@@ -6,6 +6,7 @@ namespace RMT_API.DTOs
 	{
 		public string? Description { get; set; }
 		public string[]? Attachments { get; set; }
+
 		public int? DocumentID { get; set; }
 	}
 }

@@ -7,6 +7,6 @@ namespace RMT_API.Models
 		public string? Description{ get; set; }
 		public string[]? Attachments{ get; set; }
 
-		public int? DocumentID { get; set; }
+		public int? DocumentsID { get; set; }
 	}
 }

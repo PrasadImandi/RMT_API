@@ -2,7 +2,6 @@
 using RMT_API.DTOs;
 using RMT_API.DTOs.BaseDtos;
 using RMT_API.Models;
-using RMT_API.Models.BaseModels;
 
 namespace RMT_API.Infrastructure
 {
@@ -20,14 +19,6 @@ namespace RMT_API.Infrastructure
 			CreateMap<SegmentMaster, BaseDto>().ReverseMap();
 			CreateMap<SupportTypeMaster, BaseDto>().ReverseMap();
 
-			//CreateMap<Project, ProjectDto>().ReverseMap();
-			//CreateMap<Client, ProjectDto>().ReverseMap();
-			//CreateMap<Manager, ProjectDto>().ReverseMap();
-			//CreateMap<ReportingManager, ProjectDto>().ReverseMap();
-			//CreateMap<DeliveryMotionMaster, ProjectDto>().ReverseMap();
-			//CreateMap<SegmentMaster, ProjectDto>().ReverseMap();
-			//CreateMap<SupportTypeMaster, ProjectDto>().ReverseMap();
-
 			// Project to ProjectDto Mapping
 			CreateMap<Project, ProjectDto>()
 				.ForMember(dest => dest.ClientName, opt => opt.MapFrom(src => src.Client != null ? src.Client.Name : string.Empty))
@@ -38,8 +29,6 @@ namespace RMT_API.Infrastructure
 				.ForMember(dest => dest.Segment, opt => opt.MapFrom(src => src.Segment != null ? src.Segment.Name : string.Empty));
 
 			CreateMap<ProjectDto, Project>();
-
-
 
 			CreateMap<ResourceDeploymentDto, ResourceDeployment>().ReverseMap();
 			CreateMap<ResourceDto, Resource>().ReverseMap();
@@ -54,6 +43,7 @@ namespace RMT_API.Infrastructure
 			CreateMap<UserDto, Users>().ReverseMap();
 			CreateMap<AccessTypeMaster, UsersDto>().ReverseMap();
 			CreateMap<AccessTypeMaster, UserDto>().ReverseMap();
+			CreateMap<CertificationDetailsDto, CertificationDetails>().ReverseMap();
 
 			CreateMap<UsersDto, Users>()
 				.ForMember(dest => dest.AccessTypeID, opt => opt.MapFrom(src => src.RoleID));
@@ -71,7 +61,20 @@ namespace RMT_API.Infrastructure
 
 			CreateMap<PublicHolidayDto, PublicHolidayMaster>().ReverseMap();
 			CreateMap<SupplierDto, Supplier>().ReverseMap();
-			CreateMap<ResourceInformation, ResourceInformationDto>().ReverseMap();
+
+			CreateMap<ResourceInformation, ResourceInformationDto>();
+			CreateMap<CertificationDetails, ResourceInformationDto>();
+
+
+			CreateMap<ResourceInformationDto, ResourceInformation>();
+			CreateMap <CertificationDetailsDto, ResourceInformation>();
+
+			CreateMap<ResourceInformationDto, ResourceInformation>()
+				.ForMember(dest => dest.Certifications, opt => opt.MapFrom(src => src.Certification))
+				.ForMember(dest => dest.Certifications, opt => opt.MapFrom(src => src.Certification))
+				.ForMember(dest => dest.Certifications, opt => opt.MapFrom(src => src.Certification))
+				.ForMember(dest => dest.Certifications, opt => opt.MapFrom(src => src.Certification));
+
 		}
 	}
 }

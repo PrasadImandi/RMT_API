@@ -12,6 +12,6 @@ namespace RMT_API.Models
 		public string? PanCard { get; set; }
 		public string? Passport { get; set; }
 
-		public int? DocumentID { get; set; }
+		public int? DocumentsID { get; set; }
 	}
 }

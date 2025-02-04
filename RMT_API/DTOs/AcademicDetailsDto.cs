@@ -1,13 +1,12 @@
-﻿using RMT_API.Models.BaseModels;
+﻿using RMT_API.DTOs.BaseDtos;
 
-namespace RMT_API.Models
+namespace RMT_API.DTOs
 {
-	public class AcademicDetails :  BaseModel
+	public class AcademicDetailsDto : BaseDto
 	{
 		public DateTime CompletionDate { get; set; }
 		public decimal ResultPercentage { get; set; }
 		public string? Attachment { get; set; }
-
 		public int ResourceInformationId { get; set; }
 	}
 }

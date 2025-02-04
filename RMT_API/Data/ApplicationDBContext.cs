@@ -246,11 +246,6 @@ namespace RMT_API.Data
 			modelBuilder.Entity<Documents>()
 				.HasKey(a => a.ID);
 
-			modelBuilder.Entity<Documents>()
-			.Property(a => a.Name)
-			.HasColumnType("varchar(100)")
-			.IsRequired();
-
 			#endregion Documents
 
 			#region DomainMaster
@@ -1002,12 +997,12 @@ namespace RMT_API.Data
 				.OnDelete(DeleteBehavior.Restrict);
 
 			modelBuilder.Entity<ResourceInformation>()
-				.HasMany(r => r.Academic)
+				.HasMany(r => r.AcademicDetails)
 				.WithOne()
 				.HasForeignKey(a => a.ResourceInformationId);
 
 			modelBuilder.Entity<ResourceInformation>()
-				.HasMany(r => r.Certification)
+				.HasMany(r => r.Certifications)
 				.WithOne()
 				.HasForeignKey(c => c.ResourceInformationId);
 

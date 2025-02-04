@@ -8,7 +8,7 @@ namespace RMT_API.Models
 		public PersonalDetails? Personal { get; set; } = new();
 		public ProfessionalDetails? Professional {  get; set; } = new();
 		public Documents Documents { get; set; } = new();
-		public List<AcademicDetails>? Academic { get; set; } = [];
-		public List<CertificationDetails>? Certification { get; set; } = [];
+		public List<AcademicDetails>? AcademicDetails { get; set; } = [];
+		public List<CertificationDetails>? Certifications { get; set; } = [];
 	}
 }
