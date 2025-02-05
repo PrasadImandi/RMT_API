@@ -1,4 +1,5 @@
 ﻿using RMT_API.DTOs.BaseDtos;
+using RMT_API.Models;
 
 namespace RMT_API.DTOs
 {
@@ -11,9 +12,8 @@ namespace RMT_API.DTOs
 		public string? GST { get; set; }
 		public string? PAN { get; set; }
 		public string? TAN { get; set; }
-
 		public string? StateName { get; set; }
+		public virtual ICollection<ContactInformationDto>? ContactInformation { get; set; } = [];
 
-		public int? ContactInformationID { get; set; }
 	}
 }

@@ -7,5 +7,7 @@ namespace RMT_API.Models
 		public int ContactTypeID { get; set; }
 		public string? ContactNumber { get; set; }
 		public string? ContactEmail { get; set; }
+
+		public int SupplierID { get;set; }
 	}
 }

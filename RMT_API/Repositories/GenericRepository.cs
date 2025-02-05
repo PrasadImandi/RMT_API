@@ -32,8 +32,8 @@ namespace RMT_API.Repositories
 		{
 			IQueryable<T> query = (IQueryable<T>)_dbSet;
 
-
-			query = (IQueryable<T>)query.Where(whereConditions);
+			if (whereConditions != null)
+				query = (IQueryable<T>)query.Where(whereConditions);
 
 			query = includeChildren(query);
 
@@ -95,9 +95,9 @@ namespace RMT_API.Repositories
 					property.SetValue(entity, status);
 
 				}
-				catch(Exception ex)
+				catch (Exception ex)
 				{
-					throw new Exception( ex.Message);
+					throw new Exception(ex.Message);
 				}
 			}
 			else

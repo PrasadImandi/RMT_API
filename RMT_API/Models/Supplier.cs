@@ -11,8 +11,7 @@ namespace RMT_API.Models
 		public string? GST { get; set; }
 		public string? PAN { get; set; }
 		public string? TAN { get; set; }
-		public int? ContactInformationID { get; set; }
 
-		public virtual ContactInformation? ContactInformation { get; set; } = new();
+		public virtual ICollection<ContactInformation>? ContactInformation { get; set; } = [];
 	}
 }
