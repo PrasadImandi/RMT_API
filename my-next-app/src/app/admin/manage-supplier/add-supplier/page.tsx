@@ -58,9 +58,9 @@ const formSchema = z.object({
   sidDate: z.date({ required_error: "SID date is required" }),
   address: z.string().min(1, "Address is required"),
   state: z.string().min(1, "State is required"),
-  gstId: z.string().min(1, "GST ID is required"),
-  panId: z.string().min(1, "PAN ID is required"),
-  tanId: z.string().min(1, "TAN ID is required"),
+  gst: z.string().min(1, "GST ID is required"),
+  pan: z.string().min(1, "PAN ID is required"),
+  tan: z.string().min(1, "TAN ID is required"),
   contacts: z.array(contactSchema).min(1, "At least one contact is required"),
 });
 
@@ -74,9 +74,9 @@ export default function AddSupplier() {
       sidDate: new Date(),
       address: "",
       state: "1",
-      gstId: "",
-      panId: "",
-      tanId: "",
+      gst: "",
+      pan: "",
+      tan: "",
       contacts: [],
     },
   });
@@ -244,7 +244,7 @@ export default function AddSupplier() {
           {/* GST ID */}
           <FormField
             control={form.control}
-            name="gstId"
+            name="gst"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>GST ID</FormLabel>
@@ -259,7 +259,7 @@ export default function AddSupplier() {
           {/* PAN ID */}
           <FormField
             control={form.control}
-            name="panId"
+            name="pan"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>PAN ID</FormLabel>
@@ -274,7 +274,7 @@ export default function AddSupplier() {
           {/* TAN ID */}
           <FormField
             control={form.control}
-            name="tanId"
+            name="tan"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>TAN ID</FormLabel>
