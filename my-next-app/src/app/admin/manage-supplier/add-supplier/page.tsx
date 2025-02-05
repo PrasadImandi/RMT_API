@@ -36,6 +36,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useState } from "react";
+import api from "@/lib/axiosInstance";
+import { useRouter } from "next/navigation";
 
 const contactSchema = z.object({
   contactType: z.enum([
@@ -63,6 +65,7 @@ const formSchema = z.object({
 });
 
 export default function AddSupplier() {
+  const router = useRouter()
   const [contactOpen, setContactOpen] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -78,8 +81,16 @@ export default function AddSupplier() {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
     console.log("Form Values:", values);
+    try {
+      const res = await api.post("/Resource", values);
+      console.log(res.data);
+      form.reset();
+      router.push("/admin/manage-supplier");
+    } catch (error) {
+      console.error("Error submitting form", error);
+    }
   };
 
   const addContact = (contact: z.infer<typeof contactSchema>) => {
