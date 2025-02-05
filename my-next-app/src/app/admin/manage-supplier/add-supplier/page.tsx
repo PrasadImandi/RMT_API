@@ -118,10 +118,6 @@ const formSchema = z.object({
     .min(1, "At least one contact is required"),
 });
 
-// -----------------
-// Main Component
-// -----------------
-
 export default function AddSupplier() {
   const router = useRouter();
   const [contactOpen, setContactOpen] = useState(false);
