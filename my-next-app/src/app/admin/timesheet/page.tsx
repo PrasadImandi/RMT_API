@@ -125,13 +125,6 @@ export default function Home() {
           
           <h1 className="text-2xl">Timesheet</h1>
         </div>
-        <div className="flex items-center gap-2">
-        <img
-            src="https://github.com/shadcn.png"
-            alt="User Profile"
-          className="w-10 h-10 rounded-full border-2 border-gray-300"
-        />
-        </div>
       </div>
       <div className="p-4">
         <div className="flex items-center gap-2 mb-2">

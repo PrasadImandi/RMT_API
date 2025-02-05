@@ -14,14 +14,15 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import api from "@/lib/axiosInstance";
 import DeleteProject from "./delete-project";
+import { Switch } from "@/components/ui/switch"; // Import Switch
 
 interface SupplierRow {
-    id: string;
+    id: number;
     name: string;
-    contactInfo: string;
     pan: string;
     gst: string;
-    paymentTerms: string;
+    tan: string;
+    supplier_Code: string;
     isActive: boolean;
 }
 
@@ -29,6 +30,7 @@ const AdminTableSupplier = () => {
     const router = useRouter();
     const [data, setData] = useState<SupplierRow[]>([]);
     const [searchTerm, setSearchTerm] = useState<string>("");
+    const [showActiveSuppliers, setShowActiveSuppliers] = useState<boolean>(true); // Toggle for active/inactive suppliers
 
     useEffect(() => {
         const fetchSuppliers = async () => {
@@ -36,7 +38,6 @@ const AdminTableSupplier = () => {
                 const response = await api.get("/Supplier");
                 console.log(response.data);
                 setData(response.data);
-
             } catch (error) {
                 console.error("Error fetching suppliers:", error);
             }
@@ -44,26 +45,31 @@ const AdminTableSupplier = () => {
         fetchSuppliers();
     }, []);
 
-    const handleEdit = (id: string) => {
+    const handleEdit = (id: number) => {
         router.push(`/admin/manage-supplier/edit-supplier/${id}`);
     };
 
-    const handleDeleteSupplier = (id: string) => {
+    const handleDeleteSupplier = async (id: number) => {
         setData((prevData) =>
             prevData.map((supplier) =>
-                supplier.id === id ? { ...supplier, status: "Inactive" } : supplier
+                supplier.id === id ? { ...supplier, isActive: false } : supplier
             )
         );
+        await api.patch("/Supplier", { id, isActive: false });
         console.log(`Supplier with ID ${id} has been set to inactive.`);
     };
 
-    const filteredData = data.filter(
-        (row) =>
+    const filteredData = data.filter((row) => {
+        const matchesSearch =
             row.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            row.contactInfo.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            row.tan.toLowerCase().includes(searchTerm.toLowerCase()) ||
             row.pan.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            row.gst.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+            row.gst.toLowerCase().includes(searchTerm.toLowerCase());
+
+        const matchesActiveFilter = showActiveSuppliers ? row.isActive : !row.isActive;
+
+        return matchesSearch && matchesActiveFilter;
+    });
 
     if (data.length === 0) {
         return <p>Fetching data...</p>;
@@ -73,18 +79,26 @@ const AdminTableSupplier = () => {
         <>
             <div className="bg-white dark:bg-[#17171A] py-8 px-16 flex justify-between items-center rounded-sm">
                 <p className="text-2xl font-normal">Supplier List</p>
+                
                 <AdminSearchUserInput onSearch={setSearchTerm} />
+                <div className="flex items-center gap-x-4">
+                    <p>Show Active Suppliers</p>
+                    <Switch
+                        checked={showActiveSuppliers}
+                        onCheckedChange={() => setShowActiveSuppliers((prev) => !prev)}
+                    />
+                </div>
             </div>
             <Table className="px-16">
                 <TableCaption>A list of Suppliers</TableCaption>
                 <TableHeader className="text-gray-600 bg-gray-300 dark:bg-gray-700">
                     <TableRow className="hover:bg-transparent">
                         <TableHead className="w-10">No</TableHead>
+                        <TableHead>Code</TableHead>
                         <TableHead>Supplier Name</TableHead>
-                        <TableHead>Contact Info</TableHead>
+                        <TableHead>Tan</TableHead>
                         <TableHead>PAN</TableHead>
-                        <TableHead>GST</TableHead>
-                        <TableHead>Payment Term</TableHead>
+                        <TableHead>GST</TableHead>                        
                         <TableHead>Status</TableHead>
                         <TableHead className="text-right">Action</TableHead>
                     </TableRow>
@@ -93,18 +107,22 @@ const AdminTableSupplier = () => {
                     {filteredData.map((row: SupplierRow, index) => (
                         <TableRow key={row.id}>
                             <TableCell className="font-medium">{index + 1}</TableCell>
+                            <TableCell>{row.supplier_Code}</TableCell>
                             <TableCell>{row.name}</TableCell>
-                            <TableCell>{row.contactInfo}</TableCell>
+                            <TableCell>{row.tan}</TableCell>
                             <TableCell>{row.pan}</TableCell>
-                            <TableCell>{row.gst}</TableCell>
-                            <TableCell>{row.paymentTerms}</TableCell>
-                            <TableCell>{row.isActive === true ? "Active" : "Inactive"}</TableCell>
+                            <TableCell>{row.gst}</TableCell>                            
+                            <TableCell>
+                                <span className={row.isActive ? "text-green-600" : "text-red-600"}>
+                                    {row.isActive ? "Active" : "Inactive"}
+                                </span>
+                            </TableCell>
                             <TableCell className="text-right flex gap-x-2 justify-end">
                                 <DeleteProject
                                     id={row.id}
                                     onDelete={handleDeleteSupplier}
                                     type="supplier"
-                                    disabled={row.isActive === false}
+                                    disabled={!row.isActive}
                                 />
                                 <Button
                                     className="bg-blue-500"

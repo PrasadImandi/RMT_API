@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
@@ -17,19 +17,34 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import api from "@/lib/axiosInstance";
 
-// Mock data - replace with actual API call
-const resources = [
-  { id: "R001", name: "John Doe", email: "john.doe@example.com", department: "Engineering" },
-  { id: "R002", name: "Jane Smith", email: "jane.smith@example.com", department: "Design" },
-  { id: "R003", name: "Mike Johnson", email: "mike.j@example.com", department: "Product" },
-  { id: "R004", name: "Sarah Williams", email: "sarah.w@example.com", department: "Engineering" },
-  { id: "R005", name: "Alex Brown", email: "alex.b@example.com", department: "Marketing" },
-];
+// Define Type for Resource
+interface Resource {
+  id: string;
+  firstName: string;
+  lastName: string;
+  emailID: string;
+  isActive: boolean;
+}
 
 export default function ResourceSelection() {
   const router = useRouter();
   const [selectedResource, setSelectedResource] = useState<string | null>(null);
+  const [resources, setResources] = useState<Resource[]>([]); // Typed resources
+
+  useEffect(() => {
+    const fetchResources = async () => {
+      try {
+        const response = await api.get<Resource[]>("/Resource"); // API call typed
+        setResources(response.data);
+        console.log(response.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchResources();
+  }, []);
 
   const handleSelect = (value: string) => {
     setSelectedResource(value);
@@ -47,62 +62,62 @@ export default function ResourceSelection() {
 
   return (
     <div className="p-16">
-    <div className="container max-w-2xl mx-auto">
-      <Card>
-        <CardHeader>
-          <CardTitle>Select Resource</CardTitle>
-          <CardDescription>
-            Select a resource to view or edit their information
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <Select onValueChange={handleSelect}>
-            <SelectTrigger>
-              <SelectValue placeholder="Select a resource" />
-            </SelectTrigger>
-            <SelectContent>
-              {resources.map((resource) => (
-                <SelectItem key={resource.id} value={resource.id}>
-                  {resource.name} - {resource.department}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+      <div className="container max-w-2xl mx-auto">
+        <Card>
+          <CardHeader>
+            <CardTitle>Select Resource</CardTitle>
+            <CardDescription>
+              Select a resource to view or edit their information
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <Select onValueChange={handleSelect}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select a resource" />
+              </SelectTrigger>
+              <SelectContent>
+                {resources.map((resource) => (
+                  <SelectItem key={resource.id} value={resource.id}>
+                    {resource.firstName} - {resource.lastName}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
 
-          {selectedResourceDetails && (
-            <div className="rounded-lg border p-4 mt-4">
-              <h3 className="font-medium mb-2">Selected Resource</h3>
-              <div className="space-y-1 text-sm">
-                <p>
-                  <span className="text-muted-foreground">Name:</span>{" "}
-                  {selectedResourceDetails.name}
-                </p>
-                <p>
-                  <span className="text-muted-foreground">ID:</span>{" "}
-                  {selectedResourceDetails.id}
-                </p>
-                <p>
-                  <span className="text-muted-foreground">Email:</span>{" "}
-                  {selectedResourceDetails.email}
-                </p>
-                <p>
-                  <span className="text-muted-foreground">Department:</span>{" "}
-                  {selectedResourceDetails.department}
-                </p>
+            {selectedResourceDetails && (
+              <div className="rounded-lg border p-4 mt-4">
+                <h3 className="font-medium mb-2">Selected Resource</h3>
+                <div className="space-y-1 text-sm">
+                  <p>
+                    <span className="text-muted-foreground">Name:</span>{" "}
+                    {selectedResourceDetails.firstName} {selectedResourceDetails.lastName}
+                  </p>
+                  <p>
+                    <span className="text-muted-foreground">ID:</span>{" "}
+                    {selectedResourceDetails.id}
+                  </p>
+                  <p>
+                    <span className="text-muted-foreground">Email:</span>{" "}
+                    {selectedResourceDetails.emailID}
+                  </p>
+                  <p>
+                    <span className="text-muted-foreground">Status:</span>{" "}
+                    {selectedResourceDetails.isActive ? "Active" : "Not Active"}
+                  </p>
+                </div>
               </div>
-            </div>
-          )}
+            )}
 
-          <Button
-            onClick={handleSubmit}
-            disabled={!selectedResource}
-            className="w-full"
-          >
-            Continue
-          </Button>
-        </CardContent>
-      </Card>
-    </div>
+            <Button
+              onClick={handleSubmit}
+              disabled={!selectedResource}
+              className="w-full"
+            >
+              Continue
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }
