@@ -27,8 +27,8 @@ import api from "@/lib/axiosInstance";
 const formSchema = z.object({
   firstName: z.string().min(1, "First name is required."),
   lastName: z.string().min(1, "Last name is required."),
-  email: z.string().email("Invalid email address."),
-  phone: z.string().regex(/^\d{10}$/, "Phone number must be 10 digits."),
+  emailID: z.string().email("Invalid email address."),
+  mobileNumber: z.string().regex(/^\d{10}$/, "Phone number must be 10 digits."),
   clientID: z.string(),
   projectID: z.string(),
   pmid: z.string(),
@@ -43,8 +43,8 @@ const AddResource = () => {
     defaultValues: {
       firstName: "",
       lastName: "",
-      email: "",
-      phone: "",
+      emailID: "",
+      mobileNumber: "",
       clientID: "0",
       projectID: "0",
       pmid: "0",
@@ -109,7 +109,7 @@ const AddResource = () => {
           {/* Email Field */}
           <FormField
             control={form.control}
-            name="email"
+            name="emailID"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Email</FormLabel>
@@ -124,7 +124,7 @@ const AddResource = () => {
           {/* Phone Field */}
           <FormField
             control={form.control}
-            name="phone"
+            name="mobileNumber"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Phone</FormLabel>
