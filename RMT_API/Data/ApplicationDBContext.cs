@@ -575,7 +575,7 @@ namespace RMT_API.Data
 
 			modelBuilder.Entity<Project>()
 			.Property(a => a.ProjectCode)
-			.HasComputedColumnSql("CONCAT('R', RIGHT('10000' + CAST(ID AS VARCHAR), 5))", stored: true)
+			.HasComputedColumnSql("CONCAT('PROJ', RIGHT('10000' + CAST(ID AS VARCHAR), 5))", stored: true)
 			.IsRequired();
 
 			modelBuilder.Entity<Project>()
@@ -667,7 +667,7 @@ namespace RMT_API.Data
 
 			modelBuilder.Entity<Resource>()
 			.Property(a => a.ResourceCode)
-			.HasComputedColumnSql("CONCAT('R', RIGHT('10000' + CAST(ID AS VARCHAR), 5))", stored: true)
+			.HasComputedColumnSql("CONCAT('RES', RIGHT('10000' + CAST(ID AS VARCHAR), 5))", stored: true)
 			.IsRequired();
 
 			modelBuilder.Entity<Resource>()
