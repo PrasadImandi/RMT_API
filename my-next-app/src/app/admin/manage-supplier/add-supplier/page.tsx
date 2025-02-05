@@ -38,7 +38,14 @@ import {
 import { useState } from "react";
 
 const contactSchema = z.object({
-  contactType: z.enum(["HR", "Escalation", "Sales", "Deals", "SPOC", "Sr Mgmt"]),
+  contactType: z.enum([
+    "HR",
+    "Escalation",
+    "Sales",
+    "Deals",
+    "SPOC",
+    "Sr Mgmt",
+  ]),
   name: z.string().min(1, "Name is required"),
   contactNumber: z.string().regex(/^\d{10}$/, "Invalid contact number"),
   email: z.string().email("Invalid email address"),
@@ -63,7 +70,7 @@ export default function AddSupplier() {
       supplierName: "",
       sidDate: new Date(),
       address: "",
-      state: "",
+      state: "1",
       gstId: "",
       panId: "",
       tanId: "",
@@ -81,11 +88,51 @@ export default function AddSupplier() {
     setContactOpen(false);
   };
 
+  const statesList = [
+    { id: "1", name: "Andhra Pradesh" },
+    { id: "2", name: "Arunachal Pradesh" },
+    { id: "3", name: "Assam" },
+    { id: "4", name: "Bihar" },
+    { id: "5", name: "Chhattisgarh" },
+    { id: "6", name: "Goa" },
+    { id: "7", name: "Gujarat" },
+    { id: "8", name: "Haryana" },
+    { id: "9", name: "Himachal Pradesh" },
+    { id: "10", name: "Jharkhand" },
+    { id: "11", name: "Karnataka" },
+    { id: "12", name: "Kerala" },
+    { id: "13", name: "Madhya Pradesh" },
+    { id: "14", name: "Maharashtra" },
+    { id: "15", name: "Manipur" },
+    { id: "16", name: "Meghalaya" },
+    { id: "17", name: "Mizoram" },
+    { id: "18", name: "Nagaland" },
+    { id: "19", name: "Odisha" },
+    { id: "20", name: "Punjab" },
+    { id: "21", name: "Rajasthan" },
+    { id: "22", name: "Sikkim" },
+    { id: "23", name: "Tamil Nadu" },
+    { id: "24", name: "Telangana" },
+    { id: "25", name: "Tripura" },
+    { id: "26", name: "Uttar Pradesh" },
+    { id: "27", name: "Uttarakhand" },
+    { id: "28", name: "West Bengal" },
+    { id: "29", name: "Andaman and Nicobar Islands" },
+    { id: "30", name: "Chandigarh" },
+    { id: "31", name: "Dadra and Nagar Haveli and Daman and Diu" },
+    { id: "32", name: "Lakshadweep" },
+    { id: "33", name: "Delhi" },
+    { id: "34", name: "Puducherry" },
+  ];
+
   return (
     <div className="m-16 p-4 bg-white dark:bg-[#17171A]">
       <h1 className="text-2xl mb-6">Add Supplier</h1>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 w-3/5">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="space-y-6 w-3/5"
+        >
           {/* Supplier Name */}
           <FormField
             control={form.control}
@@ -164,7 +211,19 @@ export default function AddSupplier() {
               <FormItem>
                 <FormLabel>State</FormLabel>
                 <FormControl>
-                  <Input {...field} placeholder="Enter state" />
+                  <Select {...field} onValueChange={field.onChange}
+                  defaultValue={field.value}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select state" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {statesList.map((state) => (
+                        <SelectItem key={state.id} value={state.id}>
+                          {state.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -228,7 +287,7 @@ export default function AddSupplier() {
                   <p>Email: {contact.email}</p>
                 </div>
               ))}
-              
+
               <Dialog open={contactOpen} onOpenChange={setContactOpen}>
                 <DialogTrigger asChild>
                   <Button variant="outline" type="button">
@@ -285,8 +344,17 @@ function ContactForm({ onSubmit }: { onSubmit: (values: any) => void }) {
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  {["HR", "Escalation", "Sales", "Deals", "SPOC", "Sr Mgmt"].map((type) => (
-                    <SelectItem key={type} value={type}>{type}</SelectItem>
+                  {[
+                    "HR",
+                    "Escalation",
+                    "Sales",
+                    "Deals",
+                    "SPOC",
+                    "Sr Mgmt",
+                  ].map((type) => (
+                    <SelectItem key={type} value={type}>
+                      {type}
+                    </SelectItem>
                   ))}
                 </SelectContent>
               </Select>

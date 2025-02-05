@@ -59,7 +59,7 @@ export default function ResourceForm({ params }: { params: { id: string } }) {
   };
 
   return (
-    <div className="container mx-auto py-10">
+    <div className="container mx-auto p-16">
       <Tabs value={activeTab} onValueChange={setActiveTab}>
         <TabsList className="grid w-full grid-cols-5">
           {formTabs.map((tab) => (
