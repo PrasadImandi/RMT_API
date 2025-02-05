@@ -6,7 +6,9 @@ namespace RMT_API.Models
 	{
 		public string? FirstName { get; set; }
 		public string? LastName { get; set; }
+		public string? ResourceCode { get; set; }	
 		public string? MobileNumber { get; set; }
+
 		public string? EmailID { get; set; }
 		public int? ClientID { get; set; }
 		public int? ProjectID { get; set; }
