@@ -64,15 +64,20 @@ namespace RMT_API.Infrastructure
 
 			CreateMap<ResourceInformation, ResourceInformationDto>();
 			CreateMap<CertificationDetails, ResourceInformationDto>();
+			CreateMap<PersonalDetails, ResourceInformationDto>();
+			CreateMap<ProfessionalDetails, ResourceInformationDto>();
+			CreateMap<AcademicDetails, ResourceInformationDto>();
+			CreateMap<Documents, ResourceInformationDto>();
 
 
 			CreateMap<ResourceInformationDto, ResourceInformation>();
 			CreateMap <CertificationDetailsDto, ResourceInformation>();
 
 			CreateMap<ResourceInformationDto, ResourceInformation>()
-				.ForMember(dest => dest.Certifications, opt => opt.MapFrom(src => src.Certification))
-				.ForMember(dest => dest.Certifications, opt => opt.MapFrom(src => src.Certification))
-				.ForMember(dest => dest.Certifications, opt => opt.MapFrom(src => src.Certification))
+				.ForMember(dest => dest.AcademicDetails, opt => opt.MapFrom(src => src.Academic))
+				.ForMember(dest => dest.Documents, opt => opt.MapFrom(src => src.Documents))
+				.ForMember(dest => dest.Professional, opt => opt.MapFrom(src => src.Professional))
+				.ForMember(dest => dest.Personal, opt => opt.MapFrom(src => src.Personal))
 				.ForMember(dest => dest.Certifications, opt => opt.MapFrom(src => src.Certification));
 
 		}

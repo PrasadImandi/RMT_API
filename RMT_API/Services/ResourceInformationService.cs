@@ -1,15 +1,29 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using RMT_API.DTOs;
 using RMT_API.Models;
 using RMT_API.Repositories;
 
 namespace RMT_API.Services
 {
-	public class ResourceInformationService(IGenericRepository<ResourceInformation> repository, IMapper mapper) : IResourceInformationService
+	public class ResourceInformationService(IGenericRepository<ResourceInformation> repository,
+											IGenericRepository<AcademicDetails> _academicRepository,
+											IGenericRepository<CertificationDetails> _certificationRepository,
+											IGenericRepository<BGVDocuments> _bgvDocsRepository,
+											IGenericRepository<Resource> _resourceRepository,
+											IMapper mapper) : IResourceInformationService
 	{
 		public async Task AddResourceInformationAsync(ResourceInformationDto resourceInformation)
 		{
-			await repository.AddAsync(mapper.Map<ResourceInformation>(resourceInformation));
+			var response = await repository.AddAsync(mapper.Map<ResourceInformation>(resourceInformation));
+
+			var resource = await _resourceRepository.GetByIdAsNoTrackingAsync(response.ResourceID);
+
+			if (resource != null)
+			{
+				resource.ResourceInformationID = response.ID;
+				await _resourceRepository.UpdateAsync(resource);
+			}
 		}
 
 		public async Task DeleteResourceInformationAsync(int id)
@@ -17,15 +31,51 @@ namespace RMT_API.Services
 			await repository.DeleteAsync(id);
 		}
 
+		public async Task DeleteAcademicDetailsAsync(int id)
+		{
+			await _certificationRepository.DeleteAsync(id);
+		}
+
+		public async Task DeleteCertificationDetailsAsync(int id)
+		{
+			await _academicRepository.DeleteAsync(id);
+		}
+
+		public async Task DeleteBGVDocsAsync(int id)
+		{
+			await _bgvDocsRepository.DeleteAsync(id);
+		}
+
 		public async Task<ResourceInformationDto> GetRsourceInformatonByIdAsync(int id)
 		{
-			var response = await repository.GetByIdAsync(id);
+			var response = await repository.GetByIDWithChildrenAsync(p => p.ID == id,
+																	  query => query.Include(p => p.Personal)
+																					.Include(p => p.Professional)
+																					.Include(p => p.AcademicDetails)
+																					.Include(p => p.Documents)
+																					.ThenInclude(dm => dm.BGV)
+																					.Include(p => p.Documents)
+																					.ThenInclude(dm => dm.Joining)
+																					.Include(p => p.Certifications));
+
 			return mapper.Map<ResourceInformationDto>(response);
 		}
 
 		public async Task UpdateResourceInfoAsync(ResourceInformationDto resourceInformation)
 		{
-			await repository.UpdateAsync(mapper.Map<ResourceInformation>(resourceInformation));
+			var response = await repository.GetByIDWithChildrenAsync(p => p.ID == resourceInformation.ID,
+																	  query => query.Include(p => p.Personal)
+																					.Include(p => p.Professional)
+																					.Include(p => p.AcademicDetails)
+																					.Include(p => p.Documents)
+																					.ThenInclude(dm => dm.BGV)
+																					.Include(p => p.Documents)
+																					.ThenInclude(dm => dm.Joining)
+																					.Include(p => p.Certifications).AsNoTracking());
+
+			response = mapper.Map<ResourceInformation>(resourceInformation);
+
+			await repository.UpdateAsync(response);
 		}
 	}
 }

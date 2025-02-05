@@ -6,10 +6,11 @@ namespace RMT_API.Repositories
 	{
 		Task<IEnumerable<T>> GetAllAsync();
 		Task<IEnumerable<T>> GetAllActiveAsync();
-		public Task<List<T>> GetAllWithChildrenAsync(params Expression<Func<T, object>>[] includes);
+		Task<List<T>> GetAllWithChildrenAsync(params Expression<Func<T, object>>[] includes);
+		Task<T> GetByIDWithChildrenAsync(Expression<Func<T, bool>> whereConditions, Func<IQueryable<T>, IQueryable<T>> includeChildren);
 		Task<T> GetByIdAsync(int id);
 		Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate);
-		Task AddAsync(T entity);
+		Task<T> AddAsync(T entity);
 		Task UpdateAsync(T entity);
 		Task DeleteAsync(int id);
 		Task<T> GetByIdAsNoTrackingAsync(int id);

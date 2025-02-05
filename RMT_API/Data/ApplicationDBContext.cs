@@ -673,6 +673,10 @@ namespace RMT_API.Data
 			.Property(a => a.MobileNumber)
 			.HasColumnType("varchar(60)");
 
+			modelBuilder.Entity<Resource>()
+			.HasIndex(a => a.ResourceInformationID)
+			.IsUnique();
+
 			#endregion PublicHolidayMaster
 
 			#region ResourceDeployment
@@ -967,44 +971,52 @@ namespace RMT_API.Data
 			#region Relationships
 
 			modelBuilder.Entity<Project>()
-				.HasOne(p => p.RM) // A Project has one RM
-				.WithMany(rm => rm.Projects) // An RM can have many Projects
-				.HasForeignKey(p => p.RMID) // Define the foreign key
-				.OnDelete(DeleteBehavior.Restrict); // Optional: Prevent cascading delete
+			.HasOne(p => p.RM)
+			.WithMany(rm => rm.Projects)
+			.HasForeignKey(p => p.RMID)
+			.OnDelete(DeleteBehavior.Restrict);
 
-			modelBuilder.Entity<Resource>()
-				.HasOne(r => r.ResourceInformation)
-				.WithOne()
-				.HasForeignKey<ResourceInformation>(p => p.ID)
-				.OnDelete(DeleteBehavior.Restrict);
+			modelBuilder.Entity<PersonalDetails>()
+			.HasOne(b => b.ResourceInformation)
+			.WithOne(d => d.Personal)
+			.HasForeignKey<PersonalDetails>(b => b.ResourceInformationID)
+			.OnDelete(DeleteBehavior.Cascade);
 
-			modelBuilder.Entity<ResourceInformation>()
-				.HasOne(r => r.Personal)
-				.WithOne()
-				.HasForeignKey<PersonalDetails>(p => p.ResourceInformationId)
-				.OnDelete(DeleteBehavior.Restrict);
+			modelBuilder.Entity<ProfessionalDetails>()
+			.HasOne(b => b.ResourceInformation)
+			.WithOne(d => d.Professional)
+			.HasForeignKey<ProfessionalDetails>(b => b.ResourceInformationID)
+			.OnDelete(DeleteBehavior.Cascade);
 
-			modelBuilder.Entity<ResourceInformation>()
-				.HasOne(r => r.Professional)
-				.WithOne()
-				.HasForeignKey<ProfessionalDetails>(p => p.ResourceInformationId)
-				.OnDelete(DeleteBehavior.Restrict);
+			modelBuilder.Entity<Documents>()
+			.HasOne(b => b.ResourceInformation)
+			.WithOne(d => d.Documents)
+			.HasForeignKey<Documents>(b => b.ResourceInformationID)
+			.OnDelete(DeleteBehavior.Cascade);
 
-			modelBuilder.Entity<ResourceInformation>()
-				.HasOne(r => r.Documents)
-				.WithOne()
-				.HasForeignKey<Documents>(d => d.ResourceInformationId)
-				.OnDelete(DeleteBehavior.Restrict);
+			modelBuilder.Entity<AcademicDetails>()
+			.HasOne(b => b.ResourceInformation)
+			.WithMany(d => d.AcademicDetails)
+			.HasForeignKey(b => b.ResourceInformationID)
+			.OnDelete(DeleteBehavior.Cascade);
 
-			modelBuilder.Entity<ResourceInformation>()
-				.HasMany(r => r.AcademicDetails)
-				.WithOne()
-				.HasForeignKey(a => a.ResourceInformationId);
+			modelBuilder.Entity<CertificationDetails>()
+			.HasOne(b => b.ResourceInformation)
+			.WithMany(d => d.Certifications)
+			.HasForeignKey(b => b.ResourceInformationID)
+			.OnDelete(DeleteBehavior.Cascade);
 
-			modelBuilder.Entity<ResourceInformation>()
-				.HasMany(r => r.Certifications)
-				.WithOne()
-				.HasForeignKey(c => c.ResourceInformationId);
+			modelBuilder.Entity<BGVDocuments>()
+			.HasOne(b => b.Documents) 
+			.WithMany(d => d.BGV )  
+			.HasForeignKey(b => b.DocumentsID)
+			.OnDelete(DeleteBehavior.Cascade);
+
+			modelBuilder.Entity<JoiningDocuments>()
+			.HasOne(b => b.Documents)
+			.WithOne(d => d.Joining)
+			.HasForeignKey<JoiningDocuments>(b => b.DocumentsID)
+			.OnDelete(DeleteBehavior.Cascade);
 
 			#endregion Relationships
 

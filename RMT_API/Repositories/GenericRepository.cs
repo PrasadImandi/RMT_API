@@ -3,6 +3,8 @@ using RMT_API.Data;
 using System.Linq.Expressions;
 using System.Reflection;
 
+using Newtonsoft.Json;
+
 namespace RMT_API.Repositories
 {
 	public class GenericRepository<T>(ApplicationDBContext _context) : IGenericRepository<T> where T : class
@@ -26,6 +28,18 @@ namespace RMT_API.Repositories
 			return await query.ToListAsync();
 		}
 
+		public async Task<T> GetByIDWithChildrenAsync(Expression<Func<T, bool>> whereConditions, Func<IQueryable<T>, IQueryable<T>> includeChildren)
+		{
+			IQueryable<T> query = (IQueryable<T>)_dbSet;
+
+
+			query = (IQueryable<T>)query.Where(whereConditions);
+
+			query = includeChildren(query);
+
+			return await query.FirstOrDefaultAsync();
+		}
+
 		public async Task<T> GetByIdAsync(int id)
 		{
 			var response = await _dbSet.FindAsync(id);
@@ -39,10 +53,12 @@ namespace RMT_API.Repositories
 			return response;
 		}
 
-		public async Task AddAsync(T entity)
+		public async Task<T> AddAsync(T entity)
 		{
 			await _dbSet.AddAsync(entity);
 			await _context.SaveChangesAsync();
+
+			return entity;
 		}
 
 		public async Task UpdateAsync(T entity)
@@ -70,13 +86,7 @@ namespace RMT_API.Repositories
 
 		public async Task ChangeStatusAsync(int id, bool? status)
 		{
-			var entity =await GetByIdAsNoTrackingAsync(id);
-
-			if (entity == null)
-			{
-				throw new Exception("Entity not found");
-			}
-
+			var entity = await GetByIdAsNoTrackingAsync(id) ?? throw new Exception("Entity not found");
 			var property = typeof(T).GetProperty("IsActive", BindingFlags.Public | BindingFlags.Instance);
 			if (property != null && property.CanWrite)
 			{
@@ -87,7 +97,7 @@ namespace RMT_API.Repositories
 				}
 				catch(Exception ex)
 				{
-
+					throw new Exception( ex.Message);
 				}
 			}
 			else

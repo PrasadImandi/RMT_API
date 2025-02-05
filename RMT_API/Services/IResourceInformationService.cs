@@ -8,5 +8,8 @@ namespace RMT_API.Services
 		Task AddResourceInformationAsync(ResourceInformationDto resourceInformation);
 		Task UpdateResourceInfoAsync(ResourceInformationDto resourceInformation);
 		Task DeleteResourceInformationAsync(int id);
+		Task DeleteAcademicDetailsAsync(int id);
+		Task DeleteCertificationDetailsAsync(int id);
+		Task DeleteBGVDocsAsync(int id);
 	}
 }

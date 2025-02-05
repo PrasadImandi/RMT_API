@@ -48,9 +48,33 @@ namespace RMT_API.Controllers
 		}
 
 		[HttpDelete("{id}")]
-		public async Task<IActionResult> DeleteClient(int id)
+		public async Task<IActionResult> DeleteResourceInformation(int id)
 		{
 			await _service.DeleteResourceInformationAsync(id);
+
+			return NoContent();
+		}
+
+		[HttpDelete("academic/{id}")]
+		public async Task<IActionResult> DeleteAcademicDetails(int id)
+		{
+			await _service.DeleteAcademicDetailsAsync(id);
+
+			return NoContent();
+		}
+
+		[HttpDelete("certification/{id}")]
+		public async Task<IActionResult> DeleteCertificationDetails(int id)
+		{
+			await _service.DeleteCertificationDetailsAsync(id);
+
+			return NoContent();
+		}
+
+		[HttpDelete("bgv/{id}")]
+		public async Task<IActionResult> DeleteBGVDocs(int id)
+		{
+			await _service.DeleteBGVDocsAsync(id);
 
 			return NoContent();
 		}

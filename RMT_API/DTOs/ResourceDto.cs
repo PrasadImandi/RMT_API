@@ -14,7 +14,5 @@ namespace RMT_API.DTOs
 		public int? RMID { get; set; }
 		public int? SupplierID { get; set; }
 		public int? ResourceInformationID { get; set; }
-
-		public virtual ResourceInformationDto? ResourceInformation { get; set; } 
 	}
 }

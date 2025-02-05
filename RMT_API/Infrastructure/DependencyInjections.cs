@@ -24,6 +24,9 @@ namespace RMT_API.Infrastructure
 			services.AddScoped<IGenericRepository<Supplier>, GenericRepository<Supplier>>();
 			services.AddScoped<IGenericRepository<PublicHolidayMaster>, GenericRepository<PublicHolidayMaster>>();
 			services.AddScoped<IGenericRepository<ResourceInformation>, GenericRepository<ResourceInformation>>();
+			services.AddScoped<IGenericRepository<AcademicDetails>, GenericRepository<AcademicDetails>>();
+			services.AddScoped<IGenericRepository<CertificationDetails>, GenericRepository<CertificationDetails>>();
+			services.AddScoped<IGenericRepository<BGVDocuments>, GenericRepository<BGVDocuments>>();
 
 			services.AddScoped<IResourceRepository, ResourceRepository>();
 			services.AddScoped<IResourceDeploymentRepository, ResourceDeploymentRepository>();
