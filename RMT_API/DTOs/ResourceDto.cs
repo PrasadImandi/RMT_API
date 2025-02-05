@@ -6,6 +6,7 @@ namespace RMT_API.DTOs
 	{
 		public string? FirstName { get; set; }
 		public string? LastName { get; set; }
+		public string? ResourceCode { get; set; }
 		public string? MobileNumber { get; set; }
 		public string? EmailID { get; set; }
 		public int ClientID { get; set; }
