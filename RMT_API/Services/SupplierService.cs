@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using RMT_API.DTOs;
 using RMT_API.Models;
 using RMT_API.Repositories;
@@ -19,13 +20,14 @@ namespace RMT_API.Services
 
 		public async Task<IEnumerable<SupplierDto>> GetAllSuppliersAsync()
 		{
-			var response = await _repository.GetAllAsync();
+			var response = await _repository.GetAllWithChildrenAsync(p=>p.ContactInformation);
 			return _mapper.Map<IEnumerable<SupplierDto>>(response);
 		}
 
 		public async Task<SupplierDto> GetSupplierByIdAsync(int id)
 		{
-			var response = await _repository.GetByIdAsync(id);
+			var response = await _repository.GetByIDWithChildrenAsync(p => p.ID == id,
+																	  query => query.Include(p => p.ContactInformation));
 			return _mapper.Map<SupplierDto>(response);
 		}
 
