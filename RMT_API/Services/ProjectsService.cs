@@ -25,7 +25,7 @@ namespace RMT_API.Services
 																	  p => p.DeleiveryMotion,
 																	  p => p.SupportType);
 
-			var activeProjects = _mapper.Map<IEnumerable<ProjectDto>>(response.Where(p => p.IsActive == true));
+			var activeProjects = _mapper.Map<IEnumerable<ProjectDto>>(response);
 
 			return activeProjects;
 		}
