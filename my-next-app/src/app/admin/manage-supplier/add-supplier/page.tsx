@@ -1,7 +1,14 @@
 "use client";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { format } from "date-fns";
+import api from "@/lib/axiosInstance";
+import { useRouter } from "next/navigation";
+import { cn } from "@/lib/utils";
+
+// UI Components
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -19,8 +26,6 @@ import {
 } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { CalendarIcon } from "lucide-react";
-import { format } from "date-fns";
-import { cn } from "@/lib/utils";
 import {
   Dialog,
   DialogContent,
@@ -35,48 +40,105 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useState } from "react";
-import api from "@/lib/axiosInstance";
-import { useRouter } from "next/navigation";
+
+// Define a mapping for contact types
+const contactTypes = [
+  { id: 1, name: "HR" },
+  { id: 2, name: "Escalation" },
+  { id: 3, name: "Sales" },
+  { id: 4, name: "Deals" },
+  { id: 5, name: "SPOC" },
+  { id: 6, name: "Sr Mgmt" },
+];
+
+// Define a mapping for states (converted id to number)
+const statesList = [
+  { id: 1, name: "Andhra Pradesh" },
+  { id: 2, name: "Arunachal Pradesh" },
+  { id: 3, name: "Assam" },
+  { id: 4, name: "Bihar" },
+  { id: 5, name: "Chhattisgarh" },
+  { id: 6, name: "Goa" },
+  { id: 7, name: "Gujarat" },
+  { id: 8, name: "Haryana" },
+  { id: 9, name: "Himachal Pradesh" },
+  { id: 10, name: "Jharkhand" },
+  { id: 11, name: "Karnataka" },
+  { id: 12, name: "Kerala" },
+  { id: 13, name: "Madhya Pradesh" },
+  { id: 14, name: "Maharashtra" },
+  { id: 15, name: "Manipur" },
+  { id: 16, name: "Meghalaya" },
+  { id: 17, name: "Mizoram" },
+  { id: 18, name: "Nagaland" },
+  { id: 19, name: "Odisha" },
+  { id: 20, name: "Punjab" },
+  { id: 21, name: "Rajasthan" },
+  { id: 22, name: "Sikkim" },
+  { id: 23, name: "Tamil Nadu" },
+  { id: 24, name: "Telangana" },
+  { id: 25, name: "Tripura" },
+  { id: 26, name: "Uttar Pradesh" },
+  { id: 27, name: "Uttarakhand" },
+  { id: 28, name: "West Bengal" },
+  { id: 29, name: "Andaman and Nicobar Islands" },
+  { id: 30, name: "Chandigarh" },
+  { id: 31, name: "Dadra and Nagar Haveli and Daman and Diu" },
+  { id: 32, name: "Lakshadweep" },
+  { id: 33, name: "Delhi" },
+  { id: 34, name: "Puducherry" },
+];
 
 const contactSchema = z.object({
-  contactType: z.enum([
-    "HR",
-    "Escalation",
-    "Sales",
-    "Deals",
-    "SPOC",
-    "Sr Mgmt",
-  ]),
+  id: z.number().default(0),
+  isActive: z.boolean().default(true),
+  contactTypeID: z
+    .number({ required_error: "Contact type is required" })
+    .min(1, "Select a valid contact type"),
   name: z.string().min(1, "Name is required"),
-  contactNumber: z.string().regex(/^\d{10}$/, "Invalid contact number"),
-  email: z.string().email("Invalid email address"),
+  contactNumber: z
+    .string()
+    .regex(/^\d{10}$/, "Invalid contact number"),
+  contactEmail: z.string().email("Invalid email address"),
 });
 
 const formSchema = z.object({
-  supplierName: z.string().min(1, "Supplier name is required"),
+  id: z.number().default(0),
+  isActive: z.boolean().default(true),
+  name: z.string().min(1, "Supplier name is required"),
   sidDate: z.date({ required_error: "SID date is required" }),
   address: z.string().min(1, "Address is required"),
-  state: z.string().min(1, "State is required"),
+  stateID: z.number().min(1, "State is required"),
   gst: z.string().min(1, "GST ID is required"),
   pan: z.string().min(1, "PAN ID is required"),
   tan: z.string().min(1, "TAN ID is required"),
-  contactInformation: z.array(contactSchema).min(1, "At least one contact is required"),
+  stateName: z.string().min(1, "State Name is required"),
+  contactInformation: z
+    .array(contactSchema)
+    .min(1, "At least one contact is required"),
 });
 
+// -----------------
+// Main Component
+// -----------------
+
 export default function AddSupplier() {
-  const router = useRouter()
+  const router = useRouter();
   const [contactOpen, setContactOpen] = useState(false);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      supplierName: "",
+      id: 0,
+      isActive: true,
+      name: "",
       sidDate: new Date(),
       address: "",
-      state: "1",
+      stateID: statesList[0].id,
       gst: "",
       pan: "",
       tan: "",
+      stateName: statesList[0].name,
       contactInformation: [],
     },
   });
@@ -85,7 +147,7 @@ export default function AddSupplier() {
     console.log("Form Values:", values);
     try {
       const res = await api.post("/Supplier", values);
-      console.log(res.data);
+      console.log("Response:", res.data);
       form.reset();
       router.push("/admin/manage-supplier");
     } catch (error) {
@@ -93,61 +155,15 @@ export default function AddSupplier() {
     }
   };
 
-  const addContact = (contact: z.infer<typeof contactSchema>) => {
-    const currentContacts = form.getValues("contactInformation");
-    form.setValue("contactInformation", [...currentContacts, contact]);
-    setContactOpen(false);
-  };
-
-  const statesList = [
-    { id: "1", name: "Andhra Pradesh" },
-    { id: "2", name: "Arunachal Pradesh" },
-    { id: "3", name: "Assam" },
-    { id: "4", name: "Bihar" },
-    { id: "5", name: "Chhattisgarh" },
-    { id: "6", name: "Goa" },
-    { id: "7", name: "Gujarat" },
-    { id: "8", name: "Haryana" },
-    { id: "9", name: "Himachal Pradesh" },
-    { id: "10", name: "Jharkhand" },
-    { id: "11", name: "Karnataka" },
-    { id: "12", name: "Kerala" },
-    { id: "13", name: "Madhya Pradesh" },
-    { id: "14", name: "Maharashtra" },
-    { id: "15", name: "Manipur" },
-    { id: "16", name: "Meghalaya" },
-    { id: "17", name: "Mizoram" },
-    { id: "18", name: "Nagaland" },
-    { id: "19", name: "Odisha" },
-    { id: "20", name: "Punjab" },
-    { id: "21", name: "Rajasthan" },
-    { id: "22", name: "Sikkim" },
-    { id: "23", name: "Tamil Nadu" },
-    { id: "24", name: "Telangana" },
-    { id: "25", name: "Tripura" },
-    { id: "26", name: "Uttar Pradesh" },
-    { id: "27", name: "Uttarakhand" },
-    { id: "28", name: "West Bengal" },
-    { id: "29", name: "Andaman and Nicobar Islands" },
-    { id: "30", name: "Chandigarh" },
-    { id: "31", name: "Dadra and Nagar Haveli and Daman and Diu" },
-    { id: "32", name: "Lakshadweep" },
-    { id: "33", name: "Delhi" },
-    { id: "34", name: "Puducherry" },
-  ];
-
   return (
     <div className="m-16 p-4 bg-white dark:bg-[#17171A]">
       <h1 className="text-2xl mb-6">Add Supplier</h1>
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-6 w-3/5"
-        >
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 w-3/5">
           {/* Supplier Name */}
           <FormField
             control={form.control}
-            name="supplierName"
+            name="name"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Supplier Name</FormLabel>
@@ -158,6 +174,7 @@ export default function AddSupplier() {
               </FormItem>
             )}
           />
+
 
           {/* SID Date */}
           <FormField
@@ -176,11 +193,7 @@ export default function AddSupplier() {
                           !field.value && "text-muted-foreground"
                         )}
                       >
-                        {field.value ? (
-                          format(field.value, "PPP")
-                        ) : (
-                          <span>Pick a date</span>
-                        )}
+                        {field.value ? format(field.value, "PPP") : "Pick a date"}
                         <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                       </Button>
                     </FormControl>
@@ -214,22 +227,32 @@ export default function AddSupplier() {
             )}
           />
 
-          {/* State */}
+          {/* State (ID and Name) */}
           <FormField
             control={form.control}
-            name="state"
+            name="stateID"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>State</FormLabel>
                 <FormControl>
-                  <Select {...field} onValueChange={field.onChange}
-                  defaultValue={field.value}>
+                  <Select
+                    onValueChange={(value) => {
+                      // Convert the value to a number and update both stateID and stateName
+                      const stateID = Number(value);
+                      field.onChange(stateID);
+                      const state = statesList.find((s) => s.id === stateID);
+                      if (state) {
+                        form.setValue("stateName", state.name);
+                      }
+                    }}
+                    value={String(field.value)}
+                  >
                     <SelectTrigger>
                       <SelectValue placeholder="Select state" />
                     </SelectTrigger>
                     <SelectContent>
                       {statesList.map((state) => (
-                        <SelectItem key={state.id} value={state.id}>
+                        <SelectItem key={state.id} value={String(state.id)}>
                           {state.name}
                         </SelectItem>
                       ))}
@@ -292,10 +315,17 @@ export default function AddSupplier() {
             <div className="space-y-2">
               {form.watch("contactInformation").map((contact, index) => (
                 <div key={index} className="p-4 border rounded">
-                  <p>Type: {contact.contactType}</p>
+                  <p>
+                    Type:{" "}
+                    {
+                      contactTypes.find(
+                        (ct) => ct.id === contact.contactTypeID
+                      )?.name
+                    }
+                  </p>
                   <p>Name: {contact.name}</p>
                   <p>Number: {contact.contactNumber}</p>
-                  <p>Email: {contact.email}</p>
+                  <p>Email: {contact.contactEmail}</p>
                 </div>
               ))}
 
@@ -309,11 +339,21 @@ export default function AddSupplier() {
                   <DialogHeader>
                     <DialogTitle>Add New Contact</DialogTitle>
                   </DialogHeader>
-                  <ContactForm onSubmit={addContact} />
+                  <ContactForm onSubmit={(contact) => {
+                    // Append new contact to the list
+                    const currentContacts = form.getValues("contactInformation");
+                    form.setValue("contactInformation", [
+                      ...currentContacts,
+                      contact,
+                    ]);
+                    setContactOpen(false);
+                  }} />
                 </DialogContent>
               </Dialog>
             </div>
-            <FormMessage>{form.formState.errors.contactInformation?.message}</FormMessage>
+            <FormMessage>
+              {form.formState.errors.contactInformation?.message}
+            </FormMessage>
           </div>
 
           <Button type="submit">Submit</Button>
@@ -323,48 +363,49 @@ export default function AddSupplier() {
   );
 }
 
-function ContactForm({ onSubmit }: { onSubmit: (values: any) => void }) {
-  const form = useForm<z.infer<typeof contactSchema>>({
+// -----------------
+// Contact Form Component
+// -----------------
+
+function ContactForm({ onSubmit }: { onSubmit: (values: z.infer<typeof contactSchema>) => void }) {
+  const contactForm = useForm<z.infer<typeof contactSchema>>({
     resolver: zodResolver(contactSchema),
     defaultValues: {
-      contactType: "HR",
+      id: 0,
+      isActive: true,
+      contactTypeID: contactTypes[0].id,
       name: "",
       contactNumber: "",
-      email: "",
+      contactEmail: "",
     },
   });
 
   const handleSubmit = (values: z.infer<typeof contactSchema>) => {
     onSubmit(values);
-    form.reset();
+    contactForm.reset();
   };
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
+    <Form {...contactForm}>
+      <form onSubmit={contactForm.handleSubmit(handleSubmit)} className="space-y-4">
+        {/* Contact Type */}
         <FormField
-          control={form.control}
-          name="contactType"
+          control={contactForm.control}
+          name="contactTypeID"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Contact Type</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select contact type" />
-                  </SelectTrigger>
-                </FormControl>
+              <Select
+                onValueChange={(value) => field.onChange(Number(value))}
+                value={String(field.value)}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select contact type" />
+                </SelectTrigger>
                 <SelectContent>
-                  {[
-                    "HR",
-                    "Escalation",
-                    "Sales",
-                    "Deals",
-                    "SPOC",
-                    "Sr Mgmt",
-                  ].map((type) => (
-                    <SelectItem key={type} value={type}>
-                      {type}
+                  {contactTypes.map((ct) => (
+                    <SelectItem key={ct.id} value={String(ct.id)}>
+                      {ct.name}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -374,8 +415,9 @@ function ContactForm({ onSubmit }: { onSubmit: (values: any) => void }) {
           )}
         />
 
+        {/* Name */}
         <FormField
-          control={form.control}
+          control={contactForm.control}
           name="name"
           render={({ field }) => (
             <FormItem>
@@ -388,8 +430,9 @@ function ContactForm({ onSubmit }: { onSubmit: (values: any) => void }) {
           )}
         />
 
+        {/* Contact Number */}
         <FormField
-          control={form.control}
+          control={contactForm.control}
           name="contactNumber"
           render={({ field }) => (
             <FormItem>
@@ -402,9 +445,10 @@ function ContactForm({ onSubmit }: { onSubmit: (values: any) => void }) {
           )}
         />
 
+        {/* Contact Email */}
         <FormField
-          control={form.control}
-          name="email"
+          control={contactForm.control}
+          name="contactEmail"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Email</FormLabel>
