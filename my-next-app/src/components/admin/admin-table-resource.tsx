@@ -23,7 +23,7 @@ interface RowType {
   lastName: string;
   emailID: string;
   mobileNumber: string;
-  jobTitle: string;
+  resourceCode: string;
   hireDate: string;
   isActive: boolean;
 }
@@ -66,7 +66,7 @@ const AdminTableResource = () => {
       row.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
       row.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
       row.emailID.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      row.jobTitle.toLowerCase().includes(searchTerm.toLowerCase());
+      row.resourceCode.toLowerCase().includes(searchTerm.toLowerCase());
 
     const matchesActiveFilter = showActiveResources ? row.isActive : !row.isActive;
 
@@ -95,11 +95,12 @@ const AdminTableResource = () => {
         <TableHeader className="text-gray-600 bg-gray-300 dark:bg-gray-700">
           <TableRow className="hover:bg-transparent">
             <TableHead className="w-10">No</TableHead>
+            <TableHead>code</TableHead>
             <TableHead>First Name</TableHead>
             <TableHead>Last Name</TableHead>
             <TableHead>Email</TableHead>
             <TableHead>Phone</TableHead>
-            <TableHead>Job Title</TableHead>
+            
             {/* <TableHead>Hire Date</TableHead> */}
             <TableHead>Status</TableHead>
             <TableHead className="text-right">Action</TableHead>
@@ -109,11 +110,12 @@ const AdminTableResource = () => {
           {filteredData.map((row: RowType, index) => (
             <TableRow key={row.id}>
               <TableCell className="font-medium">{index + 1}</TableCell>
+              <TableCell>{row.resourceCode}</TableCell>
               <TableCell>{row.firstName}</TableCell>
               <TableCell>{row.lastName}</TableCell>
               <TableCell>{row.emailID}</TableCell>
               <TableCell>{row.mobileNumber}</TableCell>
-              <TableCell>{row.jobTitle}</TableCell>
+              
               {/* <TableCell>{format(new Date(row.hireDate), "dd/MM/yyyy")}</TableCell> */}
               <TableCell>
                 <span className={row.isActive ? "text-green-600" : "text-red-600"}>

@@ -89,12 +89,6 @@ const contactTypes = [
   { id: 5, name: "SPOC" },
   { id: 6, name: "Sr Mgmt" },
 ];
-
-// ------------------------------------------------------
-// Zod Schemas
-// ------------------------------------------------------
-
-// Contact Schema
 const contactSchema = z.object({
   id: z.number().default(0),
   isActive: z.boolean().default(true),

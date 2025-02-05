@@ -95,6 +95,7 @@ const AdminTable = () => {
         <TableHeader className="text-gray-600 bg-gray-300 dark:bg-gray-700">
           <TableRow className="hover:bg-transparent">
             <TableHead className="w-10">No</TableHead>
+            <TableHead className="w-10">code</TableHead>
             <TableHead>Project Name</TableHead>
             <TableHead>Starting Date</TableHead>
             <TableHead>Ending Date</TableHead>
@@ -108,6 +109,7 @@ const AdminTable = () => {
           {filteredData.map((row, index) => (
             <TableRow key={row.id}>
               <TableCell className="font-medium">{index + 1}</TableCell>
+              <TableCell className="font-medium">{row.projectCode}</TableCell>
               <TableCell>{row.name || "N/A"}</TableCell>
               <TableCell>
                 {format(new Date(row.startDate), "dd/MM/yyyy")}
