@@ -13,7 +13,7 @@ namespace RMT_API.DTOs
 		public string? PAN { get; set; }
 		public string? TAN { get; set; }
 		public string? StateName { get; set; }
-		public virtual ICollection<ContactInformation>? ContactInformation { get; set; } = [];
+		public virtual ICollection<ContactInformationDto>? ContactInformation { get; set; } = [];
 
 	}
 }
