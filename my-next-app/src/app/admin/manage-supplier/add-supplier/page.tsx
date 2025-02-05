@@ -61,7 +61,7 @@ const formSchema = z.object({
   gst: z.string().min(1, "GST ID is required"),
   pan: z.string().min(1, "PAN ID is required"),
   tan: z.string().min(1, "TAN ID is required"),
-  contacts: z.array(contactSchema).min(1, "At least one contact is required"),
+  contactInformation: z.array(contactSchema).min(1, "At least one contact is required"),
 });
 
 export default function AddSupplier() {
@@ -77,14 +77,14 @@ export default function AddSupplier() {
       gst: "",
       pan: "",
       tan: "",
-      contacts: [],
+      contactInformation: [],
     },
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     console.log("Form Values:", values);
     try {
-      const res = await api.post("/Resource", values);
+      const res = await api.post("/Supplier", values);
       console.log(res.data);
       form.reset();
       router.push("/admin/manage-supplier");
@@ -94,8 +94,8 @@ export default function AddSupplier() {
   };
 
   const addContact = (contact: z.infer<typeof contactSchema>) => {
-    const currentContacts = form.getValues("contacts");
-    form.setValue("contacts", [...currentContacts, contact]);
+    const currentContacts = form.getValues("contactInformation");
+    form.setValue("contactInformation", [...currentContacts, contact]);
     setContactOpen(false);
   };
 
@@ -290,7 +290,7 @@ export default function AddSupplier() {
           <div className="space-y-4">
             <FormLabel>Contact Matrix</FormLabel>
             <div className="space-y-2">
-              {form.watch("contacts").map((contact, index) => (
+              {form.watch("contactInformation").map((contact, index) => (
                 <div key={index} className="p-4 border rounded">
                   <p>Type: {contact.contactType}</p>
                   <p>Name: {contact.name}</p>
@@ -313,7 +313,7 @@ export default function AddSupplier() {
                 </DialogContent>
               </Dialog>
             </div>
-            <FormMessage>{form.formState.errors.contacts?.message}</FormMessage>
+            <FormMessage>{form.formState.errors.contactInformation?.message}</FormMessage>
           </div>
 
           <Button type="submit">Submit</Button>
