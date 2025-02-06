@@ -203,6 +203,12 @@ namespace RMT_API.Data
 				.HasColumnType("varchar(60)")
 				.IsRequired(false);
 
+			modelBuilder.Entity<ContactInformation>()
+				.HasOne(c => c.ContactType)
+				.WithMany(p => p.ContactInformations)
+				.HasForeignKey(c => c.ContactTypeID)
+				.OnDelete(DeleteBehavior.SetNull);
+
 			#endregion ContactInformation
 
 			#region ContactTypeMaster
