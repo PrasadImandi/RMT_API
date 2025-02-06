@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RMT_API.Data;
+using RMT_API.Models.BaseModels;
 using System.Linq.Expressions;
 using System.Reflection;
 
@@ -116,5 +117,28 @@ namespace RMT_API.Repositories
 
 			return entities;
 		}
+
+		//public async Task<IEnumerable<BaseModel>> GetIdNameList<TEntity>()
+		//{
+		//	var entityType = typeof(TEntity);
+
+		//	var idProperty = entityType.GetProperty("ID");
+		//	var nameProperty = entityType.GetProperty("Name");
+
+		//	if (idProperty == null || nameProperty == null)
+		//	{
+		//		throw new InvalidOperationException("Entity must have 'Id' and 'Name' properties.");
+		//	}
+
+		//	var query = _dbSet.AsQueryable()
+		//		.Select(e => new BaseModel()
+		//		{
+		//			ID = (int)idProperty.GetValue(e),
+		//			Name = (string)nameProperty.GetValue(e)
+		//		});
+
+		//	// Execute and return the list
+		//	return await query.ToListAsync();
+		//}
 	}
 }

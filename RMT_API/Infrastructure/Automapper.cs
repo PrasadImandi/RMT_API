@@ -11,6 +11,15 @@ namespace RMT_API.Infrastructure
 		{
 			CreateMap<AccessTypeMasterDto, AccessTypeMaster>().ReverseMap();
 			CreateMap<ClientDto, Client>().ReverseMap();
+
+
+			CreateMap<BaseDto, Client>().ReverseMap();
+			CreateMap<BaseDto, StateMaster>().ReverseMap();
+			CreateMap<BaseDto, PincodeMaster>().ReverseMap();
+			CreateMap<BaseDto, RegionMater>().ReverseMap();
+			CreateMap<BaseDto, SPOC>().ReverseMap();
+
+
 			CreateMap<BaseDto, DepartmentMaster>().ReverseMap();
 			CreateMap<LeaveDto, Leave>().ReverseMap();
 			CreateMap<ProjectDto, Project>().ReverseMap();

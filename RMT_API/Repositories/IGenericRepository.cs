@@ -15,5 +15,8 @@ namespace RMT_API.Repositories
 		Task DeleteAsync(int id);
 		Task<T> GetByIdAsNoTrackingAsync(int id);
 		Task ChangeStatusAsync(int id,bool? status);
+
+
+		//Task<IEnumerable<BaseModel>> GetIdNameList();
 	}
 }

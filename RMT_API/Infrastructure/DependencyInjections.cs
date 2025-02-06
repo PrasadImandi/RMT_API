@@ -10,6 +10,11 @@ namespace RMT_API.Infrastructure
 		{
 			// Register Repositories
 			services.AddScoped<IGenericRepository<AccessTypeMaster>, GenericRepository<AccessTypeMaster>>();
+			services.AddScoped<IGenericRepository<StateMaster>, GenericRepository<StateMaster>>();
+			services.AddScoped<IGenericRepository<PincodeMaster>, GenericRepository<PincodeMaster>>();
+			services.AddScoped<IGenericRepository<RegionMater>, GenericRepository<RegionMater>>();
+			services.AddScoped<IGenericRepository<SPOC>, GenericRepository<SPOC>>();
+			services.AddScoped<IGenericRepository<LocationMaster>, GenericRepository<LocationMaster>>();
 			services.AddScoped<IGenericRepository<Project>, GenericRepository<Project>>();
 			services.AddScoped<IGenericRepository<Client>, GenericRepository<Client>>();
 			services.AddScoped<IGenericRepository<DepartmentMaster>, GenericRepository<DepartmentMaster>>();
@@ -45,6 +50,7 @@ namespace RMT_API.Infrastructure
 			services.AddScoped<IResourceOnboardingsService, ResourceOnboardingsService>();
 			services.AddScoped<ITimesheetsService, TimesheetsService>();
 			services.AddScoped<IUsersService, UsersService>();
+			services.AddScoped<ISelectValuesService, SelectValuesService>();
 			services.AddScoped<ISupplierService, SupplierService>();
 			services.AddScoped<IPublicHolidaysService, PublicHolidaysService>();
 			services.AddScoped<IResourceInformationService, ResourceInformationService>();
