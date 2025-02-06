@@ -14,7 +14,7 @@
 			catch (Exception ex)
 			{
 				// Log the exception
-				_logger.LogError(ex, "Unhandled exception occurred.");
+				_logger.LogError(ex, "Unhandled exception occurred. "+ex.Message+"  Inner Exception Details" +ex.InnerException?.Message??"");
 
 				// Set response status code and message
 				httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
@@ -24,7 +24,7 @@
 				var errorResponse = new
 				{
 					Message = "An unexpected error occurred.",
-					Detail = ex.Message
+					Detail = "Unhandled exception occurred. " + ex.Message + "  Inner Exception Details" + ex.InnerException?.Message ?? ""
 				};
 
 				await httpContext.Response.WriteAsJsonAsync(errorResponse);
