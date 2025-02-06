@@ -179,6 +179,7 @@ const EditSupplier = () => {
   }, [params?.id, reset]);
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    console.log(values)
     try {
       const updatedSupplier = {
         ...supplier,

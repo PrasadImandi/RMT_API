@@ -15,7 +15,7 @@ interface PersonalInfoFormProps {
 
 export default function PersonalInfoForm({ initialData, onSave }: PersonalInfoFormProps) {
   const [formData, setFormData] = useState({
-    resourceStatus: "",
+    isActive: "",
     joiningDate: "",
     gender: "",
     dateOfBirth: "",
@@ -31,10 +31,15 @@ export default function PersonalInfoForm({ initialData, onSave }: PersonalInfoFo
   });
 
   const handleChange = (field: string, value: string) => {
-    setFormData(prev => ({
-      ...prev,
-      [field]: value
-    }));
+    setFormData(prev => {
+      let updatedData = { ...prev, [field]: value };
+  
+      if (field === "resourceStatus") {
+        updatedData.isActive = value === "Active";
+      }
+  
+      return updatedData;
+    });
   };
 
   const handleSave = () => {
@@ -51,15 +56,15 @@ export default function PersonalInfoForm({ initialData, onSave }: PersonalInfoFo
           <div className="space-y-2">
             <Label>Resource Status *</Label>
             <Select 
-              value={formData.resourceStatus}
-              onValueChange={(value) => handleChange("resourceStatus", value)}
+              value={formData.isActive}
+              onValueChange={(value) => handleChange("isActive", value)}
             >
               <SelectTrigger>
                 <SelectValue placeholder="Select status" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="Active">Active</SelectItem>
-                <SelectItem value="De-Active">De-Active</SelectItem>
+                <SelectItem value="InActive">InActive</SelectItem>
               </SelectContent>
             </Select>
           </div>
