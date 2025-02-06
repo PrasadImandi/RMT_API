@@ -11,13 +11,14 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+  Command,
+  CommandInput,
+  CommandList,
+  CommandItem,
+  CommandEmpty,
+} from "@/components/ui/command";
 import api from "@/lib/axiosInstance";
+import { Input } from "@/components/ui/input";
 
 // Define Type for Resource
 interface Resource {
@@ -31,14 +32,15 @@ interface Resource {
 export default function ResourceSelection() {
   const router = useRouter();
   const [selectedResource, setSelectedResource] = useState<string | null>(null);
-  const [resources, setResources] = useState<Resource[]>([]); // Typed resources
+  const [resources, setResources] = useState<Resource[]>([]);
+  const [search, setSearch] = useState("");
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   useEffect(() => {
     const fetchResources = async () => {
       try {
-        const response = await api.get<Resource[]>("/Resource"); // API call typed
+        const response = await api.get<Resource[]>("/Resource");
         setResources(response.data);
-        console.log(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -48,6 +50,8 @@ export default function ResourceSelection() {
 
   const handleSelect = (value: string) => {
     setSelectedResource(value);
+    setIsDropdownOpen(false);
+    setSearch('')
   };
 
   const handleSubmit = () => {
@@ -60,6 +64,12 @@ export default function ResourceSelection() {
     (resource) => resource.id === selectedResource
   );
 
+  // Filter resources based on the search query
+  const filteredResources = resources.filter((resource) => {
+    const fullName = `${resource.firstName} ${resource.lastName}`.toLowerCase();
+    return fullName.includes(search.toLowerCase());
+  });
+
   return (
     <div className="p-16">
       <div className="container max-w-2xl mx-auto">
@@ -71,18 +81,37 @@ export default function ResourceSelection() {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <Select onValueChange={handleSelect}>
-              <SelectTrigger>
-                <SelectValue placeholder="Select a resource" />
-              </SelectTrigger>
-              <SelectContent>
-                {resources.map((resource) => (
-                  <SelectItem key={resource.id} value={resource.id}>
-                    {resource.firstName} - {resource.lastName}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <div className="relative">
+              <Command className="rounded-lg border">
+                <Input
+                className="focus-visible:ring-0"
+                  placeholder={
+                    selectedResourceDetails
+                      ? `${selectedResourceDetails.firstName} ${selectedResourceDetails.lastName}`
+                      : "Search resources..."
+                  }
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  onFocus={() => setIsDropdownOpen(true)}
+                />
+                {isDropdownOpen && (
+                  <CommandList className="max-h-60 overflow-auto">
+                    {filteredResources.length === 0 ? (
+                      <CommandEmpty>No results found.</CommandEmpty>
+                    ) : (
+                      filteredResources.map((resource) => (
+                        <CommandItem
+                          key={resource.id}
+                          onSelect={() => handleSelect(resource.id)}
+                        >
+                          {resource.firstName} {resource.lastName}
+                        </CommandItem>
+                      ))
+                    )}
+                  </CommandList>
+                )}
+              </Command>
+            </div>
 
             {selectedResourceDetails && (
               <div className="rounded-lg border p-4 mt-4">
@@ -108,11 +137,7 @@ export default function ResourceSelection() {
               </div>
             )}
 
-            <Button
-              onClick={handleSubmit}
-              disabled={!selectedResource}
-              className="w-full"
-            >
+            <Button onClick={handleSubmit} disabled={!selectedResource} className="w-full">
               Continue
             </Button>
           </CardContent>

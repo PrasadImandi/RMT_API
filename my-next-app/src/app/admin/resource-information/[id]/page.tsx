@@ -8,6 +8,9 @@ import AcademicInfoForm from "@/components/resource-form/academic-info-form";
 import CertificationForm from "@/components/resource-form/certification-form";
 import DocumentsForm from "@/components/resource-form/documents-form";
 import ProfessionalInfoForm from "@/components/resource-form/professional-info-form";
+import { toast } from "sonner";
+import api from "@/lib/axiosInstance";
+import { useParams, useRouter } from "next/navigation";
 
 const formTabs = [
   { id: "personal", label: "Personal Information" },
@@ -17,10 +20,12 @@ const formTabs = [
   { id: "professional", label: "Professional Details" },
 ];
 
-export default function ResourceForm({ params }: { params: { id: string } }) {
+export default function ResourceForm() {
+  const  params = useParams<{ id: string }>();
+  const router = useRouter()
   const [activeTab, setActiveTab] = useState("personal");
   const [formData, setFormData] = useState({
-    resourceId: 1,
+    resourceId: params.id,
     personal: {},
     academic: [],
     certification: [],
@@ -37,6 +42,7 @@ export default function ResourceForm({ params }: { params: { id: string } }) {
       [section]: data
     }));
     console.log(`${section} form data:`, data);
+    toast.success("Details saved")
   };
 
   const handleNext = () => {
@@ -53,9 +59,16 @@ export default function ResourceForm({ params }: { params: { id: string } }) {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async() => {
     console.log("Final form data:", formData);
     // Handle form submission
+    try {
+        const res = await api.put(`/ResourceInformation/${params.id}`,formData)
+        console.log(res)
+        router.push('/admin/resource-information')
+    } catch (error) {
+      toast.error("Error while submitting details")
+    }
   };
 
   return (
