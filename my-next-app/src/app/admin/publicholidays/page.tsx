@@ -18,26 +18,31 @@ import { CalendarDays, Pencil, Plus, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { Holiday } from "@/types";
 import api from "@/lib/axiosInstance";
-import { Form, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 
 // Define the form schema
 const formSchema = z.object({
-  PHName: z.string().min(6, {
+  name: z.string().min(6, {
     message: "Username must be at least 6 characters.",
   }),
-  PHDescription: z.string().min(6, {
+  description: z.string().min(6, {
     message: "Username must be at least 6 characters.",
   }),
-  PHDate: z.date({
-    required_error: "A date of birth is required.",
+  phDate: z.date({
+    required_error: "A date is required.",
   }),
   isPublic: z.boolean({
     required_error: "Please select an email to display.",
-  })
+  }),
 });
 
 export default function HolidaysPage() {
@@ -54,10 +59,10 @@ export default function HolidaysPage() {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      PHName: "",
-      PHDescription: "",
-      PHDate: new Date(),
-      isPublic: true
+      name: "",
+      description: "",
+      phDate: new Date(),
+      isPublic: true,
     },
   });
 
@@ -67,6 +72,20 @@ export default function HolidaysPage() {
       return;
     }
 
+    // Build the new holiday object
+    const holidayToAdd = {
+      ...values,
+      name: newHoliday.name,
+      description: newHoliday.description,
+      phDate: selectedDate,
+      phYear: selectedDate,
+      project: selectedProject,
+      isActive: true,
+    };
+
+    // Log the new holiday value to the console
+    console.log("New Holiday to be added:", holidayToAdd);
+
     // Check for "all" and adjust logic as needed
     if (selectedProject === "all") {
       console.log("Holiday applies to all projects");
@@ -75,16 +94,20 @@ export default function HolidaysPage() {
     }
 
     try {
-      const res = await api.post("/PublicHolidays", values);
-      console.log(res);
+      const res = await api.post("/PublicHolidays", holidayToAdd);
+      console.log("Response:", res);
+
+      // Assuming the API returns the new holiday in res.data, update state:
+      setHolidays((prev) => [...prev, res.data]);
+
       form.reset();
     } catch (error) {
-      console.log("error creating public holiday", error);
+      console.log("Error creating public holiday", error);
     }
 
     toast.success("Holiday added successfully");
     setNewHoliday({ name: "", description: "" });
-    setSelectedDate(null);
+    setSelectedDate(new Date());
   };
 
   const fetchHolidays = async () => {
@@ -93,13 +116,13 @@ export default function HolidaysPage() {
       console.log(response.data);
       setHolidays(response.data);
     } catch (error) {
-      console.error("Error fetching current user:", error);
+      console.error("Error fetching holidays:", error);
     }
   };
 
   useEffect(() => {
     fetchHolidays();
-  }, [])
+  }, []);
 
   const handleUpdateHoliday = (holiday: Holiday) => {
     // In a real app, this would be an API call
@@ -107,9 +130,17 @@ export default function HolidaysPage() {
     setEditingHoliday(null);
   };
 
-  const handleDeleteHoliday = (holiday: Holiday) => {
-    // In a real app, this would be an API call
-    toast.success("Holiday deleted successfully");
+  const handleDeleteHoliday = async (id: string) => {
+    try {
+      // Make API call to delete the holiday (assuming endpoint /PublicHolidays/{id})
+      await api.delete(`/PublicHolidays/${id}`);
+      // Remove the deleted holiday from the local state using the holiday's id
+      setHolidays((prev) => prev.filter((h) => h.id !== id));
+      toast.success("Holiday deleted successfully");
+    } catch (error) {
+      console.error("Error deleting holiday", error);
+      toast.error("Error deleting holiday");
+    }
   };
 
   const isHoliday = (date: Date) => {
@@ -119,6 +150,7 @@ export default function HolidaysPage() {
         format(date, "yyyy-MM-dd")
     );
   };
+  
 
   return (
     <div className="p-16">
@@ -135,80 +167,79 @@ export default function HolidaysPage() {
                 <CardTitle>Add Holiday</CardTitle>
               </CardHeader>
               <CardContent>
-                  <div className="space-y-4">
-                    <div className="space-y-2">
-                      <label className="text-sm font-medium">Holiday Name</label>
-                      <Input
-                        placeholder="Enter holiday name"
-                        value={newHoliday.name}
-                        onChange={(e) =>
-                          setNewHoliday({ ...newHoliday, name: e.target.value })
-                        }
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <label className="text-sm font-medium">Description</label>
-                      <Input
-                        placeholder="Enter holiday description"
-                        value={newHoliday.description}
-                        onChange={(e) =>
-                          setNewHoliday({
-                            ...newHoliday,
-                            description: e.target.value,
-                          })
-                        }
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <label className="text-sm font-medium">
-                        Project (Optional)
-                      </label>
-                      <Select
-                        value={selectedProject}
-                        onValueChange={setSelectedProject}
-                      >
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select a project" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="all">All Projects</SelectItem>{" "}
-                          {/* Changed value from "" to "all" */}
-                          {mockProjects?.map((project) => (
-                            <SelectItem key={project.id} value={project.id}>
-                              {project.name}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-
-                    <div className="space-y-2">
-                      <label className="text-sm font-medium">Select Date</label>
-                      <Calendar
-                        mode="single"
-                        selected={selectedDate}
-                        onSelect={setSelectedDate}
-                        className="rounded-md border"
-                        modifiers={{
-                          holiday: (date) => isHoliday(date),
-                        }}
-                        modifiersStyles={{
-                          holiday: { color: "red" },
-                        }}
-                      />
-                    </div>
-
-                    <Button
-                      className="w-full"
-                      onClick={handleAddHoliday}
-                      disabled={!selectedDate || !newHoliday.name}
-                    >
-                      <Plus className="w-4 h-4 mr-2" />
-                      Add Holiday
-                    </Button>
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Holiday Name</label>
+                    <Input
+                      placeholder="Enter holiday name"
+                      value={newHoliday.name}
+                      onChange={(e) =>
+                        setNewHoliday({ ...newHoliday, name: e.target.value })
+                      }
+                    />
                   </div>
+
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Description</label>
+                    <Input
+                      placeholder="Enter holiday description"
+                      value={newHoliday.description}
+                      onChange={(e) =>
+                        setNewHoliday({
+                          ...newHoliday,
+                          description: e.target.value,
+                        })
+                      }
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">
+                      Project (Optional)
+                    </label>
+                    <Select
+                      value={selectedProject}
+                      onValueChange={setSelectedProject}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a project" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">All Projects</SelectItem>
+                        {mockProjects?.map((project) => (
+                          <SelectItem key={project.id} value={project.id}>
+                            {project.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Select Date</label>
+                    <Calendar
+                      mode="single"
+                      selected={selectedDate}
+                      onSelect={setSelectedDate}
+                      className="rounded-md border"
+                      modifiers={{
+                        holiday: (date) => isHoliday(date),
+                      }}
+                      modifiersStyles={{
+                        holiday: { color: "red" },
+                      }}
+                    />
+                  </div>
+
+                  <Button
+                    className="w-full"
+                    onClick={() => handleAddHoliday(form.getValues())}
+                    disabled={!selectedDate || !newHoliday.name}
+                  >
+                    <Plus className="w-4 h-4 mr-2" />
+                    Add Holiday
+                  </Button>
+                </div>
               </CardContent>
             </Card>
 
@@ -218,13 +249,13 @@ export default function HolidaysPage() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {holidays!.map((holiday) => (
+                  {holidays.map((holiday:any) => (
                     <div
-                      key={holiday.phid}
+                      key={holiday.id}
                       className="flex items-center justify-between p-4 rounded-lg bg-muted/50"
                     >
                       <div>
-                        <h3 className="font-medium">{holiday.phName}</h3>
+                        <h3 className="font-medium">{holiday.name}</h3>
                         <p className="text-sm text-muted-foreground">
                           {format(parseISO(holiday.phDate), "PPP")}
                         </p>
@@ -245,7 +276,7 @@ export default function HolidaysPage() {
                         <Button
                           variant="ghost"
                           size="icon"
-                          onClick={() => handleDeleteHoliday(holiday)}
+                          onClick={() => handleDeleteHoliday(holiday.id)}
                         >
                           <Trash2 className="w-4 h-4" />
                         </Button>
@@ -261,3 +292,4 @@ export default function HolidaysPage() {
     </div>
   );
 }
+

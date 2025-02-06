@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -51,43 +51,6 @@ const contactTypes = [
   { id: 6, name: "Sr Mgmt" },
 ];
 
-// Define a mapping for states (converted id to number)
-const statesList = [
-  { id: 1, name: "Andhra Pradesh" },
-  { id: 2, name: "Arunachal Pradesh" },
-  { id: 3, name: "Assam" },
-  { id: 4, name: "Bihar" },
-  { id: 5, name: "Chhattisgarh" },
-  { id: 6, name: "Goa" },
-  { id: 7, name: "Gujarat" },
-  { id: 8, name: "Haryana" },
-  { id: 9, name: "Himachal Pradesh" },
-  { id: 10, name: "Jharkhand" },
-  { id: 11, name: "Karnataka" },
-  { id: 12, name: "Kerala" },
-  { id: 13, name: "Madhya Pradesh" },
-  { id: 14, name: "Maharashtra" },
-  { id: 15, name: "Manipur" },
-  { id: 16, name: "Meghalaya" },
-  { id: 17, name: "Mizoram" },
-  { id: 18, name: "Nagaland" },
-  { id: 19, name: "Odisha" },
-  { id: 20, name: "Punjab" },
-  { id: 21, name: "Rajasthan" },
-  { id: 22, name: "Sikkim" },
-  { id: 23, name: "Tamil Nadu" },
-  { id: 24, name: "Telangana" },
-  { id: 25, name: "Tripura" },
-  { id: 26, name: "Uttar Pradesh" },
-  { id: 27, name: "Uttarakhand" },
-  { id: 28, name: "West Bengal" },
-  { id: 29, name: "Andaman and Nicobar Islands" },
-  { id: 30, name: "Chandigarh" },
-  { id: 31, name: "Dadra and Nagar Haveli and Daman and Diu" },
-  { id: 32, name: "Lakshadweep" },
-  { id: 33, name: "Delhi" },
-  { id: 34, name: "Puducherry" },
-];
 
 const contactSchema = z.object({
   id: z.number().default(0),
@@ -120,6 +83,7 @@ const formSchema = z.object({
 
 export default function AddSupplier() {
   const router = useRouter();
+  const [statesList, setStateList] = useState([])
   const [contactOpen, setContactOpen] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -130,11 +94,11 @@ export default function AddSupplier() {
       name: "",
       sidDate: new Date(),
       address: "",
-      stateID: statesList[0].id,
+      stateID:  1,
       gst: "",
       pan: "",
       tan: "",
-      stateName: statesList[0].name,
+      stateName: "",
       contactInformation: [],
     },
   });
@@ -150,6 +114,19 @@ export default function AddSupplier() {
       console.error("Error submitting form", error);
     }
   };
+
+  const fetchStates = async () => {
+    try {
+      const response = await api.get("/DropDown/states");
+      setStateList(response.data);
+    } catch (error) {
+      console.error("Error fetching clients:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchStates();
+  }, []);
 
   return (
     <div className="m-16 p-4 bg-white dark:bg-[#17171A]">
@@ -247,7 +224,7 @@ export default function AddSupplier() {
                       <SelectValue placeholder="Select state" />
                     </SelectTrigger>
                     <SelectContent>
-                      {statesList.map((state) => (
+                      {statesList.map((state:any) => (
                         <SelectItem key={state.id} value={String(state.id)}>
                           {state.name}
                         </SelectItem>

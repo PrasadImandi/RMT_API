@@ -1,8 +1,6 @@
 "use client";
 import {
-  User,
   LayoutDashboard,
-  Settings,
   User2,
   LogOut,
   Clock5,
@@ -13,6 +11,8 @@ import {
   CalendarFold,
   CalendarDays,
   CalendarDaysIcon,
+  Info,
+  Users,
 } from "lucide-react";
 import {
   Tooltip,
@@ -48,18 +48,21 @@ export function AdminSidebar() {
 
   const sidebarItems = [
     { href: '/admin', icon: LayoutDashboard, label: 'Dashboard' },
-    { href: '/admin/manage-user', icon: User2, label: 'Manage Users' },
-    { href: '/admin/manage-project', icon: FolderOpenDot, label: 'Manage Projects' },
-    { href: '/admin/manage-resource', icon: User, label: 'Manage Resources' },
-    { href: '/admin/manage-supplier', icon: Container, label: 'Manage Suppliers' },
     { href: '/admin/timesheet', icon: Clock5, label: 'TImesheets' },
-    { href: '/admin/resource-information', icon: User, label: 'Resource Information' },
+    { href: '/admin/resource-information', icon: Info, label: 'Resource Information' },
     { href: '/admin/resource-deployment', icon: GlobeLock, label: 'Resource Deployment' },
     { href: '/admin/roster-management', icon: CalendarFold, label: 'Roster Management' },
     { href: '/admin/apply-leaves', icon: CalendarDays, label: 'Apply Leaves' },
-    { href: '/admin/publicholidays', icon: CalendarDaysIcon, label: 'Public Holidays' },
     { href: '/admin/report', icon: Notebook, label: 'Reports' },
   ];
+
+  const AdministrationItems = [
+    { href: '/admin/manage-user', icon: User2, label: 'Manage Users' },
+    { href: '/admin/manage-project', icon: FolderOpenDot, label: 'Manage Projects' },
+    { href: '/admin/manage-resource', icon: Users, label: 'Manage Resources' },
+    { href: '/admin/manage-supplier', icon: Container, label: 'Manage Suppliers' },
+    { href: '/admin/publicholidays', icon: CalendarDaysIcon, label: 'Public Holidays' },
+  ]
 
 
   return (
@@ -71,7 +74,7 @@ export function AdminSidebar() {
               <SidebarTrigger />
               <div className="flex w-full justify-between items-center">
                 <SidebarGroupLabel className="text-2xl text-primary-one font-medium">
-                  Menu
+                 Main Menu
                 </SidebarGroupLabel>
                 <SidebarGroupLabel className="gap-2">
                   <TooltipProvider>
@@ -99,16 +102,35 @@ export function AdminSidebar() {
             <SidebarContent className="flex flex-row justify-start items-center w-full">
               <div className="w-full">
                 <ul className="w-full px-4">
-                {sidebarItems.map((item) => (
-            <AdminSidebarListItem
-              key={item.href}
-              href={item.href}
-              icon={item.icon}
-              label={item.label}
-              isActive={activeItem === item.href}
-              onClick={() => setActiveItem(item.href)}
-            />
-          ))}
+                  {sidebarItems.map((item) => (
+                    <AdminSidebarListItem
+                      key={item.href}
+                      href={item.href}
+                      icon={item.icon}
+                      label={item.label}
+                      isActive={activeItem === item.href}
+                      onClick={() => setActiveItem(item.href)}
+                    />
+                  ))}
+                </ul>
+              </div>
+            </SidebarContent>
+          </SidebarGroup>
+          <SidebarGroup>
+            <SidebarGroupLabel className="text-2xl text-primary-one font-medium">Administration</SidebarGroupLabel>
+            <SidebarContent className="flex flex-row justify-start items-center w-full">
+              <div className="w-full">
+                <ul className="w-full px-4">
+                  {AdministrationItems.map((item) => (
+                    <AdminSidebarListItem
+                      key={item.href}
+                      href={item.href}
+                      icon={item.icon}
+                      label={item.label}
+                      isActive={activeItem === item.href}
+                      onClick={() => setActiveItem(item.href)}
+                    />
+                  ))}
                 </ul>
               </div>
             </SidebarContent>
@@ -116,7 +138,7 @@ export function AdminSidebar() {
         </>
       ) : (
         <div className="flex flex-col w-full h-full py-2 justify-between items-center">
-            <SidebarTrigger />
+          <SidebarTrigger />
           <Button
             variant="ghost"
             size="icon"
