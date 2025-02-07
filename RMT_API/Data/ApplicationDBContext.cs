@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RMT_API.Models;
+using RMT_API.Models.BaseModels;
 
 
 namespace RMT_API.Data
@@ -1032,6 +1033,34 @@ namespace RMT_API.Data
 			#endregion Relationships
 
 			base.OnModelCreating(modelBuilder);
+		}
+
+		public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+		{
+			var entries = ChangeTracker.Entries()
+				.Where(e => e.State == EntityState.Modified || e.State == EntityState.Added);
+
+			foreach (var entry in entries)
+			{
+				if (entry.State == EntityState.Modified)
+				{
+					if (entry.Entity is BaseModel auditable)
+					{
+						auditable.Updated_Date = DateTime.UtcNow;
+						auditable.Updated_By = 1;
+					}
+				}
+				else if (entry.State == EntityState.Added)
+				{
+					if (entry.Entity is BaseModel auditable)
+					{
+						auditable.Created_Date = DateTime.UtcNow;
+						auditable.Created_By = 1;
+					}
+				}
+			}
+
+			return await base.SaveChangesAsync(cancellationToken);
 		}
 	}
 }
