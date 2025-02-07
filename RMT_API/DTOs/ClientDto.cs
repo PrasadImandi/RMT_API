@@ -4,6 +4,7 @@ namespace RMT_API.DTOs
 {
 	public class ClientDto :BaseDto
 	{
+		public string? ClientCode { get; set; }
 		public string? ShortName { get; set; }
 		public DateTime StartDate { get; set; }
 		public DateTime EndDate { get; set; }
