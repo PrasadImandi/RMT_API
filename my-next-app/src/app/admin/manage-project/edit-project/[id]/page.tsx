@@ -72,13 +72,13 @@ const page = () => {
                 const response = await api.get(`/Project/${params.id}`);
                 const userData = response.data;
                 setUser(userData);
-                console.log(userData.status)
+                console.log(userData)
                 // Update the form values once the user data is fetched
                 reset({
-                    name: userData?.tName || "",
+                    name: userData?.name || "",
                     startDate: userData?.startDate ? new Date(userData.startDate) : new Date(),
                     endDate: userData?.endDate ? new Date(userData.endDate) : new Date(),
-                    status: userData?.status,
+                    status: userData?.isActive ? "Active" : "Inactive",
                 });
             } catch (error) {
                 console.error("Error fetching current user:", error);
@@ -90,17 +90,17 @@ const page = () => {
 
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
-        console.log("Form Submitted", values);
-        const updatedUser = {
+        
+        const updatedProject = {
             ...(user || {}), // Fallback to an empty object if user is undefined
             name: values.name,
             startDate: values.startDate,
             endDate: values.endDate,
-            status: values.status,
+            isActive:  values.status === "Active",
         };
-
+        console.log("Form Submitted", updatedProject);
         try {
-            const res = await api.put(`/Project/${params.id}`, updatedUser)
+            const res = await api.put(`/Project/${params.id}`, updatedProject)
             console.log(res.data)
             form.reset();
             router.push('/admin/manage-project')

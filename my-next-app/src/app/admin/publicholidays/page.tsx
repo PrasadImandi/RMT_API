@@ -5,15 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { mockHolidays, mockProjects } from "@/data/mock";
-import { format, parseISO } from "date-fns";
+import { format, parseISO, isValid } from "date-fns";
 import { CalendarDays, Pencil, Plus, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { Holiday } from "@/types";
@@ -22,41 +14,26 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import {
+  Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-
-// Define the form schema
+// Define your form schema
 const formSchema = z.object({
-  name: z.string().min(6, {
-    message: "Username must be at least 6 characters.",
-  }),
-  description: z.string().min(6, {
-    message: "Username must be at least 6 characters.",
-  }),
-  phDate: z.date({
-    required_error: "A date is required.",
-  }),
-  isPublic: z.boolean({
-    required_error: "Please select an email to display.",
-  }),
+  name: z.string().min(2, "Name must be at least 2 characters."),
+  description: z.string().min(2, "Description must be at least 2 characters."),
+  phDate: z.date({ required_error: "A date is required." }),
+  isPublic: z.boolean().default(true),
 });
 
 export default function HolidaysPage() {
-  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
-  const [selectedProject, setSelectedProject] = useState<string>("");
   const [editingHoliday, setEditingHoliday] = useState<Holiday | null>(null);
-  const [newHoliday, setNewHoliday] = useState({
-    name: "",
-    description: "",
-  });
-
   const [holidays, setHolidays] = useState<Holiday[]>([]);
 
-  const form = useForm({
+  const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
@@ -66,54 +43,55 @@ export default function HolidaysPage() {
     },
   });
 
-  const handleAddHoliday = async (values: z.infer<typeof formSchema>) => {
-    if (!selectedDate || !newHoliday.name) {
-      toast.error("Please fill in all required fields");
-      return;
+  // When editing a holiday, reset the form with its values.
+  useEffect(() => {
+    if (editingHoliday) {
+      form.reset({
+        name: editingHoliday.name,
+        description: editingHoliday.description,
+        phDate: editingHoliday.phDate ? parseISO(editingHoliday.phDate) : new Date(),
+        isPublic: editingHoliday.isPublic,
+      });
     }
+  }, [editingHoliday, form]);
 
-    // Build the new holiday object
-    const holidayToAdd = {
-      ...values,
-      name: newHoliday.name,
-      description: newHoliday.description,
-      phDate: selectedDate,
-      phYear: selectedDate,
-      project: selectedProject,
-      isActive: true,
-    };
-
-    // Log the new holiday value to the console
-    console.log("New Holiday to be added:", holidayToAdd);
-
-    // Check for "all" and adjust logic as needed
-    if (selectedProject === "all") {
-      console.log("Holiday applies to all projects");
-    } else {
-      console.log(`Holiday applies to project ID: ${selectedProject}`);
-    }
-
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      const res = await api.post("/PublicHolidays", holidayToAdd);
-      console.log("Response:", res);
+      const holidayData = {
+        ...values,
+        phYear: values.phDate,
+        isActive: true,
+      };
 
-      // Assuming the API returns the new holiday in res.data, update state:
-      setHolidays((prev) => [...prev, res.data]);
+      if (editingHoliday) {
+        // Update the holiday
+        const res = await api.put(`/PublicHolidays/${editingHoliday.id}`, {
+          ...holidayData,
+          id: editingHoliday.id,
+        });
+        setHolidays((prev) =>
+          prev.map((h) => (h.id === editingHoliday.id ? res.data : h))
+        );
+        toast.success("Holiday updated successfully");
+        window.location.reload()
+      } else {
+        // Create a new holiday
+        const res = await api.post("/PublicHolidays", holidayData);
+        setHolidays((prev) => [...prev, res.data]);
+        toast.success("Holiday added successfully");
+      }
 
       form.reset();
+      setEditingHoliday(null);
     } catch (error) {
-      console.log("Error creating public holiday", error);
+      console.error("Error saving holiday", error);
+      toast.error(`Error ${editingHoliday ? "updating" : "adding"} holiday`);
     }
-
-    toast.success("Holiday added successfully");
-    setNewHoliday({ name: "", description: "" });
-    setSelectedDate(new Date());
   };
 
   const fetchHolidays = async () => {
     try {
       const response = await api.get("/PublicHolidays");
-      console.log(response.data);
       setHolidays(response.data);
     } catch (error) {
       console.error("Error fetching holidays:", error);
@@ -124,17 +102,9 @@ export default function HolidaysPage() {
     fetchHolidays();
   }, []);
 
-  const handleUpdateHoliday = (holiday: Holiday) => {
-    // In a real app, this would be an API call
-    toast.success("Holiday updated successfully");
-    setEditingHoliday(null);
-  };
-
   const handleDeleteHoliday = async (id: string) => {
     try {
-      // Make API call to delete the holiday (assuming endpoint /PublicHolidays/{id})
       await api.delete(`/PublicHolidays/${id}`);
-      // Remove the deleted holiday from the local state using the holiday's id
       setHolidays((prev) => prev.filter((h) => h.id !== id));
       toast.success("Holiday deleted successfully");
     } catch (error) {
@@ -143,153 +113,148 @@ export default function HolidaysPage() {
     }
   };
 
+  // Check if a date is a holiday by comparing the date strings.
   const isHoliday = (date: Date) => {
-    return holidays.some(
-      (holiday) =>
-        format(parseISO(holiday.phDate), "yyyy-MM-dd") ===
-        format(date, "yyyy-MM-dd")
-    );
+    return holidays.some((holiday) => {
+      if (!holiday.phDate) return false;
+      const parsed = parseISO(holiday.phDate);
+      if (!isValid(parsed)) return false;
+      return format(parsed, "yyyy-MM-dd") === format(date, "yyyy-MM-dd");
+    });
   };
-  
 
   return (
     <div className="p-16">
-      <div className="min-h-screen">
-        <main className="container mx-auto py-8">
-          <div className="flex items-center justify-between mb-8">
-            <h1 className="text-4xl font-bold">Holiday Management</h1>
-            <CalendarDays className="w-8 h-8 text-muted-foreground" />
-          </div>
+      <main className="container mx-auto py-8">
+        <div className="flex items-center justify-between mb-8">
+          <h1 className="text-4xl font-bold">Holiday Management</h1>
+          <CalendarDays className="w-8 h-8 text-muted-foreground" />
+        </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>Add Holiday</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">Holiday Name</label>
-                    <Input
-                      placeholder="Enter holiday name"
-                      value={newHoliday.name}
-                      onChange={(e) =>
-                        setNewHoliday({ ...newHoliday, name: e.target.value })
-                      }
-                    />
-                  </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Form Card for Adding / Editing Holiday */}
+          <Card>
+            <CardHeader>
+              <CardTitle>{editingHoliday ? "Edit Holiday" : "Add Holiday"}</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                  <FormField
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Holiday Name</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Enter holiday name" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">Description</label>
-                    <Input
-                      placeholder="Enter holiday description"
-                      value={newHoliday.description}
-                      onChange={(e) =>
-                        setNewHoliday({
-                          ...newHoliday,
-                          description: e.target.value,
-                        })
-                      }
-                    />
-                  </div>
+                  <FormField
+                    control={form.control}
+                    name="description"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Description</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Enter holiday description" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">
-                      Project (Optional)
-                    </label>
-                    <Select
-                      value={selectedProject}
-                      onValueChange={setSelectedProject}
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select a project" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="all">All Projects</SelectItem>
-                        {mockProjects?.map((project) => (
-                          <SelectItem key={project.id} value={project.id}>
-                            {project.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
+                  <FormField
+                    control={form.control}
+                    name="phDate"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Select Date</FormLabel>
+                        <FormControl>
+                          <Calendar
+                            mode="single"
+                            selected={field.value}
+                            onSelect={field.onChange}
+                            className="rounded-md border"
+                            modifiers={{ holiday: isHoliday }}
+                            modifiersStyles={{ holiday: { color: "red" } }}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">Select Date</label>
-                    <Calendar
-                      mode="single"
-                      selected={selectedDate}
-                      onSelect={setSelectedDate}
-                      className="rounded-md border"
-                      modifiers={{
-                        holiday: (date) => isHoliday(date),
-                      }}
-                      modifiersStyles={{
-                        holiday: { color: "red" },
-                      }}
-                    />
-                  </div>
-
-                  <Button
-                    className="w-full"
-                    onClick={() => handleAddHoliday(form.getValues())}
-                    disabled={!selectedDate || !newHoliday.name}
-                  >
-                    <Plus className="w-4 h-4 mr-2" />
-                    Add Holiday
+                  <Button type="submit" className="w-full">
+                    {editingHoliday ? (
+                      <>
+                        <Pencil className="w-4 h-4 mr-2" />
+                        Edit Holiday
+                      </>
+                    ) : (
+                      <>
+                        <Plus className="w-4 h-4 mr-2" />
+                        Add Holiday
+                      </>
+                    )}
                   </Button>
-                </div>
-              </CardContent>
-            </Card>
+                </form>
+              </Form>
+            </CardContent>
+          </Card>
 
-            <Card>
-              <CardHeader>
-                <CardTitle>Holiday List</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {holidays.map((holiday:any) => (
-                    <div
-                      key={holiday.id}
-                      className="flex items-center justify-between p-4 rounded-lg bg-muted/50"
-                    >
-                      <div>
-                        <h3 className="font-medium">{holiday.name}</h3>
-                        <p className="text-sm text-muted-foreground">
-                          {format(parseISO(holiday.phDate), "PPP")}
+          {/* Holiday List Card */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Holiday List</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {holidays.map((holiday, index) => (
+                  <div
+                    key={holiday.id || index}
+                    className="flex items-center justify-between p-4 rounded-lg bg-muted/50"
+                  >
+                    <div>
+                      <h3 className="font-medium">{holiday.name}</h3>
+                      <p className="text-sm text-muted-foreground">
+                        {holiday.phDate && isValid(parseISO(holiday.phDate))
+                          ? format(parseISO(holiday.phDate), "PPP")
+                          : "No date available"}
+                      </p>
+                      {holiday.description && (
+                        <p className="text-sm text-muted-foreground mt-1">
+                          {holiday.description}
                         </p>
-                        {holiday.phDescription && (
-                          <p className="text-sm text-muted-foreground mt-1">
-                            {holiday.phDescription}
-                          </p>
-                        )}
-                      </div>
-                      <div className="flex space-x-2">
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => setEditingHoliday(holiday)}
-                        >
-                          <Pencil className="w-4 h-4" />
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => handleDeleteHoliday(holiday.id)}
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </Button>
-                      </div>
+                      )}
                     </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </main>
-      </div>
+                    <div className="flex space-x-2">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => setEditingHoliday(holiday)}
+                      >
+                        <Pencil className="w-4 h-4" />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => handleDeleteHoliday(holiday.id)}
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </main>
     </div>
   );
 }
-
