@@ -18,8 +18,8 @@ namespace RMT_API.DTOs
 		public string? ClientName { get; set; }
 		public string? PMName { get; set; }
 		public string? RMName { get; set; }
-		public string? DeleiveryMotion { get; set; }
-		public string? Segment { get; set; }
-		public string? SupportType { get; set; }
+		public string? DeleiveryMotionName { get; set; }
+		public string? SegmentName { get; set; }
+		public string? SupportTypeName { get; set; }
 	}
 }

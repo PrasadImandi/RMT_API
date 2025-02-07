@@ -15,6 +15,7 @@ namespace RMT_API.Infrastructure
 
 			CreateMap<BaseDto, Client>().ReverseMap();
 			CreateMap<BaseDto, StateMaster>().ReverseMap();
+			CreateMap<BaseDto, DeliveryMotionMaster>().ReverseMap();
 			CreateMap<BaseDto, PincodeMaster>().ReverseMap();
 			CreateMap<BaseDto, RegionMater>().ReverseMap();
 			CreateMap<BaseDto, SPOC>().ReverseMap();
@@ -22,7 +23,7 @@ namespace RMT_API.Infrastructure
 
 			CreateMap<BaseDto, DepartmentMaster>().ReverseMap();
 			CreateMap<LeaveDto, Leave>().ReverseMap();
-			CreateMap<ProjectDto, Project>().ReverseMap();
+			CreateMap<ProjectDto, Project>();
 
 			CreateMap<DeliveryMotionMaster, BaseDto>().ReverseMap();
 			CreateMap<SegmentMaster, BaseDto>().ReverseMap();
@@ -33,9 +34,9 @@ namespace RMT_API.Infrastructure
 				.ForMember(dest => dest.ClientName, opt => opt.MapFrom(src => src.Client != null ? src.Client.Name : string.Empty))
 				.ForMember(dest => dest.PMName, opt => opt.MapFrom(src => src.PM != null ? (src.PM.FirstName + " " + src.PM.LastName) : string.Empty))
 				.ForMember(dest => dest.RMName, opt => opt.MapFrom(src => src.RM != null ? src.RM.Name : string.Empty))
-				.ForMember(dest => dest.DeleiveryMotion, opt => opt.MapFrom(src => src.DeleiveryMotion != null ? src.DeleiveryMotion.Name : string.Empty))
-				.ForMember(dest => dest.SupportType, opt => opt.MapFrom(src => src.SupportType != null ? src.SupportType.Name : string.Empty))
-				.ForMember(dest => dest.Segment, opt => opt.MapFrom(src => src.Segment != null ? src.Segment.Name : string.Empty));
+				.ForMember(dest => dest.DeleiveryMotionName, opt => opt.MapFrom(src => src.DeleiveryMotion != null ? src.DeleiveryMotion.Name : string.Empty))
+				.ForMember(dest => dest.SupportTypeName, opt => opt.MapFrom(src => src.SupportType != null ? src.SupportType.Name : string.Empty))
+				.ForMember(dest => dest.SegmentName, opt => opt.MapFrom(src => src.Segment != null ? src.Segment.Name : string.Empty));
 
 			CreateMap<ProjectDto, Project>();
 

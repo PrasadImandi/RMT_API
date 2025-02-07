@@ -18,7 +18,7 @@ namespace RMT_API.Models
 		public virtual Client? Client { get; set; }
 		public virtual Manager? PM { get; set; }
 		public virtual ReportingManager? RM { get; set; }
-		public virtual DeliveryMotionMaster? DeleiveryMotion { get; set; } = null;
+		public virtual DeliveryMotionMaster? DeleiveryMotion { get; set; }
 		public virtual SegmentMaster? Segment { get; set; }
 		public virtual SupportTypeMaster? SupportType { get; set; }
 	}
