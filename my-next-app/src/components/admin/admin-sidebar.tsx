@@ -57,6 +57,7 @@ export function AdminSidebar() {
   ];
 
   const AdministrationItems = [
+    { href: '/admin/manage-client', icon: User2, label: 'Manage Client' },
     { href: '/admin/manage-user', icon: User2, label: 'Manage Users' },
     { href: '/admin/manage-project', icon: FolderOpenDot, label: 'Manage Projects' },
     { href: '/admin/manage-resource', icon: Users, label: 'Manage Resources' },
