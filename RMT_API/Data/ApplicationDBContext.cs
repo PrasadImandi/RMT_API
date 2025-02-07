@@ -156,7 +156,7 @@ namespace RMT_API.Data
 
 			modelBuilder.Entity<Client>()
 			.Property(a => a.ClientCode)
-			.HasComputedColumnSql("CONCAT('RES', RIGHT('10000' + CAST(ID AS VARCHAR), 5))", stored: true)
+			.HasComputedColumnSql("CONCAT('C', RIGHT('10000' + CAST(ID AS VARCHAR), 5))", stored: true)
 			.IsRequired();
 
 			modelBuilder.Entity<Client>()
