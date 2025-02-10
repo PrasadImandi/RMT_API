@@ -69,6 +69,7 @@ export default {
     		},
     		boxShadow: {
     			right: '3px 0px 4px 0px rgba(0, 0, 0, 0.15)',
+				left: '-3px 0px 4px 0px rgba(0, 0, 0, 0.15)',
     			bottom: '0px 2px 8px 0px rgba(0, 0, 0, 0.12)',
     			'dark-right': '3px 0px 4px 0px rgba(255, 255, 255, 0.15)',
     			'dark-bottom': '0px 2px 8px 0px rgba(255, 255, 255, 0.12)'

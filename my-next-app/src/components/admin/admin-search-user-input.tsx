@@ -23,7 +23,7 @@ const AdminSearchUserInput: React.FC<Props> = ({onSearch}) => {
 
       <form className="relative w-11/12" onSubmit={sendMessage}>
       <Input
-          placeholder="Search user..."
+          placeholder="Search here..."
           className="rounded-full"
           onChange={handleInputChange}
         />

@@ -66,7 +66,6 @@ const contactSchema = z.object({
 });
 
 const formSchema = z.object({
-  id: z.number().default(0),
   isActive: z.boolean().default(true),
   name: z.string().min(1, "Supplier name is required"),
   sidDate: z.date({ required_error: "SID date is required" }),
@@ -89,7 +88,6 @@ export default function AddSupplier() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      id: 0,
       isActive: true,
       name: "",
       sidDate: new Date(),
@@ -213,7 +211,7 @@ export default function AddSupplier() {
                       // Convert the value to a number and update both stateID and stateName
                       const stateID = Number(value);
                       field.onChange(stateID);
-                      const state = statesList.find((s) => s.id === stateID);
+                      const state:any = statesList.find((s:any) => s.id === stateID);
                       if (state) {
                         form.setValue("stateName", state.name);
                       }
