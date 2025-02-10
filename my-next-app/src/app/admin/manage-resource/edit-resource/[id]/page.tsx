@@ -35,7 +35,7 @@ const formSchema = z.object({
   firstName: z.string().min(1, "First name is required."),
   lastName: z.string().min(1, "Last name is required."),
   email: z.string().email("Invalid email address."),
-  phone: z.string().regex(/^\d{10}$/, "Phone number must be 10 digits."),
+  mobileNumber: z.string().regex(/^\d{10}$/, "Phone number must be 10 digits."),
   clientID: z.string(),
   projectID: z.string(),
   pmid: z.string(),
@@ -55,7 +55,7 @@ const EditResource = () => {
       firstName: "",
       lastName: "",
       email: "",
-      phone: "",
+      mobileNumber: "",
       clientID: "0",
       projectID: "0",
       pmid: "0",
@@ -78,7 +78,7 @@ const EditResource = () => {
           firstName: userData.firstName,
           lastName: userData.lastName,
           email: userData.emailID,
-          phone: userData.mobileNumber,
+          mobileNumber: userData.mobileNumber,
           clientID: userData.clientID,
           projectID: userData.project,
           pmid: userData.projectManager,
@@ -174,7 +174,7 @@ const EditResource = () => {
           {/* Phone Field */}
           <FormField
             control={form.control}
-            name="phone"
+            name="mobileNumber"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Phone</FormLabel>

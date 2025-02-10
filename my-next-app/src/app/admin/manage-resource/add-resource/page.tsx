@@ -40,6 +40,7 @@ const formSchema = z.object({
 const AddResource = () => {
   const router = useRouter();
   const [clients, setClients] = useState<any[]>([]);
+  const [projects, setProjects] = useState<any[]>([]);
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -47,8 +48,8 @@ const AddResource = () => {
       lastName: "",
       emailID: "",
       mobileNumber: "",
-      clientID: "0",
-      projectID: "0",
+      clientID: "1",
+      projectID: "1",
       pmid: "0",
       rmid: "0",
       supplierID: "0",
@@ -58,7 +59,9 @@ const AddResource = () => {
   const fetchClients = async () => {
     try {
       const response = await api.get("/Client");
+      const projectRes = await api.get("/Project");
       setClients(response.data);
+      setProjects(projectRes.data)
     } catch (error) {
       console.error("Error fetching clients:", error);
     }
@@ -197,9 +200,11 @@ const AddResource = () => {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="1">Project X</SelectItem>
-                    <SelectItem value="2">Project Y</SelectItem>
-                    <SelectItem value="3">Project Z</SelectItem>
+                  {projects.map((client) => (
+                        <SelectItem key={client.id} value={client.id.toString()}>
+                          {client.name}
+                        </SelectItem>
+                      ))}
                   </SelectContent>
                 </Select>
                 <FormMessage />
