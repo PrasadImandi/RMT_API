@@ -261,7 +261,7 @@ const AdminTableClient = () => {
                     </TableCell>
                     <TableCell className="text-right">
                       <div className="flex gap-2 justify-end">
-                        <TooltipWrapper content="Delete client">
+                        <TooltipWrapper content="Deactivate client">
                           <Button
                             size="icon"
                             variant="ghost"
@@ -275,9 +275,9 @@ const AdminTableClient = () => {
                         <TooltipWrapper content="Edit client">
                           <Button
                             size="icon"
-                            variant="ghost"
-                            onClick={() => handleEdit(row.id)}
+                            variant="ghost" 
                             className="bg-blue-50 text-blue-600 dark:bg-blue-900/20 hover:bg-blue-100/50 dark:text-blue-400 dark:hover:bg-blue-900/30"
+                            onClick={() => handleEdit(row.id)}
                           >
                             <Pencil className="h-4 w-4" />
                           </Button>
