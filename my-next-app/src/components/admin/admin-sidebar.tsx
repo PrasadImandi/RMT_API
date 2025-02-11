@@ -44,6 +44,7 @@ export function AdminSidebar() {
 
   const handleLogout = async () => {
     console.log("logged out")
+    router.push("/login")
   };
 
   const sidebarItems = [
