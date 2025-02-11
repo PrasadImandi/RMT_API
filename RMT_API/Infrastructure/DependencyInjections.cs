@@ -57,6 +57,7 @@ namespace RMT_API.Infrastructure
 			services.AddScoped<ISupplierService, SupplierService>();
 			services.AddScoped<IPublicHolidaysService, PublicHolidaysService>();
 			services.AddScoped<IResourceInformationService, ResourceInformationService>();
+			services.AddScoped<IRegionService, RegionService>();
 
 			// Add more repositories and services as needed...
 		}

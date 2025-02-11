@@ -17,4 +17,3 @@ namespace RMT_API.Services
 		Task<IEnumerable<BaseDto>> DomainLevelIDNameListAsync();
 	}
 }
-RG
