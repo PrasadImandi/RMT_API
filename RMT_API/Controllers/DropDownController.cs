@@ -41,5 +41,26 @@ namespace RMT_API.Controllers
 			var spocs = await _service.SPOCIDNameListAsync();
 			return Ok(spocs);
 		}
+
+		[HttpGet("domain")]
+		public async Task<IActionResult> GetDomains()
+		{
+			var spocs = await _service.DomainIDNameListAsync();
+			return Ok(spocs);
+		}
+
+		[HttpGet("domainroles")]
+		public async Task<IActionResult> GetDomainRoles()
+		{
+			var spocs = await _service.DomainRoleIDNameListAsync();
+			return Ok(spocs);
+		}
+
+		[HttpGet("domainlevels")]
+		public async Task<IActionResult> GetDomainLevelss()
+		{
+			var spocs = await _service.DomainLevelIDNameListAsync();
+			return Ok(spocs);
+		}
 	}
 }

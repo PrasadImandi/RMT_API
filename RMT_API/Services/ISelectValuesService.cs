@@ -1,6 +1,4 @@
-﻿using RMT_API.DTOs;
-using RMT_API.DTOs.BaseDtos;
-using RMT_API.Models;
+﻿using RMT_API.DTOs.BaseDtos;
 
 namespace RMT_API.Services
 {
@@ -13,5 +11,10 @@ namespace RMT_API.Services
 		Task<IEnumerable<BaseDto>> RegionIDNameListAsync();
 		Task<IEnumerable<BaseDto>> SPOCIDNameListAsync();
 		Task<IEnumerable<BaseDto>> LocationIDNameListAsync();
+
+		Task<IEnumerable<BaseDto>> DomainIDNameListAsync();
+		Task<IEnumerable<BaseDto>> DomainRoleIDNameListAsync();
+		Task<IEnumerable<BaseDto>> DomainLevelIDNameListAsync();
 	}
 }
+RG

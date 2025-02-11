@@ -15,6 +15,9 @@ namespace RMT_API.Infrastructure
 			services.AddScoped<IGenericRepository<RegionMater>, GenericRepository<RegionMater>>();
 			services.AddScoped<IGenericRepository<SPOC>, GenericRepository<SPOC>>();
 			services.AddScoped<IGenericRepository<LocationMaster>, GenericRepository<LocationMaster>>();
+			services.AddScoped<IGenericRepository<DomainMaster>, GenericRepository<DomainMaster>>();
+			services.AddScoped<IGenericRepository<DomainRoleMaster>, GenericRepository<DomainRoleMaster>>();
+			services.AddScoped<IGenericRepository<DomainLevelMaster>, GenericRepository<DomainLevelMaster>>();
 			services.AddScoped<IGenericRepository<Project>, GenericRepository<Project>>();
 			services.AddScoped<IGenericRepository<Client>, GenericRepository<Client>>();
 			services.AddScoped<IGenericRepository<DepartmentMaster>, GenericRepository<DepartmentMaster>>();

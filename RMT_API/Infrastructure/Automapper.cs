@@ -19,6 +19,9 @@ namespace RMT_API.Infrastructure
 			CreateMap<BaseDto, PincodeMaster>().ReverseMap();
 			CreateMap<BaseDto, RegionMater>().ReverseMap();
 			CreateMap<BaseDto, SPOC>().ReverseMap();
+			CreateMap<BaseDto, DomainMaster>().ReverseMap();
+			CreateMap<BaseDto, DomainRoleMaster>().ReverseMap();
+			CreateMap<BaseDto, DomainLevelMaster>().ReverseMap();
 
 
 			CreateMap<BaseDto, DepartmentMaster>().ReverseMap();
