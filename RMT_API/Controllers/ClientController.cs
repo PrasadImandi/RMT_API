@@ -6,10 +6,8 @@ namespace RMT_API.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-	public class ClientController(IClientService service) : ControllerBase
+	public class ClientController(IClientService _service) : ControllerBase
 	{
-		private readonly IClientService _service = service;
-
 		[HttpGet]
 		public async Task<IActionResult> GetAllClients()
 		{

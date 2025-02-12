@@ -21,6 +21,13 @@ namespace RMT_API.Controllers
 			return Ok(states);
 		}
 
+		[HttpGet("locations")]
+		public async Task<IActionResult> GetLocations()	
+		{
+			var states = await _service.LocationIDNameListAsync();
+			return Ok(states);
+		}
+
 		[HttpGet("pincodes")]
 		public async Task<IActionResult> GetPincodes()
 		{
