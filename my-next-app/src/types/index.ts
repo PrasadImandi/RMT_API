@@ -1,3 +1,11 @@
+export interface User {
+  id: number;
+  name: string;
+  email: string;
+  userProfileUrl: string;
+  role: string ;
+}
+
 export interface Resource {
   id: string;
   name: string;
