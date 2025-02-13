@@ -66,11 +66,12 @@ const AdminTableResource = () => {
   };
 
   const filteredData = data.filter((row) => {
+    const lowerSearchTerm = searchTerm.toLowerCase();
     const matchesSearch =
-      row.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      row.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      row.emailID.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      row.resourceCode.toLowerCase().includes(searchTerm.toLowerCase());
+      (row.firstName ?? "").toLowerCase().includes(lowerSearchTerm) ||
+      (row.lastName ?? "").toLowerCase().includes(lowerSearchTerm) ||
+      (row.emailID ?? "").toLowerCase().includes(lowerSearchTerm) ||
+      (row.resourceCode ?? "").toLowerCase().includes(lowerSearchTerm);
 
     const matchesActiveFilter = showActiveResources ? row.isActive : !row.isActive;
     return matchesSearch && matchesActiveFilter;

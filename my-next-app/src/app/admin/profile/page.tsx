@@ -15,6 +15,7 @@ import {
   GraduationCap
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export default function Home() {
   const notifications = [
@@ -208,6 +209,23 @@ export default function Home() {
                       <p className="text-xs text-gray-400">{project.date}</p>
                     </div>
                   ))}
+                </div>
+              </CardContent>
+            </Card>
+
+             {/* Resignation Card */}
+             <Card className="shadow-lg">
+              <CardHeader>
+                <h3 className="text-lg font-semibold">Resignation</h3>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <p className="text-gray-600">
+                    If you wish to resign from your current role or project, please submit your resignation request below.
+                  </p>
+                  <Button variant="destructive" className="mt-4" asChild>
+                    <Link href={`/admin/resource-offboarding`}>Resign</Link>
+                  </Button>
                 </div>
               </CardContent>
             </Card>
