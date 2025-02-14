@@ -10,6 +10,8 @@ import { Input } from '@/components/ui/input';
 // import { PasswordPolicyIndicator } from '@/components/security/password-policy-indicator';
 import { Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { useUserStore } from '@/store/userStore';
+import { User } from '@/types';
 
 // Authentication schemas
 const loginSchema = z.object({
@@ -28,6 +30,8 @@ export default function PeoplePulseAuthGateway() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [passwordStrength, setPasswordStrength] = useState(0);
   const router = useRouter()
+  const {update} = useUserStore()  
+
   const form = useForm({
     resolver: zodResolver(isResetting ? passwordResetSchema : loginSchema),
     defaultValues: isResetting 
@@ -36,16 +40,36 @@ export default function PeoplePulseAuthGateway() {
     mode: 'onBlur',
   });
 
-  const handleAuthSubmission = async (data: z.infer<typeof loginSchema | typeof passwordResetSchema>) => {
+  const handleAuthSubmission = async (
+    data: z.infer<typeof loginSchema> | z.infer<typeof passwordResetSchema>
+  ) => {
     setIsSubmitting(true);
-    try {
-      // Simulate API call
-      console.log('Authentication payload:', data);
-      router.push('/admin')
-    } finally {
+  
+    if ("username" in data) {
+      // const role: "supplier" = "supplier"; // or directly use "admin" as "admin"
+      const user: User = {
+        id: 1,
+        name: data.username,
+        email: "dev@gmail.com",
+        userProfileUrl: "https://github.com/shadcn.png",
+        role: data?.password// role is now correctly typed
+      };
+      update(user);
+  
+      try {
+        // Simulate API call
+        console.log("Authentication payload:", data);
+        router.push(`/${data.password}`);
+      } finally {
+        setIsSubmitting(false);
+      }
+    } else {
+      // Handle password reset scenario
+      console.log("Password reset payload:", data);
       setIsSubmitting(false);
     }
   };
+  
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-neutral-50">
