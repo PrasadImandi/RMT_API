@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using RMT_API.DTOs;
 using RMT_API.Models;
 using RMT_API.Repositories;
@@ -19,11 +20,10 @@ namespace RMT_API.Services
 
 		public async Task<IEnumerable<ProjectDto>> GetAllProjectsAsync()
 		{
-			var response = await  _repository.GetAllWithChildrenAsync(p => p.RM,
-																	  p => p.PM,
-																	  p => p.Segment,
-																	  p => p.DeleiveryMotion,
-																	  p => p.SupportType);
+			var response = await  _repository.GetAllWithChildrenAsync(query => query.Include(p => p.PM)
+																				.Include(p=>p.Segment)
+																				.Include(p=>p.DeleiveryMotion)
+																				.Include(p=>p.SupportType));
 
 			var activeProjects = _mapper.Map<IEnumerable<ProjectDto>>(response);
 

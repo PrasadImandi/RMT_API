@@ -44,7 +44,9 @@ namespace RMT_API.Data
 		public DbSet<ResourceLifecycle> ResourceLifecycles { get; set; }
 		public DbSet<SPOC> SPOC { get; set; }
 		public DbSet<Supplier> Supplier { get; set; }
-		public DbSet<Timesheet> Timesheets { get; set; }
+		public DbSet<Timesheet> Timesheet { get; set; }
+		public DbSet<ProjectTimesheetDetail> ProjectTimesheetDetail { get; set; }
+		public DbSet<TimesheetDetail> TimesheetDetail { get; set; }
 		public DbSet<Users> Users { get; set; }
 
 		public DbSet<PersonalDetails> PersonalDetails { get; set; }
@@ -933,20 +935,6 @@ namespace RMT_API.Data
 
 			modelBuilder.Entity<Timesheet>()
 				.HasKey(a => a.ID);
-
-			modelBuilder.Entity<Timesheet>()
-			.Property(a => a.Date)
-			.IsRequired();
-
-			modelBuilder.Entity<Timesheet>()
-			.Property(a => a.HoursWorked)
-			.HasColumnType("decimal(18,2)")
-			.IsRequired();
-
-			modelBuilder.Entity<Timesheet>()
-			.Property(a => a.HoursWorked)
-			.HasColumnType("varchar(500)")
-			.IsRequired();
 
 			#endregion Timesheet
 

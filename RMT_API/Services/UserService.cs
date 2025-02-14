@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using RMT_API.DTOs;
 using RMT_API.DTOs.BaseDtos;
 using RMT_API.Models;
@@ -76,7 +77,7 @@ namespace RMT_API.Services
 
 		public async Task<IEnumerable<UserDto>> GetAllUsersWithChildAsync()
 		{
-			var response = await _repository.GetAllWithChildrenAsync(p => p.AccessType);
+			var response = await _repository.GetAllWithChildrenAsync(query=>query.Include(x=>x.AccessType));
 
 			return _mapper.Map<IEnumerable<UserDto>>(response);
 		}

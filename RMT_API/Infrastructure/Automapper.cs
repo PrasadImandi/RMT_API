@@ -12,7 +12,6 @@ namespace RMT_API.Infrastructure
 			CreateMap<AccessTypeMasterDto, AccessTypeMaster>().ReverseMap();
 			CreateMap<ClientDto, Client>().ReverseMap();
 
-
 			CreateMap<BaseDto, Client>().ReverseMap();
 			CreateMap<BaseDto, StateMaster>().ReverseMap();
 			CreateMap<BaseDto, DeliveryMotionMaster>().ReverseMap();
@@ -23,7 +22,6 @@ namespace RMT_API.Infrastructure
 			CreateMap<BaseDto, DomainMaster>().ReverseMap();
 			CreateMap<BaseDto, DomainRoleMaster>().ReverseMap();
 			CreateMap<BaseDto, DomainLevelMaster>().ReverseMap();
-
 
 			CreateMap<BaseDto, DepartmentMaster>().ReverseMap();
 			CreateMap<LeaveDto, Leave>().ReverseMap();
@@ -49,7 +47,13 @@ namespace RMT_API.Infrastructure
 			CreateMap<ResourceLifeCycleDto, ResourceLifecycle>().ReverseMap();
 			CreateMap<ResourceOffboardingDto, ResourceOffboarding>().ReverseMap();
 			CreateMap<ResourceOnboardingDto, ResourceOnboarding>().ReverseMap();
-			CreateMap<TimesheetDto, Timesheet>().ReverseMap();
+			CreateMap<TimesheetDto, Timesheet>();
+			CreateMap<ProjectTimesheetDetail, ProjectTimesheetDetailDto>()
+				.ForMember(dest => dest.TimesheetDetails, opt => opt.MapFrom(src => src.TimesheetDetails));
+			CreateMap<ProjectTimesheetDetailDto, ProjectTimesheetDetail>();
+			CreateMap<TimesheetDetail, TimesheetDetailDto>().ReverseMap();
+			CreateMap<Timesheet, TimesheetDto>()
+				.ForMember(dest => dest.ProjectTimesheetDetails, opt => opt.MapFrom(src => src.ProjectTimesheetDetails));
 
 			CreateMap<ResourceIdentifierDto, UsersDto>().ReverseMap();
 			CreateMap<ResourceIdentifierDto, UserDto>().ReverseMap();

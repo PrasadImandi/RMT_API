@@ -43,6 +43,7 @@ namespace RMT_API.Infrastructure
 			// Register Services
 			services.AddScoped<IAccessTypeService, AccessTypeService>();
 			services.AddScoped<IProjectsService, ProjectsService>();
+			services.AddScoped<IEmailService, EmailService>();
 			services.AddScoped<IClientService, ClientService>();
 			services.AddScoped<IDepartmentsService, DepartmentsService>();
 			services.AddScoped<ILeaveService, LeaveService>();

@@ -20,7 +20,7 @@ namespace RMT_API.Services
 
 		public async Task<IEnumerable<SupplierDto>> GetAllSuppliersAsync()
 		{
-			var response = await _repository.GetAllWithChildrenAsync(p=>p.ContactInformation);
+			var response = await _repository.GetAllWithChildrenAsync(query=>query.Include(p=>p.ContactInformation));
 			return _mapper.Map<IEnumerable<SupplierDto>>(response);
 		}
 

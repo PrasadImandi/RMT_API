@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using RMT_API.DTOs;
 using RMT_API.Models;
 using RMT_API.Repositories;
+
 
 namespace RMT_API.Services
 {
@@ -20,7 +22,9 @@ namespace RMT_API.Services
 
 		public async Task<IEnumerable<TimesheetDto>> GetAllTimesheetsAsync()
 		{
-			var response = await _repository.GetAllAsync();
+			var response = await _repository.GetAllWithChildrenAsync(query => query.Include(p => p.ProjectTimesheetDetails)
+																					 .ThenInclude(dm => dm.TimesheetDetails)
+																					 );
 			return _mapper.Map<IEnumerable<TimesheetDto>>(response);
 		}
 

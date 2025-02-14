@@ -17,14 +17,11 @@ namespace RMT_API.Repositories
 			return await _dbSet.ToListAsync();
 		}
 
-		public async Task<List<T>> GetAllWithChildrenAsync(params Expression<Func<T, object>>[] includes)
+		public async Task<List<T>> GetAllWithChildrenAsync(Func<IQueryable<T>, IQueryable<T>> includeChildren)
 		{
 			IQueryable<T> query = (IQueryable<T>)_dbSet;
 
-			foreach (var include in includes)
-			{
-				query = query.Include(include);
-			}
+			query = includeChildren(query);
 
 			return await query.ToListAsync();
 		}

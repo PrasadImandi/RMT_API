@@ -29,6 +29,18 @@ namespace RMT_API.Controllers
 			return Ok(timesheet);
 		}
 
+		[HttpPost("search-timesheets")]
+		public async Task<IActionResult> GetTimesheetsByResourceId(int id)
+		{
+			var timesheet = await _service.GetTimesheetByIdAsync(id);
+			if (timesheet == null)
+			{
+				return NotFound();
+			}
+
+			return Ok(timesheet);
+		}
+
 		[HttpPost]
 		public async Task<IActionResult> CreateTimesheet([FromBody] TimesheetDto timesheet)
 		{
