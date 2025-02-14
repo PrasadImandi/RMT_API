@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
-import { format, parseISO, isValid } from "date-fns";
+import { format, parseISO, isValid, startOfDay } from "date-fns";
 import { CalendarDays, Pencil, Plus, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
@@ -19,7 +19,10 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { PublicHolidayApi, publicHolidayFormSchema } from "@/services/api/publicholiday";
+import {
+  PublicHolidayApi,
+  publicHolidayFormSchema,
+} from "@/services/api/publicholiday";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 // The holiday type (assumed structure)
@@ -34,6 +37,7 @@ export type Holiday = {
 // Component
 export default function HolidaysPage() {
   const [editingHoliday, setEditingHoliday] = useState<Holiday | null>(null);
+  const [showAll, setShowAll] = useState(false);
   const queryClient = useQueryClient();
 
   const form = useForm<z.infer<typeof publicHolidayFormSchema>>({
@@ -43,7 +47,7 @@ export default function HolidaysPage() {
       description: "",
       phDate: new Date(),
       isPublic: true,
-      isActive: true
+      isActive: true,
     },
   });
 
@@ -53,17 +57,16 @@ export default function HolidaysPage() {
       form.reset({
         name: editingHoliday.name,
         description: editingHoliday.description,
-        phDate: editingHoliday.phDate ? parseISO(editingHoliday.phDate) : new Date(),
+        phDate: editingHoliday.phDate
+          ? parseISO(editingHoliday.phDate)
+          : new Date(),
         isPublic: editingHoliday.isPublic,
       });
     }
   }, [editingHoliday, form]);
 
   // Fetch all holidays
-  const {
-    data: holidays = [],
-    isLoading: isHolidaysLoading,
-  } = useQuery({
+  const { data: holidays = [], isLoading: isHolidaysLoading } = useQuery({
     queryKey: ["holidays"],
     queryFn: PublicHolidayApi.fetchHoliday,
   });
@@ -114,7 +117,7 @@ export default function HolidaysPage() {
   };
 
   const onSubmit = (values: z.infer<typeof publicHolidayFormSchema>) => {
-    console.log(values)
+    console.log(values);
     const holidayData = {
       ...values,
       phYear: values.phDate, // if needed by your API
@@ -122,7 +125,7 @@ export default function HolidaysPage() {
     };
 
     if (editingHoliday) {
-      updateHolidayMutation.mutate({...holidayData, id:editingHoliday.id});
+      updateHolidayMutation.mutate({ ...holidayData, id: editingHoliday.id });
     } else {
       createHolidayMutation.mutate(holidayData);
     }
@@ -137,6 +140,16 @@ export default function HolidaysPage() {
       return format(parsed, "yyyy-MM-dd") === format(date, "yyyy-MM-dd");
     });
   };
+
+  const filteredHolidays = showAll
+    ? holidays
+    : holidays.filter((holiday: Holiday) => {
+        const phDate = parseISO(holiday.phDate);
+        if (!isValid(phDate)) return false;
+        const holidayStart = startOfDay(phDate);
+        const todayStart = startOfDay(new Date());
+        return holidayStart >= todayStart;
+      });
 
   if (isHolidaysLoading) {
     return <div>Loading Holiday data...</div>;
@@ -154,11 +167,16 @@ export default function HolidaysPage() {
           {/* Form Card for Adding / Editing Holiday */}
           <Card>
             <CardHeader>
-              <CardTitle>{editingHoliday ? "Edit Holiday" : "Add Holiday"}</CardTitle>
+              <CardTitle>
+                {editingHoliday ? "Edit Holiday" : "Add Holiday"}
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                <form
+                  onSubmit={form.handleSubmit(onSubmit)}
+                  className="space-y-4"
+                >
                   <FormField
                     control={form.control}
                     name="name"
@@ -180,7 +198,10 @@ export default function HolidaysPage() {
                       <FormItem>
                         <FormLabel>Description</FormLabel>
                         <FormControl>
-                          <Input placeholder="Enter holiday description" {...field} />
+                          <Input
+                            placeholder="Enter holiday description"
+                            {...field}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -229,11 +250,21 @@ export default function HolidaysPage() {
           {/* Holiday List Card */}
           <Card>
             <CardHeader>
-              <CardTitle>Holiday List</CardTitle>
+              <div className="flex items-center justify-between">
+                <CardTitle>Holiday List</CardTitle>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setShowAll(!showAll)}
+                >
+                  {showAll ? "Show Upcoming" : "Show All"}
+                </Button>
+              </div>
             </CardHeader>
+
             <CardContent>
               <div className="space-y-4">
-                {holidays.map((holiday: Holiday, index: number) => (
+                {filteredHolidays.map((holiday: Holiday, index: number) => (
                   <div
                     key={holiday.id || index}
                     className="flex items-center justify-between p-4 rounded-lg bg-muted/50"

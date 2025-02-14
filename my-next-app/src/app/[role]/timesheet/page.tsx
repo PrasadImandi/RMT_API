@@ -1,304 +1,446 @@
 "use client";
 
-import { useState } from "react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { PlusCircle, Clock, Save, Lock } from "lucide-react";
+import { format, startOfWeek, addDays, isAfter, startOfToday, isWeekend, endOfWeek } from "date-fns";
+import { useQuery } from "@tanstack/react-query";
+import { ResourceApi } from "@/services/api/resource";
+import { ProjectApi, ProjectType } from "@/services/api/projects";
+import { useUserStore } from "@/store/userStore";
+import { useState } from "react";
+
+interface Project {
+  id: string;
+  name: string;
+}
 
 interface TimeEntry {
-  date: string;
-  inTime: string;
-  outTime: string;
+  projectId: string;
+  hours: { [key: string]: number };
+}
+
+interface TimeRange {
+  [key: string]: {
+    start: string;
+    end: string;
+  };
+}
+
+function TimesheetTable({
+  projects,
+  timeEntries,
+  timeRanges,
+  weekDays,
+  onTimeChange,
+  onTimeRangeChange,
+  readOnly = false,
+  hasWeekendPermission = false,
+}: {
+  projects: Project[];
+  timeEntries: TimeEntry[];
+  timeRanges: TimeRange;
+  weekDays: Date[];
+  onTimeChange: (projectId: string, date: string, hours: number) => void;
+  onTimeRangeChange: (date: string, field: 'start' | 'end', value: string) => void;
+  readOnly?: boolean;
+  hasWeekendPermission?: boolean;
+}) {
+  const dailyTotals = weekDays.reduce((totals, day) => {
+    const dateStr = format(day, "yyyy-MM-dd");
+    totals[dateStr] = timeEntries.reduce((sum, entry) => {
+      return sum + (entry.hours[dateStr] || 0);
+    }, 0);
+    return totals;
+  }, {} as { [key: string]: number });
+
+  return (
+    <div className="overflow-x-auto">
+      <table className="w-full border-collapse">
+        <thead>
+          <tr>
+            <th className="border p-2 bg-muted">Project</th>
+            {weekDays.map(day => (
+              <th 
+                key={day.toString()} 
+                className={`border p-2 ${isWeekend(day) ? 'bg-muted/80' : 'bg-muted'}`}
+              >
+                <div>
+                  {format(day, "EEE dd/MM")}
+                  {isWeekend(day) && !hasWeekendPermission && (
+                    <Lock className="inline ml-1 w-3 h-3" />
+                  )}
+                </div>
+              </th>
+            ))}
+            <th className="border p-2 bg-muted">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          {projects.map(project => {
+            const projectEntry = timeEntries.find(
+              entry => entry.projectId === project.id
+            );
+            const total = weekDays.reduce((sum, day) => {
+              return sum + (projectEntry?.hours[format(day, "yyyy-MM-dd")] || 0);
+            }, 0);
+
+            return (
+              <tr key={project.id}>
+                <td className="border p-2">{project.name}</td>
+                {weekDays.map(day => {
+                  const dateStr = format(day, "yyyy-MM-dd");
+                  const isWeekendDay = isWeekend(day);
+                  const isDisabled = isWeekendDay && !hasWeekendPermission;
+                  const hours = projectEntry?.hours[dateStr] || 0;
+                  
+                  return (
+                    <td key={dateStr} className="border p-2">
+                      <input
+                        type="number"
+                        min="0"
+                        max="24"
+                        step="0.5"
+                        className={`w-16 p-1 border rounded ${
+                          readOnly || isDisabled ? "bg-gray-100" : ""
+                        } ${isWeekendDay ? "bg-muted/50" : ""}`}
+                        value={hours || ""}
+                        onChange={e => onTimeChange(project.id, dateStr, Number(e.target.value))}
+                        readOnly={readOnly || isDisabled}
+                        disabled={isDisabled}
+                      />
+                    </td>
+                  );
+                })}
+                <td className="border p-2 font-bold">{total}</td>
+              </tr>
+            );
+          })}
+          <tr className="bg-muted/20">
+            <td className="border p-2 font-bold">Daily Total</td>
+            {weekDays.map(day => {
+              const dateStr = format(day, "yyyy-MM-dd");
+              const dailyTotal = dailyTotals[dateStr];
+              const isOvertime = dailyTotal > 8;
+              
+              return (
+                <td 
+                  key={dateStr} 
+                  className={`border p-2 font-bold ${isOvertime ? 'text-red-600' : ''}`}
+                >
+                  {dailyTotal || 0}
+                </td>
+              );
+            })}
+            <td className="border p-2 font-bold">
+              {Object.values(dailyTotals).reduce((sum, hours) => sum + hours, 0)}
+            </td>
+          </tr>
+          <tr className="bg-muted/10">
+            <td className="border p-2 font-bold">In Time</td>
+            {weekDays.map(day => {
+              const dateStr = format(day, "yyyy-MM-dd");
+              const timeRange = timeRanges[dateStr] || { start: "", end: "" };
+              const isWeekendDay = isWeekend(day);
+              const isDisabled = isWeekendDay && !hasWeekendPermission;
+              
+              return (
+                <td key={dateStr} className="border p-2">
+                  <input
+                    type="time"
+                    className={`w-full p-1 border rounded ${
+                      isDisabled ? "bg-gray-100" : ""
+                    }`}
+                    value={timeRange.start}
+                    onChange={(e) => onTimeRangeChange(dateStr, 'start', e.target.value)}
+                    disabled={isDisabled}
+                  />
+                </td>
+              );
+            })}
+            <td className="border p-2">-</td>
+          </tr>
+          <tr className="bg-muted/10">
+            <td className="border p-2 font-bold">Out Time</td>
+            {weekDays.map(day => {
+              const dateStr = format(day, "yyyy-MM-dd");
+              const timeRange = timeRanges[dateStr] || { start: "", end: "" };
+              const isWeekendDay = isWeekend(day);
+              const isDisabled = isWeekendDay && !hasWeekendPermission;
+              
+              return (
+                <td key={dateStr} className="border p-2">
+                  <input
+                    type="time"
+                    className={`w-full p-1 border rounded ${
+                      isDisabled ? "bg-gray-100" : ""
+                    }`}
+                    value={timeRange.end}
+                    onChange={(e) => onTimeRangeChange(dateStr, 'end', e.target.value)}
+                    disabled={isDisabled}
+                  />
+                </td>
+              );
+            })}
+            <td className="border p-2">-</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  );
 }
 
 export default function Home() {
-  const [currentWeekStart, setCurrentWeekStart] = useState<Date>(
-    getWeekStart(new Date())
-  );
+  const {user} = useUserStore();
+  const [currentWeekOffset, setCurrentWeekOffset] = useState(0);
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [timeEntries, setTimeEntries] = useState<TimeEntry[]>([]);
+  const [timeRanges, setTimeRanges] = useState<TimeRange>({});
+  const [savedTimeEntries, setSavedTimeEntries] = useState<{
+    [key: string]: TimeEntry[];
+  }>({});
+  const [savedTimeRanges, setSavedTimeRanges] = useState<{
+    [key: string]: TimeRange;
+  }>({});
+  const [selectedProjectId, setSelectedProjectId] = useState<string>("");
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [hasWeekendPermission] = useState(false);
 
-  const getWeekDates = (startDate: Date): TimeEntry[] => {
-    const dates: TimeEntry[] = [];
-    for (let i = 0; i < 7; i++) {
-      const date = new Date(startDate);
-      date.setDate(date.getDate() + i);
-      dates.push({
-        date: date.toISOString().split("T")[0],
-        inTime: "",
-        outTime: "",
-      });
+  const { data: resourceData } = useQuery({
+    queryKey: ['resource', user?.id],
+    queryFn: () => ResourceApi.fetchResource(user?.id!),
+    enabled: !!user?.id,
+  });
+
+  const { data: initialProject } = useQuery({
+    queryKey: ['project', resourceData?.projectID],
+    queryFn: () => ProjectApi.fetchProject(resourceData!.projectID),
+    enabled: !!resourceData?.projectID,
+  });
+
+  const { data: availableProjects } = useQuery<ProjectType[]>({
+    queryKey: ['available-projects'],
+    queryFn: ProjectApi.fetchProjects,
+  });
+
+  useEffect(() => {
+    if (initialProject && !projects.some(p => p.id === initialProject.id)) {
+      setProjects([initialProject]);
     }
-    return dates;
-  };
+  }, [initialProject]);
 
-  const [timeEntries, setTimeEntries] = useState<TimeEntry[]>(
-    getWeekDates(currentWeekStart)
+  const startDate = startOfWeek(addDays(new Date(), currentWeekOffset * 7), {
+    weekStartsOn: 1,
+  });
+  const weekDays = Array.from({ length: 7 }, (_, i) => addDays(startDate, i));
+  const isFutureWeek = isAfter(startDate, startOfToday());
+
+  const availableProjectsToAdd = availableProjects?.filter(
+    availableProject => !projects.some(p => p.id === availableProject.id)
   );
 
-  function getWeekStart(date: Date): Date {
-    const d = new Date(date);
-    const day = d.getDay();
-    const diff = d.getDate() - day + (day === 0 ? -6 : 1);
-    d.setDate(diff);
-    return d;
-  }
-
-  const navigateWeek = (direction: "prev" | "next") => {
-    const newDate = new Date(currentWeekStart);
-    newDate.setDate(newDate.getDate() + (direction === "next" ? 7 : -7));
-    setCurrentWeekStart(newDate);
-    setTimeEntries(getWeekDates(newDate));
+  const handleAddProject = () => {
+    if (selectedProjectId) {
+      const projectToAdd = availableProjects?.find(
+        (p) => p.id === selectedProjectId
+      );
+      if (projectToAdd) {
+        setProjects((prev) => [...prev, projectToAdd]);
+        setSelectedProjectId("");
+        setDialogOpen(false);
+      }
+    }
   };
 
-  const calculateHours = (inTime: string, outTime: string): number => {
-    if (!inTime || !outTime) return 0;
-
-    const [inHours, inMinutes] = inTime.split(":").map(Number);
-    const [outHours, outMinutes] = outTime.split(":").map(Number);
-
-    const totalMinutes =
-      outHours * 60 + outMinutes - (inHours * 60 + inMinutes);
-    return Math.round((totalMinutes / 60) * 100) / 100;
-  };
-
-  const calculateTotalHours = (): number => {
-    return timeEntries.reduce((total, entry) => {
-      return total + calculateHours(entry.inTime, entry.outTime);
-    }, 0);
-  };
-
-  const handleTimeChange = (
-    index: number,
-    field: "inTime" | "outTime",
-    value: string
-  ) => {
-    const newEntries = [...timeEntries];
-    newEntries[index] = { ...newEntries[index], [field]: value };
+  const handleAutoFill = () => {
+    const newEntries = projects.map((project) => ({
+      projectId: project.id,
+      hours: weekDays.reduce((acc, day) => {
+        const dateStr = format(day, "yyyy-MM-dd");
+        acc[dateStr] = isWeekend(day) && !hasWeekendPermission ? 0 : 8;
+        return acc;
+      }, {} as { [key: string]: number }),
+    }));
     setTimeEntries(newEntries);
+
+    const newTimeRanges = weekDays.reduce((acc, day) => {
+      const dateStr = format(day, "yyyy-MM-dd");
+      if (!isWeekend(day) || hasWeekendPermission) {
+        acc[dateStr] = { start: "09:00", end: "17:00" };
+      }
+      return acc;
+    }, {} as TimeRange);
+    setTimeRanges(newTimeRanges);
   };
 
-  const formatDate = (dateStr: string): string => {
-    return new Date(dateStr).toLocaleDateString("en-US", {
-      weekday: "short",
-      month: "short",
-      day: "numeric",
+  const handleTimeChange = (projectId: string, date: string, hours: number) => {
+    setTimeEntries((prev) => {
+      const projectEntry =
+        prev.find((entry) => entry.projectId === projectId) || {
+          projectId,
+          hours: {},
+        };
+
+      const updatedEntry = {
+        ...projectEntry,
+        hours: { ...projectEntry.hours, [date]: hours },
+      };
+
+      return [...prev.filter((entry) => entry.projectId !== projectId), updatedEntry];
     });
   };
 
-  const formatDateRange = (): string => {
-    const endDate = new Date(currentWeekStart);
-    endDate.setDate(endDate.getDate() + 6);
+  const handleTimeRangeChange = (date: string, field: "start" | "end", value: string) => {
+    setTimeRanges((prev) => ({
+      ...prev,
+      [date]: {
+        ...prev[date],
+        [field]: value,
+      },
+    }));
+  };
 
-    const startMonth = currentWeekStart.toLocaleDateString("en-US", {
-      month: "short",
+  const handleSave = () => {
+    const weekKey = format(startDate, "yyyy-MM-dd");
+    setSavedTimeEntries((prev) => ({
+      ...prev,
+      [weekKey]: timeEntries,
+    }));
+    setSavedTimeRanges((prev) => ({
+      ...prev,
+      [weekKey]: timeRanges,
+    }));
+
+    const totalHours = weekDays.reduce((total, day) => {
+      const dateStr = format(day, "yyyy-MM-dd");
+      return total + timeEntries.reduce((sum, entry) => sum + (entry.hours[dateStr] || 0), 0);
+    }, 0);
+
+    const formattedData = {
+      ID: 0,
+      ResourceID: resourceData?.id || 0,
+      TotalHours: 40,
+      WorkedHours: totalHours,
+      WeekStartDate: format(startDate, "yyyy-MM-dd"),
+      WeekEndDate: format(endOfWeek(startDate, { weekStartsOn: 1 }), "yyyy-MM-dd"),
+      ProjectTimesheetDetails: projects.map((project) => ({
+        ProjectID: Number(project.id), // Convert project.id to number
+        TimesheetDetails: weekDays.map((day) => {
+          const dateStr = format(day, "yyyy-MM-dd");
+          const entry = timeEntries.find((e) => e.projectId === project.id);
+          return {
+            id: 0,
+            TimesheetId: 0,
+            WorkDate: dateStr,
+            HoursWorked: entry?.hours[dateStr] || 0,
+          };
+        }),
+      })),
+    };
+
+    console.log(formattedData);
+  };
+
+  const handleWeekChange = (offset: number) => {
+    const newOffset = offset;
+    setCurrentWeekOffset(newOffset);
+    const newStartDate = startOfWeek(addDays(new Date(), newOffset * 7), {
+      weekStartsOn: 1,
     });
-    const endMonth = endDate.toLocaleDateString("en-US", { month: "short" });
-
-    const startDay = currentWeekStart.getDate();
-    const endDay = endDate.getDate();
-
-    if (startMonth === endMonth) {
-      return `${startMonth} ${startDay} - ${endDay}, ${currentWeekStart.getFullYear()}`;
-    }
-    return `${startMonth} ${startDay} - ${endMonth} ${endDay}, ${currentWeekStart.getFullYear()}`;
+    const weekKey = format(newStartDate, "yyyy-MM-dd");
+    setTimeEntries(savedTimeEntries[weekKey] || []);
+    setTimeRanges(savedTimeRanges[weekKey] || {});
   };
 
-  const handleSubmit = () => {
-    console.log("Submitted:", timeEntries);
-  };
-
-  const handleCancel = () => {
-    console.log("Cancelled");
-  };
-  
   return (
-    <div className="min-h-screen">
-      <div className="flex items-center justify-between p-4 bg-[#e6f3ff] dark:bg-[inherit] border-b border-gray-200">
-        <div className="flex items-center gap-4">
-          
-          <h1 className="text-2xl">Timesheet</h1>
-        </div>
-      </div>
-      <div className="p-4">
-        <div className="flex items-center gap-2 mb-2">
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => navigateWeek("prev")}
-          >
-            <ChevronLeft className="h-4 w-4" />
-          </Button>
-          <span className="font-medium min-w-[200px] text-center">
-            {formatDateRange()}
-          </span>
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => navigateWeek("next")}
-          >
-            <ChevronRight className="h-4 w-4" />
-          </Button>
-        </div>
-        <div className="bg-white rounded shadow">
-          <Table>
-            <TableHeader>
-              <TableRow className="bg-[#005587] hover:bg-[#005587]">
-                <TableHead
-                  className="text-white font-normal text-center"
-                  colSpan={2}
-                >
-                  Dates
-                </TableHead>
-                {timeEntries.map((entry, index) => {
-                  return (
-                    <>
-                      <TableHead
-                        key={`date-${index}`}
-                        className="text-white font-normal text-center"
-                        colSpan={2} // Each date corresponds to an "IN" and "OUT"
-                      >
-                        {formatDate(entry.date)}
-                      </TableHead>
-                    </>
-                  );
-                })}
-              </TableRow>
-              <TableRow className="bg-[#005587] hover:bg-[#005587]">
-                <TableHead className="text-white font-normal">
-                  Project Name
-                </TableHead>
-                <TableHead className="text-white font-normal">
-                  Project Code
-                </TableHead>
-                <TableHead className="text-white font-normal text-center">
-                  IN
-                </TableHead>
-                <TableHead className="text-white font-normal text-center">
-                  OUT
-                </TableHead>
-                <TableHead className="text-white font-normal text-center">
-                  IN
-                </TableHead>
-                <TableHead className="text-white font-normal text-center">
-                  OUT
-                </TableHead>
-                <TableHead className="text-white font-normal text-center">
-                  IN
-                </TableHead>
-                <TableHead className="text-white font-normal text-center">
-                  OUT
-                </TableHead>
-                <TableHead className="text-white font-normal text-center">
-                  IN
-                </TableHead>
-                <TableHead className="text-white font-normal text-center">
-                  OUT
-                </TableHead>
-                <TableHead className="text-white font-normal text-center">
-                  IN
-                </TableHead>
-                <TableHead className="text-white font-normal text-center">
-                  OUT
-                </TableHead>
-                <TableHead
-                  className="text-white font-normal text-center bg-yellow-300"
-                  colSpan={2}
-                >
-                  WO(Week OFF)
-                </TableHead>
-                <TableHead
-                  className="text-white font-normal text-center bg-yellow-300"
-                  colSpan={2}
-                >
-                  WO(Week OFF)
-                </TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              <TableRow className="hover:bg-transparent dark:text-black">
-                <TableCell className="bg-gray-100">People Pulse</TableCell>
-                <TableCell className="bg-gray-100">12345</TableCell>
-                {timeEntries.map((entry, index) => {
-                  const dayOfWeek = new Date(entry.date).getDay();
-                  const isWeekend = dayOfWeek === 0 || dayOfWeek === 6; // Sunday or Saturday
-                  return (
-                    <>
-                      <TableCell
-                        key={`${entry.date}-inTime-${index}`}
-                        className="p-0"
-                      >
-                        <Input
-                          type="time"
-                          value={entry.inTime}
-                          onChange={(e) =>
-                            handleTimeChange(index, "inTime", e.target.value)
-                          }
-                          className="w-auto"
-                          disabled={isWeekend}
-                        />
-                      </TableCell>
-                      <TableCell
-                        key={`${entry.date}-outTime-${index}`}
-                        className="p-0"
-                      >
-                        <Input
-                          type="time"
-                          value={entry.outTime}
-                          onChange={(e) =>
-                            handleTimeChange(index, "outTime", e.target.value)
-                          }
-                          className="w-auto"
-                          disabled={isWeekend}
-                        />
-                      </TableCell>
-                    </>
-                  );
-                })}
-              </TableRow>
-              <TableRow className="hover:bg-transparent dark:text-black">
-                <TableCell className="bg-gray-100" colSpan={2}>
-                  Daily Hours
-                </TableCell>
-                {timeEntries.map((entry, index) => {
-                  const hours = calculateHours(entry.inTime, entry.outTime);
-                  return (
-                    <TableCell
-                      key={`${entry.date}-hours-${index}`}
-                      className="text-center"
-                      colSpan={2}
-                    >
-                      {hours > 0 ? `${hours} hrs` : "N/A"}
-                    </TableCell>
-                  );
-                })}
-              </TableRow>
-              <TableRow className="hover:bg-transparent dark:text-black">
-                <TableCell className="bg-gray-200 font-bold" colSpan={2}>
-                  Total Hours
-                </TableCell>
-                <TableCell colSpan={timeEntries.length}>
-                  <span className="font-bold">{calculateTotalHours()} hrs</span>
-                </TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </div>
-        <div className="flex justify-end gap-4 mt-4">
-        <Button onClick={handleSubmit} className="bg-[#005587] dark:bg-white">
-            Submit
-          </Button>
-          <Button onClick={handleCancel} className="bg-[#005587] dark:bg-white">
-            Cancel
-          </Button>
-        </div>
-      </div>
+    <div className="container mx-auto py-8">
+      <Card className="mb-8">
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <CardTitle className="text-2xl font-bold">
+              Weekly Timesheet - {resourceData?.firstName} {resourceData?.lastName}
+            </CardTitle>
+            <div className="flex gap-4">
+              <Button variant="outline" onClick={() => handleWeekChange(currentWeekOffset - 1)}>
+                Previous Week
+              </Button>
+              <Button variant="outline" onClick={() => handleWeekChange(0)} disabled={currentWeekOffset === 0}>
+                Current Week
+              </Button>
+              <Button variant="outline" onClick={() => handleWeekChange(currentWeekOffset + 1)} disabled={isFutureWeek}>
+                Next Week
+              </Button>
+            </div>
+          </div>
+        </CardHeader>
+        <CardContent>
+          {isFutureWeek ? (
+            <div className="text-center p-4 text-red-500">
+              Cannot fill timesheet for future weeks
+            </div>
+          ) : (
+            <>
+              <div className="mb-4 flex justify-between items-center">
+                <div className="flex gap-2">
+                  <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+                    <DialogTrigger asChild>
+                      <Button variant="outline" disabled={!availableProjectsToAdd?.length}>
+                        <PlusCircle className="w-4 h-4 mr-2" />
+                        Add Project
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent>
+                      <DialogHeader>
+                        <DialogTitle>Add Project to Timesheet</DialogTitle>
+                      </DialogHeader>
+                      <div className="py-4">
+                        <Select value={selectedProjectId} onValueChange={setSelectedProjectId}>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select a project" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {availableProjectsToAdd?.map((project) => (
+                              <SelectItem key={project.id} value={project.id}>
+                                {project.name}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        <div className="mt-4 flex justify-end">
+                          <Button onClick={handleAddProject} disabled={!selectedProjectId}>
+                            Add Project
+                          </Button>
+                        </div>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
+                  <Button onClick={handleAutoFill} variant="outline">
+                    <Clock className="w-4 h-4 mr-2" />
+                    Auto Fill
+                  </Button>
+                </div>
+                <Button onClick={handleSave} variant="default">
+                  <Save className="w-4 h-4 mr-2" />
+                  Save Timesheet
+                </Button>
+              </div>
+
+              <TimesheetTable
+                projects={projects}
+                timeEntries={timeEntries}
+                timeRanges={timeRanges}
+                weekDays={weekDays}
+                onTimeChange={handleTimeChange}
+                onTimeRangeChange={handleTimeRangeChange}
+                hasWeekendPermission={hasWeekendPermission}
+              />
+            </>
+          )}
+        </CardContent>
+      </Card>
     </div>
   );
 }

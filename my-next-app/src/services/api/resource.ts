@@ -33,7 +33,7 @@ export const ResourceApi = {
         return await api.put(`/Resource/${id}`, values);
       },
 
-      fetchResource: async (id: string) => {
+      fetchResource: async (id: number) => {
         const response = await api.get(`/Resource/${id}`);
         return response.data;
       },
