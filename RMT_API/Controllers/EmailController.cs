@@ -5,7 +5,7 @@ namespace RMT_API.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-	public class EmailController(IEmailService _emailService)  : ControllerBase
+	public class EmailController(IEmailService _emailService) : ControllerBase
 	{
 		[HttpGet]
 		public async Task<IActionResult> SendEmail()

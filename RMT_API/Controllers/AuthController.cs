@@ -22,7 +22,7 @@ namespace RMT_API.Controllers
 				return Unauthorized("Invalid username");
 			}
 
-			if(!BCrypt.Net.BCrypt.Verify(model.Password, user.Password))
+			if (!BCrypt.Net.BCrypt.Verify(model.Password, user.Password))
 			{
 				return Unauthorized("Invalid Password");
 			}

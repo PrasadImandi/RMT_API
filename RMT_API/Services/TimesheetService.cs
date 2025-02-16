@@ -8,6 +8,7 @@ using RMT_API.Repositories;
 namespace RMT_API.Services
 {
 	public class TimesheetsService(IGenericRepository<Timesheet> _repository,
+		ITimesheetRepository _timesheetRepository,
 		IMapper _mapper) : ITimesheetsService
 	{
 		public async Task AddTimesheetAsync(TimesheetDto timesheet)
@@ -43,5 +44,19 @@ namespace RMT_API.Services
 		{
 			await _repository.ChangeStatusAsync(timesheet.ID, timesheet.IsActive);
 		}
+
+		public async Task<Timesheet> GetWeekTimesheetByStartDate(int resourceId, DateTime startOfWeek)
+		{
+			return await _timesheetRepository.GetNextWeekTimesheet(resourceId, startOfWeek);
+		}
+
+		//public async Task<Timesheet> GetCurrentWeekTimesheet(int resourceId)
+		//{
+		//	return await _timesheetRepository.GetCurrentWeekTimesheet(resourceId);
+		//}
+		//public async Task<Timesheet> GetPreviousWeekTimesheet(int resourceId, DateTime startOfWeek)
+		//{
+		//	return await _timesheetRepository.GetPreviousWeekTimesheet(resourceId, startOfWeek);
+		//}
 	}
 }

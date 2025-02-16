@@ -22,7 +22,7 @@ namespace RMT_API.Controllers
 		}
 
 		[HttpGet("locations")]
-		public async Task<IActionResult> GetLocations()	
+		public async Task<IActionResult> GetLocations()
 		{
 			var states = await _service.LocationIDNameListAsync();
 			return Ok(states);

@@ -39,6 +39,7 @@ namespace RMT_API.Infrastructure
 			services.AddScoped<IResourceRepository, ResourceRepository>();
 			services.AddScoped<IResourceDeploymentRepository, ResourceDeploymentRepository>();
 			services.AddScoped<IUserRepository, UserRepository>();
+			services.AddScoped<ITimesheetRepository, TimesheetRepository>();
 
 			// Register Services
 			services.AddScoped<IAccessTypeService, AccessTypeService>();

@@ -1042,6 +1042,11 @@ namespace RMT_API.Data
 						auditable.Updated_Date = DateTime.UtcNow;
 						auditable.Updated_By = 1;
 					}
+					else if (entry.Entity is ResourceIdentifier resourceIdentifier)
+					{
+						resourceIdentifier.Updated_Date = DateTime.UtcNow;
+						resourceIdentifier.Updated_By = 1;
+					}
 				}
 				else if (entry.State == EntityState.Added)
 				{
@@ -1049,6 +1054,11 @@ namespace RMT_API.Data
 					{
 						auditable.Created_Date = DateTime.UtcNow;
 						auditable.Created_By = 1;
+					}
+					else if(entry.Entity is ResourceIdentifier resourceIdentifier)
+					{
+						resourceIdentifier.Created_Date = DateTime.UtcNow;
+						resourceIdentifier.Created_By = 1;
 					}
 				}
 			}
