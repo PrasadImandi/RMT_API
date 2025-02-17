@@ -48,7 +48,7 @@ export default function PeoplePulseAuthGateway() {
     if ("username" in data) {
       // const role: "supplier" = "supplier"; // or directly use "admin" as "admin"
       const user: User = {
-        id: 2,
+        id: 1,
         name: data.username,
         email: "dev@gmail.com",
         userProfileUrl: "https://github.com/shadcn.png",

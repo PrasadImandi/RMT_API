@@ -1,17 +1,39 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { PlusCircle, Clock, Save, Lock } from "lucide-react";
-import { format, startOfWeek, addDays, isAfter, startOfToday, isWeekend, endOfWeek } from "date-fns";
-import { useQuery } from "@tanstack/react-query";
+import {
+  format,
+  startOfWeek,
+  addDays,
+  isAfter,
+  startOfToday,
+  isWeekend,
+  endOfWeek,
+} from "date-fns";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { ResourceApi } from "@/services/api/resource";
 import { ProjectApi, ProjectType } from "@/services/api/projects";
 import { useUserStore } from "@/store/userStore";
-import { useState } from "react";
+import { TimesheetApi } from "@/services/api/timesheet";
+import { toast } from "sonner";
+import api from "@/lib/axiosInstance";
 
 interface Project {
   id: string;
@@ -30,6 +52,21 @@ interface TimeRange {
   };
 }
 
+/**
+ * Helper: calculate hours difference (in decimal hours)
+ * from a time range given as strings ("HH:mm").
+ */
+function calculateHoursFromTimeRange(start: string, end: string): number {
+  const [startHour, startMinute] = start.split(":").map(Number);
+  const [endHour, endMinute] = end.split(":").map(Number);
+  // Create dates on an arbitrary day.
+  const startDate = new Date(0, 0, 0, startHour, startMinute);
+  const endDate = new Date(0, 0, 0, endHour, endMinute);
+  let diff = (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60);
+  if (diff < 0) diff = 0;
+  return diff;
+}
+
 function TimesheetTable({
   projects,
   timeEntries,
@@ -45,10 +82,11 @@ function TimesheetTable({
   timeRanges: TimeRange;
   weekDays: Date[];
   onTimeChange: (projectId: string, date: string, hours: number) => void;
-  onTimeRangeChange: (date: string, field: 'start' | 'end', value: string) => void;
+  onTimeRangeChange: (date: string, field: "start" | "end", value: string) => void;
   readOnly?: boolean;
   hasWeekendPermission?: boolean;
 }) {
+  // Calculate daily totals from the project's individual day hours
   const dailyTotals = weekDays.reduce((totals, day) => {
     const dateStr = format(day, "yyyy-MM-dd");
     totals[dateStr] = timeEntries.reduce((sum, entry) => {
@@ -63,10 +101,10 @@ function TimesheetTable({
         <thead>
           <tr>
             <th className="border p-2 bg-muted">Project</th>
-            {weekDays.map(day => (
-              <th 
-                key={day.toString()} 
-                className={`border p-2 ${isWeekend(day) ? 'bg-muted/80' : 'bg-muted'}`}
+            {weekDays.map((day) => (
+              <th
+                key={day.toString()}
+                className={`border p-2 ${isWeekend(day) ? "bg-muted/80" : "bg-muted"}`}
               >
                 <div>
                   {format(day, "EEE dd/MM")}
@@ -80,9 +118,9 @@ function TimesheetTable({
           </tr>
         </thead>
         <tbody>
-          {projects.map(project => {
+          {projects.map((project) => {
             const projectEntry = timeEntries.find(
-              entry => entry.projectId === project.id
+              (entry) => entry.projectId === project.id
             );
             const total = weekDays.reduce((sum, day) => {
               return sum + (projectEntry?.hours[format(day, "yyyy-MM-dd")] || 0);
@@ -91,12 +129,11 @@ function TimesheetTable({
             return (
               <tr key={project.id}>
                 <td className="border p-2">{project.name}</td>
-                {weekDays.map(day => {
+                {weekDays.map((day) => {
                   const dateStr = format(day, "yyyy-MM-dd");
                   const isWeekendDay = isWeekend(day);
                   const isDisabled = isWeekendDay && !hasWeekendPermission;
-                  const hours = projectEntry?.hours[dateStr] || 0;
-                  
+                  const hours = projectEntry?.hours[dateStr] || "";
                   return (
                     <td key={dateStr} className="border p-2">
                       <input
@@ -107,8 +144,10 @@ function TimesheetTable({
                         className={`w-16 p-1 border rounded ${
                           readOnly || isDisabled ? "bg-gray-100" : ""
                         } ${isWeekendDay ? "bg-muted/50" : ""}`}
-                        value={hours || ""}
-                        onChange={e => onTimeChange(project.id, dateStr, Number(e.target.value))}
+                        value={hours}
+                        onChange={(e) =>
+                          onTimeChange(project.id, dateStr, Number(e.target.value))
+                        }
                         readOnly={readOnly || isDisabled}
                         disabled={isDisabled}
                       />
@@ -121,15 +160,14 @@ function TimesheetTable({
           })}
           <tr className="bg-muted/20">
             <td className="border p-2 font-bold">Daily Total</td>
-            {weekDays.map(day => {
+            {weekDays.map((day) => {
               const dateStr = format(day, "yyyy-MM-dd");
               const dailyTotal = dailyTotals[dateStr];
               const isOvertime = dailyTotal > 8;
-              
               return (
-                <td 
-                  key={dateStr} 
-                  className={`border p-2 font-bold ${isOvertime ? 'text-red-600' : ''}`}
+                <td
+                  key={dateStr}
+                  className={`border p-2 font-bold ${isOvertime ? "text-red-600" : ""}`}
                 >
                   {dailyTotal || 0}
                 </td>
@@ -141,21 +179,20 @@ function TimesheetTable({
           </tr>
           <tr className="bg-muted/10">
             <td className="border p-2 font-bold">In Time</td>
-            {weekDays.map(day => {
+            {weekDays.map((day) => {
               const dateStr = format(day, "yyyy-MM-dd");
               const timeRange = timeRanges[dateStr] || { start: "", end: "" };
               const isWeekendDay = isWeekend(day);
               const isDisabled = isWeekendDay && !hasWeekendPermission;
-              
               return (
                 <td key={dateStr} className="border p-2">
                   <input
                     type="time"
-                    className={`w-full p-1 border rounded ${
-                      isDisabled ? "bg-gray-100" : ""
-                    }`}
+                    className={`w-full p-1 border rounded ${isDisabled ? "bg-gray-100" : ""}`}
                     value={timeRange.start}
-                    onChange={(e) => onTimeRangeChange(dateStr, 'start', e.target.value)}
+                    onChange={(e) =>
+                      onTimeRangeChange(dateStr, "start", e.target.value)
+                    }
                     disabled={isDisabled}
                   />
                 </td>
@@ -165,21 +202,20 @@ function TimesheetTable({
           </tr>
           <tr className="bg-muted/10">
             <td className="border p-2 font-bold">Out Time</td>
-            {weekDays.map(day => {
+            {weekDays.map((day) => {
               const dateStr = format(day, "yyyy-MM-dd");
               const timeRange = timeRanges[dateStr] || { start: "", end: "" };
               const isWeekendDay = isWeekend(day);
               const isDisabled = isWeekendDay && !hasWeekendPermission;
-              
               return (
                 <td key={dateStr} className="border p-2">
                   <input
                     type="time"
-                    className={`w-full p-1 border rounded ${
-                      isDisabled ? "bg-gray-100" : ""
-                    }`}
+                    className={`w-full p-1 border rounded ${isDisabled ? "bg-gray-100" : ""}`}
                     value={timeRange.end}
-                    onChange={(e) => onTimeRangeChange(dateStr, 'end', e.target.value)}
+                    onChange={(e) =>
+                      onTimeRangeChange(dateStr, "end", e.target.value)
+                    }
                     disabled={isDisabled}
                   />
                 </td>
@@ -194,40 +230,37 @@ function TimesheetTable({
 }
 
 export default function Home() {
-  const {user} = useUserStore();
+  const { user } = useUserStore();
   const [currentWeekOffset, setCurrentWeekOffset] = useState(0);
   const [projects, setProjects] = useState<Project[]>([]);
   const [timeEntries, setTimeEntries] = useState<TimeEntry[]>([]);
   const [timeRanges, setTimeRanges] = useState<TimeRange>({});
-  const [savedTimeEntries, setSavedTimeEntries] = useState<{
-    [key: string]: TimeEntry[];
-  }>({});
-  const [savedTimeRanges, setSavedTimeRanges] = useState<{
-    [key: string]: TimeRange;
-  }>({});
   const [selectedProjectId, setSelectedProjectId] = useState<string>("");
   const [dialogOpen, setDialogOpen] = useState(false);
   const [hasWeekendPermission] = useState(false);
+  // Store the timesheet id returned by the backend (if any)
+  const [timesheetData, setTimesheetData] = useState<any>(null);
+
 
   const { data: resourceData } = useQuery({
-    queryKey: ['resource', user?.id],
+    queryKey: ["resource", user?.id],
     queryFn: () => ResourceApi.fetchResource(user?.id!),
     enabled: !!user?.id,
   });
 
   const { data: initialProject } = useQuery({
-    queryKey: ['project', resourceData?.projectID],
+    queryKey: ["project", resourceData?.projectID],
     queryFn: () => ProjectApi.fetchProject(resourceData!.projectID),
     enabled: !!resourceData?.projectID,
   });
 
   const { data: availableProjects } = useQuery<ProjectType[]>({
-    queryKey: ['available-projects'],
+    queryKey: ["available-projects"],
     queryFn: ProjectApi.fetchProjects,
   });
 
   useEffect(() => {
-    if (initialProject && !projects.some(p => p.id === initialProject.id)) {
+    if (initialProject && !projects.some((p) => p.id === initialProject.id)) {
       setProjects([initialProject]);
     }
   }, [initialProject]);
@@ -239,14 +272,12 @@ export default function Home() {
   const isFutureWeek = isAfter(startDate, startOfToday());
 
   const availableProjectsToAdd = availableProjects?.filter(
-    availableProject => !projects.some(p => p.id === availableProject.id)
+    (availableProject) => !projects.some((p) => p.id === availableProject.id)
   );
 
   const handleAddProject = () => {
     if (selectedProjectId) {
-      const projectToAdd = availableProjects?.find(
-        (p) => p.id === selectedProjectId
-      );
+      const projectToAdd = availableProjects?.find((p) => p.id === selectedProjectId);
       if (projectToAdd) {
         setProjects((prev) => [...prev, projectToAdd]);
         setSelectedProjectId("");
@@ -255,105 +286,220 @@ export default function Home() {
     }
   };
 
+  // Auto-fill uses the time range (if provided) to calculate the hours.
   const handleAutoFill = () => {
     const newEntries = projects.map((project) => ({
       projectId: project.id,
       hours: weekDays.reduce((acc, day) => {
         const dateStr = format(day, "yyyy-MM-dd");
-        acc[dateStr] = isWeekend(day) && !hasWeekendPermission ? 0 : 8;
+        let value = 0;
+        if (
+          timeRanges[dateStr] &&
+          timeRanges[dateStr].start &&
+          timeRanges[dateStr].end
+        ) {
+          value = calculateHoursFromTimeRange(
+            timeRanges[dateStr].start,
+            timeRanges[dateStr].end
+          );
+        } else {
+          value = isWeekend(day) && !hasWeekendPermission ? 0 : 8;
+        }
+        acc[dateStr] = value;
         return acc;
       }, {} as { [key: string]: number }),
     }));
     setTimeEntries(newEntries);
-
-    const newTimeRanges = weekDays.reduce((acc, day) => {
-      const dateStr = format(day, "yyyy-MM-dd");
-      if (!isWeekend(day) || hasWeekendPermission) {
-        acc[dateStr] = { start: "09:00", end: "17:00" };
-      }
-      return acc;
-    }, {} as TimeRange);
-    setTimeRanges(newTimeRanges);
   };
 
+  // When a user manually changes hours for a project on a given day.
   const handleTimeChange = (projectId: string, date: string, hours: number) => {
     setTimeEntries((prev) => {
       const projectEntry =
-        prev.find((entry) => entry.projectId === projectId) || {
-          projectId,
-          hours: {},
-        };
-
+        prev.find((entry) => entry.projectId === projectId) || { projectId, hours: {} };
       const updatedEntry = {
         ...projectEntry,
         hours: { ...projectEntry.hours, [date]: hours },
       };
-
       return [...prev.filter((entry) => entry.projectId !== projectId), updatedEntry];
     });
   };
 
+  /**
+   * When a time range is changed, update the state and recalc the daily hours
+   * (using the helper) for every project for that day.
+   */
   const handleTimeRangeChange = (date: string, field: "start" | "end", value: string) => {
-    setTimeRanges((prev) => ({
-      ...prev,
-      [date]: {
-        ...prev[date],
-        [field]: value,
-      },
-    }));
+    setTimeRanges((prev) => {
+      const newRanges = { ...prev, [date]: { ...prev[date], [field]: value } };
+      const { start, end } = newRanges[date] || {};
+      if (start && end) {
+        const computedHours = calculateHoursFromTimeRange(start, end);
+        // Update every project's hours for the given date.
+        setTimeEntries((prevEntries) =>
+          prevEntries.map((entry) => ({
+            ...entry,
+            hours: { ...entry.hours, [date]: computedHours },
+          }))
+        );
+      }
+      return newRanges;
+    });
   };
 
-  const handleSave = () => {
-    const weekKey = format(startDate, "yyyy-MM-dd");
-    setSavedTimeEntries((prev) => ({
-      ...prev,
-      [weekKey]: timeEntries,
-    }));
-    setSavedTimeRanges((prev) => ({
-      ...prev,
-      [weekKey]: timeRanges,
-    }));
+  // When the week changes (or on initial load), fetch timesheet data.
+  useEffect(() => {
+    async function fetchTimesheet() {
+      if (resourceData?.id && !isFutureWeek) {
+        const weekStartStr = format(startDate, "yyyy-MM-dd");
+        console.log("Fetching timesheet for", resourceData.id, weekStartStr);
+        try {
+          const response = await api.get(
+            `/Timesheet/timesheet/${resourceData.id}/${weekStartStr}`
+          );
+          console.log("Fetched timesheet:", response.data);
+          if (response?.data) {
+            setTimesheetData(response.data);
+            // Map API response to local state.
+            const projectsFromResponse = response.data.projectTimesheetDetails.map(
+              (detail: any) => ({
+                id: String(detail.projectID),
+                name:
+                  availableProjects?.find(
+                    (p) => p.id === String(detail.projectID)
+                  )?.name || `Project ${detail.projectID}`,
+              })
+            );
+            setProjects(projectsFromResponse);
+            const newTimeEntries = response.data.projectTimesheetDetails.map(
+              (detail: any) => ({
+                projectId: String(detail.projectID),
+                hours: detail.timesheetDetails.reduce(
+                  (acc: { [key: string]: number }, day: any) => {
+                    const dateStr = day.workDate.split("T")[0];
+                    acc[dateStr] = day.hoursWorked;
+                    return acc;
+                  },
+                  {}
+                ),
+              })
+            );
+            setTimeEntries(newTimeEntries);
+            setTimeRanges({});
+          }
+        } catch (error) {
+          console.error("Error fetching timesheet:", error);
+        }
+      }
+    }
+    fetchTimesheet();
+  },[resourceData, currentWeekOffset]);
 
+  // Mutation for saving/updating the timesheet.
+  const saveOrUpdateTimesheetMutation = useMutation({
+    mutationFn: (values: any) => {
+      if (timesheetData && timesheetData.id) {
+        return TimesheetApi.updateTimesheet(values, timesheetData.id);
+      } else {
+        return TimesheetApi.saveTimesheet(values);
+      }
+    },
+    onSuccess: (data) => {
+      toast("Timesheet saved successfully");
+      // Update timesheetData if new timesheet was created.
+      if (!timesheetData && data?.id) {
+        setTimesheetData(data);
+      }
+    },
+    onError: () => {
+      toast("Error saving timesheet");
+    },
+  });
+
+  // Build the payload for saving/submission.
+  const buildPayload = () => {
     const totalHours = weekDays.reduce((total, day) => {
       const dateStr = format(day, "yyyy-MM-dd");
-      return total + timeEntries.reduce((sum, entry) => sum + (entry.hours[dateStr] || 0), 0);
+      return (
+        total +
+        timeEntries.reduce((sum, entry) => sum + (entry.hours[dateStr] || 0), 0)
+      );
     }, 0);
 
-    const formattedData = {
-      ID: 0,
-      ResourceID: resourceData?.id || 0,
-      TotalHours: 40,
-      WorkedHours: totalHours,
-      WeekStartDate: format(startDate, "yyyy-MM-dd"),
-      WeekEndDate: format(endOfWeek(startDate, { weekStartsOn: 1 }), "yyyy-MM-dd"),
-      ProjectTimesheetDetails: projects.map((project) => ({
-        ProjectID: Number(project.id), // Convert project.id to number
-        TimesheetDetails: weekDays.map((day) => {
-          const dateStr = format(day, "yyyy-MM-dd");
-          const entry = timeEntries.find((e) => e.projectId === project.id);
-          return {
-            id: 0,
-            TimesheetId: 0,
-            WorkDate: dateStr,
-            HoursWorked: entry?.hours[dateStr] || 0,
-          };
-        }),
-      })),
+    return {
+      id: timesheetData?.id || 0,
+      resourceID: resourceData?.id || 0,
+      totalHours: 40,
+      workedHours: totalHours,
+      status: "pending",
+      pmid: resourceData?.pmid,
+      rmid: resourceData?.rmid,
+      isActive: true,
+      isNotified: true,
+      isSubmit: false, // to be set later in handlers
+      weekStartDate: format(startDate, "yyyy-MM-dd") + "T00:00:00",
+      weekEndDate:
+        format(endOfWeek(startDate, { weekStartsOn: 1 }), "yyyy-MM-dd") + "T00:00:00",
+      projectTimesheetDetails: projects.map((project) => {
+        const existingProjectDetail = timesheetData?.projectTimesheetDetails?.find(
+          (detail: any) => String(detail.projectID) === project.id
+        );
+        return {
+          projectID: Number(project.id),
+          timesheetID: existingProjectDetail ? existingProjectDetail.timesheetID : 0,
+          id: existingProjectDetail ? existingProjectDetail.id : 0,
+          isActive: existingProjectDetail?.isActive ?? null,
+          timesheetDetails: weekDays.map((day) => {
+            const dateStr = format(day, "yyyy-MM-dd");
+            let existingDetail;
+            if (existingProjectDetail) {
+              existingDetail = existingProjectDetail.timesheetDetails.find(
+                (d: any) => d.workDate.split("T")[0] === dateStr
+              );
+            }
+            return {
+              id: existingDetail ? existingDetail.id : 0,
+              timesheetId: existingDetail ? existingDetail.timesheetId : 0,
+              workDate: dateStr + "T00:00:00",
+              hoursWorked:
+                timeEntries.find((e) => e.projectId === project.id)?.hours[dateStr] || 0,
+              isHoliday: existingDetail ? existingDetail.isHoliday : null,
+              isActive: existingDetail ? existingDetail.isActive : null,
+            };
+          }),
+        };
+      }),
     };
-
-    console.log(formattedData);
   };
+
+
+  // Save as a draft.
+  const handleSaveDraft = async () => {
+    const payload = buildPayload();
+    // Ensure draft save has isSubmit: false.
+    payload.isSubmit = false;
+    console.log("Saving draft:", payload);
+    saveOrUpdateTimesheetMutation.mutate(payload);
+  };
+
+  // Final submission.
+  const handleSubmit = async () => {
+    const payload = buildPayload();
+    // For final submission, set isSubmit: true.
+    payload.isSubmit = true;
+    console.log("Submitting timesheet:", payload);
+    saveOrUpdateTimesheetMutation.mutate(payload);
+  };
+
+  // Determine if Friday is filled (assume Friday is the 5th day).
+  const fridayDate = format(weekDays[4], "yyyy-MM-dd");
+  const isFridayFilled = timeEntries.some((entry) => entry.hours[fridayDate] > 0);
 
   const handleWeekChange = (offset: number) => {
-    const newOffset = offset;
-    setCurrentWeekOffset(newOffset);
-    const newStartDate = startOfWeek(addDays(new Date(), newOffset * 7), {
-      weekStartsOn: 1,
-    });
-    const weekKey = format(newStartDate, "yyyy-MM-dd");
-    setTimeEntries(savedTimeEntries[weekKey] || []);
-    setTimeRanges(savedTimeRanges[weekKey] || {});
+    setCurrentWeekOffset(offset);
   };
+
+  const isEditableWeek = currentWeekOffset === 0;
 
   return (
     <div className="container mx-auto py-8">
@@ -377,12 +523,6 @@ export default function Home() {
           </div>
         </CardHeader>
         <CardContent>
-          {isFutureWeek ? (
-            <div className="text-center p-4 text-red-500">
-              Cannot fill timesheet for future weeks
-            </div>
-          ) : (
-            <>
               <div className="mb-4 flex justify-between items-center">
                 <div className="flex gap-2">
                   <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
@@ -422,12 +562,19 @@ export default function Home() {
                     Auto Fill
                   </Button>
                 </div>
-                <Button onClick={handleSave} variant="default">
-                  <Save className="w-4 h-4 mr-2" />
-                  Save Timesheet
-                </Button>
+                <div className="flex gap-2">
+                  <Button onClick={handleSaveDraft} variant="default" disabled={!isEditableWeek}>
+                    <Save className="w-4 h-4 mr-2" />
+                    Save Timesheet
+                  </Button>
+                  {isFridayFilled && (
+                    <Button onClick={handleSubmit} variant="default"  disabled={!isEditableWeek}>
+                      <Lock className="w-4 h-4 mr-2" />
+                      Submit Timesheet
+                    </Button>
+                  )}
+                </div>
               </div>
-
               <TimesheetTable
                 projects={projects}
                 timeEntries={timeEntries}
@@ -437,8 +584,6 @@ export default function Home() {
                 onTimeRangeChange={handleTimeRangeChange}
                 hasWeekendPermission={hasWeekendPermission}
               />
-            </>
-          )}
         </CardContent>
       </Card>
     </div>
