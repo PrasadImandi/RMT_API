@@ -35,7 +35,8 @@ namespace RMT_API.Repositories
 
 			query = includeChildren(query);
 
-			return await query.FirstOrDefaultAsync();
+			var response= await query.FirstOrDefaultAsync();
+			return response;
 		}
 
 		public async Task<T> GetByIdAsync(int id)

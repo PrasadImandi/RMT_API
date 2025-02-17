@@ -8,6 +8,7 @@ namespace RMT_API.Models
 		public DateTime WorkDate { get; set; }
 		public int HoursWorked { get; set; }
 		public string? WorkDescription { get; set; }
+		public bool? IsHoliday { get; set; }
 		public int ProjectTimesheetDetailID { get; set; }
 
 	}

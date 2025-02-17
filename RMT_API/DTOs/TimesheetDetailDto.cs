@@ -7,6 +7,6 @@ namespace RMT_API.DTOs
 		public int TimesheetId { get; set; }
 		public DateTime WorkDate { get; set; }
 		public int HoursWorked { get; set; }
-		//public string? WorkDescription { get; set; }
+		public bool? IsHoliday { get; set; }
 	}
 }

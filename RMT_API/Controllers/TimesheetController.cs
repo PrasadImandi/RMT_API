@@ -95,30 +95,6 @@ namespace RMT_API.Controllers
 
 			return Ok(timesheet);
 		}
-
-		//[HttpGet("current")]
-		//public async Task<IActionResult> GetCurrentWeekTimesheet(int resourceId)
-		//{
-		//	var timesheet = await _service.GetCurrentWeekTimesheet(resourceId);
-		//	if (timesheet == null)
-		//	{
-		//		return NotFound();
-		//	}
-
-		//	return Ok(timesheet);
-		//}
-
-		//[HttpGet("previous/{resourceId}/{startOfWeek}")]
-		//public async Task<IActionResult> GetPreviousWeekTimesheet(int resourceId, DateTime startOfWeek)
-		//{
-		//	var timesheet = await _service.GetPreviousWeekTimesheet(resourceId, startOfWeek);
-		//	if (timesheet == null)
-		//	{
-		//		return NotFound();
-		//	}
-
-		//	return Ok(timesheet);
-		//}
 	}
 
 }

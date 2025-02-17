@@ -11,11 +11,6 @@ namespace RMT_API.Services
 		Task UpdateTimesheetAsync(TimesheetDto timesheet);
 		Task DeleteTimesheetAsync(int id);
 		Task ChangeStatusTimesheetAsync(TimesheetDto timesheet);
-		Task<Timesheet> GetWeekTimesheetByStartDate(int resourceId, DateTime startOfWeek);
-
-
-
-		//Task<Timesheet> GetPreviousWeekTimesheet(int resourceId, DateTime startOfWeek);
-		//Task<Timesheet> GetCurrentWeekTimesheet(int resourceId);
+		Task<TimesheetDto> GetWeekTimesheetByStartDate(int resourceId, DateTime startOfWeek);
 	}
 }

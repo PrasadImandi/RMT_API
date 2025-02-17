@@ -10,5 +10,7 @@ namespace RMT_API.Models
 		public DateTime StartDate { get; set; }
 		public DateTime EndDate { get; set; }
 		public decimal AllocationPercent { get; set; }
+		public bool IsDefault { get; set; }
+
 	}
 }

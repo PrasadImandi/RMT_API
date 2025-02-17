@@ -45,18 +45,10 @@ namespace RMT_API.Services
 			await _repository.ChangeStatusAsync(timesheet.ID, timesheet.IsActive);
 		}
 
-		public async Task<Timesheet> GetWeekTimesheetByStartDate(int resourceId, DateTime startOfWeek)
+		public async Task<TimesheetDto> GetWeekTimesheetByStartDate(int resourceId, DateTime startOfWeek)
 		{
-			return await _timesheetRepository.GetNextWeekTimesheet(resourceId, startOfWeek);
+			var response= await _timesheetRepository.GetNextWeekTimesheet(resourceId, startOfWeek);
+			return _mapper.Map<TimesheetDto>(response);
 		}
-
-		//public async Task<Timesheet> GetCurrentWeekTimesheet(int resourceId)
-		//{
-		//	return await _timesheetRepository.GetCurrentWeekTimesheet(resourceId);
-		//}
-		//public async Task<Timesheet> GetPreviousWeekTimesheet(int resourceId, DateTime startOfWeek)
-		//{
-		//	return await _timesheetRepository.GetPreviousWeekTimesheet(resourceId, startOfWeek);
-		//}
 	}
 }
