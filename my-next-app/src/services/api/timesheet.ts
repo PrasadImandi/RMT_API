@@ -2,14 +2,7 @@ import api from "@/lib/axiosInstance";
 import { z } from "zod";
 
 export const TimesheetApi = {
-     fetchClients: async () => {
-        const response = await api.get("/Client");
-        return response.data;
-      },
-
-      deactivateClients: async (id: number) => {
-        await api.patch("/Client", { id, isActive: false });
-      },
+    
 
       saveTimesheet: async(values:any) => {
         const response = await api.post('/Timesheet',values)

@@ -41,7 +41,7 @@ const chartConfig = {
 
 export function BarChartComponent() {
   return (
-    <Card>
+    <Card className=" w-96 h-96">
       <CardHeader>
         <CardTitle>Projects Per Client</CardTitle>
         <CardDescription>Overview of project distribution</CardDescription>
