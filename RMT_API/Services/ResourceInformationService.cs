@@ -11,6 +11,7 @@ namespace RMT_API.Services
 											IGenericRepository<CertificationDetails> _certificationRepository,
 											IGenericRepository<BGVDocuments> _bgvDocsRepository,
 											IGenericRepository<Resource> _resourceRepository,
+											IResourceRepository resourceRepository,
 											IMapper mapper) : IResourceInformationService
 	{
 		public async Task AddResourceInformationAsync(ResourceInformationDto resourceInformation)
@@ -76,6 +77,12 @@ namespace RMT_API.Services
 			response = mapper.Map<ResourceInformation>(resourceInformation);
 
 			await repository.UpdateAsync(response);
+		}
+
+		public async Task<ResourceInformationDto> GetResourceByUserIdAsync(int userId)
+		{
+			var response = await resourceRepository.GetResourceByUserId(userId);
+			return mapper.Map<ResourceInformationDto>(response);
 		}
 	}
 }

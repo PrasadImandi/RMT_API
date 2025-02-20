@@ -1,4 +1,5 @@
 ﻿using RMT_API.Models.BaseModels;
+using System.Text.Json.Serialization;
 
 namespace RMT_API.Models
 {
@@ -16,5 +17,9 @@ namespace RMT_API.Models
 		public int? RMID { get; set; }
 		public int? SupplierID { get; set; }
 		public int? ResourceInformationID { get; set; }
+		public int? UserID { get; set; }
+
+		[JsonIgnore]
+		public virtual ResourceInformation? ResourceInformation { get; set; }
 	}
 }

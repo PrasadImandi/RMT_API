@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using RMT_API.Data;
 using RMT_API.DTOs;
 using RMT_API.Models;
@@ -28,6 +29,17 @@ namespace RMT_API.Repositories
 							};
 
 			return await resources.ToListAsync();
+		}
+
+		public async Task<ResourceInformation> GetResourceByUserId(int userId)
+		{
+			var resourceDetails = await _context.ResourceInformation
+										.Include(x => x.ResourceDetails)
+										.Include(x=>x.Professional)
+										.Where(r => r.ResourceDetails.UserID == userId && r.ResourceDetails.IsActive == true)
+										.FirstOrDefaultAsync();
+				
+			return resourceDetails;
 		}
 	}
 }

@@ -6,6 +6,7 @@ namespace RMT_API.DTOs
 	{
 		public int ID { get; set; }
 		public int ResourceID { get; set; }
+		public Resource? ResourceDetails{ get; set; }
 		public PersonalDetails? Personal { get; set; }
 		public ProfessionalDetails? Professional { get; set; }
 		public Documents? Documents { get; set; }

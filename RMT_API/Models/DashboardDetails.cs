@@ -50,5 +50,7 @@
 		public int ResourceID { get; set; }
 		public int TimesheetID { get; set; }
 		public string TimesheetCode { get; set; }
+		public DateTime WeekStartDate { get; set; }
+		public DateTime WeekEndDate { get; set; }
 	}
 }

@@ -11,5 +11,7 @@ namespace RMT_API.Services
 		Task DeleteAcademicDetailsAsync(int id);
 		Task DeleteCertificationDetailsAsync(int id);
 		Task DeleteBGVDocsAsync(int id);
+		Task<ResourceInformationDto> GetResourceByUserIdAsync(int userId);
+
 	}
 }

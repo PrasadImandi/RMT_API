@@ -29,6 +29,8 @@ namespace RMT_API.Controllers
 			return Ok(resource);
 		}
 
+		
+
 		[HttpGet("resources/{projectId}")]
 		public async Task<IActionResult> GetResourcesByProjectId(int projectId)
 		{

@@ -9,29 +9,29 @@ namespace RMT_API.Controllers
 	public class ResourceInformationController(IResourceInformationService _service) : ControllerBase
 	{
 		[HttpGet("{id}")]
-		public async Task<IActionResult> GetRsourceInformatonById(int id)
+		public async Task<IActionResult> GetResourceInformationById(int id)
 		{
-			var resouceInfo = await _service.GetRsourceInformatonByIdAsync(id);
+			var resourceInfo = await _service.GetRsourceInformatonByIdAsync(id);
 			
-			if (resouceInfo == null)
+			if (resourceInfo == null)
 			{
 				return NotFound();
 			}
 
-			return Ok(resouceInfo);
+			return Ok(resourceInfo);
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> CreateResourceInfo([FromBody] ResourceInformationDto resouceInfo)
+		public async Task<IActionResult> CreateResourceInfo([FromBody] ResourceInformationDto resourceInfo)
 		{
-			if (resouceInfo == null)
+			if (resourceInfo == null)
 			{
 				return BadRequest("ResourceInformation data is null.");
 			}
 
-			await _service.AddResourceInformationAsync(resouceInfo);
+			await _service.AddResourceInformationAsync(resourceInfo);
 
-			return CreatedAtAction(nameof(GetRsourceInformatonById), new { id = resouceInfo.ID }, resouceInfo);
+			return CreatedAtAction(nameof(GetResourceInformationById), new { id = resourceInfo.ID }, resourceInfo);
 		}
 
 		[HttpPut("{id}")]
@@ -77,6 +77,18 @@ namespace RMT_API.Controllers
 			await _service.DeleteBGVDocsAsync(id);
 
 			return NoContent();
+		}
+
+		[HttpGet("user/{userId}")]
+		public async Task<IActionResult> GetResourceByUserID(int userId)
+		{
+			var resource = await _service.GetResourceByUserIdAsync(userId);
+			if (resource == null)
+			{
+				return NotFound();
+			}
+
+			return Ok(resource);
 		}
 	}
 }

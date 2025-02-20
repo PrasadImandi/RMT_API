@@ -163,7 +163,9 @@ namespace RMT_API.Repositories
 									Name = t.Resource.FirstName + " " + t.Resource.LastName,
 									ResourceID = t.ResourceID,
 									TimesheetID = t.ID,
-									TimesheetCode = t.TimesheetCode
+									TimesheetCode = t.TimesheetCode,
+									WeekStartDate =t.WeekStartDate,
+									WeekEndDate =t.WeekEndDate,
 								}).ToListAsync();
 
 			_dashboardDetails.TimesheetPendings = timesheetPendingApprovals;

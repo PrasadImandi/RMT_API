@@ -696,6 +696,8 @@ namespace RMT_API.Data
 			.HasIndex(a => a.ResourceInformationID)
 			.IsUnique();
 
+
+
 			#endregion PublicHolidayMaster
 
 			#region ResourceDeployment
@@ -980,6 +982,12 @@ namespace RMT_API.Data
 			.WithMany(rm => rm.Projects)
 			.HasForeignKey(p => p.RMID)
 			.OnDelete(DeleteBehavior.Restrict);
+
+			modelBuilder.Entity<Resource>()
+			.HasOne(b => b.ResourceInformation)
+			.WithOne(d => d.ResourceDetails)
+			.HasForeignKey<Resource>(b => b.ResourceInformationID)
+			.OnDelete(DeleteBehavior.SetNull);
 
 			modelBuilder.Entity<PersonalDetails>()
 			.HasOne(b => b.ResourceInformation)

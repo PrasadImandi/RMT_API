@@ -30,6 +30,8 @@ namespace RMT_API.Services
 			return _mapper.Map<ResourceDto>(response);
 		}
 
+		
+
 		public async Task UpdateResourceAsync(ResourceDto resource)
 		{
 			await _repository.UpdateAsync(_mapper.Map<Resource>(resource));

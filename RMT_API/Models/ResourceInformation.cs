@@ -6,7 +6,7 @@ namespace RMT_API.Models
 	{
 		public int ResourceID { get; set; }
 
-
+		public virtual Resource? ResourceDetails { get; set; }
 		public virtual PersonalDetails? Personal { get; set; } 
 		public virtual ProfessionalDetails? Professional {  get; set; }
 		public virtual Documents? Documents { get; set; }
