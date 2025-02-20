@@ -1,3 +1,4 @@
+'use client'
 import React from "react";
 import { PieChartComponent } from "@/components/charts/pieChart";
 import {
@@ -7,13 +8,14 @@ import {
   Users,
   Briefcase,
   Calendar,
-  CalendarDays,
   Clock,
   CalendarDays as CalendarDaysIcon,
 } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { BarChartComponent } from "@/components/charts/barChart";
 import { Badge } from "@/components/ui/badge";
+import { DashBoardApi } from "@/services/api/dashboard";
+import { useQuery } from "@tanstack/react-query";
 
 const approvals = [
   {
@@ -49,6 +51,17 @@ const announcements = [
 ];
 
 const AdminPage = () => {
+
+
+  const { data: data = [], isLoading } = useQuery({
+    queryKey: ["users"],
+    queryFn: DashBoardApi.getDashboardDetails,
+  });
+
+
+  console.log(data)
+
+
   return (
     <div className="min-h-screen p-4 sm:p-8 md:p-12 lg:p-16">
       {/* Header */}
@@ -69,31 +82,32 @@ const AdminPage = () => {
             {/* Charts and Approvals */}
             <div className="flex flex-col flex-wrap gap-8 lg:flex-row">
               <div className="flex-1">
-                <PieChartComponent />
+                
+                {isLoading ? <p>Fetching data</p>  : <PieChartComponent data={data.resourceCountDetails}/>}
               </div>
               <Card className="flex-1 w-96 h-96">
                 <div className="p-6">
                   <div className="flex items-center justify-between">
-                    <h3 className="text-lg font-medium">Pending Approvals</h3>
+                    <h3 className="text-lg font-medium">Timesheet Pending Approvals</h3>
                     <Badge variant="secondary">2 New</Badge>
                   </div>
                   <div className="mt-4 space-y-4">
-                    {approvals.map((approval, i) => (
+                    {data?.timesheetPendings?.map((approval, i) => (
                       <div key={i} className="flex items-center flex-wrap justify-between">
                         <div>
-                          <p className="font-medium">{approval.employee}</p>
+                          <p className="font-medium">{approval.name}</p>
                           <p className="text-sm text-muted-foreground">
-                            {approval.type} • {approval.dates}
+                           {approval.dates}
                           </p>
                         </div>
-                        <Badge>{approval.status}</Badge>
+                        <Badge>Pending</Badge>
                       </div>
                     ))}
                   </div>
                 </div>
               </Card>
               <div className="flex-1">
-                <BarChartComponent />
+                {isLoading ? <p>Fetching data</p>  : <BarChartComponent data={data?.clientDetails}/>}
               </div>
             </div>
 

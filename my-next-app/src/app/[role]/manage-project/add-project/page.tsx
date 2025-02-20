@@ -107,7 +107,7 @@ const AddProject = () => {
     mutationFn: ProjectApi.createProject,
     onSuccess: () => {
       form.reset();
-      router.push("/admin/manage-proeject");
+      router.push("/admin/manage-project");
     },
   });
 

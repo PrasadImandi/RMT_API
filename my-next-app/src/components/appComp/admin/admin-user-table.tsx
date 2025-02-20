@@ -10,9 +10,8 @@ import {
 } from "@/components/ui/table";
 import { Button } from "../../ui/button";
 import AdminSearchUserInput from "../search-input";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
-import api from "@/lib/axiosInstance";
 import { Switch } from "@/components/ui/switch";
 import { Pencil, Trash2 } from "lucide-react";
 import TooltipWrapper from "../../tooltip-swrpper";

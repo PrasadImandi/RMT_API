@@ -19,11 +19,6 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 
-const chartData = [
-  { status: "Active", count: 350, fill: "hsl(var(--chart-1))" },
-  { status: "Not Active", count: 150, fill: "hsl(var(--chart-2))" },
-];
-
 const chartConfig = {
   active: {
     label: "Active Resources",
@@ -35,10 +30,25 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export function PieChartComponent() {
+export function PieChartComponent({
+  data
+}: {
+  data: {
+    activeResourceCount: number;
+    inactiveResourceCount: number;
+    totalResourceCount: number;
+  };
+}
+) {
+  const chartData = [
+    { status: "Active", count: data?.activeResourceCount, fill: "hsl(var(--chart-1))" },
+    { status: "Not Active", count: data?.inactiveResourceCount, fill: "hsl(var(--chart-2))" },
+  ];
+
   const totalResources = React.useMemo(() => {
     return chartData.reduce((acc, curr) => acc + curr.count, 0);
   }, []);
+
 
   return (
     <Card className="flex flex-col w-96 h-96">
