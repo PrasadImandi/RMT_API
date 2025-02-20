@@ -15,6 +15,9 @@ namespace RMT_API.Models
 		public int? ProjectID { get; set; }
 		public int? PMID { get; set; }
 		public int? RMID { get; set; }
+
+		public bool? IsAddUser { get; set; }
+
 		public int? SupplierID { get; set; }
 		public int? ResourceInformationID { get; set; }
 		public int? UserID { get; set; }

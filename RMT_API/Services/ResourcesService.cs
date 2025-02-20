@@ -1,15 +1,36 @@
 ﻿using AutoMapper;
 using RMT_API.DTOs;
+using RMT_API.Infrastructure.Enums;
 using RMT_API.Models;
 using RMT_API.Repositories;
 
 namespace RMT_API.Services
 {
-	public class ResourcesService(IGenericRepository<Resource> _repository, IResourceRepository resourceRepository, IMapper _mapper) : IResourcesService
+	public class ResourcesService(IGenericRepository<Resource> _repository,
+								  IGenericRepository<Users> _userRepository,
+								  IResourceRepository resourceRepository,
+								  IMapper _mapper) : IResourcesService
 	{
 		public async Task AddResourceAsync(ResourceDto resource)
 		{
+			if (resource?.IsAddUser == true)
+			{
+				Users newUser = new Users()
+				{
+					AccessTypeID = (int)AccessTypeEnum.Resource,
+					FirstName = resource.FirstName,
+					LastName = resource.LastName,
+					Email = resource.EmailID,
+					IsActive = resource.IsActive,
+				};
+
+				await _userRepository.AddAsync(newUser);
+
+				resource.UserID = newUser.ID;
+			}
+
 			await _repository.AddAsync(_mapper.Map<Resource>(resource));
+
 		}
 
 		public async Task DeleteResourceAsync(int id)
@@ -30,7 +51,7 @@ namespace RMT_API.Services
 			return _mapper.Map<ResourceDto>(response);
 		}
 
-		
+
 
 		public async Task UpdateResourceAsync(ResourceDto resource)
 		{
