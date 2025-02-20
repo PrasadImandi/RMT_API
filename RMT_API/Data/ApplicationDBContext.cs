@@ -589,7 +589,6 @@ namespace RMT_API.Data
 
 			modelBuilder.Entity<Project>()
 			.Property(a => a.ProjectCode)
-			.HasComputedColumnSql("CONCAT('PROJ', RIGHT('10000' + CAST(ID AS VARCHAR), 5))", stored: true)
 			.IsRequired();
 
 			modelBuilder.Entity<Project>()
