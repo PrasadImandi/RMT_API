@@ -10,36 +10,17 @@ namespace RMT_API.Repositories
 		{
 			DashboardDetails _dashboardDetails = new DashboardDetails();
 
-			var totalResourceCount =await context.Resources
-									 .Join(context.ResourceInformation,
-										 r => r.ID, ri => ri.ResourceID,
-										 (r, ri) => new { r, ri })
-									 .Join(context.ProfessionalDetails,
-										rr => rr.ri.ID, pd => pd.ResourceInformationID,
-										(rr, pd) => new { rr.r, pd })
-									 .CountAsync();
+			var totalResourceCount = await context.Resources.CountAsync();
 
-			var activeResourcesCount =await context.Resources
-									  .Join(context.ResourceInformation,
-										  r => r.ID, ri => ri.ResourceID,
-										  (r, ri) => new { r, ri })
-									  .Join(context.ProfessionalDetails,
-										  rr => rr.ri.ID, pd => pd.ResourceInformationID,
-										  (rr, pd) => new { rr.r, pd })
-									  .Where(x => x.r.IsActive == true)
+			var activeResourcesCount = await context.Resources
+									  .Where(x => x.IsActive == true)
 									  .CountAsync();
 
-			var inactiveResourcesCount =await context.Resources
-									  .Join(context.ResourceInformation,
-										  r => r.ID, ri => ri.ResourceID,
-										  (r, ri) => new { r, ri })
-									  .Join(context.ProfessionalDetails,
-										  rr => rr.ri.ID, pd => pd.ResourceInformationID,
-										  (rr, pd) => new { rr.r, pd })
-									  .Where(x => x.r.IsActive == false)
+			var inactiveResourcesCount = await context.Resources
+									  .Where(x => x.IsActive == false)
 									  .CountAsync();
 
-			ResourceCountDetails _countDetails = new ResourceCountDetails()
+			ResourceCountDetails _countDetails = new()
 			{
 				ActiveResourceCount = activeResourcesCount,
 				InactiveResourceCount = inactiveResourcesCount,
@@ -48,7 +29,7 @@ namespace RMT_API.Repositories
 
 			_dashboardDetails.ResourceCountDetails = _countDetails;
 
-			var accountWiseResources =await context.Resources
+			var accountWiseResources = await context.Resources
 									.Join(context.ResourceInformation,
 										r => r.ID, ri => ri.ResourceID,
 										(r, ri) => new { r, ri })
@@ -76,7 +57,7 @@ namespace RMT_API.Repositories
 
 			_dashboardDetails.ClientDetails = accountWiseResources;
 
-			var projectWiseResources =await context.Resources
+			var projectWiseResources = await context.Resources
 										.Join(context.ResourceInformation,
 											r => r.ID, ri => ri.ResourceID,
 											(r, ri) => new { r, ri })
@@ -101,7 +82,7 @@ namespace RMT_API.Repositories
 
 			_dashboardDetails.ProjectDetails = projectWiseResources;
 
-			var supplierWiseResources =await context.Resources
+			var supplierWiseResources = await context.Resources
 										.Join(context.Supplier,
 											r => r.SupplierID, s => s.ID,
 											(r, s) => new { r, s })
@@ -153,7 +134,7 @@ namespace RMT_API.Repositories
 			//						}).ToList();
 
 
-			var timesheetPendingApprovals =await context.Timesheet
+			var timesheetPendingApprovals = await context.Timesheet
 								.Include(x => x.Resource)
 								.Where(t => t.Status == "pending" && t.Resource.IsActive == true)
 								.OrderBy(t => t.Created_Date)
@@ -164,8 +145,8 @@ namespace RMT_API.Repositories
 									ResourceID = t.ResourceID,
 									TimesheetID = t.ID,
 									TimesheetCode = t.TimesheetCode,
-									WeekStartDate =t.WeekStartDate,
-									WeekEndDate =t.WeekEndDate,
+									WeekStartDate = t.WeekStartDate,
+									WeekEndDate = t.WeekEndDate,
 								}).ToListAsync();
 
 			_dashboardDetails.TimesheetPendings = timesheetPendingApprovals;
