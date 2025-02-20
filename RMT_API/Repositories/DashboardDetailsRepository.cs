@@ -20,6 +20,23 @@ namespace RMT_API.Repositories
 									  .Where(x => x.IsActive == false)
 									  .CountAsync();
 
+			_dashboardDetails.ClientsCount = context.Clients.Where(x=>x.IsActive==true).Count();
+			_dashboardDetails.ProjectsCount = context.Projects.Where(x=>x.IsActive==true).Count();
+			_dashboardDetails.SuppliersCount = context.Supplier.Where(x=>x.IsActive==true).Count();
+
+			_dashboardDetails.ClientProjects =await context.Clients
+													.GroupJoin(context.Projects,
+															   c => c.ID,
+															   p => p.ClientID,
+															   (c, projects) => new ClientDetails()
+															   {
+																   Name = c.Name,
+																   ProjectsCount = projects.Count()
+															   })
+													.OrderByDescending(x=>x.ProjectsCount)
+													.Take(3)
+													.ToListAsync();
+
 			ResourceCountDetails _countDetails = new()
 			{
 				ActiveResourceCount = activeResourcesCount,
@@ -52,7 +69,7 @@ namespace RMT_API.Repositories
 										Name = g.Key,
 										TotalResourceCount = g.Count(),
 										ActiveResourceCount = g.Count(x => x.rd.IsActive == true),
-										InactiveResourceCount = g.Count(x => x.rd.IsActive == false)
+										InactiveResourceCount = g.Count(x => x.rd.IsActive == false),
 									}).ToListAsync();
 
 			_dashboardDetails.ClientDetails = accountWiseResources;

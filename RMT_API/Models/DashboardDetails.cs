@@ -2,6 +2,12 @@
 {
 	public class DashboardDetails 
 	{
+
+		public int? ProjectsCount { get; set; }
+		public int? ClientsCount { get; set; }
+		public int? SuppliersCount { get; set; }
+
+		public IEnumerable<ClientDetails> ClientProjects { get; set; }
 		public ResourceCountDetails ResourceCountDetails { get; set; }
 		public IEnumerable<ClientDetails> ClientDetails { get; set; }
 		public IEnumerable<ProjectDetails> ProjectDetails { get; set; }
@@ -20,6 +26,7 @@
 	public class ClientDetails : ResourceCountDetails
 	{
 		public string Name { get; set; }
+		public int? ProjectsCount { get; set; }
 	}
 
 	public class ProjectDetails : ResourceCountDetails
