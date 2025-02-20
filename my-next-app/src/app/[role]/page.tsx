@@ -1,4 +1,5 @@
-'use client'
+"use client";
+
 import React from "react";
 import { PieChartComponent } from "@/components/charts/pieChart";
 import {
@@ -10,32 +11,22 @@ import {
   Calendar,
   Clock,
   CalendarDays as CalendarDaysIcon,
+  ExternalLink,
 } from "lucide-react";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+  CardDescription,
+  CardFooter,
+} from "@/components/ui/card";
 import { BarChartComponent } from "@/components/charts/barChart";
 import { Badge } from "@/components/ui/badge";
 import { DashBoardApi } from "@/services/api/dashboard";
 import { useQuery } from "@tanstack/react-query";
-
-const approvals = [
-  {
-    employee: "John Doe",
-    type: "Vacation",
-    dates: "Apr 15 - Apr 20",
-    status: "pending",
-  },
-  {
-    employee: "Jane Smith",
-    type: "Sick Leave",
-    dates: "Apr 12",
-    status: "pending",
-  },
-];
-
-const offToday = [
-  { name: "Sarah Wilson", reason: "Vacation" },
-  { name: "Mike Johnson", reason: "Sick Leave" },
-];
+import { format } from "date-fns";
+import { Button } from "@/components/ui/button";
 
 const announcements = [
   {
@@ -50,17 +41,18 @@ const announcements = [
   },
 ];
 
+const offToday = [
+  { name: "Sarah Wilson", reason: "Vacation" },
+  { name: "Mike Johnson", reason: "Sick Leave" },
+];
+
 const AdminPage = () => {
-
-
   const { data: data = [], isLoading } = useQuery({
     queryKey: ["users"],
     queryFn: DashBoardApi.getDashboardDetails,
   });
 
-
-  console.log(data)
-
+  console.log(data);
 
   return (
     <div className="min-h-screen p-4 sm:p-8 md:p-12 lg:p-16">
@@ -77,42 +69,76 @@ const AdminPage = () => {
       {/* Main content container */}
       <main className="container mx-auto py-8">
         <div className="lg:flex lg:space-x-8">
-          {/* Left Side: Other Things */}
+          {/* Left Side: Charts, Approvals, Announcements, etc. */}
           <div className="lg:w-4/5 space-y-8">
-            {/* Charts and Approvals */}
-            <div className="flex flex-col flex-wrap gap-8 lg:flex-row">
+            {/* Charts Row */}
+            <div className="flex flex-wrap gap-y-4">
               <div className="flex-1">
-                
-                {isLoading ? <p>Fetching data</p>  : <PieChartComponent data={data.resourceCountDetails}/>}
+                {isLoading ? (
+                  <p>Fetching data</p>
+                ) : (
+                  <PieChartComponent data={data.resourceCountDetails} />
+                )}
               </div>
-              <Card className="flex-1 w-96 h-96">
-                <div className="p-6">
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-lg font-medium">Timesheet Pending Approvals</h3>
-                    <Badge variant="secondary">2 New</Badge>
-                  </div>
-                  <div className="mt-4 space-y-4">
-                    {data?.timesheetPendings?.map((approval, i) => (
-                      <div key={i} className="flex items-center flex-wrap justify-between">
-                        <div>
-                          <p className="font-medium">{approval.name}</p>
-                          <p className="text-sm text-muted-foreground">
-                           {approval.dates}
-                          </p>
-                        </div>
-                        <Badge>Pending</Badge>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </Card>
               <div className="flex-1">
-                {isLoading ? <p>Fetching data</p>  : <BarChartComponent data={data?.clientDetails}/>}
+                {isLoading ? (
+                  <p>Fetching data</p>
+                ) : (
+                  <BarChartComponent
+                    data={data?.clientProjects}
+                    Title="Client"
+                  />
+                )}
+              </div>
+              <div className="flex-1">
+                {isLoading ? (
+                  <p>Fetching data</p>
+                ) : (
+                  <BarChartComponent
+                    data={data?.projectDetails}
+                    Title="Projects"
+                  />
+                )}
               </div>
             </div>
 
-            {/* Announcements and Who's Off Today */}
             <div className="grid gap-6 md:grid-cols-2">
+              <Card>
+                <div className="p-6 relative">
+                  {/* External Link Button Positioned at Top Right */}
+                  <div className="absolute top-2 right-2">
+                    <Button variant="ghost">
+                      <ExternalLink />
+                    </Button>
+                  </div>
+                  <div className="flex items-center justify-between pt-4">
+                    <h3 className="text-lg font-medium">
+                      Timesheet Pending Approvals
+                    </h3>
+                    <Badge variant="secondary">2 New</Badge>
+                  </div>
+                  <div className="mt-4 space-y-4">
+                    {data?.timesheetPendings?.map(
+                      (approval: any, i: number) => (
+                        <div
+                          key={i}
+                          className="flex items-center justify-between"
+                        >
+                          <div>
+                            <p className="font-medium">{approval.name}</p>
+                            <p className="text-sm text-muted-foreground">
+                              {format(approval.weekStartDate, "yyyy-MM-dd")} -{" "}
+                              {format(approval.weekEndDate, "yyyy-MM-dd")}
+                            </p>
+                          </div>
+                          <Badge>Pending</Badge>
+                        </div>
+                      )
+                    )}
+                  </div>
+                </div>
+              </Card>
+
               <Card>
                 <div className="p-6">
                   <h3 className="text-lg font-medium">Announcements</h3>
@@ -138,7 +164,10 @@ const AdminPage = () => {
                   <h3 className="text-lg font-medium">Who's Off Today</h3>
                   <div className="mt-4 space-y-4">
                     {offToday.map((person, i) => (
-                      <div key={i} className="flex items-center justify-between">
+                      <div
+                        key={i}
+                        className="flex items-center justify-between"
+                      >
                         <p className="font-medium">{person.name}</p>
                         <Badge variant="outline">{person.reason}</Badge>
                       </div>
@@ -149,18 +178,22 @@ const AdminPage = () => {
             </div>
           </div>
 
-          {/* Right Side: Small Stat Cards as a List */}
+          {/* Right Side: Small Stat Cards */}
           <div className="lg:w-1/5 space-y-6 mt-8 lg:mt-0">
             {/* Next Payday */}
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Next Payday</CardTitle>
+                <CardTitle className="text-sm font-medium">
+                  Next Payday
+                </CardTitle>
                 <CalendarDaysIcon className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
                 <div className="mt-3">
                   <p className="text-2xl font-bold">15 Jan</p>
-                  <p className="text-xs text-muted-foreground">8 days remaining</p>
+                  <p className="text-xs text-muted-foreground">
+                    8 days remaining
+                  </p>
                 </div>
               </CardContent>
             </Card>
@@ -169,10 +202,10 @@ const AdminPage = () => {
             <Card className="p-6">
               <div className="flex items-center space-x-2">
                 <Clock className="h-4 w-4 text-muted-foreground" />
-                <h3 className="text-sm font-medium">Attendance Today</h3>
+                <h3 className="text-sm font-medium">Total Clients</h3>
               </div>
               <div className="mt-3">
-                <p className="text-2xl font-bold">92%</p>
+                <p className="text-2xl font-bold">{data.clientsCount}</p>
                 <p className="text-xs text-muted-foreground">230 present</p>
               </div>
             </Card>
@@ -180,11 +213,13 @@ const AdminPage = () => {
             {/* Active Employees */}
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Active Employees</CardTitle>
+                <CardTitle className="text-sm font-medium">
+                  Active Employees
+                </CardTitle>
                 <Users className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">5,250</div>
+                <div className="text-2xl font-bold">{data?.resourceCountDetails?.activeResourceCount ? data.resourceCountDetails.activeResourceCount: "fetching..." }</div>
                 <p className="text-xs text-muted-foreground flex items-center">
                   <ArrowUpRight className="h-4 w-4 text-green-500" />
                   +10% from last month
@@ -195,11 +230,13 @@ const AdminPage = () => {
             {/* Projects Onboarded */}
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Projects Onboarded</CardTitle>
+                <CardTitle className="text-sm font-medium">
+                  Projects Onboarded
+                </CardTitle>
                 <Briefcase className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">42</div>
+                <div className="text-2xl font-bold">{data.projectsCount}</div>
                 <p className="text-xs text-muted-foreground flex items-center">
                   <ArrowUpRight className="h-4 w-4 text-green-500" />
                   +15% from last quarter
@@ -210,11 +247,13 @@ const AdminPage = () => {
             {/* New Employees */}
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">New Employees</CardTitle>
+                <CardTitle className="text-sm font-medium">
+                  Total Suppliers
+                </CardTitle>
                 <Calendar className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">128</div>
+                <div className="text-2xl font-bold">{data.suppliersCount}</div>
                 <p className="text-xs text-muted-foreground flex items-center">
                   <ArrowDownRight className="h-4 w-4 text-red-500" />
                   -5% from last month
