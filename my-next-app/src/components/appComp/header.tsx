@@ -10,7 +10,7 @@ const Header: React.FC = () => {
   return (
     <header
       className="flex items-center justify-between px-6 py-4 
-      bg-gradient-to-l from-blue-400 to-blue-200
+      bg-gradient-to-l from-blue-200 to-blue-100
       dark:bg-gradient-to-l dark:from-gray-900 dark:to-gray-700
       border-b w-full shadow-bottom"
     >

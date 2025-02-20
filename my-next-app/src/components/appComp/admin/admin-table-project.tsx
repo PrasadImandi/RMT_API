@@ -36,6 +36,8 @@ const AdminTableProject = () => {
     queryFn: ProjectApi.fetchProjects,
   });
 
+  console.log(projects)
+
   const handleEdit = (id: number) => {
     router.push(`/admin/manage-project/edit-project/${id}`);
   };
