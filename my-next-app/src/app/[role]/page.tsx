@@ -50,7 +50,7 @@ const announcements = [
 
 const AdminPage = () => {
   return (
-    <div className="min-h-screen p-16">
+    <div className="min-h-screen p-4 sm:p-8 md:p-12 lg:p-16">
       {/* Header */}
       <header className="border-b bg-white dark:bg-[#17171A] shadow-sm rounded-md">
         <div className="container mx-auto flex h-16 items-center px-4">
@@ -67,11 +67,11 @@ const AdminPage = () => {
           {/* Left Side: Other Things */}
           <div className="lg:w-4/5 space-y-8">
             {/* Charts and Approvals */}
-            <div className="flex flex-col gap-8 lg:flex-row">
+            <div className="flex flex-col flex-wrap gap-8 lg:flex-row">
               <div className="flex-1">
                 <PieChartComponent />
               </div>
-              <Card className="flex-1">
+              <Card className="flex-1 w-96 h-96">
                 <div className="p-6">
                   <div className="flex items-center justify-between">
                     <h3 className="text-lg font-medium">Pending Approvals</h3>
@@ -79,7 +79,7 @@ const AdminPage = () => {
                   </div>
                   <div className="mt-4 space-y-4">
                     {approvals.map((approval, i) => (
-                      <div key={i} className="flex items-center justify-between">
+                      <div key={i} className="flex items-center flex-wrap justify-between">
                         <div>
                           <p className="font-medium">{approval.employee}</p>
                           <p className="text-sm text-muted-foreground">

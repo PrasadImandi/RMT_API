@@ -12,14 +12,39 @@ import {
   Clock,
   Award,
   Building,
-  GraduationCap
+  GraduationCap,
+  Camera
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useUserStore } from "@/store/userStore";
 import Link from "next/link";
+import { ResourceApi } from "@/services/api/resource";
+import { useQuery } from "@tanstack/react-query";
+import { useState, useRef } from "react";
 
 export default function Home() {
-  const { user } = useUserStore()   
+  const { user } = useUserStore();
+  const [avatarUrl, setAvatarUrl] = useState("https://github.com/shadcn.png");
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const { data: resourceData } = useQuery({
+    queryKey: ["resource", user?.id],
+    queryFn: () => ResourceApi.fetchResource(user?.id!),
+    enabled: !!user?.id,
+  });
+console.log(resourceData)
+  const handleImageClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const imageUrl = URL.createObjectURL(file);
+      setAvatarUrl(imageUrl);
+    }
+  };
+
   const notifications = [
     { title: "Project Review", message: "Digital Transformation project review at 2 PM", time: "1h ago" },
     { title: "Team Meeting", message: "Weekly team sync with Cloud Migration team", time: "3h ago" },
@@ -39,18 +64,33 @@ export default function Home() {
                 
                 {/* Profile Info */}
                 <div className="relative mt-12 flex items-end space-x-4">
-                  <Avatar className="w-24 h-24 border-4 border-white shadow-lg">
-                    <AvatarImage src="https://github.com/shadcn.png" />
-                    <AvatarFallback>JD</AvatarFallback>
-                  </Avatar>
+                  <div className="relative group">
+                    <Avatar className="w-24 h-24 border-4 border-white shadow-lg">
+                      <AvatarImage src={avatarUrl} />
+                      <AvatarFallback>JD</AvatarFallback>
+                    </Avatar>
+                    <button
+                      onClick={handleImageClick}
+                      className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                    >
+                      <Camera className="w-6 h-6 text-white" />
+                    </button>
+                    <input
+                      ref={fileInputRef}
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={handleImageChange}
+                    />
+                  </div>
                   <div className="pb-2">
                     <div className="flex items-center space-x-3">
-                      <h2 className="text-2xl font-bold text-gray-900">{user?.name}</h2>
+                      <h2 className="text-2xl font-bold text-gray-900">{resourceData?.firstName} {resourceData?.lastName}</h2>
                       <Badge variant="secondary" className="bg-blue-100 text-blue-800 hover:bg-blue-200">
                         {user?.role === "admin" ? "Admin" : "Supplier"}
                       </Badge>
                     </div>
-                    <p className=" flex items-center mt-1">
+                    <p className="flex items-center mt-1">
                       <Mail className="w-4 h-4 mr-2" />
                       devanjan@algoleap.com
                     </p>
