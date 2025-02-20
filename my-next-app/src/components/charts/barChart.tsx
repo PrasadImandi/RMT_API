@@ -34,9 +34,7 @@ type ClientDetail = {
 };
 
 type BarChartComponentProps = {
-  data: {
-    clientDetails: ClientDetail[];
-  };
+  data: ClientDetail[];
 };
 
 const chartConfig = {
@@ -52,7 +50,7 @@ const chartConfig = {
 
 export function BarChartComponent({ data }: BarChartComponentProps) {
   // Map each client to a chart data object
-  const chartData = data.clientDetails.map((client: ClientDetail) => ({
+  const chartData = data.map((client: ClientDetail) => ({
     client: client.clientName,
     total: client.totalResourceCount,
     active: client.activeResourceCount,
