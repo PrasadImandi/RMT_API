@@ -40,6 +40,7 @@ namespace RMT_API.Infrastructure
 			services.AddScoped<IResourceDeploymentRepository, ResourceDeploymentRepository>();
 			services.AddScoped<IUserRepository, UserRepository>();
 			services.AddScoped<ITimesheetRepository, TimesheetRepository>();
+			services.AddScoped<IDashboardDetailsRepository, DashboardDetailsRepository>();
 
 			// Register Services
 			services.AddScoped<IAccessTypeService, AccessTypeService>();
@@ -60,6 +61,7 @@ namespace RMT_API.Infrastructure
 			services.AddScoped<IPublicHolidaysService, PublicHolidaysService>();
 			services.AddScoped<IResourceInformationService, ResourceInformationService>();
 			services.AddScoped<IRegionService, RegionService>();
+			services.AddScoped<IDashboardDetailsService, DashboardDetailsService>();
 
 			// Add more repositories and services as needed...
 		}

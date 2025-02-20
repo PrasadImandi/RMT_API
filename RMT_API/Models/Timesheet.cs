@@ -12,10 +12,12 @@ namespace RMT_API.Models
 		public DateTime WeekStartDate { get; set; }
 		public DateTime WeekEndDate { get; set; }
 		public string? Status { get; set; }
+		public string? TimesheetCode { get; set; }
 		public string? Notes { get; set; }
 		public bool? IsNotified { get; set; }
 		public bool? IsSubmit { get; set; }
 
 		public IEnumerable<ProjectTimesheetDetail> ProjectTimesheetDetails { get; set; }
+		public Resource? Resource { get; set; }
 	}
 }
