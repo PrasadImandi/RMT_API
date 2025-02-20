@@ -588,8 +588,7 @@ namespace RMT_API.Data
 			.IsRequired();
 
 			modelBuilder.Entity<Project>()
-			.Property(a => a.ProjectCode)
-			.IsRequired();
+			.Property(a => a.ProjectCode);
 
 			modelBuilder.Entity<Project>()
 			.Property(a => a.StartDate)

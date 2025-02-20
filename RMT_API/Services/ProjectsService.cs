@@ -21,6 +21,8 @@ namespace RMT_API.Services
 		public async Task<IEnumerable<ProjectDto>> GetAllProjectsAsync()
 		{
 			var response = await  _repository.GetAllWithChildrenAsync(query => query.Include(p => p.PM)
+																				.Include(p=>p.Client)
+																				.Include(p=>p.RM)
 																				.Include(p=>p.Segment)
 																				.Include(p=>p.DeleiveryMotion)
 																				.Include(p=>p.SupportType));
