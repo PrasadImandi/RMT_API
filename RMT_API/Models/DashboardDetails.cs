@@ -19,17 +19,17 @@
 
 	public class ClientDetails : ResourceCountDetails
 	{
-		public string ClientName { get; set; }
+		public string Name { get; set; }
 	}
 
 	public class ProjectDetails : ResourceCountDetails
 	{ 
-		public string ProjectName { get; set; }
+		public string Name { get; set; }
 	}
 
 	public class SupplierDetails : ResourceCountDetails
 	{
-		public string SupplierName { get; set; }
+		public string Name { get; set; }
 	}
 
 	public class ResourceAttritionDetails

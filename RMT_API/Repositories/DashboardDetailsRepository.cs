@@ -68,7 +68,7 @@ namespace RMT_API.Repositories
 									.GroupBy(x => x.c.Name)
 									.Select(g => new ClientDetails()
 									{
-										ClientName = g.Key,
+										Name = g.Key,
 										TotalResourceCount = g.Count(),
 										ActiveResourceCount = g.Count(x => x.rd.IsActive == true),
 										InactiveResourceCount = g.Count(x => x.rd.IsActive == false)
@@ -93,7 +93,7 @@ namespace RMT_API.Repositories
 										.GroupBy(x => x.p.Name)
 										.Select(g => new ProjectDetails()
 										{
-											ProjectName = g.Key,
+											Name = g.Key,
 											TotalResourceCount = g.Count(),
 											ActiveResourceCount = g.Count(x => x.rd.IsActive == true),
 											InactiveResourceCount = g.Count(x => x.rd.IsActive == false)
@@ -112,7 +112,7 @@ namespace RMT_API.Repositories
 										.GroupBy(x => x.s.Name)
 										.Select(g => new SupplierDetails()
 										{
-											SupplierName = g.Key,
+											Name = g.Key,
 											TotalResourceCount = g.Count(),
 											ActiveResourceCount = g.Count(x => x.r.IsActive == true),
 											InactiveResourceCount = g.Count(x => x.r.IsActive == false)
