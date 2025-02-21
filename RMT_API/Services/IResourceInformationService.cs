@@ -4,7 +4,7 @@ namespace RMT_API.Services
 {
 	public interface IResourceInformationService
 	{
-		Task<ResourceInformationDto> GetRsourceInformatonByIdAsync(int id);
+		Task<ResourceInformationDto> GetResourceInformationByIdAsync(int id);
 		Task AddResourceInformationAsync(ResourceInformationDto resourceInformation);
 		Task UpdateResourceInfoAsync(ResourceInformationDto resourceInformation);
 		Task DeleteResourceInformationAsync(int id);

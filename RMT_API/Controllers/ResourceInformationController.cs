@@ -11,7 +11,7 @@ namespace RMT_API.Controllers
 		[HttpGet("{id}")]
 		public async Task<IActionResult> GetResourceInformationById(int id)
 		{
-			var resourceInfo = await _service.GetRsourceInformatonByIdAsync(id);
+			var resourceInfo = await _service.GetResourceInformationByIdAsync(id);
 			
 			if (resourceInfo == null)
 			{

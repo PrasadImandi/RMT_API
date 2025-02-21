@@ -31,12 +31,12 @@ namespace RMT_API.Controllers
 			new Claim(ClaimTypes.Name, user.UserName!),
 			new Claim(ClaimTypes.Role, user.RoleID.ToString()!)
 				};
-			var keybytes = Encoding.UTF8.GetBytes(_configuration["Jwt:SecretKey"]);
-			if (keybytes.Length < 32)
+			var keyBytes = Encoding.UTF8.GetBytes(_configuration["Jwt:SecretKey"]!);
+			if (keyBytes.Length < 32)
 			{
-				Array.Resize(ref keybytes, 32);
+				Array.Resize(ref keyBytes, 32);
 			}
-			var key = new SymmetricSecurityKey(keybytes);
+			var key = new SymmetricSecurityKey(keyBytes);
 			var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
 			var token = new JwtSecurityToken(

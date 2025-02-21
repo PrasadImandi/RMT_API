@@ -47,7 +47,7 @@ namespace RMT_API.Services
 			await _bgvDocsRepository.DeleteAsync(id);
 		}
 
-		public async Task<ResourceInformationDto> GetRsourceInformatonByIdAsync(int id)
+		public async Task<ResourceInformationDto> GetResourceInformationByIdAsync(int id)
 		{
 			var response = await repository.GetByIDWithChildrenAsync(p => p.ID == id,
 																	  query => query.Include(p => p.Personal)

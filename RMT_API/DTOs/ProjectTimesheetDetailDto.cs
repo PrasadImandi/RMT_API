@@ -6,6 +6,6 @@ namespace RMT_API.DTOs
 	{
 		public int ProjectID { get; set; }
 		public int? TimesheetID { get; set; }
-		public List<TimesheetDetailDto> TimesheetDetails { get; set; }
+		public List<TimesheetDetailDto>? TimesheetDetails { get; set; }
 	}
 }
