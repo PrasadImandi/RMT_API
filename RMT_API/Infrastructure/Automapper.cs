@@ -80,6 +80,7 @@ namespace RMT_API.Infrastructure
 			CreateMap<PublicHolidayDto, PublicHolidayMaster>().ReverseMap();
 			CreateMap<SupplierDto, Supplier>();
 			CreateMap<ContactInformationDto, ContactInformation>().ReverseMap();
+			CreateMap<ManagerDto, Manager>().ReverseMap();
 
 			CreateMap<Supplier, SupplierDto>()
 				.ForMember(dest => dest.ContactInformation, opt => opt.MapFrom(src => src.ContactInformation));

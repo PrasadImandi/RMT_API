@@ -26,16 +26,17 @@ namespace RMT_API.Repositories
 			return await query.ToListAsync();
 		}
 
-		public async Task<T> GetByIDWithChildrenAsync(Expression<Func<T, bool>> whereConditions, Func<IQueryable<T>, IQueryable<T>> includeChildren)
+		public async Task<T> GetByIDWithChildrenAsync(Expression<Func<T, bool>> whereConditions, Func<IQueryable<T>, IQueryable<T>> includeChildren = null)
 		{
 			IQueryable<T> query = (IQueryable<T>)_dbSet;
 
 			if (whereConditions != null)
 				query = (IQueryable<T>)query.Where(whereConditions);
+			if (includeChildren != null)
+				query = includeChildren(query);
 
-			query = includeChildren(query);
+			var response = await query.FirstOrDefaultAsync();
 
-			var response= await query.FirstOrDefaultAsync();
 			return response;
 		}
 

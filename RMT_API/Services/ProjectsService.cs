@@ -48,5 +48,12 @@ namespace RMT_API.Services
 		{
 			await _repository.ChangeStatusAsync(project.ID, project.IsActive);
 		}
+
+		public async Task<IEnumerable<ProjectDto>> GetProjectByClientIdAsync(int clientId)
+		{
+			var response = await _repository.FindAsync(p => p.ClientID == clientId);
+
+			return _mapper.Map<IEnumerable<ProjectDto>>(response);
+		}
 	}
 }

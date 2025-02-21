@@ -29,6 +29,18 @@ namespace RMT_API.Controllers
 			return Ok(project);
 		}
 
+		[HttpGet("client/{clientId}")]
+		public async Task<IActionResult> GetProjectByClientID(int clientId)
+		{
+			var project = await _service.GetProjectByClientIdAsync(clientId);
+			if (project == null)
+			{
+				return NotFound();
+			}
+
+			return Ok(project);
+		}
+
 		[HttpPost]
 		public async Task<IActionResult> CreateProject([FromBody] ProjectDto project)
 		{

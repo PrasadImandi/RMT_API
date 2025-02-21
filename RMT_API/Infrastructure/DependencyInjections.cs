@@ -35,7 +35,9 @@ namespace RMT_API.Infrastructure
 			services.AddScoped<IGenericRepository<AcademicDetails>, GenericRepository<AcademicDetails>>();
 			services.AddScoped<IGenericRepository<CertificationDetails>, GenericRepository<CertificationDetails>>();
 			services.AddScoped<IGenericRepository<BGVDocuments>, GenericRepository<BGVDocuments>>();
+			services.AddScoped<IGenericRepository<Manager>, GenericRepository<Manager>>();
 
+			services.AddScoped<IManagerRepository, ManagerRepository>();
 			services.AddScoped<IResourceRepository, ResourceRepository>();
 			services.AddScoped<IResourceDeploymentRepository, ResourceDeploymentRepository>();
 			services.AddScoped<IUserRepository, UserRepository>();
@@ -62,6 +64,7 @@ namespace RMT_API.Infrastructure
 			services.AddScoped<IResourceInformationService, ResourceInformationService>();
 			services.AddScoped<IRegionService, RegionService>();
 			services.AddScoped<IDashboardDetailsService, DashboardDetailsService>();
+			services.AddScoped<IManagerService, ManagerService>();
 
 			// Add more repositories and services as needed...
 		}
