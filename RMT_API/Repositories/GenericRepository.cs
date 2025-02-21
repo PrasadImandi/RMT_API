@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RMT_API.Data;
-using RMT_API.Models.BaseModels;
 using System.Linq.Expressions;
 using System.Reflection;
 
@@ -26,7 +25,7 @@ namespace RMT_API.Repositories
 			return await query.ToListAsync();
 		}
 
-		public async Task<T> GetByIDWithChildrenAsync(Expression<Func<T, bool>> whereConditions, Func<IQueryable<T>, IQueryable<T>> includeChildren = null)
+		public async Task<T> GetByIDWithChildrenAsync(Expression<Func<T, bool>> whereConditions, Func<IQueryable<T>, IQueryable<T>>? includeChildren = null)
 		{
 			IQueryable<T> query = (IQueryable<T>)_dbSet;
 
@@ -37,7 +36,7 @@ namespace RMT_API.Repositories
 
 			var response = await query.FirstOrDefaultAsync();
 
-			return response;
+			return response!;
 		}
 
 		public async Task<T> GetByIdAsync(int id)
@@ -116,28 +115,5 @@ namespace RMT_API.Repositories
 
 			return entities;
 		}
-
-		//public async Task<IEnumerable<BaseModel>> GetIdNameList<TEntity>()
-		//{
-		//	var entityType = typeof(TEntity);
-
-		//	var idProperty = entityType.GetProperty("ID");
-		//	var nameProperty = entityType.GetProperty("Name");
-
-		//	if (idProperty == null || nameProperty == null)
-		//	{
-		//		throw new InvalidOperationException("Entity must have 'Id' and 'Name' properties.");
-		//	}
-
-		//	var query = _dbSet.AsQueryable()
-		//		.Select(e => new BaseModel()
-		//		{
-		//			ID = (int)idProperty.GetValue(e),
-		//			Name = (string)nameProperty.GetValue(e)
-		//		});
-
-		//	// Execute and return the list
-		//	return await query.ToListAsync();
-		//}
 	}
 }

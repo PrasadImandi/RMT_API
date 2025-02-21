@@ -17,7 +17,7 @@ namespace RMT_API.Models
 		public bool? IsNotified { get; set; }
 		public bool? IsSubmit { get; set; }
 
-		public IEnumerable<ProjectTimesheetDetail> ProjectTimesheetDetails { get; set; }
+		public IEnumerable<ProjectTimesheetDetail>? ProjectTimesheetDetails { get; set; }
 		public Resource? Resource { get; set; }
 	}
 }

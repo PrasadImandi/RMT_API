@@ -36,10 +36,10 @@ namespace RMT_API.Repositories
 			var resourceDetails = await _context.ResourceInformation
 										.Include(x => x.ResourceDetails)
 										.Include(x=>x.Professional)
-										.Where(r => r.ResourceDetails.UserID == userId && r.ResourceDetails.IsActive == true)
+										.Where(r => r.ResourceDetails!.UserID == userId && r.ResourceDetails.IsActive == true)
 										.FirstOrDefaultAsync();
 				
-			return resourceDetails;
+			return resourceDetails!;
 		}
 	}
 }

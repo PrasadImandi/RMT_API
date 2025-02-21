@@ -166,7 +166,7 @@ namespace RMT_API.Repositories
 									WeekEndDate = t.WeekEndDate,
 								}).ToListAsync();
 
-			_dashboardDetails.TimesheetPendings = timesheetPendingApprovals;
+			_dashboardDetails.TimesheetPendingDetails = timesheetPendingApprovals;
 
 			return _dashboardDetails;
 		}

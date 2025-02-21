@@ -91,12 +91,12 @@ namespace RMT_API.Repositories
 		private async Task<Timesheet> GetTimesheetAsync(int resourceId, DateTime startOfWeek, DateTime endOfWeek)
 		{
 			var _timesheet = await _context.Timesheet
-				.Include(x=>x.ProjectTimesheetDetails)
+				.Include(x=>x.ProjectTimesheetDetails!)
 				.ThenInclude(x => x.TimesheetDetails)
 				.Where(t => t.WeekStartDate >= startOfWeek && t.WeekEndDate <= endOfWeek && (t.IsActive ?? false) && t.ResourceID == resourceId)
 				.FirstOrDefaultAsync();
 
-			return _timesheet;
+			return _timesheet!;
 
 		}
 
