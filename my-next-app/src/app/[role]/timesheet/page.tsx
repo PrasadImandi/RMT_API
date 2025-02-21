@@ -288,22 +288,30 @@ export default function Home() {
 
   // Auto-fill uses the time range (if provided) to calculate the hours.
   const handleAutoFill = () => {
+    // Create a new timeRanges object that fills in defaults for any missing values
+    const updatedTimeRanges: TimeRange = { ...timeRanges };
+    weekDays.forEach((day) => {
+      const dateStr = format(day, "yyyy-MM-dd");
+      if (
+        !updatedTimeRanges[dateStr] ||
+        !updatedTimeRanges[dateStr].start ||
+        !updatedTimeRanges[dateStr].end
+      ) {
+        updatedTimeRanges[dateStr] = { start: "09:00", end: "17:00" };
+      }
+    });
+    setTimeRanges(updatedTimeRanges);
+  
+    // Now compute new timeEntries based on the updated timeRanges
     const newEntries = projects.map((project) => ({
       projectId: project.id,
       hours: weekDays.reduce((acc, day) => {
         const dateStr = format(day, "yyyy-MM-dd");
-        let value = 0;
-        if (
-          timeRanges[dateStr] &&
-          timeRanges[dateStr].start &&
-          timeRanges[dateStr].end
-        ) {
-          value = calculateHoursFromTimeRange(
-            timeRanges[dateStr].start,
-            timeRanges[dateStr].end
-          );
-        } else {
-          value = isWeekend(day) && !hasWeekendPermission ? 0 : 8;
+        const { start, end } = updatedTimeRanges[dateStr];
+        let value = calculateHoursFromTimeRange(start, end);
+        // If it's a weekend and there's no weekend permission, set hours to 0.
+        if (isWeekend(day) && !hasWeekendPermission) {
+          value = 0;
         }
         acc[dateStr] = value;
         return acc;
