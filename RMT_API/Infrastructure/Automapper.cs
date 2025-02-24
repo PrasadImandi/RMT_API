@@ -2,6 +2,7 @@
 using RMT_API.DTOs;
 using RMT_API.DTOs.BaseDtos;
 using RMT_API.Models;
+using RMT_API.Models.MappingModels;
 
 namespace RMT_API.Infrastructure
 {
@@ -13,6 +14,7 @@ namespace RMT_API.Infrastructure
 			CreateMap<ClientDto, Client>().ReverseMap();
 
 			CreateMap<BaseDto, Client>().ReverseMap();
+			CreateMap<BaseDto, ContactTypeMaster>().ReverseMap();
 			CreateMap<BaseDto, StateMaster>().ReverseMap();
 			CreateMap<BaseDto, DeliveryMotionMaster>().ReverseMap();
 			CreateMap<BaseDto, PincodeMaster>().ReverseMap();
@@ -102,6 +104,10 @@ namespace RMT_API.Infrastructure
 				.ForMember(dest => dest.Professional, opt => opt.MapFrom(src => src.Professional))
 				.ForMember(dest => dest.Personal, opt => opt.MapFrom(src => src.Personal))
 				.ForMember(dest => dest.Certifications, opt => opt.MapFrom(src => src.Certification));
+
+
+			CreateMap<DomainRoleMappingDto, DomainRoleMapping>().ReverseMap();
+			CreateMap<ProjectBaseLineDto, ProjectBaseLine>().ReverseMap();
 
 		}
 	}

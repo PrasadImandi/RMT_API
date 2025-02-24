@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RMT_API.Models;
 using RMT_API.Models.BaseModels;
+using RMT_API.Models.MappingModels;
 
 
 namespace RMT_API.Data
@@ -54,6 +55,8 @@ namespace RMT_API.Data
 		public DbSet<Documents> Documents { get; set; }
 		public DbSet<AcademicDetails> AcademicDetails { get; set; }
 		public DbSet<CertificationDetails> CertificationDetails { get; set; }
+		public DbSet<DomainRoleMapping> DomainRoleMappings { get; set; }
+		public DbSet<ProjectBaseLine> ProjectBaseLine { get; set; }
 
 		#endregion Tables
 
@@ -69,6 +72,10 @@ namespace RMT_API.Data
 			.Property(a => a.Name)
 			.HasColumnType("varchar(100)")
 			.IsRequired();
+
+			modelBuilder.Entity<AcademicDetails>()
+			.HasIndex(a=>a.Name)
+			.IsUnique();
 
 			modelBuilder.Entity<AcademicDetails>()
 				.Property(a => a.CompletionDate)
@@ -93,6 +100,10 @@ namespace RMT_API.Data
 			.Property(a => a.Name)
 			.HasColumnType("varchar(100)")
 			.IsRequired();
+
+			modelBuilder.Entity<AccessTypeMaster>()
+			.HasIndex(a => a.Name)
+			.IsUnique();
 
 			#endregion AccessTypeMaster
 
@@ -157,6 +168,10 @@ namespace RMT_API.Data
 			.IsRequired();
 
 			modelBuilder.Entity<Client>()
+			.HasIndex(a => a.Name)
+			.IsUnique();
+
+			modelBuilder.Entity<Client>()
 			.Property(a => a.ClientCode)
 			.HasComputedColumnSql("CONCAT('C', RIGHT('10000' + CAST(ID AS VARCHAR), 5))", stored: true)
 			.IsRequired();
@@ -198,6 +213,11 @@ namespace RMT_API.Data
 			.IsRequired();
 
 			modelBuilder.Entity<ContactInformation>()
+			.HasIndex(a => a.Name)
+			.IsUnique();
+
+
+			modelBuilder.Entity<ContactInformation>()
 				.Property(a => a.ContactTypeID)
 				.IsRequired();
 
@@ -229,6 +249,10 @@ namespace RMT_API.Data
 			.HasColumnType("varchar(100)")
 			.IsRequired();
 
+			modelBuilder.Entity<ContactTypeMaster>()
+			.HasIndex(a => a.Name)
+			.IsUnique();
+
 			#endregion ContactTypeMaster
 
 			#region DeliveryMotionMaster
@@ -241,6 +265,10 @@ namespace RMT_API.Data
 			.HasColumnType("varchar(100)")
 			.IsRequired();
 
+			modelBuilder.Entity<DeliveryMotionMaster>()
+			.HasIndex(a => a.Name)
+			.IsUnique();
+
 			#endregion DeliveryMotionMaster
 
 			#region DepartmentMaster
@@ -252,6 +280,10 @@ namespace RMT_API.Data
 			.Property(a => a.Name)
 			.HasColumnType("varchar(100)")
 			.IsRequired();
+
+			modelBuilder.Entity<DepartmentMaster>()
+			.HasIndex(a => a.Name)
+			.IsUnique();
 
 			#endregion DepartmentMaster
 
@@ -272,6 +304,10 @@ namespace RMT_API.Data
 			.HasColumnType("varchar(100)")
 			.IsRequired();
 
+			modelBuilder.Entity<DomainMaster>()
+			.HasIndex(a => a.Name)
+			.IsUnique();
+
 			#endregion DomainMaster
 
 			#region DomainLevelMaster
@@ -283,6 +319,10 @@ namespace RMT_API.Data
 			.Property(a => a.Name)
 			.HasColumnType("varchar(100)")
 			.IsRequired();
+
+			modelBuilder.Entity<DomainLevelMaster>()
+			.HasIndex(a => a.Name)
+			.IsUnique();
 
 			#endregion DomainLevelMaster
 
@@ -296,6 +336,9 @@ namespace RMT_API.Data
 			.HasColumnType("varchar(100)")
 			.IsRequired();
 
+			modelBuilder.Entity<DomainRoleMaster>()
+			.HasIndex(a => a.Name)
+			.IsUnique();
 			#endregion
 
 			#region FormMaster
@@ -307,6 +350,10 @@ namespace RMT_API.Data
 			.Property(a => a.Name)
 			.HasColumnType("varchar(100)")
 			.IsRequired();
+
+			modelBuilder.Entity<FormMaster>()
+			.HasIndex(a => a.Name)
+			.IsUnique();
 
 			#endregion FormMaster
 
@@ -377,6 +424,10 @@ namespace RMT_API.Data
 			.HasColumnType("varchar(100)")
 			.IsRequired();
 
+			modelBuilder.Entity<LaptopProviderMaster>()
+		.HasIndex(a => a.Name)
+		.IsUnique();
+
 			#endregion LaptopProviderMaster
 
 			#region Leave
@@ -421,6 +472,10 @@ namespace RMT_API.Data
 			.HasColumnType("varchar(100)")
 			.IsRequired();
 
+			modelBuilder.Entity<LeaveTypeMaster>()
+			.HasIndex(a => a.Name)
+			.IsUnique();
+
 			#endregion LeaveTypeMaster
 
 			#region LocationMaster
@@ -432,6 +487,11 @@ namespace RMT_API.Data
 			.Property(a => a.Name)
 			.HasColumnType("varchar(100)")
 			.IsRequired();
+
+
+			modelBuilder.Entity<LocationMaster>()
+			.HasIndex(a => a.Name)
+			.IsUnique();
 
 			modelBuilder.Entity<LocationMaster>()
 			.Property(a => a.Code)
@@ -528,6 +588,10 @@ namespace RMT_API.Data
 			.HasColumnType("varchar(20)")
 			.IsRequired();
 
+			modelBuilder.Entity<PincodeMaster>()
+			.HasIndex(a => a.Name)
+			.IsUnique();
+
 			#endregion PincodeMaster
 
 			#region ProfessionalDetails
@@ -609,6 +673,10 @@ namespace RMT_API.Data
 			.Property(a => a.Name)
 			.HasColumnType("varchar(100)")
 			.IsRequired();
+
+			modelBuilder.Entity<PublicHolidayMaster>()
+			.HasIndex(a => a.Name)
+			.IsUnique();
 
 			modelBuilder.Entity<PublicHolidayMaster>()
 			.Property(a => a.Description)

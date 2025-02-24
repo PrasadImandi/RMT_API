@@ -30,7 +30,7 @@ namespace RMT_API.Services
 			return _mapper.Map<IEnumerable<BaseDto>>(clients);
 		}
 
-		public async Task<IEnumerable<BaseDto>> PincodeIDNameListAsync()
+		public async Task<IEnumerable<BaseDto>> PinCodeIDNameListAsync()
 		{
 			var clients = await _pincodeRepository.GetAllActiveAsync();
 
@@ -77,6 +77,48 @@ namespace RMT_API.Services
 			var domainlevels = await _domainlevelRepository.GetAllActiveAsync();
 
 			return _mapper.Map<IEnumerable<BaseDto>>(domainlevels);
+		}
+
+
+
+		public Task<IEnumerable<BaseDto>> CreateStateAsync()
+		{
+			throw new NotImplementedException();
+		}
+
+		public Task<IEnumerable<BaseDto>> CreatePinCodeAsync()
+		{
+			throw new NotImplementedException();
+		}
+
+		public Task<IEnumerable<BaseDto>> CreateRegionAsync()
+		{
+			throw new NotImplementedException();
+		}
+
+		public Task<IEnumerable<BaseDto>> CreateSPOCAsync()
+		{
+			throw new NotImplementedException();
+		}
+
+		public Task<IEnumerable<BaseDto>> CreateLocationAsync()
+		{
+			throw new NotImplementedException();
+		}
+
+		public Task<IEnumerable<BaseDto>> CreateDomainAsync()
+		{
+			throw new NotImplementedException();
+		}
+
+		public Task<IEnumerable<BaseDto>> CreateDomainRoleAsync()
+		{
+			throw new NotImplementedException();
+		}
+
+		public Task<IEnumerable<BaseDto>> CreateDomainLevelAsync()
+		{
+			throw new NotImplementedException();
 		}
 	}
 }

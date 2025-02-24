@@ -8,8 +8,8 @@ namespace RMT_API.Services
 
 		private string _smtpServer = "smtp.office365.com";  // Change to your SMTP server (e.g., Gmail's server is smtp.gmail.com)
 		private int _smtpPort = 587;  // 587 for TLS, 465 for SSL
-		private string _username = "test@gmail.com";
-		private string _password = "test1234";
+		private string _username = "prasadd@sadhus.onmicrosoft.com";
+		private string _password = "Password@11";
 
 
 		public async Task SendEmailAsync(string toEmail, string subject, string body)
