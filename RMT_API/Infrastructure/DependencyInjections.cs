@@ -1,4 +1,5 @@
 ﻿using RMT_API.Models;
+using RMT_API.Models.MappingModels;
 using RMT_API.Repositories;
 using RMT_API.Services;
 
@@ -37,6 +38,7 @@ namespace RMT_API.Infrastructure
 			services.AddScoped<IGenericRepository<BGVDocuments>, GenericRepository<BGVDocuments>>();
 			services.AddScoped<IGenericRepository<Manager>, GenericRepository<Manager>>();
 			services.AddScoped<IGenericRepository<ProjectBaseLine>, GenericRepository<ProjectBaseLine>>();
+			services.AddScoped<IGenericRepository<DomainRoleMapping>, GenericRepository<DomainRoleMapping>>();
 
 			services.AddScoped<IManagerRepository, ManagerRepository>();
 			services.AddScoped<IResourceRepository, ResourceRepository>();
@@ -69,6 +71,7 @@ namespace RMT_API.Infrastructure
 			services.AddScoped<IManagerService, ManagerService>();
 			services.AddScoped<IMasterService, MasterService>();
 			services.AddScoped<IProjectBaseLineService, ProjectBaseLineService>();
+			services.AddScoped<IDomainRoleMappingService, DomainRoleMappingService>();
 
 			// Add more repositories and services as needed...
 		}
