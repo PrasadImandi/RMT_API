@@ -65,76 +65,20 @@ namespace RMT_API.Controllers
 			return Ok(spocs);
 		}
 
+		[HttpGet("domainroles/{domainId}")]
+		public async Task<IActionResult> GetDomainRoles(int domainId)
+		{
+			var spocs = await _service.DomainRoleIDNameListByDomainIdAsync(domainId);
+			return Ok(spocs);
+		}
+
 		[HttpGet("domainlevels")]
-		public async Task<IActionResult> GetDomainLevelss()
+		public async Task<IActionResult> GetDomainLevels()
 		{
 			var spocs = await _service.DomainLevelIDNameListAsync();
 			return Ok(spocs);
 		}
 		#endregion GetRequests
 
-
-		[HttpPost("clients")]
-		public async Task<IActionResult> CreateClients()
-		{
-			var clients = await _service.ClientIDNameListAsync();
-			return Ok(clients);
-		}
-
-		[HttpPost("states")]
-		public async Task<IActionResult> CreateStates()
-		{
-			var states = await _service.StateIDNameListAsync();
-			return Ok(states);
-		}
-
-		[HttpPost("locations")]
-		public async Task<IActionResult> CreateLocations()
-		{
-			var states = await _service.LocationIDNameListAsync();
-			return Ok(states);
-		}
-
-		[HttpPost("pincodes")]
-		public async Task<IActionResult> CreatePincodes()
-		{
-			var pincodes = await _service.PinCodeIDNameListAsync();
-			return Ok(pincodes);
-		}
-
-		[HttpPost("regions")]
-		public async Task<IActionResult> CreateRegions()
-		{
-			var regions = await _service.RegionIDNameListAsync();
-			return Ok(regions);
-		}
-
-		[HttpPost("spocs")]
-		public async Task<IActionResult> CreateSPOCs()
-		{
-			var spocs = await _service.SPOCIDNameListAsync();
-			return Ok(spocs);
-		}
-
-		[HttpPost("domain")]
-		public async Task<IActionResult> CreateDomains()
-		{
-			var spocs = await _service.DomainIDNameListAsync();
-			return Ok(spocs);
-		}
-
-		[HttpPost("domainroles")]
-		public async Task<IActionResult> CreateDomainRoles()
-		{
-			var spocs = await _service.DomainRoleIDNameListAsync();
-			return Ok(spocs);
-		}
-
-		[HttpPost("domainlevels")]
-		public async Task<IActionResult> CreateDomainLevelss()
-		{
-			var spocs = await _service.DomainLevelIDNameListAsync();
-			return Ok(spocs);
-		}
 	}
 }

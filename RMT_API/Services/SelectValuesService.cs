@@ -14,6 +14,7 @@ namespace RMT_API.Services
 									 IGenericRepository<DomainMaster> _domainRepository,
 									 IGenericRepository<DomainRoleMaster> _domainRoleRepository,
 									 IGenericRepository<DomainLevelMaster> _domainlevelRepository,
+									 IDomainRoleRepository domainRoleRepository,
 									 IMapper _mapper) : ISelectValuesService
 	{
 		public async Task<IEnumerable<BaseDto>> ClientIDNameListAsync()
@@ -79,46 +80,11 @@ namespace RMT_API.Services
 			return _mapper.Map<IEnumerable<BaseDto>>(domainlevels);
 		}
 
-
-
-		public Task<IEnumerable<BaseDto>> CreateStateAsync()
+		public async Task<IEnumerable<BaseDto>> DomainRoleIDNameListByDomainIdAsync(int domainId)
 		{
-			throw new NotImplementedException();
-		}
+			var domainroles = await domainRoleRepository.GetDomainRolesByDomainIdAsync(domainId);
 
-		public Task<IEnumerable<BaseDto>> CreatePinCodeAsync()
-		{
-			throw new NotImplementedException();
-		}
-
-		public Task<IEnumerable<BaseDto>> CreateRegionAsync()
-		{
-			throw new NotImplementedException();
-		}
-
-		public Task<IEnumerable<BaseDto>> CreateSPOCAsync()
-		{
-			throw new NotImplementedException();
-		}
-
-		public Task<IEnumerable<BaseDto>> CreateLocationAsync()
-		{
-			throw new NotImplementedException();
-		}
-
-		public Task<IEnumerable<BaseDto>> CreateDomainAsync()
-		{
-			throw new NotImplementedException();
-		}
-
-		public Task<IEnumerable<BaseDto>> CreateDomainRoleAsync()
-		{
-			throw new NotImplementedException();
-		}
-
-		public Task<IEnumerable<BaseDto>> CreateDomainLevelAsync()
-		{
-			throw new NotImplementedException();
+			return _mapper.Map<IEnumerable<BaseDto>>(domainroles);
 		}
 	}
 }

@@ -1097,6 +1097,24 @@ namespace RMT_API.Data
 			.HasForeignKey<JoiningDocuments>(b => b.DocumentsID)
 			.OnDelete(DeleteBehavior.Cascade);
 
+			modelBuilder.Entity<DomainRoleMapping>()
+		   .HasKey(dm => dm.ID); // Set the primary key
+
+			// Configure the relationship between DomainRoleMapping and DomainRole
+			modelBuilder.Entity<DomainRoleMapping>()
+				.HasOne(dm => dm.DomainRole) // Each DomainRoleMapping has one DomainRole
+				.WithMany() // Each DomainRole can be mapped to many DomainRoleMappings
+				.HasForeignKey(dm => dm.RoleID) // Foreign key to DomainRole
+				.OnDelete(DeleteBehavior.Restrict); // Avoid cascading deletes
+
+			// If DomainID is a foreign key that relates to another entity (e.g., DomainMaster),
+			// you can set it up as well like so (assuming DomainMaster entity exists):
+			//modelBuilder.Entity<DomainRoleMapping>()
+			//	.HasOne<DomainMaster>(dm => dm.DomainMaster) // assuming DomainMaster exists
+			//	.WithMany() // DomainMaster can have multiple DomainRoleMappings
+			//	.HasForeignKey(dm => dm.DomainID)
+			//	.OnDelete(DeleteBehavior.Restrict);
+
 			#endregion Relationships
 
 			base.OnModelCreating(modelBuilder);

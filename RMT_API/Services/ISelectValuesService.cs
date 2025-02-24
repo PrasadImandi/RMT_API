@@ -13,16 +13,7 @@ namespace RMT_API.Services
 		Task<IEnumerable<BaseDto>> LocationIDNameListAsync();
 		Task<IEnumerable<BaseDto>> DomainIDNameListAsync();
 		Task<IEnumerable<BaseDto>> DomainRoleIDNameListAsync();
+		Task<IEnumerable<BaseDto>> DomainRoleIDNameListByDomainIdAsync(int domainId);
 		Task<IEnumerable<BaseDto>> DomainLevelIDNameListAsync();
-
-
-		Task<IEnumerable<BaseDto>> CreateStateAsync();
-		Task<IEnumerable<BaseDto>> CreatePinCodeAsync();
-		Task<IEnumerable<BaseDto>> CreateRegionAsync();
-		Task<IEnumerable<BaseDto>> CreateSPOCAsync();
-		Task<IEnumerable<BaseDto>> CreateLocationAsync();
-		Task<IEnumerable<BaseDto>> CreateDomainAsync();
-		Task<IEnumerable<BaseDto>> CreateDomainRoleAsync();
-		Task<IEnumerable<BaseDto>> CreateDomainLevelAsync();
 	}
 }
