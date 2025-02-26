@@ -58,6 +58,15 @@ namespace RMT_API.Data
 		public DbSet<DomainRoleMapping> DomainRoleMappings { get; set; }
 		public DbSet<ProjectBaseLine> ProjectBaseLine { get; set; }
 
+
+
+		#region Reports
+		public DbSet<ClientReports> ClientReports { get; set; }
+
+		#endregion Reports
+
+
+
 		#endregion Tables
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -1038,6 +1047,8 @@ namespace RMT_API.Data
 
 			#endregion Users
 
+
+			modelBuilder.Entity<ClientReports>().HasNoKey();
 
 			#endregion Models
 

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using RMT_API.DTOs;
 using RMT_API.DTOs.BaseDtos;
+using RMT_API.DTOs.ReportsDtos;
 using RMT_API.Models;
 using RMT_API.Models.MappingModels;
 
@@ -108,6 +109,7 @@ namespace RMT_API.Infrastructure
 
 			CreateMap<DomainRoleMappingDto, DomainRoleMapping>().ReverseMap();
 			CreateMap<ProjectBaseLineDto, ProjectBaseLine>().ReverseMap();
+			CreateMap<ClientReportsDto, ClientReports>().ReverseMap();
 
 		}
 	}

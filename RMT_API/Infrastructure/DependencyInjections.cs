@@ -48,6 +48,7 @@ namespace RMT_API.Infrastructure
 			services.AddScoped<IDashboardDetailsRepository, DashboardDetailsRepository>();
 			services.AddScoped<IRepositoryFactory, RepositoryFactory>();
 			services.AddScoped<IDomainRoleRepository, DomainRoleRepository>();
+			services.AddScoped<IReportsRepository, ReportsRepository>();
 
 			// Register Services
 			services.AddScoped<IAccessTypeService, AccessTypeService>();
@@ -73,6 +74,7 @@ namespace RMT_API.Infrastructure
 			services.AddScoped<IMasterService, MasterService>();
 			services.AddScoped<IProjectBaseLineService, ProjectBaseLineService>();
 			services.AddScoped<IDomainRoleMappingService, DomainRoleMappingService>();
+			services.AddScoped<IReportsService, ReportsService>();
 
 			// Add more repositories and services as needed...
 		}
