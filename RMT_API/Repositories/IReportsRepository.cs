@@ -4,6 +4,6 @@ namespace RMT_API.Repositories
 {
 	public interface IReportsRepository
 	{
-		Task<IEnumerable<ClientReports>> GetClientReportsAsync(int clientId = 0, int projectId = 0, int pmid = 0, int rmid = 0);
+		Task<IEnumerable<ClientReports>> GetClientReportsAsync(string filterType = "", string searchName = "", int pageNumber = 0, int pageSize = 0);
 	}
 }

@@ -6,18 +6,18 @@ namespace RMT_API.Repositories
 {
 	public class ReportsRepository(ApplicationDBContext _context) : IReportsRepository
 	{
-		public async Task<IEnumerable<ClientReports>> GetClientReportsAsync(int clientId = 0, int projectId = 0, int pmid = 0, int rmid = 0)
+		public async Task<IEnumerable<ClientReports>> GetClientReportsAsync(string filterType = "", string searchName = "", int pageNumber = 0, int pageSize = 0)
 		{
 			// Define the stored procedure call and pass parameters
-			var clientIdParam = clientId;  // Ensure we pass an empty string if null
-			var projectIdParam = projectId;
-			var pmidParam = pmid;
-			var rmidParam = rmid;
+			var filterTypeParam = filterType;  // Ensure we pass an empty string if null
+			var searchNameParam = searchName;
+			var pageNumberParam = pageNumber;
+			var pageSizeParam = pageSize;
 
 			// Using FromSqlRaw for executing the stored procedure
 			var clientReports = await _context.ClientReports
-				.FromSqlRaw("EXEC AccountMasterReports @ClientID = {0}, @ProjectID = {1}, @PMID = {2}, @RMID = {3}",
-					clientIdParam, projectIdParam, pmidParam, rmidParam)
+				.FromSqlRaw("Exec SearchClientReports @FilterType = {0}, @SearchName  = {1}, @PageNumber  = {2}, @PageSize = {3} ",
+					filterTypeParam, searchNameParam, pageNumberParam, pageSizeParam)
 				.ToListAsync();
 
 			return clientReports;

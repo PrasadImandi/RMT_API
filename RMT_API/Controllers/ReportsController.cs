@@ -10,9 +10,9 @@ namespace RMT_API.Controllers
 	{
 
 		[HttpGet("clients")]
-		public async Task<IActionResult> GetAllClients(int clientId, int projectId, int pmid, int rmid)
+		public async Task<IActionResult> GetAllClients(string? filterType, string? searchName, int pageNumber, int pageSize)
 		{
-			var clientReports = await _reportService.GetClientReportsAsync(clientId, projectId, pmid,rmid);
+			var clientReports = await _reportService.GetClientReportsAsync(filterType, searchName, pageNumber, pageSize);
 			return Ok(clientReports);
 		}
 
