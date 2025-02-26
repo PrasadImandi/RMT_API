@@ -52,6 +52,11 @@ export const ADMIN_GROUPS: SidebarGroup =
           icon: CalendarDaysIcon,
           label: "Public Holidays",
         },
+        {
+          href: "/admin/manage-baseline",
+          icon: CalendarDaysIcon,
+          label: "Manage Baseline",
+        },
     ]
   }
 

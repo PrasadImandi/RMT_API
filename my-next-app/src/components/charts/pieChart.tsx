@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { TrendingUp } from "lucide-react";
+import { ExternalLink, TrendingUp } from "lucide-react";
 import { Label, Pie, PieChart } from "recharts";
 
 import {
@@ -18,6 +18,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import { Button } from "../ui/button";
 
 const chartConfig = {
   active: {
@@ -31,24 +32,30 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 export function PieChartComponent({
-  data
+  data,
 }: {
   data: {
     activeResourceCount: number;
     inactiveResourceCount: number;
     totalResourceCount: number;
   };
-}
-) {
+}) {
   const chartData = [
-    { status: "Active", count: data?.activeResourceCount, fill: "hsl(var(--chart-1))" },
-    { status: "Not Active", count: data?.inactiveResourceCount, fill: "hsl(var(--chart-2))" },
+    {
+      status: "Active",
+      count: data?.activeResourceCount,
+      fill: "hsl(var(--chart-1))",
+    },
+    {
+      status: "Not Active",
+      count: data?.inactiveResourceCount,
+      fill: "hsl(var(--chart-2))",
+    },
   ];
 
   const totalResources = React.useMemo(() => {
     return chartData.reduce((acc, curr) => acc + curr.count, 0);
   }, []);
-
 
   return (
     <Card className="flex flex-col w-96 h-96">
@@ -109,7 +116,8 @@ export function PieChartComponent({
       </CardContent>
       <CardFooter className="flex-col gap-2 text-sm">
         <div className="flex items-center gap-2 font-medium leading-none">
-          Resource Onboarded up by 3.5% this month <TrendingUp className="h-4 w-4" />
+          Resource Onboarded up by 3.5% this month{" "}
+          <TrendingUp className="h-4 w-4" />
         </div>
         <div className="leading-none text-muted-foreground">
           Overview of resource status in the organization
