@@ -62,6 +62,7 @@ namespace RMT_API.Data
 
 		#region Reports
 		public DbSet<ClientReports> ClientReports { get; set; }
+		public DbSet<SupplierReports> SupplierReports { get; set; }
 
 		#endregion Reports
 
@@ -83,7 +84,7 @@ namespace RMT_API.Data
 			.IsRequired();
 
 			modelBuilder.Entity<AcademicDetails>()
-			.HasIndex(a=>a.Name)
+			.HasIndex(a => a.Name)
 			.IsUnique();
 
 			modelBuilder.Entity<AcademicDetails>()
@@ -1049,6 +1050,7 @@ namespace RMT_API.Data
 
 
 			modelBuilder.Entity<ClientReports>().HasNoKey();
+			modelBuilder.Entity<SupplierReports>().HasNoKey();
 
 			#endregion Models
 
@@ -1097,8 +1099,8 @@ namespace RMT_API.Data
 			.OnDelete(DeleteBehavior.Cascade);
 
 			modelBuilder.Entity<BGVDocuments>()
-			.HasOne(b => b.Documents) 
-			.WithMany(d => d.BGV )  
+			.HasOne(b => b.Documents)
+			.WithMany(d => d.BGV)
 			.HasForeignKey(b => b.DocumentsID)
 			.OnDelete(DeleteBehavior.Cascade);
 
@@ -1158,7 +1160,7 @@ namespace RMT_API.Data
 						auditable.Created_Date = DateTime.UtcNow;
 						auditable.Created_By = 1;
 					}
-					else if(entry.Entity is ResourceIdentifier resourceIdentifier)
+					else if (entry.Entity is ResourceIdentifier resourceIdentifier)
 					{
 						resourceIdentifier.Created_Date = DateTime.UtcNow;
 						resourceIdentifier.Created_By = 1;

@@ -110,6 +110,7 @@ namespace RMT_API.Infrastructure
 			CreateMap<DomainRoleMappingDto, DomainRoleMapping>().ReverseMap();
 			CreateMap<ProjectBaseLineDto, ProjectBaseLine>().ReverseMap();
 			CreateMap<ClientReportsDto, ClientReports>().ReverseMap();
+			CreateMap<SupplierReportsDto, SupplierReports>().ReverseMap();
 
 		}
 	}

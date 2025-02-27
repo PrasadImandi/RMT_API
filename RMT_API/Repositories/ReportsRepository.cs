@@ -22,5 +22,22 @@ namespace RMT_API.Repositories
 
 			return clientReports;
 		}
+
+		public async Task<IEnumerable<SupplierReports>> GetSupplierReportsAsync(string filterType = "", string searchName = "", int pageNumber = 0, int pageSize = 0)
+		{
+			// Define the stored procedure call and pass parameters
+			var filterTypeParam = filterType;  // Ensure we pass an empty string if null
+			var searchNameParam = searchName;
+			var pageNumberParam = pageNumber;
+			var pageSizeParam = pageSize;
+
+			// Using FromSqlRaw for executing the stored procedure
+			var supplierReports = await _context.SupplierReports
+				.FromSqlRaw("Exec SearchSupplierReports @FilterType = {0}, @SearchName  = {1}, @PageNumber  = {2}, @PageSize = {3} ",
+					filterTypeParam, searchNameParam, pageNumberParam, pageSizeParam)
+				.ToListAsync();
+
+			return supplierReports;
+		}
 	}
 }

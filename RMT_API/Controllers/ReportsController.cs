@@ -16,12 +16,12 @@ namespace RMT_API.Controllers
 			return Ok(clientReports);
 		}
 
-		//[HttpGet("suppliers")]
-		//public async Task<IActionResult> GetAllSuppliers()
-		//{
-		//	var clients = await _clientService.GetAllClientsAsync();
-		//	return Ok(clients);
-		//}
+		[HttpGet("suppliers")]
+		public async Task<IActionResult> GetAllSuppliers(string? filterType, string? searchName, int pageNumber, int pageSize)
+		{
+			var clients = await _reportService.GetSupplierReportsAsync(filterType, searchName, pageNumber, pageSize);
+			return Ok(clients);
+		}
 
 		//[HttpGet("supplierContactMatrix")]
 		//public async Task<IActionResult> GetAllSupplierContactMatrices()
