@@ -15,6 +15,11 @@ namespace RMT_API.DTOs
 		public string? TimesheetCode { get; set; }
 		public bool? IsNotified { get; set; }
 		public bool? IsSubmit { get; set; }
+
+		public string? PMRemarks { get; set; }
+		public int? ApprovedBy { get; set; }
+		public DateTime? ApprovalDate { get; set; }
+
 		public List<ProjectTimesheetDetailDto>? ProjectTimesheetDetails { get; set; }
 	}
 }

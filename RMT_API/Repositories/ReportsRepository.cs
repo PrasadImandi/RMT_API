@@ -43,7 +43,7 @@ namespace RMT_API.Repositories
 		public async Task<IEnumerable<SupplierReports>> GetSupplierReportsAsync(string filterType = "", string searchName = "", int pageNumber = 0, int pageSize = 0)
 		{
 			// Define the stored procedure call and pass parameters
-			var filterTypeParam = filterType;  // Ensure we pass an empty string if null
+			var filterTypeParam = filterType;
 			var searchNameParam = searchName;
 			var pageNumberParam = pageNumber;
 			var pageSizeParam = pageSize;

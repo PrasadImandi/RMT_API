@@ -4,7 +4,7 @@ using RMT_API.Models;
 
 namespace RMT_API.Repositories
 {
-	public class TimesheetRepository(ApplicationDBContext _context) : ITimesheetRepository
+	public class TimesheetRepository(ApplicationDBContext _context, IGenericRepository<Timesheet> _repository) : ITimesheetRepository
 	{
 
 		public async Task<Timesheet> GetNextWeekTimesheet(int resourceId, DateTime startOfWeek)
@@ -108,6 +108,18 @@ namespace RMT_API.Repositories
 				diff += 7;
 
 			return date.AddDays(-diff).Date;
+		}
+
+		public async Task ApproveTimesheet(int id, string? status, string? remarks, DateTime? approvalDate, int? pmId)
+		{
+			var timesheet =await _repository.GetByIdAsNoTrackingAsync(id);
+
+			timesheet.PMRemarks = remarks;
+			timesheet.ApprovalDate = approvalDate;
+			timesheet.ApprovedBy = pmId;
+			timesheet.Status = status;
+
+			await _repository.UpdateAsync(timesheet);
 		}
 	}
 }

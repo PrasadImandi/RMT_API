@@ -84,6 +84,15 @@ namespace RMT_API.Controllers
 		}
 
 
+		[HttpPatch("approval")]
+		public async Task<IActionResult> ApproveTimesheet([FromBody] TimesheetDto timesheet)
+		{
+			await _service.ApproveTimesheetAsync(timesheet);
+
+			return NoContent();
+		}
+
+
 		[HttpGet("timesheet/{resourceId}/{startOfWeek}")]
 		public async Task<IActionResult> GetWeekTimesheetByStartDate(int resourceId, DateTime startOfWeek)
 		{

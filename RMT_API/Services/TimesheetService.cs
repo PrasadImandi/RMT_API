@@ -50,5 +50,10 @@ namespace RMT_API.Services
 			var response= await _timesheetRepository.GetNextWeekTimesheet(resourceId, startOfWeek);
 			return _mapper.Map<TimesheetDto>(response);
 		}
+
+		public async Task ApproveTimesheetAsync(TimesheetDto timesheet)
+		{
+			await _timesheetRepository.ApproveTimesheet(timesheet.ID, timesheet.Status, timesheet.PMRemarks, timesheet.ApprovalDate, timesheet.ApprovedBy);
+		}
 	}
 }
