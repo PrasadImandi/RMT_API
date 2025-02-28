@@ -23,6 +23,23 @@ namespace RMT_API.Repositories
 			return clientReports;
 		}
 
+		public async Task<IEnumerable<ResourceReports>> GetResourceReportsAsync(string filterType = "", string searchName = "", int pageNumber = 0, int pageSize = 0)
+		{
+			// Define the stored procedure call and pass parameters
+			var filterTypeParam = filterType;  // Ensure we pass an empty string if null
+			var searchNameParam = searchName;
+			var pageNumberParam = pageNumber;
+			var pageSizeParam = pageSize;
+
+			// Using FromSqlRaw for executing the stored procedure
+			var resourceReports = await _context.ResourceReports
+				.FromSqlRaw("Exec SearchResourceReports @FilterType = {0}, @SearchTerm  = {1}, @PageNumber  = {2}, @PageSize = {3} ",
+					filterTypeParam, searchNameParam, pageNumberParam, pageSizeParam)
+				.ToListAsync();
+
+			return resourceReports;
+		}
+
 		public async Task<IEnumerable<SupplierReports>> GetSupplierReportsAsync(string filterType = "", string searchName = "", int pageNumber = 0, int pageSize = 0)
 		{
 			// Define the stored procedure call and pass parameters

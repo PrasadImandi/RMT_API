@@ -30,11 +30,11 @@ namespace RMT_API.Controllers
 		//	return Ok(clients);
 		//}
 
-		//[HttpGet("resources")]
-		//public async Task<IActionResult> GetAllResources()
-		//{
-		//	var clients = await _resourceService.GetAllResourcesAsync();
-		//	return Ok(clients);
-		//}
+		[HttpGet("resources")]
+		public async Task<IActionResult> GetResourceReportsAsync(string? filterType, string? searchName, int pageNumber, int pageSize)
+		{
+			var clients = await _reportService.GetResourceReportsAsync(filterType,searchName,pageNumber,pageSize);
+			return Ok(clients);
+		}
 	}
 }

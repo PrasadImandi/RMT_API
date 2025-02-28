@@ -28,7 +28,6 @@ namespace RMT_API.Data
 		#endregion Master Tables
 
 		#region Tables
-
 		public DbSet<Client> Clients { get; set; }
 		public DbSet<ContactInformation> ContactInformation { get; set; }
 		public DbSet<DepartmentMaster> Departments { get; set; }
@@ -58,17 +57,15 @@ namespace RMT_API.Data
 		public DbSet<DomainRoleMapping> DomainRoleMappings { get; set; }
 		public DbSet<ProjectBaseLine> ProjectBaseLine { get; set; }
 
-
+		#endregion Tables
 
 		#region Reports
+		
 		public DbSet<ClientReports> ClientReports { get; set; }
 		public DbSet<SupplierReports> SupplierReports { get; set; }
+		public DbSet<ResourceReports> ResourceReports { get; set; }
 
 		#endregion Reports
-
-
-
-		#endregion Tables
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
@@ -1051,6 +1048,7 @@ namespace RMT_API.Data
 
 			modelBuilder.Entity<ClientReports>().HasNoKey();
 			modelBuilder.Entity<SupplierReports>().HasNoKey();
+			modelBuilder.Entity<ResourceReports>().HasNoKey();
 
 			#endregion Models
 
