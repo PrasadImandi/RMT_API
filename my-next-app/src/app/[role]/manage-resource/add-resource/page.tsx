@@ -143,7 +143,7 @@ const AddResource = () => {
             name="clientID"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Account Name (Client)</FormLabel>
+                <FormLabel>Account Name (Logo)</FormLabel>
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}

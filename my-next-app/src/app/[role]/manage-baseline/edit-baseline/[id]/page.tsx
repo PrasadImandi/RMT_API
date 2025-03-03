@@ -37,12 +37,12 @@ const EditBaseline = () => {
   const form = useForm<z.infer<typeof baselineFormSchema>>({
     resolver: zodResolver(baselineFormSchema),
     defaultValues: {
-      logo: "",
-      project: "",
+      logoID: "",
+      projectID: "",
       type: "",
-      domain: "",
-      role: "",
-      level: "",
+      domainID: "",
+      roleID: "",
+      levelID: "",
       baseline: 0,
       domainNameAsPerCustomer: "",
       notes: "",
@@ -87,12 +87,12 @@ const EditBaseline = () => {
     queryFn: async () => {
       const response = await api.get(`/baseline/${params.id}`);
       form.reset({
-        logo: response.data?.logo || "",
-        project: response.data?.project || "",
+        logoID: response.data?.logo || "",
+        projectID: response.data?.project || "",
         type: response.data?.type || "",
-        domain: response.data?.domain || "",
-        role: response.data?.role || "",
-        level: response.data?.level || "",
+        domainID: response.data?.domain || "",
+        roleID: response.data?.role || "",
+        levelID: response.data?.level || "",
         baseline: response.data?.baseline || 0,
         domainNameAsPerCustomer: response.data?.domainNameAsPerCustomer || "",
         notes: response.data?.notes || "",
@@ -129,7 +129,10 @@ const EditBaseline = () => {
       render={({ field }) => (
         <FormItem>
           <FormLabel>{label}</FormLabel>
-          <Select onValueChange={(value) => field.onChange(value)} value={field.value}>
+          <Select
+            onValueChange={(value) => field.onChange(value)}
+            value={field.value}
+          >
             <FormControl>
               <SelectTrigger>
                 <SelectValue placeholder={`Select ${label}`} />
@@ -157,12 +160,15 @@ const EditBaseline = () => {
     <div className="m-16 p-4 bg-white dark:bg-[#17171A]">
       <h1 className="text-2xl mb-6">Edit Baseline</h1>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 w-3/5">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="space-y-6 w-3/5"
+        >
           {/* Logo Dropdown */}
-          {renderDropdown("logo", "Logo *", logos)}
+          {renderDropdown("logoID", "Logo *", logos)}
 
           {/* Project Dropdown */}
-          {renderDropdown("project", "Project *", projects)}
+          {renderDropdown("projectID", "Project *", projects)}
 
           {/* Type Dropdown (static options) */}
           <FormField
@@ -171,7 +177,10 @@ const EditBaseline = () => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Type *</FormLabel>
-                <Select onValueChange={(value) => field.onChange(value)} value={field.value}>
+                <Select
+                  onValueChange={(value) => field.onChange(value)}
+                  value={field.value}
+                >
                   <FormControl>
                     <SelectTrigger>
                       <SelectValue placeholder="Select Type" />
@@ -191,13 +200,13 @@ const EditBaseline = () => {
           />
 
           {/* Domain Dropdown */}
-          {renderDropdown("domain", "Domain *", domain)}
+          {renderDropdown("domainID", "Domain *", domain)}
 
           {/* Role Dropdown */}
-          {renderDropdown("role", "Role *", domainroles)}
+          {renderDropdown("roleID", "Role *", domainroles)}
 
           {/* Level Dropdown */}
-          {renderDropdown("level", "Level *", domainLevels)}
+          {renderDropdown("levelID", "Level *", domainLevels)}
 
           {/* Baseline Number Input */}
           <FormField
@@ -207,7 +216,12 @@ const EditBaseline = () => {
               <FormItem>
                 <FormLabel>Baseline *</FormLabel>
                 <FormControl>
-                  <Input type="number" placeholder="Enter baseline" {...field} />
+                  <Input
+                    type="number"
+                    placeholder="Enter baseline"
+                    value={field.value}
+                    onChange={(e) => field.onChange(Number(e.target.value))}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -222,7 +236,10 @@ const EditBaseline = () => {
               <FormItem>
                 <FormLabel>Domain Name as per Customer *</FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter domain name as per customer" {...field} />
+                  <Input
+                    placeholder="Enter domain name as per customer"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>

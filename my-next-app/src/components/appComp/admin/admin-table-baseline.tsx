@@ -31,6 +31,8 @@ const AdminTableBaseline = () => {
     queryFn: BaselineApi.fetchBaselines,
   });
 
+  console.log(baselines)
+
   const deactivateBaseline = useMutation({
     mutationFn: BaselineApi.deactivateBaseline,
     onSuccess: () => {
@@ -49,12 +51,12 @@ const AdminTableBaseline = () => {
   const filteredData = baselines.filter((row) => {
     const lowerSearchTerm = searchTerm.toLowerCase();
     const matchesSearch =
-      (row.logo ?? "").toLowerCase().includes(lowerSearchTerm) ||
-      (row.project ?? "").toLowerCase().includes(lowerSearchTerm) ||
+      (row.logoName ?? "").toLowerCase().includes(lowerSearchTerm) ||
+      (row.projectName ?? "").toLowerCase().includes(lowerSearchTerm) ||
       (row.type ?? "").toLowerCase().includes(lowerSearchTerm) ||
-      (row.domain ?? "").toLowerCase().includes(lowerSearchTerm) ||
-      (row.role ?? "").toLowerCase().includes(lowerSearchTerm) ||
-      (row.level ?? "").toLowerCase().includes(lowerSearchTerm) ||
+      (row.domainName ?? "").toLowerCase().includes(lowerSearchTerm) ||
+      (row.roleName ?? "").toLowerCase().includes(lowerSearchTerm) ||
+      (row.levelName ?? "").toLowerCase().includes(lowerSearchTerm) ||
       (row.domainNameAsPerCustomer ?? "")
         .toLowerCase()
         .includes(lowerSearchTerm) ||
@@ -182,22 +184,22 @@ const AdminTableBaseline = () => {
                     {index + 1}
                   </TableCell>
                   <TableCell className="text-gray-800 dark:text-gray-200 font-medium">
-                    {row.logo}
+                    {row.logoName}
                   </TableCell>
                   <TableCell className="text-gray-800 dark:text-gray-200">
-                    {row.project}
+                    {row.projectName}
                   </TableCell>
                   <TableCell className="text-gray-600 dark:text-gray-400">
                     {row.type}
                   </TableCell>
                   <TableCell className="text-gray-600 dark:text-gray-400">
-                    {row.domain}
+                    {row.domainName}
                   </TableCell>
                   <TableCell className="text-gray-600 dark:text-gray-400">
-                    {row.role}
+                    {row.roleName}
                   </TableCell>
                   <TableCell className="text-gray-600 dark:text-gray-400">
-                    {row.level}
+                    {row.levelName}
                   </TableCell>
                   <TableCell className="text-gray-600 dark:text-gray-400">
                     {row.baseline}
