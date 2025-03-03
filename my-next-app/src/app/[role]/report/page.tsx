@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Clock, Calendar, Building2, Package, Briefcase, Users } from "lucide-react";
 import {ClientReports} from "@/components/appComp/reports/clientsReport";
 import { SupplierReports } from "@/components/appComp/reports/supplierReport";
+import { ResourceReports } from "@/components/appComp/reports/resouresReports";
 
 // Mock data for timesheet
 const getCurrentWeek = () => {
@@ -113,6 +114,9 @@ export default function ReportPage() {
         </TabsContent>
         <TabsContent value="suppliers">
         <SupplierReports />
+        </TabsContent>
+        <TabsContent value="resources">
+        <ResourceReports />
         </TabsContent>
       </Tabs>
     </div>
