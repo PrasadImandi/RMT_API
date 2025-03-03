@@ -4,7 +4,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Clock, Calendar } from "lucide-react";
+import { Clock, Calendar, Building2, Package, Briefcase, Users } from "lucide-react";
+import {ClientReports} from "@/components/appComp/reports/clientsReport";
+import { SupplierReports } from "@/components/appComp/reports/supplierReport";
 
 // Mock data for timesheet
 const getCurrentWeek = () => {
@@ -25,60 +27,6 @@ const timesheet = getCurrentWeek().map(day => ({
   status: day.getDay() === 0 || day.getDay() === 6 ? "Weekend" : "Completed"
 }));
 
-// Mock data for leaves
-const leaves = [
-  {
-    type: "Annual Leave",
-    total: 20,
-    used: 12,
-    pending: 2,
-    balance: 6
-  },
-  {
-    type: "Sick Leave",
-    total: 12,
-    used: 3,
-    pending: 0,
-    balance: 9
-  },
-  {
-    type: "Personal Leave",
-    total: 5,
-    used: 2,
-    pending: 1,
-    balance: 2
-  }
-];
-
-const appliedLeaves = [
-  {
-    id: 1,
-    type: "Annual Leave",
-    startDate: "2024-03-15",
-    endDate: "2024-03-16",
-    days: 2,
-    status: "Approved",
-    reason: "Family vacation"
-  },
-  {
-    id: 2,
-    type: "Sick Leave",
-    startDate: "2024-02-28",
-    endDate: "2024-02-28",
-    days: 1,
-    status: "Approved",
-    reason: "Doctor's appointment"
-  },
-  {
-    id: 3,
-    type: "Personal Leave",
-    startDate: "2024-03-20",
-    endDate: "2024-03-20",
-    days: 1,
-    status: "Pending",
-    reason: "Personal errands"
-  }
-];
 
 const getStatusBadge = (status: string) => {
   const styles = {
@@ -97,14 +45,26 @@ export default function ReportPage() {
       <h1 className="text-3xl font-bold mb-8">Employee Reports</h1>
       
       <Tabs defaultValue="timesheet" className="space-y-4">
-        <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="timesheet">
+      <TabsList className="grid w-full grid-cols-5">
+        <TabsTrigger value="timesheet">
             <Clock className="mr-2 h-4 w-4" />
             Timesheet
           </TabsTrigger>
-          <TabsTrigger value="leave">
-            <Calendar className="mr-2 h-4 w-4" />
-            Leave Management
+          <TabsTrigger value="clients">
+            <Building2 className="mr-2 h-4 w-4" />
+            Clients
+          </TabsTrigger>
+          <TabsTrigger value="suppliers">
+            <Package className="mr-2 h-4 w-4" />
+            Suppliers
+          </TabsTrigger>
+          <TabsTrigger value="resources">
+            <Users className="mr-2 h-4 w-4" />
+            Resources
+          </TabsTrigger>
+          <TabsTrigger value="projects">
+            <Briefcase className="mr-2 h-4 w-4" />
+            Projects
           </TabsTrigger>
         </TabsList>
 
@@ -148,74 +108,11 @@ export default function ReportPage() {
           </Card>
         </TabsContent>
 
-        <TabsContent value="leave">
-          <div className="grid gap-4 md:grid-cols-2">
-            <Card>
-              <CardHeader>
-                <CardTitle>Leave Balance</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Type</TableHead>
-                      <TableHead>Total</TableHead>
-                      <TableHead>Used</TableHead>
-                      <TableHead>Pending</TableHead>
-                      <TableHead>Balance</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {leaves.map((leave, index) => (
-                      <TableRow key={index}>
-                        <TableCell>{leave.type}</TableCell>
-                        <TableCell>{leave.total}</TableCell>
-                        <TableCell>{leave.used}</TableCell>
-                        <TableCell>{leave.pending}</TableCell>
-                        <TableCell className="font-medium">{leave.balance}</TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle>Applied Leaves</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Type</TableHead>
-                      <TableHead>Date</TableHead>
-                      <TableHead>Days</TableHead>
-                      <TableHead>Status</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {appliedLeaves.map((leave) => (
-                      <TableRow key={leave.id}>
-                        <TableCell>{leave.type}</TableCell>
-                        <TableCell>
-                          {leave.startDate === leave.endDate
-                            ? leave.startDate
-                            : `${leave.startDate} to ${leave.endDate}`}
-                        </TableCell>
-                        <TableCell>{leave.days}</TableCell>
-                        <TableCell>
-                          <Badge className={getStatusBadge(leave.status)}>
-                            {leave.status}
-                          </Badge>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </CardContent>
-            </Card>
-          </div>
+        <TabsContent value="clients">
+        <ClientReports />
+        </TabsContent>
+        <TabsContent value="suppliers">
+        <SupplierReports />
         </TabsContent>
       </Tabs>
     </div>
