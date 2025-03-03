@@ -43,7 +43,7 @@ namespace RMT_API.Services
 
 		public async Task ApproveOnboardingAsync(ResourceOnboardingDto resourceOnboarding)
 		{
-			await _onboardingRepository.ApproveLeaves(resourceOnboarding.ID, resourceOnboarding.Remarks, resourceOnboarding.ApprovedDate, resourceOnboarding.Status);
+			await _onboardingRepository.ApproveOnboarding(resourceOnboarding.ID, resourceOnboarding.Remarks, resourceOnboarding.ApprovedDate, resourceOnboarding.Status);
 		}
 	}
 }

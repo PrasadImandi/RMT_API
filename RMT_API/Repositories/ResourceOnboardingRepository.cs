@@ -1,6 +1,4 @@
-﻿
-using Microsoft.EntityFrameworkCore;
-using RMT_API.Models;
+﻿using RMT_API.Models;
 
 namespace RMT_API.Repositories
 {

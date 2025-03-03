@@ -50,6 +50,7 @@ namespace RMT_API.Infrastructure
 			services.AddScoped<IDomainRoleRepository, DomainRoleRepository>();
 			services.AddScoped<IReportsRepository, ReportsRepository>();
 			services.AddScoped<ILeavesRepository, LeavesRepository>();
+			services.AddScoped<IResourceOnboardingRepository, ResourceOnboardingRepository>();
 
 			// Register Services
 			services.AddScoped<IAccessTypeService, AccessTypeService>();
