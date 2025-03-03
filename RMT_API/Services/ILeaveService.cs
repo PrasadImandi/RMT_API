@@ -10,5 +10,6 @@ namespace RMT_API.Services
 		Task UpdateLeaveAsync(LeaveDto leave);
 		Task DeleteLeaveAsync(int id);
 		Task ChangeStatusLeaveAsync(LeaveDto leave);
+		Task ApproveLeavesAsync(LeaveDto leave);
 	}
 }

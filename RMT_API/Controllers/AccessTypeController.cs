@@ -6,10 +6,8 @@ namespace RMT_API.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-	public class AccessTypeController(IAccessTypeService service) : ControllerBase
+	public class AccessTypeController(IAccessTypeService _service) : ControllerBase
 	{
-		private readonly IAccessTypeService _service = service;
-
 		[HttpGet]
 		public async Task<IActionResult> GetAllAccessType()
 		{

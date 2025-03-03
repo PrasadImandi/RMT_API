@@ -6,10 +6,8 @@ namespace RMT_API.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-	public class SupplierController(ISupplierService service) : ControllerBase
+	public class SupplierController(ISupplierService _service) : ControllerBase
 	{
-		private readonly ISupplierService _service = service;
-
 		[HttpGet]
 		public async Task<IActionResult> GetAllSuppliers()
 		{

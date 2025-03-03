@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using RMT_API.DTOs;
 using RMT_API.Models;
 using RMT_API.Repositories;
@@ -24,7 +25,11 @@ namespace RMT_API.Services
 
 		public async Task<IEnumerable<ProjectBaseLineDto>> GetAllProjectBaseLinesAsync()
 		{
-			var response = await repository.GetAllAsync();
+			var response = await repository.GetAllWithChildrenAsync(query => query.Include(p => p.Client)
+																				.Include(p => p.Project)
+																				.Include(p => p.Domain)
+																				.Include(p => p.DomainRole)
+																				.Include(p => p.DomainLevel));
 			return mapper.Map<IEnumerable<ProjectBaseLineDto>>(response);
 		}
 

@@ -5,7 +5,7 @@ using RMT_API.Repositories;
 
 namespace RMT_API.Services
 {
-	public class LeaveService(IGenericRepository<Leave> _repository, IMapper _mapper) : ILeaveService
+	public class LeaveService(IGenericRepository<Leave> _repository, IMapper _mapper,ILeavesRepository _leavesRepository) : ILeaveService
 	{
 		public async Task AddLeaveAsync(LeaveDto leave)
 		{
@@ -37,6 +37,11 @@ namespace RMT_API.Services
 		public async Task ChangeStatusLeaveAsync(LeaveDto leave)
 		{
 			await _repository.ChangeStatusAsync(leave.ID, leave.IsActive);
+		}
+
+		public async Task ApproveLeavesAsync(LeaveDto leave)
+		{
+			await _leavesRepository.ApproveLeaves(leave.ID, leave.Remarks,leave.ApprovedDate,leave.Status);
 		}
 	}
 }

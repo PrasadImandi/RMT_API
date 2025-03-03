@@ -6,10 +6,8 @@ namespace RMT_API.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-	public class LeaveController(ILeaveService service) : ControllerBase
+	public class LeaveController(ILeaveService _service) : ControllerBase
 	{
-		private readonly ILeaveService _service = service;
-
 		[HttpGet]
 		public async Task<IActionResult> GetAllLeaves()
 		{
@@ -70,6 +68,13 @@ namespace RMT_API.Controllers
 
 			return NoContent();
 		}
-	}
 
+		[HttpPatch("approval")]
+		public async Task<IActionResult> ApproveLeaves([FromBody] LeaveDto leave)
+		{
+			await _service.ApproveLeavesAsync(leave);
+
+			return NoContent();
+		}
+	}
 }

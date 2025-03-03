@@ -1,4 +1,5 @@
 ﻿using RMT_API.Models.BaseModels;
+using System.Text.Json.Serialization;
 
 namespace RMT_API.Models
 {
@@ -13,5 +14,20 @@ namespace RMT_API.Models
 		public int Baseline { get; set; }
 		public string? DomainNameAsPerCustomer { get; set; }
 		public string? Notes { get; set; }
+
+		[JsonIgnore]
+		public virtual Project? Project { get; set; }
+
+		[JsonIgnore]
+		public virtual DomainMaster? Domain{ get; set; }
+
+		[JsonIgnore]
+		public virtual DomainRoleMaster? DomainRole { get; set; }
+
+		[JsonIgnore]
+		public virtual DomainLevelMaster? DomainLevel { get; set; }
+
+		[JsonIgnore]
+		public virtual Client? Client{ get; set; }
 	}
 }

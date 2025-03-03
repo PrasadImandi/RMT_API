@@ -6,10 +6,8 @@ namespace RMT_API.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-	public class PublicHolidaysController(IPublicHolidaysService service) : ControllerBase
+	public class PublicHolidaysController(IPublicHolidaysService _service) : ControllerBase
 	{
-		private readonly IPublicHolidaysService _service = service;
-
 		[HttpGet]
 		public async Task<IActionResult> GetAllPublicHolidays()
 		{

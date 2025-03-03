@@ -10,5 +10,8 @@ namespace RMT_API.Models
 		public DateTime EndDate { get; set; }
 		public string? Status { get; set; }
 		public int ApproverID { get; set; }
+
+		public string? Remarks { get; set; }
+		public DateTime? ApprovedDate { get; set; }
 	}
 }

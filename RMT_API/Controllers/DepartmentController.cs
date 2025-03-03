@@ -6,10 +6,8 @@ namespace RMT_API.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-	public class DepartmentController(IDepartmentsService service) : ControllerBase
+	public class DepartmentController(IDepartmentsService _service) : ControllerBase
 	{
-		private readonly IDepartmentsService _service = service;
-
 		[HttpGet]
 		public async Task<IActionResult> GetAllDepartments()
 		{

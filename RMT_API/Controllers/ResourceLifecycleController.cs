@@ -6,10 +6,8 @@ namespace RMT_API.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-	public class ResourceLifecycleController(IResourceLifecyclesService service) : ControllerBase
+	public class ResourceLifecycleController(IResourceLifecyclesService _service) : ControllerBase
 	{
-		private readonly IResourceLifecyclesService _service = service;
-
 		[HttpGet]
 		public async Task<IActionResult> GetAllResourceLifecycles()
 		{

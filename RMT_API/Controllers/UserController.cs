@@ -9,7 +9,6 @@ namespace RMT_API.Controllers
 	[ApiController]
 	public class UserController(IUsersService _service) : ControllerBase
 	{
-
 		[HttpGet]
 		public async Task<IActionResult> GetAllUsers()
 		{

@@ -6,10 +6,8 @@ namespace RMT_API.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-	public class ResourceOffboardingController(IResourceOffboardingsService service) : ControllerBase
+	public class ResourceOffboardingController(IResourceOffboardingsService _service) : ControllerBase
 	{
-		private readonly IResourceOffboardingsService _service = service;
-
 		[HttpGet]
 		public async Task<IActionResult> GetAllResourceOffboardings()
 		{

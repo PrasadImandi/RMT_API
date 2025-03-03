@@ -13,5 +13,12 @@ namespace RMT_API.DTOs
 		public int Baseline { get; set; }
 		public string? DomainNameAsPerCustomer { get; set; }
 		public string? Notes { get; set; }
+
+
+		public string? LogoName { get; set; }
+		public string? ProjectName { get; set; }
+		public string? DomainName { get; set; }
+		public string? RoleName { get; set; }
+		public string? LevelName { get; set; }
 	}
 }

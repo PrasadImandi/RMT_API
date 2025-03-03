@@ -6,10 +6,8 @@ namespace RMT_API.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-	public class ResourceDeploymentController(IResourceDeploymentsService service) : ControllerBase
+	public class ResourceDeploymentController(IResourceDeploymentsService _service) : ControllerBase
 	{
-		private readonly IResourceDeploymentsService _service = service;
-
 		[HttpGet]
 		public async Task<IActionResult> GetAllResourceDeployments()
 		{

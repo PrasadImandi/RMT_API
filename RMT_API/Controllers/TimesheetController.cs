@@ -6,10 +6,8 @@ namespace RMT_API.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-	public class TimesheetController(ITimesheetsService service) : ControllerBase
+	public class TimesheetController(ITimesheetsService _service) : ControllerBase
 	{
-		private readonly ITimesheetsService _service = service;
-
 		[HttpGet]
 		public async Task<IActionResult> GetAllTimesheets()
 		{

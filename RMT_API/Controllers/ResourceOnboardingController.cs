@@ -6,10 +6,8 @@ namespace RMT_API.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-	public class ResourceOnboardingController(IResourceOnboardingsService service) : ControllerBase
+	public class ResourceOnboardingController(IResourceOnboardingsService _service) : ControllerBase
 	{
-		private readonly IResourceOnboardingsService _service = service;
-
 		[HttpGet]
 		public async Task<IActionResult> GetAllResourceOnboardings()
 		{

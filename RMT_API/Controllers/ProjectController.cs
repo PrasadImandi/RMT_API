@@ -6,10 +6,8 @@ namespace RMT_API.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-	public class ProjectController(IProjectsService service) : ControllerBase
+	public class ProjectController(IProjectsService _service) : ControllerBase
 	{
-		private readonly IProjectsService _service = service;
-
 		[HttpGet]
 		public async Task<IActionResult> GetAllProjects()
 		{

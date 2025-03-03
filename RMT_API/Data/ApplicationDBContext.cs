@@ -60,7 +60,7 @@ namespace RMT_API.Data
 		#endregion Tables
 
 		#region Reports
-		
+
 		public DbSet<ClientReports> ClientReports { get; set; }
 		public DbSet<SupplierReports> SupplierReports { get; set; }
 		public DbSet<ResourceReports> ResourceReports { get; set; }
@@ -1118,13 +1118,36 @@ namespace RMT_API.Data
 				.HasForeignKey(dm => dm.RoleID) // Foreign key to DomainRole
 				.OnDelete(DeleteBehavior.Restrict); // Avoid cascading deletes
 
-			// If DomainID is a foreign key that relates to another entity (e.g., DomainMaster),
-			// you can set it up as well like so (assuming DomainMaster entity exists):
-			//modelBuilder.Entity<DomainRoleMapping>()
-			//	.HasOne<DomainMaster>(dm => dm.DomainMaster) // assuming DomainMaster exists
-			//	.WithMany() // DomainMaster can have multiple DomainRoleMappings
-			//	.HasForeignKey(dm => dm.DomainID)
-			//	.OnDelete(DeleteBehavior.Restrict);
+
+			modelBuilder.Entity<ProjectBaseLine>()
+			.HasOne(b => b.Client)
+			.WithOne()
+			.HasForeignKey<ProjectBaseLine>(b => b.LogoID)
+			.OnDelete(DeleteBehavior.SetNull);
+
+			modelBuilder.Entity<ProjectBaseLine>()
+			.HasOne(b => b.Project)
+			.WithOne()
+			.HasForeignKey<ProjectBaseLine>(b => b.ProjectID)
+			.OnDelete(DeleteBehavior.SetNull);
+
+			modelBuilder.Entity<ProjectBaseLine>()
+			.HasOne(b => b.Domain)
+			.WithOne()
+			.HasForeignKey<ProjectBaseLine>(b => b.DomainID)
+			.OnDelete(DeleteBehavior.SetNull);
+
+			modelBuilder.Entity<ProjectBaseLine>()
+			.HasOne(b => b.DomainRole)
+			.WithOne()
+			.HasForeignKey<ProjectBaseLine>(b => b.RoleID)
+			.OnDelete(DeleteBehavior.SetNull);
+
+			modelBuilder.Entity<ProjectBaseLine>()
+			.HasOne(b => b.DomainLevel)
+			.WithOne()
+			.HasForeignKey<ProjectBaseLine>(b => b.LevelID)
+			.OnDelete(DeleteBehavior.SetNull);
 
 			#endregion Relationships
 

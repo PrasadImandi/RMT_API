@@ -108,7 +108,17 @@ namespace RMT_API.Infrastructure
 
 
 			CreateMap<DomainRoleMappingDto, DomainRoleMapping>().ReverseMap();
-			CreateMap<ProjectBaseLineDto, ProjectBaseLine>().ReverseMap();
+			CreateMap<ProjectBaseLineDto, ProjectBaseLine>();
+
+			CreateMap<ProjectBaseLine, ProjectBaseLineDto>()
+				.ForMember(destination => destination.ProjectName, opt => opt.MapFrom(src => src.Project != null ? src.Project.Name : string.Empty))
+				.ForMember(destination => destination.LogoName, opt => opt.MapFrom(src => src.Client != null ? src.Client.Name : string.Empty))
+				.ForMember(destination => destination.DomainName, opt => opt.MapFrom(src => src.Domain != null ? src.Domain.Name : string.Empty))
+				.ForMember(destination => destination.RoleName, opt => opt.MapFrom(src => src.DomainRole != null ? src.DomainRole.Name : string.Empty))
+				.ForMember(destination => destination.LevelName, opt => opt.MapFrom(src => src.DomainLevel != null ? src.DomainLevel.Name : string.Empty));
+
+
+
 			CreateMap<ClientReportsDto, ClientReports>().ReverseMap();
 			CreateMap<SupplierReportsDto, SupplierReports>().ReverseMap();
 			CreateMap<ResourceReportsDto, ResourceReports>().ReverseMap();

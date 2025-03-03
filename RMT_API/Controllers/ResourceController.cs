@@ -6,10 +6,8 @@ namespace RMT_API.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-	public class ResourceController(IResourcesService service) : ControllerBase
+	public class ResourceController(IResourcesService _service) : ControllerBase
 	{
-		private readonly IResourcesService _service = service;
-
 		[HttpGet]
 		public async Task<IActionResult> GetAllResources()
 		{
@@ -28,8 +26,6 @@ namespace RMT_API.Controllers
 
 			return Ok(resource);
 		}
-
-		
 
 		[HttpGet("resources/{projectId}")]
 		public async Task<IActionResult> GetResourcesByProjectId(int projectId)
