@@ -3,12 +3,12 @@ import { z } from "zod";
 
 
 export const baselineFormSchema = z.object({
-    logo: z.string().min(1, "Logo is required."),
-    project: z.string().min(1, "Project is required."),
+    logoID: z.string().min(1, "Logo is required."),
+    projectID: z.string().min(1, "Project is required."),
     type: z.string().min(1, "Type is required."),
-    domain: z.string().min(1, "Domain is required."),
-    role: z.string().min(1, "Role is required."),
-    level: z.string().min(1, "Level is required."),
+    domainID: z.string().min(1, "Domain is required."),
+    roleID: z.string().min(1, "Role is required."),
+    levelID: z.string().min(1, "Level is required."),
     baseline: z.number().min(0, "Baseline must be a non-negative number."),
     domainNameAsPerCustomer: z.string().min(1, "Domain name as per customer is required."),
     notes: z.string().optional(),
@@ -16,12 +16,12 @@ export const baselineFormSchema = z.object({
 
   export interface BaselineRow{
     id: number;
-    logo: string;
-    project: string;
+    logoName: string;
+    projectName: string;
     type: string;
-    domain: string;
-    role: string;
-    level: string;
+    domainName: string;
+    roleName: string;
+    levelName: string;
     baseline: number;
     domainNameAsPerCustomer: string;
     notes?: string;

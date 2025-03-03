@@ -303,7 +303,7 @@ const AddProject = () => {
             name="clientID"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Client</FormLabel>
+                <FormLabel>Logo</FormLabel>
                 <div className="flex gap-2">
                   <Select
                     onValueChange={(value) => field.onChange(Number(value))}
@@ -328,12 +328,12 @@ const AddProject = () => {
                     </DialogTrigger>
                     <DialogContent>
                       <DialogHeader>
-                        <DialogTitle>Create New Client</DialogTitle>
+                        <DialogTitle>Create New Logo</DialogTitle>
                       </DialogHeader>
                       <div className="space-y-4">
                         <Input
                           id="clientName"
-                          placeholder="Client name"
+                          placeholder="Logo name"
                         />
                         <Button
                           onClick={() => {
@@ -343,7 +343,7 @@ const AddProject = () => {
                             if (name) createClient(name);
                           }}
                         >
-                          Create Client
+                          Create Logo
                         </Button>
                       </div>
                     </DialogContent>

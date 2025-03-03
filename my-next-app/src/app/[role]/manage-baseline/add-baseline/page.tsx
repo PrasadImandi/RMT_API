@@ -37,12 +37,12 @@ const AddBaseline = () => {
   const form = useForm<z.infer<typeof baselineFormSchema>>({
     resolver: zodResolver(baselineFormSchema),
     defaultValues: {
-      logo: "",
-      project: "",
+      logoID: "",
+      projectID: "",
       type: "",
-      domain: "",
-      role: "",
-      level: "",
+      domainID: "",
+      roleID: "",
+      levelID: "",
       baseline: 0,
       domainNameAsPerCustomer: "",
       notes: "",
@@ -94,7 +94,11 @@ const AddBaseline = () => {
 
   const onSubmit = (values: z.infer<typeof baselineFormSchema>) => {
     console.log(values);
-    createBaseline.mutate(values);
+    const payload = {
+      ...values,
+      isActive:true
+    }
+    createBaseline.mutate(payload);
   };
 
   // Helper to render dropdown fields for string-based values.
@@ -111,7 +115,7 @@ const AddBaseline = () => {
           <FormLabel>{label}</FormLabel>
           <Select
             onValueChange={(value) => field.onChange(value)}
-            value={field.value}
+            value={field.value  ? field.value.toString() : ""}
           >
             <FormControl>
               <SelectTrigger>
@@ -120,9 +124,9 @@ const AddBaseline = () => {
             </FormControl>
             <SelectContent>
               {items.map((item) => (
-                <SelectItem key={item.id} value={item.id}>
-                  {item.name}
-                </SelectItem>
+                <SelectItem key={item.id} value={item.id.toString()}>
+                {item.name}
+              </SelectItem>
               ))}
             </SelectContent>
           </Select>
@@ -138,10 +142,10 @@ const AddBaseline = () => {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 w-3/5">
           {/* Logo Dropdown */}
-          {renderDropdown("logo", "Logo *", logos)}
+          {renderDropdown("logoID", "Logo *", logos)}
 
           {/* Project Dropdown */}
-          {renderDropdown("project", "Project *", projects)}
+          {renderDropdown("projectID", "Project *", projects)}
 
           {/* Type Dropdown (static options) */}
           <FormField
@@ -173,13 +177,13 @@ const AddBaseline = () => {
           />
 
           {/* Domain Dropdown */}
-          {renderDropdown("domain", "Domain *", domain)}
+          {renderDropdown("domainID", "Domain *", domain)}
 
           {/* Role Dropdown */}
-          {renderDropdown("role", "Role *", domainroles)}
+          {renderDropdown("roleID", "Role *", domainroles)}
 
           {/* Level Dropdown */}
-          {renderDropdown("level", "Level *", domainLevels)}
+          {renderDropdown("levelID", "Level *", domainLevels)}
 
           {/* Baseline Number Input */}
           <FormField
@@ -192,7 +196,8 @@ const AddBaseline = () => {
                   <Input
                     type="number"
                     placeholder="Enter baseline"
-                    {...field}
+                    value={field.value}
+          onChange={(e) => field.onChange(Number(e.target.value))}
                   />
                 </FormControl>
                 <FormMessage />
