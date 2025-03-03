@@ -35,7 +35,12 @@ namespace RMT_API.Services
 
 		public async Task<ProjectBaseLineDto> GetProjectBaseLineByIdAsync(int id)
 		{
-			var response = await repository.GetByIdAsync(id);
+			var response = await repository.GetByIDWithChildrenAsync(p => p.ID == id,
+																	  query => query.Include(p => p.Client)
+																				.Include(p => p.Project)
+																				.Include(p => p.Domain)
+																				.Include(p => p.DomainRole)
+																				.Include(p => p.DomainLevel).AsNoTracking());
 			return mapper.Map<ProjectBaseLineDto>(response);
 		}
 
