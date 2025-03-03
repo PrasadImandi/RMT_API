@@ -68,6 +68,14 @@ namespace RMT_API.Controllers
 
 			return NoContent();
 		}
+
+		[HttpPatch("approval")]
+		public async Task<IActionResult> ApproveOnboarding([FromBody] ResourceOnboardingDto resourceOnboarding)
+		{
+			await _service.ApproveOnboardingAsync(resourceOnboarding);
+
+			return NoContent();
+		}
 	}
 
 }

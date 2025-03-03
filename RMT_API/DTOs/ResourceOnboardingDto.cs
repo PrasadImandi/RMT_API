@@ -12,5 +12,8 @@ namespace RMT_API.DTOs
 		public string? FileType { get; set; }
 		public int FileSize { get; set; }
 		public string? Notes { get; set; }
+		public string? Remarks { get; set; }
+		public string? Status { get; set; }
+		public DateTime? ApprovedDate { get; set; }
 	}
 }

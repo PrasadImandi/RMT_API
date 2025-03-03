@@ -10,5 +10,6 @@ namespace RMT_API.Services
 		Task UpdateResourceOnboardingAsync(ResourceOnboardingDto resourceOnboarding);
 		Task DeleteResourceOnboardingAsync(int id);
 		Task ChangeStatusResourceOnboardingAsync(ResourceOnboardingDto resourceOnboarding);
+		Task ApproveOnboardingAsync(ResourceOnboardingDto resourceOnboarding);
 	}
 }
