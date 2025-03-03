@@ -22,10 +22,10 @@
 		public string? EmergencyContactNumber { get; set; } 
 		public string? FathersName { get; set; } 
 		public string? MothersName { get; set; } 
-		public int? OverallExperience { get; set; } 
-		public int? Domain { get; set; } 
-		public int? Role { get; set; } 
-		public int? Level { get; set; } 
+		public int? OverallExperience { get; set; }
+		public string? Domain { get; set; }
+		public string? Role { get; set; }
+		public string? Level { get; set; }
 		public bool? AttendanceRequired { get; set; } 
 		public string? CWFID { get; set; } 
 		public string? OfficialEmailID { get; set; } 

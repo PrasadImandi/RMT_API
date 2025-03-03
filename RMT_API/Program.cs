@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using RMT_API.Data;
@@ -23,6 +24,10 @@ builder.Services.AddCors(options =>
 builder.Services.AddAutoMapper(typeof(Automapper).Assembly);
 
 builder.Services.AddControllers();
+builder.Services.Configure<FormOptions>(options =>
+{
+	options.MultipartBodyLengthLimit = 104857600; // 100 MB
+});
 
 // [TODO]: Implement authentication
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
