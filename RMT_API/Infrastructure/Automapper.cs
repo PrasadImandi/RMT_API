@@ -25,6 +25,7 @@ namespace RMT_API.Infrastructure
 			CreateMap<BaseDto, DomainMaster>().ReverseMap();
 			CreateMap<BaseDto, DomainRoleMaster>().ReverseMap();
 			CreateMap<BaseDto, DomainLevelMaster>().ReverseMap();
+			CreateMap<BaseDto, FormMaster>().ReverseMap();
 
 			CreateMap<BaseDto, DepartmentMaster>().ReverseMap();
 			CreateMap<LeaveDto, Leave>().ReverseMap();

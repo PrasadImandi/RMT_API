@@ -51,6 +51,7 @@ namespace RMT_API.Infrastructure
 			services.AddScoped<IReportsRepository, ReportsRepository>();
 			services.AddScoped<ILeavesRepository, LeavesRepository>();
 			services.AddScoped<IResourceOnboardingRepository, ResourceOnboardingRepository>();
+			services.AddScoped<IHelperRepository, HelperRepository>();
 
 			// Register Services
 			services.AddScoped<IAccessTypeService, AccessTypeService>();
@@ -78,6 +79,7 @@ namespace RMT_API.Infrastructure
 			services.AddScoped<IDomainRoleMappingService, DomainRoleMappingService>();
 			services.AddScoped<IReportsService, ReportsService>();
 			services.AddScoped<ILeaveService, LeaveService>();
+			services.AddScoped<IHelperService, HelperService>();
 
 			// Add more repositories and services as needed...
 		}
