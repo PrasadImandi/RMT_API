@@ -11,7 +11,7 @@
 		public string? ReportingManager { get; set; }
 		public string? SupplierName { get; set; }
 		public DateTime? JoiningDate { get; set; }
-		public int? JoiningLocation { get; set; }
+		public string? JoiningLocation { get; set; }
 		public string? Gender { get; set; }
 		public DateTime? DOB { get; set; }
 		public string? OfficialMailingAddress { get; set; }

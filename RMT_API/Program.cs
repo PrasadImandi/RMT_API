@@ -26,7 +26,7 @@ builder.Services.AddAutoMapper(typeof(Automapper).Assembly);
 builder.Services.AddControllers();
 builder.Services.Configure<FormOptions>(options =>
 {
-	options.MultipartBodyLengthLimit = 104857600; // 100 MB
+	options.MultipartBodyLengthLimit = 10 * 1024 * 1024; // 10 MB
 });
 
 // [TODO]: Implement authentication
@@ -63,7 +63,7 @@ if (app.Environment.IsDevelopment())
 	app.UseSwaggerUI();
 }
 
-//app.UseHttpsRedirection();
+app.UseHttpsRedirection();
 app.UseCors("AllowAll");
 // Add authentication middleware
 app.UseAuthentication();
