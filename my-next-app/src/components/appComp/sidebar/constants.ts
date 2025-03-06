@@ -13,6 +13,7 @@ import {
     Info,
     Users,
     Grid,
+    GraduationCap,
 } from 'lucide-react';
 
 export const MAIN_MENU: SidebarGroup = {
@@ -23,6 +24,8 @@ export const MAIN_MENU: SidebarGroup = {
   { href: "/admin/roster-management", icon: CalendarFold, label: "Roster Management" },
   { href: "/admin/apply-leaves", icon: CalendarDays, label: "Apply Leaves" },
   { href: "/admin/report", icon: Notebook, label: "Reports" },
+  { href: "/admin/master-table", icon: GraduationCap, label: "Master Table" },
+
 ]
 };
 
@@ -54,7 +57,7 @@ export const ADMIN_GROUPS: SidebarGroup =
         },
         {
           href: "/admin/manage-baseline",
-          icon: CalendarDaysIcon,
+          icon: GraduationCap,
           label: "Manage Baseline",
         },
     ]
