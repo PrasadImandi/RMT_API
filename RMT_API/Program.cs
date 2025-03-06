@@ -5,23 +5,31 @@ using Microsoft.IdentityModel.Tokens;
 using RMT_API.Data;
 using RMT_API.Infrastructure;
 using RMT_API.Middleware;
+using RMT_API.Services;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddDbContext<ApplicationDBContext>(options =>
-	options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddDbContext<ApplicationDBContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddServices();
-builder.Services.AddCors(options =>
+
+string sasUrl = builder.Configuration.GetValue<string>("BlobSasUrl") ??"";
+builder.Services.AddScoped<IBlobStorageService>(provider =>
 {
-	options.AddPolicy("AllowAll",
-		builder => builder.WithOrigins("http://localhost:3000", "http://localhost:3001")
-						  .AllowAnyMethod()   // Allow any HTTP method (GET, POST, etc.)
-						  .AllowAnyHeader() // Allow any header
-						  .AllowCredentials()); 
-});
+	return new BlobStorageService(sasUrl);
+}); 
+
+builder.Services.AddCors(options =>
+									{
+										options.AddPolicy("AllowAll",
+											builder => builder.WithOrigins("http://localhost:3000", "http://localhost:3001")
+															  .AllowAnyMethod()   // Allow any HTTP method (GET, POST, etc.)
+															  .AllowAnyHeader() // Allow any header
+															  .AllowCredentials());
+									});
 builder.Services.AddAutoMapper(typeof(Automapper).Assembly);
+
 
 builder.Services.AddControllers();
 builder.Services.Configure<FormOptions>(options =>
@@ -29,7 +37,7 @@ builder.Services.Configure<FormOptions>(options =>
 	options.MultipartBodyLengthLimit = 10 * 1024 * 1024; // 10 MB
 });
 
-// [TODO]: Implement authentication
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 	.AddJwtBearer(options =>
 	{
@@ -46,7 +54,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 		};
 	});
 
-// Add authorization services
 builder.Services.AddAuthorization();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
