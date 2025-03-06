@@ -149,9 +149,205 @@ namespace RMT_API.Services
 			throw new NotImplementedException();
 		}
 
-		public Task UpdateMasterAsync(string MasterType, BaseDto master)
+		public async Task UpdateMasterAsync(string MasterType, BaseDto master)
 		{
-			throw new NotImplementedException();
+			IEnumerable<BaseDto> result = new List<BaseDto>();
+
+			if (MasterType.Equals("ContactType", StringComparison.OrdinalIgnoreCase))
+			{
+				var _repository = _repositoryFactory.GetRepository<ContactTypeMaster>();
+				var item = await _repository.GetByIdAsync(master.ID);
+				if (item != null)
+				{
+					item.ID = master.ID;
+					item.Name = master.Name;
+					item.IsActive = master.IsActive;
+
+					await _repository.UpdateAsync(item);
+				}
+			}
+			else if (MasterType.Equals("DeliveryMotion", StringComparison.OrdinalIgnoreCase))
+			{
+				var _repository = _repositoryFactory.GetRepository<DeliveryMotionMaster>();
+				var item = await _repository.GetByIdAsync(master.ID);
+				if (item != null)
+				{
+					item.ID = master.ID;
+					item.Name = master.Name;
+					item.IsActive = master.IsActive;
+
+					await _repository.UpdateAsync(item);
+				}
+			}
+			else if (MasterType.Equals("Domain", StringComparison.OrdinalIgnoreCase))
+			{
+				var _repository = _repositoryFactory.GetRepository<DomainMaster>();
+				var item = await _repository.GetByIdAsync(master.ID);
+				if (item != null)
+				{
+					item.ID = master.ID;
+					item.Name = master.Name;
+					item.IsActive = master.IsActive;
+
+					await _repository.UpdateAsync(item);
+				}
+			}
+			else if (MasterType.Equals("DomainLevel", StringComparison.OrdinalIgnoreCase))
+			{
+				var _repository = _repositoryFactory.GetRepository<DomainLevelMaster>();
+				var item = await _repository.GetByIdAsync(master.ID);
+				if (item != null)
+				{
+					item.ID = master.ID;
+					item.Name = master.Name;
+					item.IsActive = master.IsActive;
+
+					await _repository.UpdateAsync(item);
+				}
+			}
+			else if (MasterType.Equals("DomainRole", StringComparison.OrdinalIgnoreCase))
+			{
+				var _repository = _repositoryFactory.GetRepository<DomainRoleMaster>();
+				var item = await _repository.GetByIdAsync(master.ID);
+				if (item != null)
+				{
+					item.ID = master.ID;
+					item.Name = master.Name;
+					item.IsActive = master.IsActive;
+
+					await _repository.UpdateAsync(item);
+				}
+			}
+			else if (MasterType.Equals("Forms", StringComparison.OrdinalIgnoreCase))
+			{
+				var _repository = _repositoryFactory.GetRepository<FormMaster>();
+				var item = await _repository.GetByIdAsync(master.ID);
+				if (item != null)
+				{
+					item.ID = master.ID;
+					item.Name = master.Name;
+					item.IsActive = master.IsActive;
+
+					await _repository.UpdateAsync(item);
+				}
+			}
+			else if (MasterType.Equals("LaptopProvider", StringComparison.OrdinalIgnoreCase))
+			{
+				var _repository = _repositoryFactory.GetRepository<LaptopProviderMaster>();
+				var item = await _repository.GetByIdAsync(master.ID);
+				if (item != null)
+				{
+					item.ID = master.ID;
+					item.Name = master.Name;
+					item.IsActive = master.IsActive;
+
+					await _repository.UpdateAsync(item);
+				}
+			}
+			else if (MasterType.Equals("LeaveType", StringComparison.OrdinalIgnoreCase))
+			{
+				var _repository = _repositoryFactory.GetRepository<LeaveTypeMaster>();
+				var item = await _repository.GetByIdAsync(master.ID);
+				if (item != null)
+				{
+					item.ID = master.ID;
+					item.Name = master.Name;
+					item.IsActive = master.IsActive;
+
+					await _repository.UpdateAsync(item);
+				}
+			}
+			else if (MasterType.Equals("Location", StringComparison.OrdinalIgnoreCase))
+			{
+				var _repository = _repositoryFactory.GetRepository<LocationMaster>();
+				var item = await _repository.GetByIdAsync(master.ID);
+				if (item != null)
+				{
+					item.ID = master.ID;
+					item.Name = master.Name;
+					item.IsActive = master.IsActive;
+
+					await _repository.UpdateAsync(item);
+				}
+			}
+			else if (MasterType.Equals("ManagerType", StringComparison.OrdinalIgnoreCase))
+			{
+				var _repository = _repositoryFactory.GetRepository<ManagerTypeMaster>();
+				var item = await _repository.GetByIdAsync(master.ID);
+				if (item != null)
+				{
+					item.ID = master.ID;
+					item.Name = master.Name;
+					item.IsActive = master.IsActive;
+
+					await _repository.UpdateAsync(item);
+				}
+			}
+			else if (MasterType.Equals("PinCode", StringComparison.OrdinalIgnoreCase))
+			{
+				var _repository = _repositoryFactory.GetRepository<PincodeMaster>();
+				var item = await _repository.GetByIdAsync(master.ID);
+				if (item != null)
+				{
+					item.ID = master.ID;
+					item.Name = master.Name;
+					item.IsActive = master.IsActive;
+
+					await _repository.UpdateAsync(item);
+				}
+			}
+			else if (MasterType.Equals("publicHolidays", StringComparison.OrdinalIgnoreCase))
+			{
+				var _repository = _repositoryFactory.GetRepository<PublicHolidayMaster>();
+				var item = await _repository.GetByIdAsync(master.ID);
+				if (item != null)
+				{
+					item.ID = master.ID;
+					item.Name = master.Name;
+					item.IsActive = master.IsActive;
+
+					await _repository.UpdateAsync(item);
+				}
+			}
+			else if (MasterType.Equals("regions", StringComparison.OrdinalIgnoreCase))
+			{
+				var _repository = _repositoryFactory.GetRepository<RegionMater>();
+				var item = await _repository.GetByIdAsync(master.ID);
+				if (item != null)
+				{
+					item.ID = master.ID;
+					item.Name = master.Name;
+					item.IsActive = master.IsActive;
+
+					await _repository.UpdateAsync(item);
+				}
+			}
+			else if (MasterType.Equals("segments", StringComparison.OrdinalIgnoreCase))
+			{
+				var _repository = _repositoryFactory.GetRepository<SegmentMaster>();
+				var item = await _repository.GetByIdAsync(master.ID);
+				if (item != null)
+				{
+					item.ID = master.ID;
+					item.Name = master.Name;
+					item.IsActive = master.IsActive;
+
+					await _repository.UpdateAsync(item);
+				}
+			}
+			else if (MasterType.Equals("supportType", StringComparison.OrdinalIgnoreCase))
+			{
+				var _repository = _repositoryFactory.GetRepository<SupportTypeMaster>();
+				var item = await _repository.GetByIdAsync(master.ID);
+				if (item != null)
+				{
+					item.ID = master.ID;
+					item.Name = master.Name;
+					item.IsActive = master.IsActive;
+
+					await _repository.UpdateAsync(item);
+				}
+			}
 		}
 	}
 }
