@@ -104,91 +104,91 @@ namespace RMT_API.Services
 			if (MasterType.Equals("ContactType", StringComparison.OrdinalIgnoreCase))
 			{
 				var _repository = _repositoryFactory.GetRepository<ContactTypeMaster>();
-				var response = await _repository.GetAllActiveAsync();
+				var response = await _repository.GetAllAsync();
 				result = _mapper.Map<IEnumerable<BaseDto>>(response);
 			}
 			else if (MasterType.Equals("DeliveryMotion", StringComparison.OrdinalIgnoreCase))
 			{
 				var _repository = _repositoryFactory.GetRepository<DeliveryMotionMaster>();
-				var response = await _repository.GetAllActiveAsync();
+				var response = await _repository.GetAllAsync();
 				result = _mapper.Map<IEnumerable<BaseDto>>(response);
 			}
 			else if (MasterType.Equals("Domain", StringComparison.OrdinalIgnoreCase))
 			{
 				var _repository = _repositoryFactory.GetRepository<DomainMaster>();
-				var response = await _repository.GetAllActiveAsync();
+				var response = await _repository.GetAllAsync();
 				result = _mapper.Map<IEnumerable<BaseDto>>(response);
 			}
 			else if (MasterType.Equals("DomainLevel", StringComparison.OrdinalIgnoreCase))
 			{
 				var _repository = _repositoryFactory.GetRepository<DomainLevelMaster>();
-				var response = await _repository.GetAllActiveAsync();
+				var response = await _repository.GetAllAsync();
 				result = _mapper.Map<IEnumerable<BaseDto>>(response);
 			}
 			else if (MasterType.Equals("DomainRole", StringComparison.OrdinalIgnoreCase))
 			{
 				var _repository = _repositoryFactory.GetRepository<DomainRoleMaster>();
-				var response = await _repository.GetAllActiveAsync();
+				var response = await _repository.GetAllAsync();
 				result = _mapper.Map<IEnumerable<BaseDto>>(response);
 			}
 			else if (MasterType.Equals("Forms", StringComparison.OrdinalIgnoreCase))
 			{
 				var _repository = _repositoryFactory.GetRepository<FormMaster>();
-				var response = await _repository.GetAllActiveAsync();
+				var response = await _repository.GetAllAsync();
 				result = _mapper.Map<IEnumerable<BaseDto>>(response);
 			}
 			else if (MasterType.Equals("LaptopProvider", StringComparison.OrdinalIgnoreCase))
 			{
 				var _repository = _repositoryFactory.GetRepository<LaptopProviderMaster>();
-				var response = await _repository.GetAllActiveAsync();
+				var response = await _repository.GetAllAsync();
 				result = _mapper.Map<IEnumerable<BaseDto>>(response);
 			}
 			else if (MasterType.Equals("LeaveType", StringComparison.OrdinalIgnoreCase))
 			{
 				var _repository = _repositoryFactory.GetRepository<LeaveTypeMaster>();
-				var response = await _repository.GetAllActiveAsync();
+				var response = await _repository.GetAllAsync();
 				result = _mapper.Map<IEnumerable<BaseDto>>(response);
 			}
 			else if (MasterType.Equals("Location", StringComparison.OrdinalIgnoreCase))
 			{
 				var _repository = _repositoryFactory.GetRepository<LocationMaster>();
-				var response = await _repository.GetAllActiveAsync();
+				var response = await _repository.GetAllAsync();
 				result = _mapper.Map<IEnumerable<BaseDto>>(response);
 			}
 			else if (MasterType.Equals("ManagerType", StringComparison.OrdinalIgnoreCase))
 			{
 				var _repository = _repositoryFactory.GetRepository<ManagerTypeMaster>();
-				var response = await _repository.GetAllActiveAsync();
+				var response = await _repository.GetAllAsync();
 				result = _mapper.Map<IEnumerable<BaseDto>>(response);
 			}
 			else if (MasterType.Equals("PinCode", StringComparison.OrdinalIgnoreCase))
 			{
 				var _repository = _repositoryFactory.GetRepository<PincodeMaster>();
-				var response = await _repository.GetAllActiveAsync();
+				var response = await _repository.GetAllAsync();
 				result = _mapper.Map<IEnumerable<BaseDto>>(response);
 			}
 			else if (MasterType.Equals("publicHolidays", StringComparison.OrdinalIgnoreCase))
 			{
 				var _repository = _repositoryFactory.GetRepository<PublicHolidayMaster>();
-				var response = await _repository.GetAllActiveAsync();
+				var response = await _repository.GetAllAsync();
 				result = _mapper.Map<IEnumerable<BaseDto>>(response);
 			}
 			else if (MasterType.Equals("regions", StringComparison.OrdinalIgnoreCase))
 			{
 				var _repository = _repositoryFactory.GetRepository<RegionMater>();
-				var response = await _repository.GetAllActiveAsync();
+				var response = await _repository.GetAllAsync();
 				result = _mapper.Map<IEnumerable<BaseDto>>(response);
 			}
 			else if (MasterType.Equals("segment", StringComparison.OrdinalIgnoreCase))
 			{
 				var _repository = _repositoryFactory.GetRepository<SegmentMaster>();
-				var response = await _repository.GetAllActiveAsync();
+				var response = await _repository.GetAllAsync();
 				result = _mapper.Map<IEnumerable<BaseDto>>(response);
 			}
 			else if (MasterType.Equals("supportType", StringComparison.OrdinalIgnoreCase))
 			{
 				var _repository = _repositoryFactory.GetRepository<SupportTypeMaster>();
-				var response = await _repository.GetAllActiveAsync();
+				var response = await _repository.GetAllAsync();
 				result = _mapper.Map<IEnumerable<BaseDto>>(response);
 			}
 
