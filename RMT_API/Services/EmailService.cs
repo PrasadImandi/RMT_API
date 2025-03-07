@@ -23,19 +23,12 @@ namespace RMT_API.Services
 			{
 				Text = "This is a test email sent using MailKit and Office 365 SMTP."
 			};
-			try
+			using (var client = new SmtpClient())
 			{
-				using (var client = new SmtpClient())
-				{
-					await client.ConnectAsync(_smtpServer, _smtpPort, false);  // Port 587 for TLS
-					await client.AuthenticateAsync(_username, _password);
-					await client.SendAsync(emailMessage);
-					await client.DisconnectAsync(true);
-				}
-			}
-			catch (Exception ex)
-			{
-
+				await client.ConnectAsync(_smtpServer, _smtpPort, false);  // Port 587 for TLS
+				await client.AuthenticateAsync(_username, _password);
+				await client.SendAsync(emailMessage);
+				await client.DisconnectAsync(true);
 			}
 		}
 	}

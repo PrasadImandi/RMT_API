@@ -1149,6 +1149,36 @@ namespace RMT_API.Data
 			.HasForeignKey<ProjectBaseLine>(b => b.LevelID)
 			.OnDelete(DeleteBehavior.SetNull);
 
+			modelBuilder.Entity<Client>()
+			.HasOne(b => b.RegionMater)
+			.WithOne()
+			.HasForeignKey<Client>(b => b.RegionID)
+			.OnDelete(DeleteBehavior.SetNull);
+
+			modelBuilder.Entity<Client>()
+			.HasOne(b => b.StateMaster)
+			.WithOne()
+			.HasForeignKey<Client>(b => b.StateID)
+			.OnDelete(DeleteBehavior.SetNull);
+
+			modelBuilder.Entity<Client>()
+			.HasOne(b => b.LocationMaster)
+			.WithOne()
+			.HasForeignKey<Client>(b => b.LocationID)
+			.OnDelete(DeleteBehavior.SetNull);
+
+			modelBuilder.Entity<Client>()
+			.HasOne(b => b.PincodeMaster)
+			.WithOne()
+			.HasForeignKey<Client>(b => b.PincodeID)
+			.OnDelete(DeleteBehavior.SetNull);
+
+			modelBuilder.Entity<Client>()
+			.HasOne(b => b.SPOC)
+			.WithOne()
+			.HasForeignKey<Client>(b => b.SPOCID)
+			.OnDelete(DeleteBehavior.SetNull);
+
 			#endregion Relationships
 
 			base.OnModelCreating(modelBuilder);

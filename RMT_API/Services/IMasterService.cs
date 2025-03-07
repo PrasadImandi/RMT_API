@@ -4,7 +4,7 @@ namespace RMT_API.Services
 {
 	public interface IMasterService
 	{
-		Task<IEnumerable<BaseDto>> GetAllMastersAsync(string MasterType);
+		Task<IEnumerable<BaseDto>> GetAllMastersAsync(string MasterType, string searchText, int pageNumber, int pageSize);
 		Task AddMasterAsync(string MasterType,BaseDto master);
 		Task UpdateMasterAsync(string MasterType, BaseDto master);
 		Task DeleteMasterAsync(string MasterType, int id);

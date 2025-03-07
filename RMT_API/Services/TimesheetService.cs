@@ -21,11 +21,10 @@ namespace RMT_API.Services
 			await _repository.DeleteAsync(id);
 		}
 
-		public async Task<IEnumerable<TimesheetDto>> GetAllTimesheetsAsync()
+		public async Task<IEnumerable<TimesheetDto>> GetAllTimesheetsAsync(string searchText, int pageNumber, int pageSize)
 		{
-			var response = await _repository.GetAllWithChildrenAsync(query => query.Include(p => p.ProjectTimesheetDetails)
-																					 .ThenInclude(dm => dm.TimesheetDetails)
-																					 );
+			var response = await _repository.GetAllAsync(query => query.Include(p => p.ProjectTimesheetDetails!)
+																				   .ThenInclude(dm => dm.TimesheetDetails));
 			return _mapper.Map<IEnumerable<TimesheetDto>>(response);
 		}
 

@@ -54,7 +54,6 @@ namespace RMT_API.Infrastructure
 			services.AddScoped<IHelperRepository, HelperRepository>();
 
 			// Register Services
-			services.AddScoped<IAccessTypeService, AccessTypeService>();
 			services.AddScoped<IProjectsService, ProjectsService>();
 			services.AddScoped<IEmailService, EmailService>();
 			services.AddScoped<IClientService, ClientService>();
@@ -76,7 +75,6 @@ namespace RMT_API.Infrastructure
 			services.AddScoped<IManagerService, ManagerService>();
 			services.AddScoped<IMasterService, MasterService>();
 			services.AddScoped<IProjectBaseLineService, ProjectBaseLineService>();
-			services.AddScoped<IDomainRoleMappingService, DomainRoleMappingService>();
 			services.AddScoped<IReportsService, ReportsService>();
 			services.AddScoped<ILeaveService, LeaveService>();
 			services.AddScoped<IHelperService, HelperService>();

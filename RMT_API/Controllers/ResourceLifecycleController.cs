@@ -9,9 +9,9 @@ namespace RMT_API.Controllers
 	public class ResourceLifecycleController(IResourceLifecyclesService _service) : ControllerBase
 	{
 		[HttpGet]
-		public async Task<IActionResult> GetAllResourceLifecycles()
+		public async Task<IActionResult> GetAllResourceLifecycles(string searchText="", int pageNumber = 0, int pageSize = 10)
 		{
-			var resourceLifecycles = await _service.GetAllResourceLifecyclesAsync();
+			var resourceLifecycles = await _service.GetAllResourceLifecyclesAsync(searchText, pageNumber, pageSize);
 			return Ok(resourceLifecycles);
 		}
 

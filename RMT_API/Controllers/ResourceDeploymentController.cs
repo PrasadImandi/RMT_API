@@ -9,9 +9,9 @@ namespace RMT_API.Controllers
 	public class ResourceDeploymentController(IResourceDeploymentsService _service) : ControllerBase
 	{
 		[HttpGet]
-		public async Task<IActionResult> GetAllResourceDeployments()
+		public async Task<IActionResult> GetAllResourceDeployments(string searchText="", int pageNumber = 0, int pageSize = 10)
 		{
-			var resourceDeployments = await _service.GetAllResourceDeploymentsAsync();
+			var resourceDeployments = await _service.GetAllResourceDeploymentsAsync(searchText, pageNumber, pageSize);
 			return Ok(resourceDeployments);
 		}
 

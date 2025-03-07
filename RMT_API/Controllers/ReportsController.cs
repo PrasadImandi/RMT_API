@@ -5,19 +5,18 @@ namespace RMT_API.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-	public class ReportsController(IReportsService _reportService
-									) : ControllerBase
+	public class ReportsController(IReportsService _reportService) : ControllerBase
 	{
 
 		[HttpGet("clients")]
-		public async Task<IActionResult> GetAllClients(string? filterType, string? searchName, int pageNumber, int pageSize)
+		public async Task<IActionResult> GetAllClients(string filterType, string searchName = "", int pageNumber = 0, int pageSize = 10)
 		{
 			var clientReports = await _reportService.GetClientReportsAsync(filterType, searchName, pageNumber, pageSize);
 			return Ok(clientReports);
 		}
 
 		[HttpGet("suppliers")]
-		public async Task<IActionResult> GetAllSuppliers(string? filterType, string? searchName, int pageNumber, int pageSize)
+		public async Task<IActionResult> GetAllSuppliers(string filterType, string searchName = "", int pageNumber = 0, int pageSize = 10)
 		{
 			var clients = await _reportService.GetSupplierReportsAsync(filterType, searchName, pageNumber, pageSize);
 			return Ok(clients);
@@ -31,9 +30,9 @@ namespace RMT_API.Controllers
 		//}
 
 		[HttpGet("resources")]
-		public async Task<IActionResult> GetResourceReportsAsync(string? filterType, string? searchName, int pageNumber, int pageSize)
+		public async Task<IActionResult> GetResourceReportsAsync(string filterType, string searchName = "", int pageNumber = 0, int pageSize = 10)
 		{
-			var clients = await _reportService.GetResourceReportsAsync(filterType,searchName,pageNumber,pageSize);
+			var clients = await _reportService.GetResourceReportsAsync(filterType, searchName, pageNumber, pageSize);
 			return Ok(clients);
 		}
 	}

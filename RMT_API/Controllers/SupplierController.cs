@@ -9,9 +9,9 @@ namespace RMT_API.Controllers
 	public class SupplierController(ISupplierService _service) : ControllerBase
 	{
 		[HttpGet]
-		public async Task<IActionResult> GetAllSuppliers()
+		public async Task<IActionResult> GetAllSuppliers(string searchText = "", int pageNumber = 0, int pageSize = 10)
 		{
-			var suppliers = await _service.GetAllSuppliersAsync();
+			var suppliers = await _service.GetAllSuppliersAsync(searchText, pageNumber, pageSize);
 			return Ok(suppliers);
 		}
 

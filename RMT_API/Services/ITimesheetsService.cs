@@ -5,7 +5,7 @@ namespace RMT_API.Services
 {
 	public interface ITimesheetsService
 	{
-		Task<IEnumerable<TimesheetDto>> GetAllTimesheetsAsync();
+		Task<IEnumerable<TimesheetDto>> GetAllTimesheetsAsync(string searchText, int pageNumber, int pageSize);
 		Task<TimesheetDto> GetTimesheetByIdAsync(int id);
 		Task AddTimesheetAsync(TimesheetDto timesheet);
 		Task UpdateTimesheetAsync(TimesheetDto timesheet);

@@ -12,10 +12,17 @@ namespace RMT_API.Models
 		public string? Notes { get; set; }
 
 
-		public int RegionID { get; set; }
-		public int StateID { get; set; }
-		public int LocationID { get; set; }
-		public int PincodeID { get; set; }
+		public int? RegionID { get; set; }
+		public int? StateID { get; set; }
+		public int? LocationID { get; set; }
+		public int? PincodeID { get; set; }
 		public int? SPOCID { get; set; }
+
+
+		public virtual RegionMater? RegionMater { get; set; }
+		public virtual StateMaster? StateMaster { get; set; }
+		public virtual LocationMaster? LocationMaster { get; set; }
+		public virtual PincodeMaster? PincodeMaster { get; set; }
+		public virtual SPOC? SPOC { get; set; }
 	}
 }

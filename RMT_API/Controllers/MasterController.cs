@@ -11,9 +11,9 @@ namespace RMT_API.Controllers
 	public class MasterController(IMasterService _service) : ControllerBase
 	{
 		[HttpGet("{type}")]
-		public async Task<IActionResult> GetAllMaster(string type)
+		public async Task<IActionResult> GetAllMaster(string type, string searchText="", int pageNumber = 0, int pageSize = 10)
 		{
-			var Master = await _service.GetAllMastersAsync(type);
+			var Master = await _service.GetAllMastersAsync(type, searchText, pageNumber, pageSize);
 			return Ok(Master);
 		}
 

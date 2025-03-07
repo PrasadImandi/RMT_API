@@ -13,7 +13,7 @@ namespace RMT_API.Repositories
 			.Select(mapping => mapping.DomainRole)
 			.ToListAsync();
 
-			return domainRoles;
+			return domainRoles!;
 		}
 	}
 }

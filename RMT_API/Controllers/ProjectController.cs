@@ -9,9 +9,9 @@ namespace RMT_API.Controllers
 	public class ProjectController(IProjectsService _service) : ControllerBase
 	{
 		[HttpGet]
-		public async Task<IActionResult> GetAllProjects()
+		public async Task<IActionResult> GetAllProjects(string searchText = "", int pageNumber = 0, int pageSize = 10)
 		{
-			var projects = await _service.GetAllProjectsAsync();
+			var projects = await _service.GetAllProjectsAsync(searchText, pageNumber, pageSize);
 			return Ok(projects);
 		}
 

@@ -38,9 +38,11 @@ namespace RMT_API.Services
 			await _repository.DeleteAsync(id);
 		}
 
-		public async Task<IEnumerable<ResourceDto>> GetAllResourcesAsync()
+		public async Task<IEnumerable<ResourceDto>> GetAllResourcesAsync(string searchText, int pageNumber = 0, int pageSize = 10)
 		{
-			var response = await _repository.GetAllAsync();
+			var response = await _repository.GetAllAsync(query => query.Where(p => p.FirstName!.Contains(searchText) || p.LastName!.Contains(searchText))
+																	  .Skip(pageNumber * pageSize)
+																	  .Take(pageSize));
 			var activeresources = _mapper.Map<IEnumerable<ResourceDto>>(response);
 			return activeresources;
 		}

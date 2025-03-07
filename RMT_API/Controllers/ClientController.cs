@@ -9,14 +9,14 @@ namespace RMT_API.Controllers
 	public class ClientController(IClientService _service) : ControllerBase
 	{
 		[HttpGet]
-		public async Task<IActionResult> GetAllClients()
+		public async Task<IActionResult> GetAllClientsAsync(string searchText="", int pageNumber = 0, int pageSize = 10)
 		{
-			var clients = await _service.GetAllClientsAsync();
+			var clients = await _service.GetAllClientsAsync(searchText, pageNumber, pageSize);
 			return Ok(clients);
 		}
 
 		[HttpGet("{id}")]
-		public async Task<IActionResult> GetClient(int id)
+		public async Task<IActionResult> GetClientAsync(int id)
 		{
 			var client = await _service.GetClientByIdAsync(id);
 			if (client == null)
@@ -28,7 +28,7 @@ namespace RMT_API.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> CreateClient([FromBody] ClientDto client)
+		public async Task<IActionResult> CreateClientAsync([FromBody] ClientDto client)
 		{
 			if (client == null)
 			{
@@ -37,11 +37,11 @@ namespace RMT_API.Controllers
 
 			await _service.AddClientAsync(client);
 
-			return CreatedAtAction(nameof(GetClient), new { id = client.ID }, client);
+			return CreatedAtAction(nameof(GetClientAsync), new { id = client.ID }, client);
 		}
 
 		[HttpPut("{id}")]
-		public async Task<IActionResult> UpdateClient(int id, [FromBody] ClientDto client)
+		public async Task<IActionResult> UpdateClientAsync(int id, [FromBody] ClientDto client)
 		{
 			if (id != client.ID)
 			{
@@ -54,7 +54,7 @@ namespace RMT_API.Controllers
 		}
 
 		[HttpDelete("{id}")]
-		public async Task<IActionResult> DeleteClient(int id)
+		public async Task<IActionResult> DeleteClientAsync(int id)
 		{
 			await _service.DeleteClientAsync(id);
 
@@ -62,7 +62,7 @@ namespace RMT_API.Controllers
 		}
 
 		[HttpPatch]
-		public async Task<IActionResult> ChangeStatusClient([FromBody] ClientDto client)
+		public async Task<IActionResult> ChangeStatusClientAsync([FromBody] ClientDto client)
 		{
 			await _service.ChangeStatusClientAsync(client);
 

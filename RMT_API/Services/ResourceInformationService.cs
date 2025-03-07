@@ -49,14 +49,14 @@ namespace RMT_API.Services
 
 		public async Task<ResourceInformationDto> GetResourceInformationByIdAsync(int id)
 		{
-			var response = await repository.GetByIDWithChildrenAsync(p => p.ID == id,
+			var response = await repository.GetSingleAsync(p => p.ID == id,
 																	  query => query.Include(p => p.Personal)
 																					.Include(p => p.Professional)
 																					.Include(p => p.AcademicDetails)
 																					.Include(p => p.Documents)
-																					.ThenInclude(dm => dm.BGV)
+																					.ThenInclude(dm => dm!.BGV)
 																					.Include(p => p.Documents)
-																					.ThenInclude(dm => dm.Joining)
+																					.ThenInclude(dm => dm!.Joining)
 																					.Include(p => p.Certifications));
 
 			return mapper.Map<ResourceInformationDto>(response);
@@ -64,14 +64,14 @@ namespace RMT_API.Services
 
 		public async Task UpdateResourceInfoAsync(ResourceInformationDto resourceInformation)
 		{
-			var response = await repository.GetByIDWithChildrenAsync(p => p.ID == resourceInformation.ID,
+			var response = await repository.GetSingleAsync(p => p.ID == resourceInformation.ID,
 																	  query => query.Include(p => p.Personal)
 																					.Include(p => p.Professional)
 																					.Include(p => p.AcademicDetails)
 																					.Include(p => p.Documents)
-																					.ThenInclude(dm => dm.BGV)
+																					.ThenInclude(dm => dm!.BGV)
 																					.Include(p => p.Documents)
-																					.ThenInclude(dm => dm.Joining)
+																					.ThenInclude(dm => dm!.Joining)
 																					.Include(p => p.Certifications).AsNoTracking());
 
 			response = mapper.Map<ResourceInformation>(resourceInformation);

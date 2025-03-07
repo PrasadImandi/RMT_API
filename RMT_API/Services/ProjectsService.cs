@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MailKit.Search;
 using Microsoft.EntityFrameworkCore;
 using RMT_API.DTOs;
 using RMT_API.Models;
@@ -18,14 +19,17 @@ namespace RMT_API.Services
 			await _repository.DeleteAsync(id);
 		}
 
-		public async Task<IEnumerable<ProjectDto>> GetAllProjectsAsync()
+		public async Task<IEnumerable<ProjectDto>> GetAllProjectsAsync(string searchText, int pageNumber = 0, int pageSize = 10)
 		{
-			var response = await  _repository.GetAllWithChildrenAsync(query => query.Include(p => p.PM)
-																				.Include(p=>p.Client)
-																				.Include(p=>p.RM)
-																				.Include(p=>p.Segment)
-																				.Include(p=>p.DeleiveryMotion)
-																				.Include(p=>p.SupportType));
+			var response = await _repository.GetAllAsync(query => query.Include(p => p.PM)
+																				.Include(p => p.Client)
+																				.Include(p => p.RM)
+																				.Include(p => p.Segment)
+																				.Include(p => p.DeleiveryMotion)
+																				.Include(p => p.SupportType)
+																				.Where(p => p.Name!.Contains(searchText))
+																				.Skip(pageNumber * pageSize)
+																				.Take(pageSize));
 
 			var activeProjects = _mapper.Map<IEnumerable<ProjectDto>>(response);
 

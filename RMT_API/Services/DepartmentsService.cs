@@ -2,6 +2,7 @@
 using RMT_API.DTOs.BaseDtos;
 using RMT_API.Models;
 using RMT_API.Repositories;
+using System.Linq;
 
 namespace RMT_API.Services
 {
@@ -17,9 +18,11 @@ namespace RMT_API.Services
 			await _repository.DeleteAsync(id);
 		}
 
-		public async Task<IEnumerable<BaseDto>> GetAllDepartmentsAsync()
+		public async Task<IEnumerable<BaseDto>> GetAllDepartmentsAsync(string searchText, int pageNumber, int pageSize)
 		{
-			var response = await _repository.GetAllAsync();
+			var response = await _repository.GetAllAsync(query => query.Where(p => p.Name!.Contains(searchText))
+			.Skip(pageNumber * pageSize)
+			.Take(pageSize));
 			return _mapper.Map<IEnumerable<BaseDto>>(response);
 		}
 

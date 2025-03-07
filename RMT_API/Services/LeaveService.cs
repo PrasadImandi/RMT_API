@@ -5,7 +5,7 @@ using RMT_API.Repositories;
 
 namespace RMT_API.Services
 {
-	public class LeaveService(IGenericRepository<Leave> _repository, IMapper _mapper,ILeavesRepository _leavesRepository) : ILeaveService
+	public class LeaveService(IGenericRepository<Leave> _repository, IMapper _mapper, ILeavesRepository _leavesRepository) : ILeaveService
 	{
 		public async Task AddLeaveAsync(LeaveDto leave)
 		{
@@ -17,9 +17,10 @@ namespace RMT_API.Services
 			await _repository.DeleteAsync(id);
 		}
 
-		public async Task<IEnumerable<LeaveDto>> GetAllLeavesAsync()
+		public async Task<IEnumerable<LeaveDto>> GetAllLeavesAsync(string searchText, int pageNumber, int pageSize)
 		{
-			var response = await _repository.GetAllAsync();
+			var response = await _repository.GetAllAsync(query => query.Skip(pageNumber * pageSize)
+			.Take(pageSize));
 			return _mapper.Map<IEnumerable<LeaveDto>>(response);
 		}
 
@@ -41,7 +42,7 @@ namespace RMT_API.Services
 
 		public async Task ApproveLeavesAsync(LeaveDto leave)
 		{
-			await _leavesRepository.ApproveLeaves(leave.ID, leave.Remarks,leave.ApprovedDate,leave.Status);
+			await _leavesRepository.ApproveLeaves(leave.ID, leave.Remarks, leave.ApprovedDate, leave.Status);
 		}
 	}
 }

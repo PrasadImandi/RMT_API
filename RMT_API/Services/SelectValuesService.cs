@@ -19,63 +19,63 @@ namespace RMT_API.Services
 	{
 		public async Task<IEnumerable<BaseDto>> ClientIDNameListAsync()
 		{
-			var clients =await _clientRepository.GetAllActiveAsync();
+			var clients =await _clientRepository.GetAllAsync();
 
 			return _mapper.Map<IEnumerable<BaseDto>>(clients);
 		}
 
 		public async Task<IEnumerable<BaseDto>> StateIDNameListAsync()
 		{
-			var clients = await _stateRepository.GetAllActiveAsync();
+			var clients = await _stateRepository.GetAllAsync();
 
 			return _mapper.Map<IEnumerable<BaseDto>>(clients);
 		}
 
 		public async Task<IEnumerable<BaseDto>> PinCodeIDNameListAsync()
 		{
-			var clients = await _pincodeRepository.GetAllActiveAsync();
+			var clients = await _pincodeRepository.GetAllAsync();
 
 			return _mapper.Map<IEnumerable<BaseDto>>(clients);
 		}
 
 		public async Task<IEnumerable<BaseDto>> RegionIDNameListAsync()
 		{
-			var clients = await _regionRepository.GetAllActiveAsync();
+			var clients = await _regionRepository.GetAllAsync();
 
 			return _mapper.Map<IEnumerable<BaseDto>>(clients);
 		}
 
 		public async Task<IEnumerable<BaseDto>> SPOCIDNameListAsync()
 		{
-			var clients = await _spocRepository.GetAllActiveAsync();
+			var clients = await _spocRepository.GetAllAsync();
 
 			return _mapper.Map<IEnumerable<BaseDto>>(clients);
 		}
 
 		public async Task<IEnumerable<BaseDto>> LocationIDNameListAsync()
 		{
-			var locations = await _locationRepository.GetAllActiveAsync();
+			var locations = await _locationRepository.GetAllAsync();
 
 			return _mapper.Map<IEnumerable<BaseDto>>(locations);
 		}
 
 		public async Task<IEnumerable<BaseDto>> DomainIDNameListAsync()
 		{
-			var domains = await _domainRepository.GetAllActiveAsync();
+			var domains = await _domainRepository.GetAllAsync();
 
 			return _mapper.Map<IEnumerable<BaseDto>>(domains);
 		}
 
 		public async Task<IEnumerable<BaseDto>> DomainRoleIDNameListAsync()
 		{
-			var domainroles = await _domainRoleRepository.GetAllActiveAsync();
+			var domainroles = await _domainRoleRepository.GetAllAsync();
 
 			return _mapper.Map<IEnumerable<BaseDto>>(domainroles);
 		}
 
 		public async Task<IEnumerable<BaseDto>> DomainLevelIDNameListAsync()
 		{
-			var domainlevels = await _domainlevelRepository.GetAllActiveAsync();
+			var domainlevels = await _domainlevelRepository.GetAllAsync();
 
 			return _mapper.Map<IEnumerable<BaseDto>>(domainlevels);
 		}

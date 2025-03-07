@@ -12,7 +12,13 @@ namespace RMT_API.Infrastructure
 		public Automapper()
 		{
 			CreateMap<AccessTypeMasterDto, AccessTypeMaster>().ReverseMap();
-			CreateMap<ClientDto, Client>().ReverseMap();
+			CreateMap<ClientDto, Client>();
+			CreateMap<Client, ClientDto>()
+				.ForMember(destination => destination.RegionName, opt => opt.MapFrom(src => src.RegionMater != null ? src.RegionMater.Name : string.Empty))
+				.ForMember(destination => destination.SPOCName, opt => opt.MapFrom(src => src.SPOC != null ? src.SPOC.Name : string.Empty))
+				.ForMember(destination => destination.StateName, opt => opt.MapFrom(src => src.StateMaster != null ? src.StateMaster.Name : string.Empty))
+				.ForMember(destination => destination.Pincode, opt => opt.MapFrom(src => src.PincodeMaster != null ? src.PincodeMaster.Name : string.Empty))
+				.ForMember(destination => destination.LocationName, opt => opt.MapFrom(src => src.LocationMaster != null ? src.LocationMaster.Name : string.Empty));
 
 			CreateMap<BaseDto, Client>().ReverseMap();
 			CreateMap<BaseDto, ContactTypeMaster>().ReverseMap();

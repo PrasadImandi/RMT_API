@@ -9,9 +9,9 @@ namespace RMT_API.Controllers
 	public class ResourceOffboardingController(IResourceOffboardingsService _service) : ControllerBase
 	{
 		[HttpGet]
-		public async Task<IActionResult> GetAllResourceOffboardings()
+		public async Task<IActionResult> GetAllResourceOffboardings(string searchText="", int pageNumber = 0, int pageSize = 10)
 		{
-			var resourceOffboardings = await _service.GetAllResourceOffboardingsAsync();
+			var resourceOffboardings = await _service.GetAllResourceOffboardingsAsync(searchText, pageNumber, pageSize);
 			return Ok(resourceOffboardings);
 		}
 

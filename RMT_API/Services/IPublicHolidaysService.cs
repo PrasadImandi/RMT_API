@@ -8,7 +8,7 @@ namespace RMT_API.Services
 
 		Task DeletePublicHolidayAsync(int id);
 
-		Task<IEnumerable<PublicHolidayDto>> GetAllPublicHolidaysAsync();
+		Task<IEnumerable<PublicHolidayDto>> GetAllPublicHolidaysAsync(string searchText, int pageNumber, int pageSize);
 
 		Task<PublicHolidayDto> GetPublicHolidayByIdAsync(int id);
 

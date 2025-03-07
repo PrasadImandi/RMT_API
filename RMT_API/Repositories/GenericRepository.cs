@@ -11,21 +11,27 @@ namespace RMT_API.Repositories
 	{
 		private readonly DbSet<T> _dbSet = _context.Set<T>();
 
+
 		public async Task<IEnumerable<T>> GetAllAsync()
 		{
 			return await _dbSet.ToListAsync();
 		}
 
-		public async Task<List<T>> GetAllWithChildrenAsync(Func<IQueryable<T>, IQueryable<T>> includeChildren)
+		public async Task<IEnumerable<T>> GetAllAsync(Func<IQueryable<T>, IQueryable<T>> includeQuery)
 		{
 			IQueryable<T> query = (IQueryable<T>)_dbSet;
 
-			query = includeChildren(query);
+			query = includeQuery(query);
 
 			return await query.ToListAsync();
 		}
+		public async Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate)
+		{
+			var response = await _dbSet.Where(predicate).ToListAsync();
+			return response;
+		}
 
-		public async Task<T> GetByIDWithChildrenAsync(Expression<Func<T, bool>> whereConditions, Func<IQueryable<T>, IQueryable<T>>? includeChildren = null)
+		public async Task<T> GetSingleAsync(Expression<Func<T, bool>> whereConditions, Func<IQueryable<T>, IQueryable<T>>? includeChildren = null)
 		{
 			IQueryable<T> query = (IQueryable<T>)_dbSet;
 
@@ -46,10 +52,11 @@ namespace RMT_API.Repositories
 			return response!;
 		}
 
-		public async Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate)
+		public async Task<T> GetByIdAsNoTrackingAsync(int id)
 		{
-			var response = await _dbSet.Where(predicate).ToListAsync();
-			return response;
+			var entity = await _dbSet.AsNoTracking()
+									 .FirstOrDefaultAsync(e => EF.Property<int>(e, "ID") == id);
+			return entity!;
 		}
 
 		public async Task<T> AddAsync(T entity)
@@ -76,13 +83,6 @@ namespace RMT_API.Repositories
 			}
 		}
 
-		public async Task<T> GetByIdAsNoTrackingAsync(int id)
-		{
-			var entity = await _dbSet.AsNoTracking()
-									  .FirstOrDefaultAsync(e => EF.Property<int>(e, "ID") == id);
-			return entity!;
-		}
-
 		public async Task ChangeStatusAsync(int id, bool? status)
 		{
 			var entity = await GetByIdAsNoTrackingAsync(id) ?? throw new Exception("Entity not found");
@@ -106,14 +106,6 @@ namespace RMT_API.Repositories
 
 			_context.Entry(entity).State = EntityState.Modified;
 			await _context.SaveChangesAsync();
-		}
-
-		public async Task<IEnumerable<T>> GetAllActiveAsync()
-		{
-			var entities = await _dbSet.AsNoTracking()
-									  .Where(e => EF.Property<bool>(e, "IsActive") == true).ToListAsync();
-
-			return entities;
 		}
 	}
 }

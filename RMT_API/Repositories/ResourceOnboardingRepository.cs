@@ -13,9 +13,9 @@ namespace RMT_API.Repositories
 				resourceOnboarding.Remarks = remarks;
 				resourceOnboarding.ApprovedDate = ApprovedDate;
 				resourceOnboarding.Status = status;
-			}
 
-			await _repository.UpdateAsync(resourceOnboarding);
+				await _repository.UpdateAsync(resourceOnboarding);
+			}
 		}
 	}
 }

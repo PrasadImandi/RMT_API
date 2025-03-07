@@ -9,9 +9,9 @@ namespace RMT_API.Controllers
 	public class ProjectBaselineController(IProjectBaseLineService _service) : ControllerBase
 	{
 		[HttpGet]
-		public async Task<IActionResult> GetAllProjectBaseLine()
+		public async Task<IActionResult> GetAllProjectBaseLine(string searchText = "", int pageNumber = 0, int pageSize = 10)
 		{
-			var ProjectBaseLine = await _service.GetAllProjectBaseLinesAsync();
+			var ProjectBaseLine = await _service.GetAllProjectBaseLinesAsync(searchText, pageNumber, pageSize);
 			return Ok(ProjectBaseLine);
 		}
 

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MailKit.Search;
 using RMT_API.DTOs;
 using RMT_API.DTOs.BaseDtos;
 using RMT_API.Models;
@@ -23,9 +24,11 @@ namespace RMT_API.Services
 			await repository.DeleteAsync(id);
 		}
 
-		public async Task<IEnumerable<BaseDto>> GetAllRegionsAsync()
+		public async Task<IEnumerable<BaseDto>> GetAllRegionsAsync(string searchText, int pageNumber, int pageSize)
 		{
-			var response = await repository.GetAllAsync();
+			var response = await repository.GetAllAsync(query => query.Where(p => p.Name!.Contains(searchText))
+			.Skip(pageNumber * pageSize)
+			.Take(pageSize));
 			return mapper.Map<IEnumerable<BaseDto>>(response);
 		}
 

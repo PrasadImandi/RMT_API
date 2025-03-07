@@ -5,7 +5,7 @@ namespace RMT_API.Services
 {
 	public interface IDepartmentsService
 	{
-		Task<IEnumerable<BaseDto>> GetAllDepartmentsAsync();
+		Task<IEnumerable<BaseDto>> GetAllDepartmentsAsync(string searchText, int pageNumber, int pageSize);
 		Task<BaseDto> GetDepartmentByIdAsync(int id);
 		Task AddDepartmentAsync(BaseDto department);
 		Task UpdateDepartmentAsync(BaseDto department);

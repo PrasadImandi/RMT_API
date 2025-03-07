@@ -4,7 +4,7 @@ namespace RMT_API.Services
 {
 	public interface IResourceOnboardingsService
 	{
-		Task<IEnumerable<ResourceOnboardingDto>> GetAllResourceOnboardingsAsync();
+		Task<IEnumerable<ResourceOnboardingDto>> GetAllResourceOnboardingsAsync(string searchText, int pageNumber, int pageSize);
 		Task<ResourceOnboardingDto> GetResourceOnboardingByIdAsync(int id);
 		Task AddResourceOnboardingAsync(ResourceOnboardingDto resourceOnboarding);
 		Task UpdateResourceOnboardingAsync(ResourceOnboardingDto resourceOnboarding);

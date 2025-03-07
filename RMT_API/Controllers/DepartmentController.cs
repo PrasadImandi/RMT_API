@@ -9,9 +9,9 @@ namespace RMT_API.Controllers
 	public class DepartmentController(IDepartmentsService _service) : ControllerBase
 	{
 		[HttpGet]
-		public async Task<IActionResult> GetAllDepartments()
+		public async Task<IActionResult> GetAllDepartments(string searchText = "", int pageNumber = 0, int pageSize = 10)
 		{
-			var departments = await _service.GetAllDepartmentsAsync();
+			var departments = await _service.GetAllDepartmentsAsync(searchText, pageNumber , pageSize);
 			return Ok(departments);
 		}
 

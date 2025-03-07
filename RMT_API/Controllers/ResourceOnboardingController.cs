@@ -9,9 +9,9 @@ namespace RMT_API.Controllers
 	public class ResourceOnboardingController(IResourceOnboardingsService _service) : ControllerBase
 	{
 		[HttpGet]
-		public async Task<IActionResult> GetAllResourceOnboardings()
+		public async Task<IActionResult> GetAllResourceOnboardings(string searchText = "", int pageNumber = 0, int pageSize = 10)
 		{
-			var resourceOnboardings = await _service.GetAllResourceOnboardingsAsync();
+			var resourceOnboardings = await _service.GetAllResourceOnboardingsAsync(searchText, pageNumber, pageSize);
 			return Ok(resourceOnboardings);
 		}
 

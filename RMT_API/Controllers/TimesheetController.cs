@@ -9,9 +9,9 @@ namespace RMT_API.Controllers
 	public class TimesheetController(ITimesheetsService _service) : ControllerBase
 	{
 		[HttpGet]
-		public async Task<IActionResult> GetAllTimesheets()
+		public async Task<IActionResult> GetAllTimesheets(string searchText = "", int pageNumber = 0, int pageSize = 10)
 		{
-			var timesheets = await _service.GetAllTimesheetsAsync();
+			var timesheets = await _service.GetAllTimesheetsAsync(searchText, pageNumber, pageSize);
 			return Ok(timesheets);
 		}
 
