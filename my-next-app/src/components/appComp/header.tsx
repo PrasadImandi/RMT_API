@@ -17,7 +17,7 @@ const Header: React.FC = () => {
     >
       <div className="flex items-center space-x-3">
         <img
-          src="/HPE-Logo.png"
+          src="/PeoplePulseFinal1.png"
           height={70}
           width={70}
           alt="Logo"
