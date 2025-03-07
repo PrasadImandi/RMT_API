@@ -33,6 +33,57 @@ namespace RMT_API.Services
 			{
 				var _repository = _repositoryFactory.GetRepository<DomainLevelMaster>();
 				await _repository.AddAsync(_mapper.Map<DomainLevelMaster>(master));
+
+			}
+			else if (MasterType.Equals("Forms", StringComparison.OrdinalIgnoreCase))
+			{
+				var _repository = _repositoryFactory.GetRepository<FormMaster>();
+				await _repository.AddAsync(_mapper.Map<FormMaster>(master));
+			}
+			else if (MasterType.Equals("LaptopProvider", StringComparison.OrdinalIgnoreCase))
+			{
+				var _repository = _repositoryFactory.GetRepository<LaptopProviderMaster>();
+				await _repository.AddAsync(_mapper.Map<LaptopProviderMaster>(master));
+			}
+			else if (MasterType.Equals("LeaveType", StringComparison.OrdinalIgnoreCase))
+			{
+				var _repository = _repositoryFactory.GetRepository<LeaveTypeMaster>();
+				await _repository.AddAsync(_mapper.Map<LeaveTypeMaster>(master));
+			}
+			else if (MasterType.Equals("Location", StringComparison.OrdinalIgnoreCase))
+			{
+				var _repository = _repositoryFactory.GetRepository<LocationMaster>();
+				await _repository.AddAsync(_mapper.Map<LocationMaster>(master));
+			}
+			else if (MasterType.Equals("ManagerType", StringComparison.OrdinalIgnoreCase))
+			{
+				var _repository = _repositoryFactory.GetRepository<ManagerTypeMaster>();
+				await _repository.AddAsync(_mapper.Map<ManagerTypeMaster>(master));
+			}
+			else if (MasterType.Equals("PinCode", StringComparison.OrdinalIgnoreCase))
+			{
+				var _repository = _repositoryFactory.GetRepository<PincodeMaster>();
+				await _repository.AddAsync(_mapper.Map<PincodeMaster>(master));
+			}
+			else if (MasterType.Equals("publicHolidays", StringComparison.OrdinalIgnoreCase))
+			{
+				var _repository = _repositoryFactory.GetRepository<PublicHolidayMaster>();
+				await _repository.AddAsync(_mapper.Map<PublicHolidayMaster>(master));
+			}
+			else if (MasterType.Equals("regions", StringComparison.OrdinalIgnoreCase))
+			{
+				var _repository = _repositoryFactory.GetRepository<RegionMater>();
+				await _repository.AddAsync(_mapper.Map<RegionMater>(master));
+			}
+			else if (MasterType.Equals("segment", StringComparison.OrdinalIgnoreCase))
+			{
+				var _repository = _repositoryFactory.GetRepository<SegmentMaster>();
+				await _repository.AddAsync(_mapper.Map<SegmentMaster>(master));
+			}
+			else if (MasterType.Equals("supportType", StringComparison.OrdinalIgnoreCase))
+			{
+				var _repository = _repositoryFactory.GetRepository<SupportTypeMaster>();
+				await _repository.AddAsync(_mapper.Map<SupportTypeMaster>(master));
 			}
 		}
 
@@ -128,7 +179,7 @@ namespace RMT_API.Services
 				var response = await _repository.GetAllActiveAsync();
 				result = _mapper.Map<IEnumerable<BaseDto>>(response);
 			}
-			else if (MasterType.Equals("segments", StringComparison.OrdinalIgnoreCase))
+			else if (MasterType.Equals("segment", StringComparison.OrdinalIgnoreCase))
 			{
 				var _repository = _repositoryFactory.GetRepository<SegmentMaster>();
 				var response = await _repository.GetAllActiveAsync();
