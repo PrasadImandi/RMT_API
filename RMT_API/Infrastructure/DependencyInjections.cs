@@ -64,7 +64,6 @@ namespace RMT_API.Infrastructure
 			services.AddScoped<IResourceOnboardingsService, ResourceOnboardingsService>();
 			services.AddScoped<ITimesheetsService, TimesheetsService>();
 			services.AddScoped<IUsersService, UsersService>();
-			services.AddScoped<ISelectValuesService, SelectValuesService>();
 			services.AddScoped<ISupplierService, SupplierService>();
 			services.AddScoped<IPublicHolidaysService, PublicHolidaysService>();
 			services.AddScoped<IResourceInformationService, ResourceInformationService>();
