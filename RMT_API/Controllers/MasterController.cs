@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using RMT_API.DTOs;
+﻿using Microsoft.AspNetCore.Mvc;
 using RMT_API.DTOs.BaseDtos;
 using RMT_API.Services;
 

@@ -8,5 +8,6 @@
 
 		////// Additional fields Required in the case of Masters Creation
 		public int? DomainID { get; set; }
+		public string? DomainName { get; set; }
 	}
 }

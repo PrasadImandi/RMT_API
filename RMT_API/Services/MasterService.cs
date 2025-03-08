@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using RMT_API.DTOs.BaseDtos;
 using RMT_API.Models;
 using RMT_API.Repositories;
@@ -128,7 +129,7 @@ namespace RMT_API.Services
 			else if (MasterType.Equals("DomainRole", StringComparison.OrdinalIgnoreCase))
 			{
 				var _repository = _repositoryFactory.GetRepository<DomainRoleMaster>();
-				var response = await _repository.GetAllAsync(query => query.Where(p => p.Name!.Contains(searchText)).Skip(pageNumber * pageSize).Take(pageSize));
+				var response = await _repository.GetAllAsync(query => query.Include(p=>p.DomainRoleMappings)!.ThenInclude(x=>x.Domain).Where(p => p.Name!.Contains(searchText)).Skip(pageNumber * pageSize).Take(pageSize));
 				result = _mapper.Map<IEnumerable<BaseDto>>(response);
 			}
 			else if (MasterType.Equals("Forms", StringComparison.OrdinalIgnoreCase))

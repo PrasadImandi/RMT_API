@@ -7,6 +7,7 @@ using RMT_API.Infrastructure;
 using RMT_API.Middleware;
 using RMT_API.Services;
 using System.Text;
+using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,24 +15,30 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ApplicationDBContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddServices();
 
-string sasUrl = builder.Configuration.GetValue<string>("BlobSasUrl") ??"";
+string sasUrl = builder.Configuration.GetValue<string>("BlobSasUrl") ?? "";
 builder.Services.AddScoped<IBlobStorageService>(provider =>
 {
 	return new BlobStorageService(sasUrl);
-}); 
+});
 
-builder.Services.AddCors(options =>
-									{
-										options.AddPolicy("AllowAll",
-											builder => builder.WithOrigins("http://localhost:3000", "http://localhost:3001")
-															  .AllowAnyMethod()   // Allow any HTTP method (GET, POST, etc.)
-															  .AllowAnyHeader() // Allow any header
-															  .AllowCredentials());
+builder.Services.AddCors(options => {
+										options.AddPolicy("AllowAll", builder => builder.WithOrigins("http://localhost:3000", "http://localhost:3001")
+																						.AllowAnyMethod()   // Allow any HTTP method (GET, POST, etc.)
+																						.AllowAnyHeader() // Allow any header
+																						.AllowCredentials());
 									});
 builder.Services.AddAutoMapper(typeof(Automapper).Assembly);
 
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+ .AddJsonOptions(options =>
+ {
+	 // Apply CamelCase property names globally
+	 options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+
+	 // Optionally, configure null value handling
+	 options.JsonSerializerOptions.DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull;
+ });
 builder.Services.Configure<FormOptions>(options =>
 {
 	options.MultipartBodyLengthLimit = 10 * 1024 * 1024; // 10 MB

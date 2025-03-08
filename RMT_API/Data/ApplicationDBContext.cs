@@ -1181,6 +1181,16 @@ namespace RMT_API.Data
 			.HasForeignKey<Client>(b => b.SPOCID)
 			.OnDelete(DeleteBehavior.SetNull);
 
+			modelBuilder.Entity<DomainRoleMapping>()
+		   .HasOne(dr => dr.Domain) // Each DomainRoleMapping has one DomainMaster
+		   .WithMany(dm => dm.DomainRoleMappings) // DomainMaster can have many DomainRoleMappings
+		   .HasForeignKey(dr => dr.DomainID); // Foreign key for DomainMaster
+
+			modelBuilder.Entity<DomainRoleMapping>()
+				.HasOne(dr => dr.DomainRole) // Each DomainRoleMapping has one DomainRoleMaster
+				.WithMany(dr => dr.DomainRoleMappings) // DomainRoleMaster can have many DomainRoleMappings
+				.HasForeignKey(dr => dr.RoleID);
+
 			#endregion Relationships
 
 			base.OnModelCreating(modelBuilder);
