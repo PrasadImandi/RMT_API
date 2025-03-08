@@ -1,8 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RMT_API.Models;
 using RMT_API.Models.BaseModels;
-using RMT_API.Models.MappingModels;
-
 
 namespace RMT_API.Data
 {
@@ -54,7 +52,6 @@ namespace RMT_API.Data
 		public DbSet<Documents> Documents { get; set; }
 		public DbSet<AcademicDetails> AcademicDetails { get; set; }
 		public DbSet<CertificationDetails> CertificationDetails { get; set; }
-		public DbSet<DomainRoleMapping> DomainRoleMappings { get; set; }
 		public DbSet<ProjectBaseLine> ProjectBaseLine { get; set; }
 
 		#endregion Tables
@@ -1110,17 +1107,6 @@ namespace RMT_API.Data
 			.HasForeignKey<JoiningDocuments>(b => b.DocumentsID)
 			.OnDelete(DeleteBehavior.Cascade);
 
-			modelBuilder.Entity<DomainRoleMapping>()
-		   .HasKey(dm => dm.ID); // Set the primary key
-
-			// Configure the relationship between DomainRoleMapping and DomainRole
-			modelBuilder.Entity<DomainRoleMapping>()
-				.HasOne(dm => dm.DomainRole) // Each DomainRoleMapping has one DomainRole
-				.WithMany() // Each DomainRole can be mapped to many DomainRoleMappings
-				.HasForeignKey(dm => dm.RoleID) // Foreign key to DomainRole
-				.OnDelete(DeleteBehavior.Restrict); // Avoid cascading deletes
-
-
 			modelBuilder.Entity<ProjectBaseLine>()
 			.HasOne(b => b.Client)
 			.WithOne()
@@ -1180,16 +1166,6 @@ namespace RMT_API.Data
 			.WithOne()
 			.HasForeignKey<Client>(b => b.SPOCID)
 			.OnDelete(DeleteBehavior.SetNull);
-
-			modelBuilder.Entity<DomainRoleMapping>()
-		   .HasOne(dr => dr.Domain) // Each DomainRoleMapping has one DomainMaster
-		   .WithMany(dm => dm.DomainRoleMappings) // DomainMaster can have many DomainRoleMappings
-		   .HasForeignKey(dr => dr.DomainID); // Foreign key for DomainMaster
-
-			modelBuilder.Entity<DomainRoleMapping>()
-				.HasOne(dr => dr.DomainRole) // Each DomainRoleMapping has one DomainRoleMaster
-				.WithMany(dr => dr.DomainRoleMappings) // DomainRoleMaster can have many DomainRoleMappings
-				.HasForeignKey(dr => dr.RoleID);
 
 			#endregion Relationships
 

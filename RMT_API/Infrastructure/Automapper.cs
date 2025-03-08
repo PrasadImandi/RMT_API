@@ -3,7 +3,6 @@ using RMT_API.DTOs;
 using RMT_API.DTOs.BaseDtos;
 using RMT_API.DTOs.ReportsDtos;
 using RMT_API.Models;
-using RMT_API.Models.MappingModels;
 
 namespace RMT_API.Infrastructure
 {
@@ -31,7 +30,7 @@ namespace RMT_API.Infrastructure
 			CreateMap<BaseDto, DomainMaster>().ReverseMap();
 			CreateMap<BaseDto, DomainRoleMaster>();
 			CreateMap<DomainRoleMaster, BaseDto>()
-			.ForMember(destination => destination.DomainName, opt => opt.MapFrom(src => src.DomainRoleMappings!.FirstOrDefault()!.Domain!.Name));
+			.ForMember(destination => destination.DomainName, opt => opt.MapFrom(src => src.Domain!.Name));
 
 
 			CreateMap<BaseDto, DomainLevelMaster>().ReverseMap();
@@ -119,11 +118,6 @@ namespace RMT_API.Infrastructure
 				.ForMember(destination => destination.Personal, opt => opt.MapFrom(src => src.Personal))
 				.ForMember(destination => destination.Certifications, opt => opt.MapFrom(src => src.Certification));
 
-
-			CreateMap<DomainRoleMappingDto, DomainRoleMapping>();
-			CreateMap<DomainRoleMapping, DomainRoleMappingDto>()
-		   .ForMember(destination => destination.RoleName, opt => opt.MapFrom(src => src.DomainRole!.Name)) // Domain.Name maps to DomainName
-		   .ForMember(destination => destination.DomainName, opt => opt.MapFrom(src => src.Domain!.Name)); // Domain.Name maps to DomainName
 
 			CreateMap<ProjectBaseLineDto, ProjectBaseLine>();
 
