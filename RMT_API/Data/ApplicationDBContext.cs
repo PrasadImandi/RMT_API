@@ -64,6 +64,7 @@ namespace RMT_API.Data
 		public DbSet<ClientReports> ClientReports { get; set; }
 		public DbSet<SupplierReports> SupplierReports { get; set; }
 		public DbSet<ResourceReports> ResourceReports { get; set; }
+		public DbSet<ProjectReports> ProjectReports { get; set; }
 
 		#endregion Reports
 
@@ -1049,6 +1050,7 @@ namespace RMT_API.Data
 			modelBuilder.Entity<ClientReports>().HasNoKey();
 			modelBuilder.Entity<SupplierReports>().HasNoKey();
 			modelBuilder.Entity<ResourceReports>().HasNoKey();
+			modelBuilder.Entity<ProjectReports>().HasNoKey();
 
 			#endregion Models
 

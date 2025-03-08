@@ -7,5 +7,6 @@ namespace RMT_API.Repositories
 		Task<IEnumerable<ClientReports>> GetClientReportsAsync(string filterType = "", string searchName = "", int pageNumber = 0, int pageSize = 0);
 		Task<IEnumerable<SupplierReports>> GetSupplierReportsAsync(string filterType = "", string searchName = "", int pageNumber = 0, int pageSize = 0);
 		Task<IEnumerable<ResourceReports>> GetResourceReportsAsync(string filterType = "", string searchName = "", int pageNumber = 0, int pageSize = 0);
+		Task<IEnumerable<ProjectReports>> GetProjectReportsAsync(string filterType = "", string searchName = "", int pageNumber = 0, int pageSize = 0);
 	}
 }
