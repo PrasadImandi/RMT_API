@@ -98,7 +98,7 @@ namespace RMT_API.Services
 			throw new NotImplementedException();
 		}
 
-		public async Task<IEnumerable<BaseDto>> GetAllMastersAsync(string MasterType, string searchText, int pageNumber, int pageSize)
+		public async Task<IEnumerable<BaseDto>> GetAllMastersAsync(string MasterType, string searchText, int pageNumber, int pageSize,int? domainId)
 		{
 			IEnumerable<BaseDto> result = new List<BaseDto>();
 
@@ -129,7 +129,7 @@ namespace RMT_API.Services
 			else if (MasterType.Equals("DomainRole", StringComparison.OrdinalIgnoreCase))
 			{
 				var _repository = _repositoryFactory.GetRepository<DomainRoleMaster>();
-				var response = await _repository.GetAllAsync(query => query.Include(p=>p.Domain)!.Where(p => p.Name!.Contains(searchText)).Skip(pageNumber * pageSize).Take(pageSize));
+				var response = await _repository.GetAllAsync(query => query.Include(p=>p.Domain)!.Where(p => p.Name!.Contains(searchText) && (domainId!=null ? p.DomainID==domainId:true)).Skip(pageNumber * pageSize).Take(pageSize));
 				result = _mapper.Map<IEnumerable<BaseDto>>(response);
 			}
 			else if (MasterType.Equals("Forms", StringComparison.OrdinalIgnoreCase))

@@ -9,14 +9,14 @@ namespace RMT_API.Controllers
 	public class MasterController(IMasterService _service) : ControllerBase
 	{
 		[HttpGet("{type}")]
-		public async Task<IActionResult> GetAllMaster(string type, string searchText="", int pageNumber = 0, int pageSize = 10)
+		public async Task<IActionResult> GetAllMaster(string type, string searchText = "", int pageNumber = 0, int pageSize = 10, int? domainId = null)
 		{
-			var Master = await _service.GetAllMastersAsync(type, searchText, pageNumber, pageSize);
+			var Master = await _service.GetAllMastersAsync(type, searchText, pageNumber, pageSize,domainId);
 			return Ok(Master);
 		}
 
 		[HttpPost("{type}")]
-		public async Task<IActionResult> CreateMaster(string type,[FromBody] BaseDto Master)
+		public async Task<IActionResult> CreateMaster(string type, [FromBody] BaseDto Master)
 		{
 			if (Master == null)
 			{
