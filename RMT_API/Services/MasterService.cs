@@ -192,6 +192,30 @@ namespace RMT_API.Services
 				var response = await _repository.GetAllAsync(query => query.Where(p => p.Name!.Contains(searchText)).Skip(pageNumber * pageSize).Take(pageSize));
 				result = _mapper.Map<IEnumerable<BaseDto>>(response);
 			}
+			else if (MasterType.Equals("client", StringComparison.OrdinalIgnoreCase))
+			{
+				var _repository = _repositoryFactory.GetRepository<Client>();
+				var response = await _repository.GetAllAsync(query => query.Where(p => p.Name!.Contains(searchText)).Skip(pageNumber * pageSize).Take(pageSize));
+				result = _mapper.Map<IEnumerable<BaseDto>>(response);
+			}
+			else if (MasterType.Equals("spocs", StringComparison.OrdinalIgnoreCase))
+			{
+				var _repository = _repositoryFactory.GetRepository<SPOC>();
+				var response = await _repository.GetAllAsync(query => query.Where(p => p.Name!.Contains(searchText)).Skip(pageNumber * pageSize).Take(pageSize));
+				result = _mapper.Map<IEnumerable<BaseDto>>(response);
+			}
+			else if (MasterType.Equals("states", StringComparison.OrdinalIgnoreCase))
+			{
+				var _repository = _repositoryFactory.GetRepository<StateMaster>();
+				var response = await _repository.GetAllAsync(query => query.Where(p => p.Name!.Contains(searchText)).Skip(pageNumber * pageSize).Take(pageSize));
+				result = _mapper.Map<IEnumerable<BaseDto>>(response);
+			}
+			else if (MasterType.Equals("accessTypes", StringComparison.OrdinalIgnoreCase))
+			{
+				var _repository = _repositoryFactory.GetRepository<AccessTypeMaster>();
+				var response = await _repository.GetAllAsync(query => query.Where(p => p.Name!.Contains(searchText)).Skip(pageNumber * pageSize).Take(pageSize));
+				result = _mapper.Map<IEnumerable<BaseDto>>(response);
+			}
 
 			return result;
 		}

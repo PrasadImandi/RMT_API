@@ -28,6 +28,8 @@ namespace RMT_API.Infrastructure
 			CreateMap<BaseDto, LocationMaster>().ReverseMap();
 			CreateMap<BaseDto, SPOC>().ReverseMap();
 			CreateMap<BaseDto, DomainMaster>().ReverseMap();
+			CreateMap<BaseDto, LaptopProviderMaster>().ReverseMap();
+			CreateMap<BaseDto, AccessTypeMaster>().ReverseMap();
 			CreateMap<BaseDto, DomainRoleMaster>();
 			CreateMap<DomainRoleMaster, BaseDto>()
 			.ForMember(destination => destination.DomainName, opt => opt.MapFrom(src => src.Domain!.Name));
