@@ -1,8 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { Project, Employee, Comment } from '@/lib/types';
-import { MessageSquare, Send, Plus, FolderKanban, Activity, Users2 } from 'lucide-react';
+import { Project, Employee, Comment } from '@/types';
+import { MessageSquare, Send, Plus, FolderKanban, Users2 } from 'lucide-react';
 import {
   Card,
   CardContent,
@@ -21,7 +21,7 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { format } from 'date-fns';
 
-export const projectsData: Project[] = [
+const projectsData: Project[] = [
     {
       id: '1',
       name: 'E-Commerce Platform',

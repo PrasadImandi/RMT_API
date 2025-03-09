@@ -131,8 +131,8 @@ const EditBaseline = () => {
           <FormLabel>{label}</FormLabel>
           <Select
             onValueChange={(value) => field.onChange(value)}
-            value={field.value}
-          >
+            value={field.value !== undefined ? String(field.value) : undefined}
+            >
             <FormControl>
               <SelectTrigger>
                 <SelectValue placeholder={`Select ${label}`} />

@@ -12,6 +12,7 @@ import { Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useUserStore } from '@/store/userStore';
 import { User } from '@/types';
+import Image from 'next/image';
 
 // Authentication schemas
 const loginSchema = z.object({
@@ -75,7 +76,7 @@ export default function PeoplePulseAuthGateway() {
     <div className="flex min-h-screen items-center justify-center bg-neutral-50">
       <div className="w-full max-w-md bg-white p-8 rounded-xl shadow-xl border border-gray-100">
         <div className="mb-6 flex justify-center">
-        <img src="/PeoplePulseFinal1.png" height={50} width={50} />
+        <Image alt='applogo' src="/PeoplePulseFinal1.png" height={50} width={50} />
         </div>
         
         <h1 className="text-center text-2xl font-semibold text-gray-900 mb-8">

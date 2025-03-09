@@ -4,10 +4,19 @@ import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
-import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { mockLeaveTypes, mockLeaveBalance, mockLeaveRequests } from "@/data/mock";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  mockLeaveTypes,
+  mockLeaveBalance,
+  mockLeaveRequests,
+} from "@/data/mock";
 import { format, parseISO } from "date-fns";
 import { CalendarRange, Clock, Plus } from "lucide-react";
 import { toast } from "sonner";
@@ -25,21 +34,20 @@ export default function LeavesPage() {
   const [reason, setReason] = useState("");
   const [leaveRequests, setLeaveRequests] = useState<any[]>([]);
 
-
-  const handleApplyLeave =async () => {
+  const handleApplyLeave = async () => {
     if (!dateRange?.from || !dateRange?.to || !selectedLeaveType || !reason) {
       toast.error("Please fill in all required fields");
       return;
     }
 
     const applyNewLeave = {
-      resourceID : 1, // resourceid needs to change with logged in user id
-      leaveType : selectedLeaveType,
-      startDate : dateRange.from,
-      endDate : dateRange.to,
-      status : 'pending',
-      approverID : 2,
-      created_Date : new Date()
+      resourceID: 1, // resourceid needs to change with logged in user id
+      leaveType: selectedLeaveType,
+      startDate: dateRange.from,
+      endDate: dateRange.to,
+      status: "pending",
+      approverID: 2,
+      created_Date: new Date(),
     };
 
     try {
@@ -48,7 +56,6 @@ export default function LeavesPage() {
     } catch (error) {
       console.log("error registering client", error);
     }
-
 
     toast.success("Leave application submitted successfully");
     setDateRange({ from: undefined, to: undefined });
@@ -66,18 +73,18 @@ export default function LeavesPage() {
     }
   };
 
-    useEffect(() => {
-      fetchLeaveRequests();
-    },[])
+  useEffect(() => {
+    fetchLeaveRequests();
+  }, []);
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'approved':
-        return 'bg-green-100 text-green-800';
-      case 'rejected':
-        return 'bg-red-100 text-red-800';
+      case "approved":
+        return "bg-green-100 text-green-800";
+      case "rejected":
+        return "bg-red-100 text-red-800";
       default:
-        return 'bg-yellow-100 text-yellow-800';
+        return "bg-yellow-100 text-yellow-800";
     }
   };
 
@@ -98,7 +105,10 @@ export default function LeavesPage() {
               <div className="space-y-6">
                 <div className="space-y-2">
                   <label className="text-sm font-medium">Leave Type</label>
-                  <Select value={selectedLeaveType} onValueChange={setSelectedLeaveType}>
+                  <Select
+                    value={selectedLeaveType}
+                    onValueChange={setSelectedLeaveType}
+                  >
                     <SelectTrigger>
                       <SelectValue placeholder="Select leave type" />
                     </SelectTrigger>
@@ -132,10 +142,15 @@ export default function LeavesPage() {
                   />
                 </div>
 
-                <Button 
+                <Button
                   className="w-full"
                   onClick={handleApplyLeave}
-                  disabled={!dateRange?.from || !dateRange?.to || !selectedLeaveType || !reason}
+                  disabled={
+                    !dateRange?.from ||
+                    !dateRange?.to ||
+                    !selectedLeaveType ||
+                    !reason
+                  }
                 >
                   <Plus className="w-4 h-4 mr-2" />
                   Apply for Leave
@@ -152,7 +167,9 @@ export default function LeavesPage() {
               <CardContent>
                 <div className="space-y-4">
                   {mockLeaveBalance.map((balance) => {
-                    const leaveType = mockLeaveTypes.find(t => t.id === balance.leaveTypeId);
+                    const leaveType = mockLeaveTypes.find(
+                      (t) => t.id === balance.leaveTypeId
+                    );
                     return (
                       <div
                         key={balance.id}
@@ -198,29 +215,37 @@ export default function LeavesPage() {
                   <TabsContent value="pending">
                     <div className="space-y-4">
                       {leaveRequests
-                        .filter(request => request.status === 'pending')
+                        .filter((request) => request.status === "pending")
                         .map((request) => {
-                          const leaveType = mockLeaveTypes.find(t => t.id === request.leaveType);
+                          const leaveType = mockLeaveTypes.find(
+                            (t) => t.id === request.leaveType
+                          );
                           return (
                             <div
                               key={request.id}
                               className="p-4 rounded-lg bg-muted/50"
                             >
                               <div className="flex items-center justify-between mb-2">
-                                <Badge variant="secondary">{leaveType?.code}</Badge>
-                                <Badge className={getStatusColor(request.status)}>
+                                <Badge variant="secondary">
+                                  {leaveType?.code}
+                                </Badge>
+                                <Badge
+                                  className={getStatusColor(request.status)}
+                                >
                                   {request.status}
                                 </Badge>
                               </div>
                               <p className="text-sm mb-1">
-                                {format(parseISO(request.startDate), 'PPP')} - {format(parseISO(request.endDate), 'PPP')}
+                                {format(parseISO(request.startDate), "PPP")} -{" "}
+                                {format(parseISO(request.endDate), "PPP")}
                               </p>
                               <p className="text-sm text-muted-foreground">
                                 {request.reason}
                               </p>
                               <div className="flex items-center text-xs text-muted-foreground mt-2">
                                 <Clock className="w-3 h-3 mr-1" />
-                                Applied on {format(parseISO(request.created_Date), 'PPP')}
+                                Applied on{" "}
+                                {format(parseISO(request.created_Date), "PPP")}
                               </div>
                             </div>
                           );
@@ -230,29 +255,39 @@ export default function LeavesPage() {
                   <TabsContent value="history">
                     <div className="space-y-4">
                       {mockLeaveRequests
-                        .filter(request => request.status !== 'pending')
+                        .filter((request) => request.status !== "pending")
                         .map((request) => {
-                          const leaveType = mockLeaveTypes.find(t => t.id === request.leaveTypeId);
+                          const leaveType = mockLeaveTypes.find(
+                            (t) => t.id === request.leaveTypeId
+                          );
                           return (
                             <div
                               key={request.id}
                               className="p-4 rounded-lg bg-muted/50"
                             >
                               <div className="flex items-center justify-between mb-2">
-                                <Badge variant="secondary">{leaveType?.code}</Badge>
-                                <Badge className={getStatusColor(request.status)}>
+                                <Badge variant="secondary">
+                                  {leaveType?.code}
+                                </Badge>
+                                <Badge
+                                  className={getStatusColor(request.status)}
+                                >
                                   {request.status}
                                 </Badge>
                               </div>
                               <p className="text-sm mb-1">
-                                {format(parseISO(request.startDate), 'PPP')} - {format(parseISO(request.endDate), 'PPP')}
+                                {format(parseISO(request.startDate), "PPP")} -{" "}
+                                {format(parseISO(request.endDate), "PPP")}
                               </p>
                               <p className="text-sm text-muted-foreground">
                                 {request.reason}
                               </p>
                               <div className="flex items-center text-xs text-muted-foreground mt-2">
                                 <Clock className="w-3 h-3 mr-1" />
-                                Applied on {format(parseISO(request.appliedOn), 'PPP')}
+                                Applied on{" "}
+                                {request.appliedOn
+                                  ? format(parseISO(request.appliedOn), "PPP")
+                                  : "N/A"}
                               </div>
                             </div>
                           );
@@ -266,5 +301,5 @@ export default function LeavesPage() {
         </div>
       </main>
     </div>
-  )
+  );
 }

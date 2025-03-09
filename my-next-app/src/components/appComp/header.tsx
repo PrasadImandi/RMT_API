@@ -3,6 +3,7 @@ import ThemeToggler from "../theme-toggler";
 import Link from "next/link";
 import { useUserStore } from "@/store/userStore";
 import { Separator } from "../ui/separator";
+import Image from "next/image";
 
 
 const Header: React.FC = () => {
@@ -16,7 +17,7 @@ const Header: React.FC = () => {
       border-b w-full shadow-bottom"
     >
       <div className="flex items-center space-x-3">
-        <img
+        <Image
           src="/PeoplePulseFinal1.png"
           height={70}
           width={70}
@@ -39,10 +40,12 @@ const Header: React.FC = () => {
           Welcome, <strong>{user?.name || "Guest"}</strong>
         </span>
         <Link href= {`/${user?.role}/profile`}>
-          <img
+          <Image
             src={user?.userProfileUrl || "https://github.com/shadcn.png"}
             alt="User Profile"
-            className="w-10 h-10 rounded-full border-2 border-gray-300"
+            height={60}
+          width={60}
+            className="rounded-full border-2 border-gray-300"
           />
         </Link>
       </div>

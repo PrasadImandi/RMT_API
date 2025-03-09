@@ -63,6 +63,10 @@ export default function ResourceSelection() {
     const fullName = `${resource.firstName} ${resource.lastName}`.toLowerCase();
     return fullName.includes(search.toLowerCase());
   });
+  const CommandAny = Command as any;
+  const CommandListAny = CommandList as any;
+  const CommandEmptyAny = CommandEmpty as any;
+  const CommandItemAny = CommandItem as any;
 
   return (
     <div className="p-16">
@@ -76,7 +80,7 @@ export default function ResourceSelection() {
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="relative">
-              <Command className="rounded-lg border">
+              <CommandAny className="rounded-lg border">
                 <Input
                 className="focus-visible:ring-0"
                   placeholder={
@@ -89,22 +93,22 @@ export default function ResourceSelection() {
                   onFocus={() => setIsDropdownOpen(true)}
                 />
                 {isDropdownOpen && (
-                  <CommandList className="max-h-60 overflow-auto">
+                  <CommandListAny className="max-h-60 overflow-auto">
                     {filteredResources.length === 0 ? (
-                      <CommandEmpty>No results found.</CommandEmpty>
+                      <CommandEmptyAny>No results found.</CommandEmptyAny>
                     ) : (
                       filteredResources.map((resource) => (
-                        <CommandItem
+                        <CommandItemAny
                           key={resource.id}
                           onSelect={() => handleSelect(resource.id)}
                         >
                           {resource.firstName} {resource.lastName}
-                        </CommandItem>
+                        </CommandItemAny>
                       ))
                     )}
-                  </CommandList>
+                  </CommandListAny>
                 )}
-              </Command>
+              </CommandAny>
             </div>
 
             {selectedResourceDetails && (

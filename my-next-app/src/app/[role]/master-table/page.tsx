@@ -39,7 +39,15 @@ type MasterType =
     | 'Domain Level'
     | 'Segment'
     | 'Delivery Type'
-    | 'Project/Support Type';
+    | 'Project/Support Type'
+    | 'Delivery Motion'
+    | 'Laptop Provider'
+    | 'Leave Type'
+    | 'Location'
+    | 'Manager Type'
+    | 'Pin Code'
+    | 'Public Holidays'
+    | 'Regions'
 
 interface MasterData {
     id: number;

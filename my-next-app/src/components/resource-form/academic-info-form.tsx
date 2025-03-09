@@ -85,8 +85,8 @@ export default function AcademicInfoForm({ initialData, onSave }: AcademicInfoFo
                   <SelectContent>
                     <SelectItem value="High School">High School</SelectItem>
                     <SelectItem value="Intermediate">Intermediate</SelectItem>
-                    <SelectItem value="Bachelor">Bachelor's Degree</SelectItem>
-                    <SelectItem value="Master">Master's Degree</SelectItem>
+                    <SelectItem value="Bachelor">Bachelor&apos;s Degree</SelectItem>
+                    <SelectItem value="Master">Master&apos;s Degree</SelectItem>
                   </SelectContent>
                 </Select>
               </div>

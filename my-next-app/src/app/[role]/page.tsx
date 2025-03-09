@@ -199,7 +199,7 @@ const AdminPage = () => {
               </Card>
               <Card>
                 <div className="p-6">
-                  <h3 className="text-lg font-medium">Who's Off Today</h3>
+                  <h3 className="text-lg font-medium">Who&apos;s Off Today</h3>
                   <div className="mt-4 space-y-4">
                     {offToday.map((person, i) => (
                       <div key={i} className="flex items-center justify-between">
