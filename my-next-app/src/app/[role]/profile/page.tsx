@@ -29,10 +29,16 @@ export default function Home() {
 
   const { data: resourceData } = useQuery({
     queryKey: ["resource", user?.id],
-    queryFn: () => ResourceApi.fetchResource(user?.id!),
+    queryFn: () => {
+      if (!user?.id) {
+        throw new Error("User ID is not available");
+      }
+      return ResourceApi.fetchResource(user.id);
+    },
     enabled: !!user?.id,
   });
-console.log(resourceData)
+  console.log(resourceData);
+  
   const handleImageClick = () => {
     fileInputRef.current?.click();
   };

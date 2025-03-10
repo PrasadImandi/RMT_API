@@ -29,6 +29,7 @@ import {
 import { toast } from "sonner";
 import { Calendar as CalendarIcon, Clock, Download, Send } from "lucide-react";
 import { DateRange } from "react-day-picker";
+import Image from "next/image";
 
 export default function RosterManagement() {
   const [dateRange, setDateRange] = useState<DateRange | undefined>({
@@ -224,10 +225,12 @@ export default function RosterManagement() {
                               key={s.id}
                               className="flex items-center space-x-2"
                             >
-                              <img
+                              <Image
                                 src={s.imageUrl}
                                 alt={s.name}
-                                className="w-6 h-6 rounded-full"
+                                height={48}
+                                width={48}
+                                className="rounded-full"
                               />
                               <span>{s.name}</span>
                             </div>
@@ -375,9 +378,8 @@ export default function RosterManagement() {
                         </SelectContent>
                       </Select>
                     </div>
-
                     <Calendar
-                      mode={selectionMode === "range" ? "range" : "single"}
+                      mode={selectionMode === "range" ? "range" : "single" as any}
                       selected={dateRange}
                       numberOfMonths={2}
                       onSelect={handleDateSelect}

@@ -12,6 +12,8 @@ import { Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useUserStore } from '@/store/userStore';
 import { User } from '@/types';
+import Image from 'next/image';
+import api from '@/lib/axiosInstance';
 
 // Authentication schemas
 const loginSchema = z.object({
@@ -29,6 +31,7 @@ export default function PeoplePulseAuthGateway() {
   const [isResetting, setIsResetting] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [passwordStrength, setPasswordStrength] = useState(0);
+  const [errorMessage, setErrorMessage] = useState('');
   const router = useRouter()
   const {update} = useUserStore()  
 
@@ -44,38 +47,57 @@ export default function PeoplePulseAuthGateway() {
     data: z.infer<typeof loginSchema> | z.infer<typeof passwordResetSchema>
   ) => {
     setIsSubmitting(true);
-  
+    setErrorMessage('');
+
     if ("username" in data) {
-      // const role: "supplier" = "supplier"; // or directly use "admin" as "admin"
-      const user: User = {
-        id: 1,
-        name: data.username,
-        email: "dev@gmail.com",
-        userProfileUrl: "https://github.com/shadcn.png",
-        role: data?.password// role is now correctly typed
-      };
-      update(user);
-  
       try {
-        // Simulate API call
-        console.log("Authentication payload:", data);
-        router.push(`/${data.password}`);
+        // Call authentication API
+        const response = await api.post('Auth/generate_token', {
+          userName: data.username,
+          password: data.password
+        });
+
+        const token = response.data.token;
+
+        // Decode token to get user details
+        // const decodedToken: any = jwt_decode(token);
+        // const username = decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'];
+        // const role = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
+
+        // Update user store
+        const user: User = {
+          id: 1, // Use actual user ID from token if available
+          name: data.username,
+          email: "dev@gmail.com", // Update with actual email if available
+          userProfileUrl: "https://github.com/shadcn.png",
+          role: data.password,
+          token: token
+        };
+        update(user);
+
+        // Store token in cookie for axios interceptor
+        document.cookie = `accessToken=${token}; path=/; Secure; SameSite=Lax`;
+
+        // Redirect based on role
+        router.push(`/${data.password.toLowerCase()}`);
+      } catch (error) {
+        console.error('Login failed:', error);
+        setErrorMessage('Invalid username or password. Please try again.');
       } finally {
         setIsSubmitting(false);
       }
     } else {
-      // Handle password reset scenario
+      // Handle password reset (keep existing logic)
       console.log("Password reset payload:", data);
       setIsSubmitting(false);
     }
   };
-  
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-neutral-50">
       <div className="w-full max-w-md bg-white p-8 rounded-xl shadow-xl border border-gray-100">
         <div className="mb-6 flex justify-center">
-        <img src="/PeoplePulseFinal1.png" height={50} width={50} />
+        <Image alt='applogo' src="/PeoplePulseFinal1.png" height={50} width={50} />
         </div>
         
         <h1 className="text-center text-2xl font-semibold text-gray-900 mb-8">

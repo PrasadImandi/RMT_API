@@ -1,35 +1,42 @@
 import axios from 'axios';
+import { useUserStore } from '@/store/userStore';
 
 const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL, 
-  withCredentials: true,  // This ensures that cookies are sent along with requests
+  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
+  withCredentials: true,
 });
 
-// Intercept requests to add the access token (if necessary) to the Authorization header
+// Updated request interceptor
 api.interceptors.request.use(
   (config) => {
-    // You can also check for token in cookies if needed (if you're handling tokens manually)
-    const token = document.cookie.split(';').find(cookie => cookie.trim().startsWith('accessToken='));
-
+    const token = useUserStore.getState().user?.token;
+    console.log(token)
     if (token) {
-      // If token exists in cookies, attach it to the Authorization header (optional)
-      config.headers['Authorization'] = `Bearer ${token.split('=')[1]}`;
+      config.headers.Authorization = `Bearer ${token}`;
     }
-
     return config;
   },
   (error) => Promise.reject(error)
 );
 
-// Intercept responses to handle token expiration (optional)
+// Enhanced response interceptor
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
-    if (error.response?.status === 401) {
-      // Handle token expiration, e.g., by refreshing the token
-      console.error("Access token expired, handle token refresh here.");
+    const originalRequest = error.config;
+    
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+      
+      // Clear user store on unauthorized access
+      useUserStore.getState().logout();
+      
+      // Redirect to login if in browser environment
+      // if (typeof window !== 'undefined') {
+      //   window.location.href = '/login';
+      // }
     }
-
+    
     return Promise.reject(error);
   }
 );

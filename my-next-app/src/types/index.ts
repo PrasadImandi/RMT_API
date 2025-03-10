@@ -4,6 +4,7 @@ export interface User {
   email: string;
   userProfileUrl: string;
   role: string ;
+  token: string
 }
 
 export interface Resource {
@@ -16,14 +17,6 @@ export interface Resource {
   currentProject?: string;
 }
 
-export interface Project {
-  id: string;
-  name: string;
-  description: string;
-  startDate: string;
-  endDate: string;
-  resources: Resource[];
-}
 
 export interface Shift {
   id: string;
@@ -42,3 +35,30 @@ export interface Holiday {
   description: string;
   isPublic: boolean;
 }
+
+export type Comment = {
+  id: string;
+  employeeId: string;
+  text: string;
+  timestamp: Date;
+};
+
+export type Employee = {
+  id: string;
+  name: string;
+  role: string;
+  comments?: Comment[];
+};
+
+export type Project = {
+  id: string;
+  name: string;
+  description: string;
+  status: 'active' | 'completed' | 'on-hold';
+  team: {
+    rm: Employee;
+    pms: Employee[];
+    tls: Employee[];
+    developers: Employee[];
+  };
+};

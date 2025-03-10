@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -32,7 +32,7 @@ export default function PersonalInfoForm({ initialData, onSave }: PersonalInfoFo
 
   const handleChange = (field: string, value: string) => {
     setFormData(prev => {
-      let updatedData = { ...prev, [field]: value };
+      const updatedData = { ...prev, [field]: value };
   
       if (field === "resourceStatus") {
         updatedData.isActive = value === "Active";
@@ -160,7 +160,7 @@ export default function PersonalInfoForm({ initialData, onSave }: PersonalInfoFo
           </div>
 
           <div className="space-y-2">
-            <Label>Father's Name *</Label>
+            <Label>Father&apos;s Name *</Label>
             <Input 
               type="text"
               value={formData.fatherName}
@@ -169,7 +169,7 @@ export default function PersonalInfoForm({ initialData, onSave }: PersonalInfoFo
           </div>
 
           <div className="space-y-2">
-            <Label>Mother's Name *</Label>
+            <Label>Mother&apos;s Name *</Label>
             <Input 
               type="text"
               value={formData.motherName}

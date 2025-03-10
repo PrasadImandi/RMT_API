@@ -32,7 +32,6 @@ import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { useParams, useRouter } from "next/navigation";
 import api from "@/lib/axiosInstance";
-import { useEffect, useState } from "react";
 import { ProjectApi, projectFormSchema } from "@/services/api/projects";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
