@@ -4,6 +4,7 @@ export interface User {
   email: string;
   userProfileUrl: string;
   role: string ;
+  token: string
 }
 
 export interface Resource {
