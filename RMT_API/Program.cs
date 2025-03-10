@@ -26,7 +26,7 @@ builder.Services.AddCors(options =>
 
 	var allowedOrigins = builder.Configuration.GetSection("CorsSettings:AllowOrigins").Get<string[]>();
 
-	options.AddPolicy("AllowAll", builder => builder.WithOrigins(allowedOrigins).AllowAnyMethod()
+	options.AddPolicy("AllowAll", builder => builder.WithOrigins(allowedOrigins ?? []).AllowAnyMethod()
 																				.AllowAnyHeader()
 																				.AllowCredentials());
 });
@@ -57,10 +57,12 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 		{
 			ValidateIssuer = true,
 			ValidateAudience = true,
+			ValidateIssuerSigningKey = true,
 			ValidateLifetime = true,
+			ClockSkew = TimeSpan.Zero, // Optional: No clock skew (adjust as needed)
 			ValidIssuer = builder.Configuration["Jwt:Issuer"],
 			ValidAudience = builder.Configuration["Jwt:Audience"],
-			IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:SecretKey"] ?? ""))
+			IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:SecretKey"]))
 		};
 	});
 
