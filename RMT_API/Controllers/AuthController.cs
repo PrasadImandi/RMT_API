@@ -12,8 +12,8 @@ namespace RMT_API.Controllers
 	[ApiController]
 	public class AuthController(IConfiguration _configuration, IUsersService _userService) : ControllerBase
 	{
-		[HttpPost("login")]
-		public async Task<IActionResult> Login([FromBody] UsersDto model)
+		[HttpPost("generate_token")]
+		public async Task<IActionResult> GenerateToken([FromBody] UsersDto model)
 		{
 			var user = await _userService.GetUserByNameAsync(model.UserName!);
 

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RMT_API.DTOs;
 using RMT_API.Services;
 
@@ -6,6 +7,7 @@ namespace RMT_API.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
+	[Authorize]
 	public class ResourceOffboardingController(IResourceOffboardingsService _service) : ControllerBase
 	{
 		[HttpGet]

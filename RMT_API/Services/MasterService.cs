@@ -100,7 +100,7 @@ namespace RMT_API.Services
 
 		public async Task<IEnumerable<BaseDto>> GetAllMastersAsync(string MasterType, string searchText, int pageNumber, int pageSize,int? domainId)
 		{
-			IEnumerable<BaseDto> result = new List<BaseDto>();
+			IEnumerable<BaseDto> result = [];
 
 			if (MasterType.Equals("ContactType", StringComparison.OrdinalIgnoreCase))
 			{
@@ -227,7 +227,7 @@ namespace RMT_API.Services
 
 		public async Task UpdateMasterAsync(string MasterType, BaseDto master)
 		{
-			IEnumerable<BaseDto> result = new List<BaseDto>();
+			IEnumerable<BaseDto> result = [];
 
 			if (MasterType.Equals("ContactType", StringComparison.OrdinalIgnoreCase))
 			{
