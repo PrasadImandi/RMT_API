@@ -1,8 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RMT_API.Models;
 using RMT_API.Models.BaseModels;
-using RMT_API.Models.MappingModels;
-
 
 namespace RMT_API.Data
 {
@@ -54,7 +52,6 @@ namespace RMT_API.Data
 		public DbSet<Documents> Documents { get; set; }
 		public DbSet<AcademicDetails> AcademicDetails { get; set; }
 		public DbSet<CertificationDetails> CertificationDetails { get; set; }
-		public DbSet<DomainRoleMapping> DomainRoleMappings { get; set; }
 		public DbSet<ProjectBaseLine> ProjectBaseLine { get; set; }
 
 		#endregion Tables
@@ -64,6 +61,7 @@ namespace RMT_API.Data
 		public DbSet<ClientReports> ClientReports { get; set; }
 		public DbSet<SupplierReports> SupplierReports { get; set; }
 		public DbSet<ResourceReports> ResourceReports { get; set; }
+		public DbSet<ProjectReports> ProjectReports { get; set; }
 
 		#endregion Reports
 
@@ -1049,6 +1047,7 @@ namespace RMT_API.Data
 			modelBuilder.Entity<ClientReports>().HasNoKey();
 			modelBuilder.Entity<SupplierReports>().HasNoKey();
 			modelBuilder.Entity<ResourceReports>().HasNoKey();
+			modelBuilder.Entity<ProjectReports>().HasNoKey();
 
 			#endregion Models
 
@@ -1108,17 +1107,6 @@ namespace RMT_API.Data
 			.HasForeignKey<JoiningDocuments>(b => b.DocumentsID)
 			.OnDelete(DeleteBehavior.Cascade);
 
-			modelBuilder.Entity<DomainRoleMapping>()
-		   .HasKey(dm => dm.ID); // Set the primary key
-
-			// Configure the relationship between DomainRoleMapping and DomainRole
-			modelBuilder.Entity<DomainRoleMapping>()
-				.HasOne(dm => dm.DomainRole) // Each DomainRoleMapping has one DomainRole
-				.WithMany() // Each DomainRole can be mapped to many DomainRoleMappings
-				.HasForeignKey(dm => dm.RoleID) // Foreign key to DomainRole
-				.OnDelete(DeleteBehavior.Restrict); // Avoid cascading deletes
-
-
 			modelBuilder.Entity<ProjectBaseLine>()
 			.HasOne(b => b.Client)
 			.WithOne()
@@ -1147,6 +1135,36 @@ namespace RMT_API.Data
 			.HasOne(b => b.DomainLevel)
 			.WithOne()
 			.HasForeignKey<ProjectBaseLine>(b => b.LevelID)
+			.OnDelete(DeleteBehavior.SetNull);
+
+			modelBuilder.Entity<Client>()
+			.HasOne(b => b.RegionMater)
+			.WithOne()
+			.HasForeignKey<Client>(b => b.RegionID)
+			.OnDelete(DeleteBehavior.SetNull);
+
+			modelBuilder.Entity<Client>()
+			.HasOne(b => b.StateMaster)
+			.WithOne()
+			.HasForeignKey<Client>(b => b.StateID)
+			.OnDelete(DeleteBehavior.SetNull);
+
+			modelBuilder.Entity<Client>()
+			.HasOne(b => b.LocationMaster)
+			.WithOne()
+			.HasForeignKey<Client>(b => b.LocationID)
+			.OnDelete(DeleteBehavior.SetNull);
+
+			modelBuilder.Entity<Client>()
+			.HasOne(b => b.PincodeMaster)
+			.WithOne()
+			.HasForeignKey<Client>(b => b.PincodeID)
+			.OnDelete(DeleteBehavior.SetNull);
+
+			modelBuilder.Entity<Client>()
+			.HasOne(b => b.SPOC)
+			.WithOne()
+			.HasForeignKey<Client>(b => b.SPOCID)
 			.OnDelete(DeleteBehavior.SetNull);
 
 			#endregion Relationships

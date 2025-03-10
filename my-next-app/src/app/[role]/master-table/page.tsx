@@ -52,7 +52,7 @@ type MasterType =
 interface MasterData {
     id: number;
     name: string;
-    createdBy: string;
+    domainName: string;
     isActive: boolean;
 }
 
@@ -257,7 +257,7 @@ export default function MasterPage() {
                                     <TableRow>
                                         <TableHead>ID</TableHead>
                                         <TableHead>Name</TableHead>
-                                        <TableHead>Created By</TableHead>
+                                        {selectedType === "Domain Role" && <TableHead>Domain Name</TableHead>}
                                         <TableHead>Status</TableHead>
                                         <TableHead>Actions</TableHead>
                                     </TableRow>
@@ -277,7 +277,8 @@ export default function MasterPage() {
                                                     item.name
                                                 )}
                                             </TableCell>
-                                            <TableCell>{item.createdBy}</TableCell>
+                                            {selectedType === "Domain Role" && <TableCell>{item.domainName}</TableCell>}
+
                                             <TableCell>
                                                 <Switch
                                                     checked={item.isActive}

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RMT_API.DTOs;
 using RMT_API.Services;
 
@@ -6,12 +7,13 @@ namespace RMT_API.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
+	[Authorize]
 	public class RegionsController(IRegionService _service) : ControllerBase
 	{
 		[HttpGet]
-		public async Task<IActionResult> GetAllRegions()
+		public async Task<IActionResult> GetAllRegions(string searchText = "", int pageNumber = 0, int pageSize = 10)
 		{
-			var Regions = await _service.GetAllRegionsAsync();
+			var Regions = await _service.GetAllRegionsAsync(searchText, pageNumber, pageSize);
 			return Ok(Regions);
 		}
 

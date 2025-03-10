@@ -4,7 +4,7 @@ namespace RMT_API.Services
 {
 	public interface IProjectsService
 	{
-		Task<IEnumerable<ProjectDto>> GetAllProjectsAsync();
+		Task<IEnumerable<ProjectDto>> GetAllProjectsAsync(string searchText, int pageNumber = 0, int pageSize = 10);
 		Task<ProjectDto> GetProjectByIdAsync(int id);
 		Task<IEnumerable<ProjectDto>> GetProjectByClientIdAsync(int clientId);
 		Task AddProjectAsync(ProjectDto project);

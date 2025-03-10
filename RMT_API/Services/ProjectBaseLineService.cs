@@ -23,9 +23,9 @@ namespace RMT_API.Services
 			await repository.DeleteAsync(id);
 		}
 
-		public async Task<IEnumerable<ProjectBaseLineDto>> GetAllProjectBaseLinesAsync()
+		public async Task<IEnumerable<ProjectBaseLineDto>> GetAllProjectBaseLinesAsync(string? searchText, int? pageNumber, int? pageSize)
 		{
-			var response = await repository.GetAllWithChildrenAsync(query => query.Include(p => p.Client)
+			var response = await repository.GetAllAsync(query => query.Include(p => p.Client)
 																				.Include(p => p.Project)
 																				.Include(p => p.Domain)
 																				.Include(p => p.DomainRole)
@@ -35,7 +35,7 @@ namespace RMT_API.Services
 
 		public async Task<ProjectBaseLineDto> GetProjectBaseLineByIdAsync(int id)
 		{
-			var response = await repository.GetByIDWithChildrenAsync(p => p.ID == id,
+			var response = await repository.GetSingleAsync(p => p.ID == id,
 																	  query => query.Include(p => p.Client)
 																				.Include(p => p.Project)
 																				.Include(p => p.Domain)

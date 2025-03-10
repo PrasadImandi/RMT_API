@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RMT_API.DTOs;
 using RMT_API.Services;
@@ -7,12 +7,13 @@ namespace RMT_API.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
+	[Authorize]
 	public class ManagerController(IManagerService _service) : ControllerBase
 	{
 		[HttpGet]
-		public async Task<IActionResult> GetAllManagers()
+		public async Task<IActionResult> GetAllManagers(string searchText = "", int pageNumber = 0, int pageSize = 10)
 		{
-			var Manager = await _service.GetAllManagersAsync();
+			var Manager = await _service.GetAllManagersAsync(searchText, pageNumber, pageSize);
 			return Ok(Manager);
 		}
 

@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Azure;
 using RMT_API.DTOs;
 using RMT_API.Models;
 using RMT_API.Repositories;
@@ -25,9 +24,10 @@ namespace RMT_API.Services
 			await _repository.DeleteAsync(id);
 		}
 
-		public async Task<IEnumerable<ResourceDeploymentDto>> GetAllResourceDeploymentsAsync()
+		public async Task<IEnumerable<ResourceDeploymentDto>> GetAllResourceDeploymentsAsync(string searchText, int pageNumber, int pageSize)
 		{
-			var response = await _repository.GetAllAsync();
+			var response = await _repository.GetAllAsync(query => query.Skip(pageNumber * pageSize)
+																	  .Take(pageSize));
 			return _mapper.Map<IEnumerable<ResourceDeploymentDto>>(response);
 		}
 

@@ -153,12 +153,12 @@ namespace RMT_API.Repositories
 
 			var timesheetPendingApprovals = await context.Timesheet
 								.Include(x => x.Resource)
-								.Where(t => t.Status == "pending" && t.Resource.IsActive == true)
+								.Where(t => t.Status == "pending" && t.Resource!.IsActive == true)
 								.OrderBy(t => t.Created_Date)
 								.Take(3)
 								.Select(t => new TimesheetPendingApprovals()
 								{
-									Name = t.Resource.FirstName + " " + t.Resource.LastName,
+									Name = t.Resource!.FirstName + " " + t.Resource.LastName,
 									ResourceID = t.ResourceID,
 									TimesheetID = t.ID,
 									TimesheetCode = t.TimesheetCode,

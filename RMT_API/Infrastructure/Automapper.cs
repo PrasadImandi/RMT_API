@@ -3,7 +3,6 @@ using RMT_API.DTOs;
 using RMT_API.DTOs.BaseDtos;
 using RMT_API.DTOs.ReportsDtos;
 using RMT_API.Models;
-using RMT_API.Models.MappingModels;
 
 namespace RMT_API.Infrastructure
 {
@@ -12,7 +11,13 @@ namespace RMT_API.Infrastructure
 		public Automapper()
 		{
 			CreateMap<AccessTypeMasterDto, AccessTypeMaster>().ReverseMap();
-			CreateMap<ClientDto, Client>().ReverseMap();
+			CreateMap<ClientDto, Client>();
+			CreateMap<Client, ClientDto>()
+				.ForMember(destination => destination.RegionName, opt => opt.MapFrom(src => src.RegionMater != null ? src.RegionMater.Name : string.Empty))
+				.ForMember(destination => destination.SPOCName, opt => opt.MapFrom(src => src.SPOC != null ? src.SPOC.Name : string.Empty))
+				.ForMember(destination => destination.StateName, opt => opt.MapFrom(src => src.StateMaster != null ? src.StateMaster.Name : string.Empty))
+				.ForMember(destination => destination.Pincode, opt => opt.MapFrom(src => src.PincodeMaster != null ? src.PincodeMaster.Name : string.Empty))
+				.ForMember(destination => destination.LocationName, opt => opt.MapFrom(src => src.LocationMaster != null ? src.LocationMaster.Name : string.Empty));
 
 			CreateMap<BaseDto, Client>().ReverseMap();
 			CreateMap<BaseDto, ContactTypeMaster>().ReverseMap();
@@ -23,7 +28,13 @@ namespace RMT_API.Infrastructure
 			CreateMap<BaseDto, LocationMaster>().ReverseMap();
 			CreateMap<BaseDto, SPOC>().ReverseMap();
 			CreateMap<BaseDto, DomainMaster>().ReverseMap();
-			CreateMap<BaseDto, DomainRoleMaster>().ReverseMap();
+			CreateMap<BaseDto, LaptopProviderMaster>().ReverseMap();
+			CreateMap<BaseDto, AccessTypeMaster>().ReverseMap();
+			CreateMap<BaseDto, DomainRoleMaster>();
+			CreateMap<DomainRoleMaster, BaseDto>()
+			.ForMember(destination => destination.DomainName, opt => opt.MapFrom(src => src.Domain!.Name));
+
+
 			CreateMap<BaseDto, DomainLevelMaster>().ReverseMap();
 			CreateMap<BaseDto, FormMaster>().ReverseMap();
 			CreateMap<BaseDto, ManagerTypeMaster>().ReverseMap();
@@ -100,7 +111,7 @@ namespace RMT_API.Infrastructure
 
 
 			CreateMap<ResourceInformationDto, ResourceInformation>();
-			CreateMap <CertificationDetailsDto, ResourceInformation>();
+			CreateMap<CertificationDetailsDto, ResourceInformation>();
 
 			CreateMap<ResourceInformationDto, ResourceInformation>()
 				.ForMember(destination => destination.AcademicDetails, opt => opt.MapFrom(src => src.Academic))
@@ -110,7 +121,6 @@ namespace RMT_API.Infrastructure
 				.ForMember(destination => destination.Certifications, opt => opt.MapFrom(src => src.Certification));
 
 
-			CreateMap<DomainRoleMappingDto, DomainRoleMapping>().ReverseMap();
 			CreateMap<ProjectBaseLineDto, ProjectBaseLine>();
 
 			CreateMap<ProjectBaseLine, ProjectBaseLineDto>()
@@ -120,11 +130,10 @@ namespace RMT_API.Infrastructure
 				.ForMember(destination => destination.RoleName, opt => opt.MapFrom(src => src.DomainRole != null ? src.DomainRole.Name : string.Empty))
 				.ForMember(destination => destination.LevelName, opt => opt.MapFrom(src => src.DomainLevel != null ? src.DomainLevel.Name : string.Empty));
 
-
-
 			CreateMap<ClientReportsDto, ClientReports>().ReverseMap();
 			CreateMap<SupplierReportsDto, SupplierReports>().ReverseMap();
 			CreateMap<ResourceReportsDto, ResourceReports>().ReverseMap();
+			CreateMap<ProjectReportsDto, ProjectReports>().ReverseMap();
 
 		}
 	}

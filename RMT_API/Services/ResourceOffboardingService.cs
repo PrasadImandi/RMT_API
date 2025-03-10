@@ -18,9 +18,10 @@ namespace RMT_API.Services
 			await _repository.DeleteAsync(id);
 		}
 
-		public async Task<IEnumerable<ResourceOffboardingDto>> GetAllResourceOffboardingsAsync()
+		public async Task<IEnumerable<ResourceOffboardingDto>> GetAllResourceOffboardingsAsync(string searchText, int pageNumber, int pageSize)
 		{
-			var response = await _repository.GetAllAsync();
+			var response = await _repository.GetAllAsync(query => query.Skip(pageNumber * pageSize)
+																	  .Take(pageSize));
 			return _mapper.Map<IEnumerable<ResourceOffboardingDto>>(response);
 		}
 

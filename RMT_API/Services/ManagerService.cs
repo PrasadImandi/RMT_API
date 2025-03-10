@@ -29,9 +29,11 @@ namespace RMT_API.Services
 			return mapper.Map<ManagerDto>(response);
 		}
 
-		public async Task<IEnumerable<ManagerDto>> GetAllManagersAsync()
+		public async Task<IEnumerable<ManagerDto>> GetAllManagersAsync(string searchText, int pageNumber, int pageSize)
 		{
-			var response = await repository.GetAllAsync();
+			var response = await repository.GetAllAsync(query => query.Where(p => p.FirstName!.Contains(searchText) || p.LastName!.Contains(searchText))
+			.Skip(pageNumber * pageSize)
+			.Take(pageSize));
 			return mapper.Map<IEnumerable<ManagerDto>>(response);
 		}
 

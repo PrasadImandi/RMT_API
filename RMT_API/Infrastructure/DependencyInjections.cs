@@ -1,5 +1,4 @@
 ﻿using RMT_API.Models;
-using RMT_API.Models.MappingModels;
 using RMT_API.Repositories;
 using RMT_API.Services;
 
@@ -38,7 +37,6 @@ namespace RMT_API.Infrastructure
 			services.AddScoped<IGenericRepository<BGVDocuments>, GenericRepository<BGVDocuments>>();
 			services.AddScoped<IGenericRepository<Manager>, GenericRepository<Manager>>();
 			services.AddScoped<IGenericRepository<ProjectBaseLine>, GenericRepository<ProjectBaseLine>>();
-			services.AddScoped<IGenericRepository<DomainRoleMapping>, GenericRepository<DomainRoleMapping>>();
 
 			services.AddScoped<IManagerRepository, ManagerRepository>();
 			services.AddScoped<IResourceRepository, ResourceRepository>();
@@ -54,7 +52,6 @@ namespace RMT_API.Infrastructure
 			services.AddScoped<IHelperRepository, HelperRepository>();
 
 			// Register Services
-			services.AddScoped<IAccessTypeService, AccessTypeService>();
 			services.AddScoped<IProjectsService, ProjectsService>();
 			services.AddScoped<IEmailService, EmailService>();
 			services.AddScoped<IClientService, ClientService>();
@@ -67,7 +64,6 @@ namespace RMT_API.Infrastructure
 			services.AddScoped<IResourceOnboardingsService, ResourceOnboardingsService>();
 			services.AddScoped<ITimesheetsService, TimesheetsService>();
 			services.AddScoped<IUsersService, UsersService>();
-			services.AddScoped<ISelectValuesService, SelectValuesService>();
 			services.AddScoped<ISupplierService, SupplierService>();
 			services.AddScoped<IPublicHolidaysService, PublicHolidaysService>();
 			services.AddScoped<IResourceInformationService, ResourceInformationService>();
@@ -76,7 +72,6 @@ namespace RMT_API.Infrastructure
 			services.AddScoped<IManagerService, ManagerService>();
 			services.AddScoped<IMasterService, MasterService>();
 			services.AddScoped<IProjectBaseLineService, ProjectBaseLineService>();
-			services.AddScoped<IDomainRoleMappingService, DomainRoleMappingService>();
 			services.AddScoped<IReportsService, ReportsService>();
 			services.AddScoped<ILeaveService, LeaveService>();
 			services.AddScoped<IHelperService, HelperService>();

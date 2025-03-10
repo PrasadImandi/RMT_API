@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RMT_API.DTOs;
 using RMT_API.Services;
 
@@ -6,12 +7,13 @@ namespace RMT_API.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
+	[Authorize]
 	public class ProjectBaselineController(IProjectBaseLineService _service) : ControllerBase
 	{
 		[HttpGet]
-		public async Task<IActionResult> GetAllProjectBaseLine()
+		public async Task<IActionResult> GetAllProjectBaseLine(string searchText = "", int pageNumber = 0, int pageSize = 10)
 		{
-			var ProjectBaseLine = await _service.GetAllProjectBaseLinesAsync();
+			var ProjectBaseLine = await _service.GetAllProjectBaseLinesAsync(searchText, pageNumber, pageSize);
 			return Ok(ProjectBaseLine);
 		}
 

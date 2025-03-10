@@ -8,12 +8,12 @@ namespace RMT_API.Repositories
 	{
 		public async Task<IEnumerable<DomainRoleMaster>> GetDomainRolesByDomainIdAsync(int domainId)
 		{
-			var domainRoles = await _context.DomainRoleMappings
-			.Where(mapping => mapping.DomainID == domainId)
-			.Select(mapping => mapping.DomainRole)
+			var domainRoles = await _context.DomainRoleMaster
+				.Include(m => m.Domain)
+			.Where(m => m.DomainID == domainId)
 			.ToListAsync();
 
-			return domainRoles;
+			return domainRoles!;
 		}
 	}
 }

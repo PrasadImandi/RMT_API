@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RMT_API.DTOs;
 using RMT_API.Services;
 
@@ -6,12 +7,13 @@ namespace RMT_API.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
+	[Authorize]
 	public class ResourceController(IResourcesService _service) : ControllerBase
 	{
 		[HttpGet]
-		public async Task<IActionResult> GetAllResources()
+		public async Task<IActionResult> GetAllResources(string searchText="", int pageNumber = 0, int pageSize = 10)
 		{
-			var resources = await _service.GetAllResourcesAsync();
+			var resources = await _service.GetAllResourcesAsync(searchText, pageNumber, pageSize);
 			return Ok(resources);
 		}
 

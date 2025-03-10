@@ -8,7 +8,7 @@ namespace RMT_API.Services
 
 		Task DeleteSupplierAsync(int id);
 
-		Task<IEnumerable<SupplierDto>> GetAllSuppliersAsync();
+		Task<IEnumerable<SupplierDto>> GetAllSuppliersAsync(string searchText, int pageNumber, int pageSize);
 
 		Task<SupplierDto> GetSupplierByIdAsync(int id);
 

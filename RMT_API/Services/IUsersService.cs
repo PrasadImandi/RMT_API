@@ -5,9 +5,9 @@ namespace RMT_API.Services
 {
 	public interface IUsersService
 	{
-		Task<IEnumerable<UserDto>> GetAllUsersAsync();
-		Task<IEnumerable<UserDto>> GetAllUsersWithChildAsync();
-		Task<IEnumerable<UserDto>> GetUsersByRoleIdAsync(int roleId);
+		Task<IEnumerable<UserDto>> GetAllUsersAsync(string searchText, int pageNumber, int pageSize);
+		Task<IEnumerable<UserDto>> GetAllUsersWithChildAsync(string searchText, int pageNumber, int pageSize);
+		Task<IEnumerable<UserDto>> GetUsersByRoleIdAsync(int roleId, string searchText, int pageNumber, int pageSize);
 		Task<UserDto> GetUserByIdAsync(int id);
 		Task<UsersDto> GetUserByNameAsync(string name);
 		Task AddUserAsync(UsersDto user);

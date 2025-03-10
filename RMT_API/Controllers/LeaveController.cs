@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RMT_API.DTOs;
 using RMT_API.Services;
 
@@ -6,12 +7,13 @@ namespace RMT_API.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
+	[Authorize]
 	public class LeaveController(ILeaveService _service) : ControllerBase
 	{
 		[HttpGet]
-		public async Task<IActionResult> GetAllLeaves()
+		public async Task<IActionResult> GetAllLeaves(string searchText = "", int pageNumber = 0, int pageSize = 10)
 		{
-			var leaves = await _service.GetAllLeavesAsync();
+			var leaves = await _service.GetAllLeavesAsync(searchText, pageNumber, pageSize);
 			return Ok(leaves);
 		}
 

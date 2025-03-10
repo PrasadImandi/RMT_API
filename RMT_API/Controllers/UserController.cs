@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RMT_API.DTOs;
 using RMT_API.DTOs.BaseDtos;
 using RMT_API.Services;
@@ -7,19 +8,20 @@ namespace RMT_API.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
+	[Authorize]
 	public class UserController(IUsersService _service) : ControllerBase
 	{
 		[HttpGet]
-		public async Task<IActionResult> GetAllUsers()
+		public async Task<IActionResult> GetAllUsers(string searchText = "", int pageNumber = 0, int pageSize = 10)
 		{
-			var users = await _service.GetAllUsersWithChildAsync();
+			var users = await _service.GetAllUsersWithChildAsync(searchText, pageNumber, pageSize);
 			return Ok(users);
 		}
 
 		[HttpGet("usersByRoleID/{roleId}")]
-		public async Task<IActionResult> GetUsersByRoleID(int roleId)
+		public async Task<IActionResult> GetUsersByRoleID(int roleId, string searchText="", int pageNumber = 0, int pageSize = 10)
 		{
-			var users = await _service.GetUsersByRoleIdAsync(roleId);
+			var users = await _service.GetUsersByRoleIdAsync(roleId, searchText, pageNumber, pageSize);
 			return Ok(users);
 		}
 

@@ -23,13 +23,15 @@ namespace RMT_API.Services
 			await _repository.DeleteAsync(id);
 		}
 
-		public async Task<IEnumerable<UserDto>> GetAllUsersAsync()
+		public async Task<IEnumerable<UserDto>> GetAllUsersAsync(string searchText, int pageNumber, int pageSize)
 		{
-			var response = await _repository.GetAllAsync();
+			var response = await _repository.GetAllAsync(query => query.Where(p => p.FirstName!.Contains(searchText) || p.LastName!.Contains(searchText))
+																	  .Skip(pageNumber * pageSize)
+																	  .Take(pageSize));
 			return _mapper.Map<IEnumerable<UserDto>>(response);
 		}
 
-		public async Task<IEnumerable<UserDto>> GetUsersByRoleIdAsync(int roleId)
+		public async Task<IEnumerable<UserDto>> GetUsersByRoleIdAsync(int roleId, string searchText, int pageNumber, int pageSize)
 		{
 			var response = await userRepository.GetUsersByRoleIdAsync(roleId);
 			return _mapper.Map<IEnumerable<UserDto>>(response);
@@ -51,7 +53,7 @@ namespace RMT_API.Services
 		{
 			var updateuser = await GetUserWithPasswordByIdAsync(user.ID);
 
-			if(updateuser != null)
+			if (updateuser != null)
 			{
 				updateuser.FirstName = user.FirstName;
 				updateuser.LastName = user.LastName;
@@ -75,9 +77,9 @@ namespace RMT_API.Services
 			return _mapper.Map<UsersDto>(response);
 		}
 
-		public async Task<IEnumerable<UserDto>> GetAllUsersWithChildAsync()
+		public async Task<IEnumerable<UserDto>> GetAllUsersWithChildAsync(string searchText, int pageNumber, int pageSize)
 		{
-			var response = await _repository.GetAllWithChildrenAsync(query=>query.Include(x=>x.AccessType));
+			var response = await _repository.GetAllAsync(query => query.Include(x => x.AccessType));
 
 			return _mapper.Map<IEnumerable<UserDto>>(response);
 		}

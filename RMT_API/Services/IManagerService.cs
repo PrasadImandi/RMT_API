@@ -4,7 +4,7 @@ namespace RMT_API.Services
 {
 	public interface IManagerService
 	{
-		Task<IEnumerable<ManagerDto>> GetAllManagersAsync();
+		Task<IEnumerable<ManagerDto>> GetAllManagersAsync(string searchText, int pageNumber, int pageSize);
 		Task<IEnumerable<ManagerDto>> GetProjectManagersByProjectIdAsync(int projectId);
 		Task<IEnumerable<ManagerDto>> GetReportingManagersByProjectIdAsync(int projectId);
 		Task<ManagerDto> GetManagerByIdAsync(int id);

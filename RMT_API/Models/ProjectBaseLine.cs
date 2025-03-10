@@ -14,6 +14,11 @@ namespace RMT_API.Models
 		public int Baseline { get; set; }
 		public string? DomainNameAsPerCustomer { get; set; }
 		public string? Notes { get; set; }
+		public int? DeployedCount { get; set; }
+		public int? AdditionalResource { get; set; }
+		public int? NoticePeriod { get; set; }
+		public int? ToBeHire { get; set; }
+
 
 		[JsonIgnore]
 		public virtual Project? Project { get; set; }

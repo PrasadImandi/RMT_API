@@ -5,8 +5,9 @@ namespace RMT_API.Services
 {
 	public interface IReportsService
 	{
-		Task<IEnumerable<ClientReportsDto>> GetClientReportsAsync(string filterType = "", string searchName = "", int pageNumber = 0, int pageSize = 0);
-		Task<IEnumerable<SupplierReportsDto>> GetSupplierReportsAsync(string filterType = "", string searchName = "", int pageNumber = 0, int pageSize = 0);
-		Task<IEnumerable<ResourceReportsDto>> GetResourceReportsAsync(string filterType = "", string searchName = "", int pageNumber = 0, int pageSize = 0);
+		Task<IEnumerable<ClientReportsDto>> GetClientReportsAsync(string filterType, string searchName, int pageNumber, int pageSize);
+		Task<IEnumerable<SupplierReportsDto>> GetSupplierReportsAsync(string filterType, string searchName, int pageNumber, int pageSize);
+		Task<IEnumerable<ResourceReportsDto>> GetResourceReportsAsync(string filterType, string searchName, int pageNumber, int pageSize);
+		Task<IEnumerable<ProjectReportsDto>> GetProjectReportsAsync(string filterType, string searchName, int pageNumber, int pageSize);
 	}
 }

@@ -1,6 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using RMT_API.DTOs;
 using RMT_API.DTOs.BaseDtos;
 using RMT_API.Services;
 
@@ -8,17 +7,18 @@ namespace RMT_API.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
+	[Authorize]
 	public class MasterController(IMasterService _service) : ControllerBase
 	{
 		[HttpGet("{type}")]
-		public async Task<IActionResult> GetAllMaster(string type)
+		public async Task<IActionResult> GetAllMaster(string type, string searchText = "", int pageNumber = 0, int pageSize = int.MaxValue, int? domainId = null)
 		{
-			var Master = await _service.GetAllMastersAsync(type);
+			var Master = await _service.GetAllMastersAsync(type, searchText, pageNumber, pageSize,domainId);
 			return Ok(Master);
 		}
 
 		[HttpPost("{type}")]
-		public async Task<IActionResult> CreateMaster(string type,[FromBody] BaseDto Master)
+		public async Task<IActionResult> CreateMaster(string type, [FromBody] BaseDto Master)
 		{
 			if (Master == null)
 			{

@@ -18,15 +18,18 @@ namespace RMT_API.Services
 			await _repository.DeleteAsync(id);
 		}
 
-		public async Task<IEnumerable<SupplierDto>> GetAllSuppliersAsync()
+		public async Task<IEnumerable<SupplierDto>> GetAllSuppliersAsync(string searchText, int pageNumber, int pageSize)
 		{
-			var response = await _repository.GetAllWithChildrenAsync(query=>query.Include(p=>p.ContactInformation));
+			var response = await _repository.GetAllAsync(query => query.Include(p=>p.ContactInformation)
+																	  .Where(p => p.Name!.Contains(searchText))
+																	  .Skip(pageNumber * pageSize)
+																	  .Take(pageSize));
 			return _mapper.Map<IEnumerable<SupplierDto>>(response);
 		}
 
 		public async Task<SupplierDto> GetSupplierByIdAsync(int id)
 		{
-			var response = await _repository.GetByIDWithChildrenAsync(p => p.ID == id,
+			var response = await _repository.GetSingleAsync(p => p.ID == id,
 																	  query => query.Include(p => p.ContactInformation));
 			return _mapper.Map<SupplierDto>(response);
 		}

@@ -4,7 +4,7 @@ namespace RMT_API.Services
 {
 	public interface IResourceOffboardingsService
 	{
-		Task<IEnumerable<ResourceOffboardingDto>> GetAllResourceOffboardingsAsync();
+		Task<IEnumerable<ResourceOffboardingDto>> GetAllResourceOffboardingsAsync(string searchText, int pageNumber, int pageSize);
 		Task<ResourceOffboardingDto> GetResourceOffboardingByIdAsync(int id);
 		Task AddResourceOffboardingAsync(ResourceOffboardingDto resourceOffboarding);
 		Task UpdateResourceOffboardingAsync(ResourceOffboardingDto resourceOffboarding);
